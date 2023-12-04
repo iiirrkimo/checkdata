@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>loading</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <style>
@@ -24,6 +25,7 @@ table { border-collapse: collapse; width: 1100px; }
 		xmlHttp.send();
 		res=xmlHttp.responseText;
 		if (res!='error'){
+			currentsort='D';
 			jres=JSON.parse(res);
 			document.querySelector('title').textContent='檢驗報告彙總('+jres[0]['NAME']+')';
 			newtext=document.createElement('div');
@@ -47,12 +49,8 @@ table { border-collapse: collapse; width: 1100px; }
 			document.body.appendChild(newtext);
 			var table = document.createElement('table');
 			table.className='thetable';
-			titilelist=['','日期','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA',''];
-			row = table.insertRow();
-			for (i=0;i<titilelist.length;i++){
-				cell = row.insertCell(i);
-				cell.textContent=titilelist[i];
-			}
+			titilelist=['日期▼','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA',''];
+			inserttitle(table,titilelist);
 			insertdata={};
 			for (i=0;i<jres.length;i++){
 				CYdate=jres[i]['OP_DATE1'].split('T')[0];
@@ -142,20 +140,39 @@ table { border-collapse: collapse; width: 1100px; }
 			thedates.sort(function(a, b) {
 			  return b.localeCompare(a);
 			});
-			for (i=0;i<thedates.length;i++){
+			insert(table,thedates);
+			
+			document.body.appendChild(table);
+		} else {
+			newtext=document.createElement('div');
+			newtext.className='theerror';
+			newtext.textContent='查無個案';
+			document.body.appendChild(newtext);
+		}
+	};
+	function inserttitle(table,titilelist){
+		row = table.insertRow();
+		for (i=0;i<titilelist.length;i++){
+			cellt = row.insertCell(i);
+			if (i==0){
+				cellt.addEventListener('dblclick', function (event) {
+					sortdate();
+				});
+			} 
+			cellt.textContent=titilelist[i];
+		}
+	}
+	function insert(table,thedate){
+		for (i=0;i<thedates.length;i++){
 				FMKY=thedates[i];
 				TR=insertdata[FMKY];
 				if (Object.keys(TR).length>0){
 					row = table.insertRow();
 					cell = row.insertCell();
-					button = document.createElement('button');
-					button.textContent = '複製';
-					button.addEventListener('click', function(event) {
-						var clickedRow = event.target.parentNode.parentNode;
+					cell.addEventListener('dblclick', function (event) {
+						var clickedRow = event.target.parentNode;
 						copyrow(clickedRow);
 					});
-					cell.appendChild(button);
-					cell = row.insertCell();
 					cell.textContent=FMKY;
 					cell = row.insertCell();
 					cell.textContent=TR['AC'];
@@ -201,30 +218,22 @@ table { border-collapse: collapse; width: 1100px; }
 					
 				}
 			}
-			document.body.appendChild(table);
-		} else {
-			newtext=document.createElement('div');
-			newtext.className='theerror';
-			newtext.textContent='查無個案';
-			document.body.appendChild(newtext);
-		}
-	};
-	
+	}
 	function copyrow(clickedRow){
-		thedate=clickedRow.cells[1].textContent;
-		if (clickedRow.cells[2].textContent){theAC=clickedRow.cells[2].textContent;} else {theAC='-'}
-		if (clickedRow.cells[3].textContent){theA1C=clickedRow.cells[3].textContent;} else {theA1C='-'}
-		if (clickedRow.cells[4].textContent){theTC=clickedRow.cells[4].textContent;} else {theTC='-'}
-		if (clickedRow.cells[5].textContent){theTG=clickedRow.cells[5].textContent;} else {theTG='-'}
-		if (clickedRow.cells[6].textContent){theHDL=clickedRow.cells[6].textContent;} else {theHDL='-'}
-		if (clickedRow.cells[7].textContent){theLDL=clickedRow.cells[7].textContent;} else {theLDL='-'}
-		if (clickedRow.cells[8].textContent){theCre=clickedRow.cells[8].textContent;} else {theCre='-'}
-		if (clickedRow.cells[9].textContent){theGFR=clickedRow.cells[9].textContent;} else {theGFR='-'}
-		if (clickedRow.cells[10].textContent){thePCR=clickedRow.cells[10].textContent;} else {thePCR='-'}
-		if (clickedRow.cells[11].textContent){theACR=clickedRow.cells[11].textContent;} else {theACR='-'}
-		if (clickedRow.cells[12].textContent){theGOT=clickedRow.cells[12].textContent;} else {theGOT='-'}
-		if (clickedRow.cells[13].textContent){theGPT=clickedRow.cells[13].textContent;} else {theGPT='-'}
-		if (clickedRow.cells[14].textContent){theUA=clickedRow.cells[14].textContent;} else {theUA='-'}
+		thedate=clickedRow.cells[0].textContent;
+		if (clickedRow.cells[1].textContent){theAC=clickedRow.cells[1].textContent;} else {theAC='-'}
+		if (clickedRow.cells[2].textContent){theA1C=clickedRow.cells[2].textContent;} else {theA1C='-'}
+		if (clickedRow.cells[3].textContent){theTC=clickedRow.cells[3].textContent;} else {theTC='-'}
+		if (clickedRow.cells[4].textContent){theTG=clickedRow.cells[4].textContent;} else {theTG='-'}
+		if (clickedRow.cells[5].textContent){theHDL=clickedRow.cells[5].textContent;} else {theHDL='-'}
+		if (clickedRow.cells[6].textContent){theLDL=clickedRow.cells[6].textContent;} else {theLDL='-'}
+		if (clickedRow.cells[7].textContent){theCre=clickedRow.cells[7].textContent;} else {theCre='-'}
+		if (clickedRow.cells[8].textContent){theGFR=clickedRow.cells[8].textContent;} else {theGFR='-'}
+		if (clickedRow.cells[9].textContent){thePCR=clickedRow.cells[9].textContent;} else {thePCR='-'}
+		if (clickedRow.cells[10].textContent){theACR=clickedRow.cells[10].textContent;} else {theACR='-'}
+		if (clickedRow.cells[11].textContent){theGOT=clickedRow.cells[11].textContent;} else {theGOT='-'}
+		if (clickedRow.cells[12].textContent){theGPT=clickedRow.cells[12].textContent;} else {theGPT='-'}
+		if (clickedRow.cells[13].textContent){theUA=clickedRow.cells[13].textContent;} else {theUA='-'}
 		msg=thedate+' AC1A1C:' + theAC +'/' + theA1C+'\nTC/TG/HDL/LDL:' + theTC +'/' + theTG +'/' +  theHDL +'/'  + theLDL +'\nCre/eGFT/PCR/ACR:' +  theCre +'/' +  theGFR +'/' +  thePCR +'/' +  theACR +'\nGOT/GPT:' +  theGOT +'/'+  theGPT +'\nUA:'+theUA;
 		navigator.clipboard.writeText(msg)
 		  .then(() => {
@@ -237,7 +246,7 @@ table { border-collapse: collapse; width: 1100px; }
 	function showrow(clickedRow){
 		var newWindow = window.open('', '_blank');
 		if (newWindow) {
-			thedate = clickedRow.cells[1].textContent;
+			thedate = clickedRow.cells[0].textContent;
 			showdata=insertdata[thedate]['rowdata'];
 			SCYdate=showdata[0]['OP_DATE1'].split('T')[0];
 			SMKYY=SCYdate.split('-')[0]-1911;
@@ -288,8 +297,32 @@ table { border-collapse: collapse; width: 1100px; }
 		} else {
 			alert('無法彈跳視窗');
 		}
-
 	}
+	function sortdate(){
+		table=document.getElementsByClassName('thetable')[0];
+		currentsort=table.rows[0].cells[0];
+		if (currentsort.textContent.includes('▼')){
+			table.innerHTML='';
+			titilelist=['日期▲','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA',''];
+			inserttitle(table,titilelist);
+			thedates = Object.keys(insertdata);
+			thedates.sort(function(a, b) {
+			  return a.localeCompare(b);
+			});
+			insert(table,thedates)
+		} else {
+			table.innerHTML='';
+			titilelist=['日期▼','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA',''];
+			inserttitle(table,titilelist);
+			thedates = Object.keys(insertdata);
+			thedates.sort(function(a, b) {
+			  return b.localeCompare(a);
+			});
+			insert(table,thedates)
+		}
+	}
+	
+
 	</script>
 </body>
 </html>
