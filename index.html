@@ -13,9 +13,9 @@
 .thesitename {width: 1100px; text-align: center; font-size: 40px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
 .basic {font-size: 20px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
 .thetable { flex: 0 0 1050px; border-collapse: collapse; }
-.thetable th { border: 2px solid #dddddd; text-align: center; padding: 8px; height: 23px !important; font-family: '微軟正黑體'}
-.thetable td { border: 2px solid #dddddd; text-align: center; padding: 8px; height: 23px !important; font-family: '微軟正黑體'}
-.thetable tr { border: 2px solid #dddddd; text-align: center; padding: 8px; height: 23px !important; font-family: '微軟正黑體'}
+.thetable th { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: '微軟正黑體'}
+.thetable td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: '微軟正黑體'}
+.thetable tr { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: '微軟正黑體'}
 .thetable th { background-color: #f2f2f2;}
 #chartContainer { width: 600px; height: 600px;}
 #myLineChart { width: 600px; height: 600px;}
@@ -175,6 +175,7 @@
 		row = table.insertRow();
 		for (i=0;i<titilelist.length;i++){
 			cellt = row.insertCell(i);
+			cellt.style.height='23px';
 			if (i==0){
 				cellt.addEventListener('dblclick', function (event) {
 					sortdate();
@@ -222,46 +223,62 @@
 				TR=insertdata[FMKY];
 				if (Object.keys(TR).length>0){
 					row = table.insertRow();
+					row.style.height='23px';
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.addEventListener('dblclick', function (event) {
 						var clickedRow = event.target.parentNode;
 						copyrow(clickedRow);
 					});
 					cell.textContent=FMKY;
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['AC'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['A1C'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['TC'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['TG'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['HDL'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['LDL'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['Cre'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['eGFR'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					if (TR['PCR']!=null){
 						PCR=TR['PCR']*1;
 						cell.textContent=PCR.toFixed(1);
 					}
 					cell = row.insertCell();
+					cell.style.height='23px';
 					if (TR['ACR']!=null){
 						ACR=TR['ACR']*1;
 						cell.textContent=ACR.toFixed(1);
 					}
 					
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['GOT'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['GPT'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.textContent=TR['UA'];
 					cell = row.insertCell();
+					cell.style.height='23px';
 					cell.className='no-print';
 					button = document.createElement('button');
 					button.className='no-print';
@@ -315,7 +332,7 @@
 			newWindow.document.write('.theerror {font-size: 40px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
 			newWindow.document.write('.thesitename {width: 1100px; text-align: center; font-size: 40px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
 			newWindow.document.write('.basic {font-size: 20px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
-			newWindow.document.write('table { border-collapse: collapse; width: 1100px; }\n');
+			newWindow.document.write('table { border-collapse: collapse; width: 1050px; }\n');
 			newWindow.document.write('th, td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: \'微軟正黑體\'; }\n');
 			newWindow.document.write('th { background-color: #f2f2f2; }\n');
 			newWindow.document.write('</style>\n');
