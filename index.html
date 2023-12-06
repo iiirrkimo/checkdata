@@ -26,12 +26,10 @@
 </style>
 <script>
 	window.onload = function() {
-		//var queryString = window.location.search;
-		//var params = new URLSearchParams(queryString);
-		//var thesite = params.get('thesite');
-		//var theID = params.get('theID');
-		thesite='X015';
-		theID='T121017100';
+		var queryString = window.location.search;
+		var params = new URLSearchParams(queryString);
+		var thesite = params.get('thesite');
+		var theID = params.get('theID');
 		Url='https://script.google.com/macros/s/AKfycbynjuu-HFmKw3xMwTChJk_C4C4cahL-9PpG4pdOjZO9fOMmL3ivaG-yOk1YBNJ1k-yuJg/exec?thesite='+thesite+'&theid='+theID;
 		xmlHttp = new XMLHttpRequest();
 		xmlHttp.open('GET', Url, false );
