@@ -5,6 +5,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+
 </head>
 <body>
 <style>
@@ -24,10 +26,12 @@
 </style>
 <script>
 	window.onload = function() {
-		var queryString = window.location.search;
-		var params = new URLSearchParams(queryString);
-		var thesite = params.get('thesite');
-		var theID = params.get('theID');
+		//var queryString = window.location.search;
+		//var params = new URLSearchParams(queryString);
+		//var thesite = params.get('thesite');
+		//var theID = params.get('theID');
+		thesite='X015';
+		theID='T121017100';
 		Url='https://script.google.com/macros/s/AKfycbynjuu-HFmKw3xMwTChJk_C4C4cahL-9PpG4pdOjZO9fOMmL3ivaG-yOk1YBNJ1k-yuJg/exec?thesite='+thesite+'&theid='+theID;
 		xmlHttp = new XMLHttpRequest();
 		xmlHttp.open('GET', Url, false );
@@ -207,7 +211,22 @@
 							tempxy['y']=parseFloat(tempdata[tempdate[j]]);
 							jsonData.push(tempxy);
 						}
-						drowlinechart(title,jsonData);
+						standardvelue={
+							"AC":[70,100],
+							"A1C":[5.6,6.5],
+							"TC":[null,200],
+							"TG":[null,150],
+							"HDL":[40,null],
+							"LDL":[null,130],
+							"Cre":[null,1.3],
+							"eGFR":[null,60],
+							"UPCR":[null,150],
+							"UACR":[null,30],
+							"GOT":[null,40],
+							"GPT":[null,40],
+							"UA":[null,7]
+						}
+						drowlinechart(title,jsonData,standardvelue[title][0],standardvelue[title][1]);
 					}			
 					
 				});
@@ -394,7 +413,7 @@
 			insert(table,thedates)
 		}
 	}
-	function drowlinechart(title,jsonData){
+	function drowlinechart(title,jsonData,themin,themax){
 		labels = Object.keys(jsonData);
 		data = Object.values(jsonData).map(value => parseFloat(value));
 		ctx = document.getElementById('myLineChart').getContext('2d');
@@ -436,6 +455,40 @@
 						y: {
 							title: {
 								display: true,
+							},
+						}
+					},
+					 plugins: {
+						annotation: {
+							annotations: {
+								line1: {
+									type: 'line',
+									mode: 'horizontal',
+									scaleID: 'y',
+									value: themin,
+									borderColor: 'red',
+									borderWidth: 2,
+									borderDash: [5, 5], 
+									label: {
+										content: '目標值',
+										enabled: true,
+										position: 'right'
+									}
+								},
+								line2: {
+									type: 'line',
+									mode: 'horizontal',
+									scaleID: 'y',
+									value: themax,
+									borderColor: 'red', 
+									borderWidth: 2, 
+									borderDash: [5, 5], 
+									label: {
+										content: '目標值',
+										enabled: true,
+										position: 'right'
+									}
+								}
 							}
 						}
 					}
