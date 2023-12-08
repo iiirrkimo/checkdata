@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading</title>
+</head>
+<body>
+	<style>
+    .thebutton {
+		border: none; 
+		padding: 5px; 
+		text-decoration: none; 
+		font-size: 24px;
+		font-family: '微軟正黑體', sans-serif; 
+		border-radius: 10px; 
+		background-color: #00EC00; 
+		transition: background-color 0.3s;
+	}
+	.thebutton:hover {
+		background-color: #53FF53
+	}
+	p {
+		font-size: 18px; 
+		font-family: '微軟正黑體', sans-serif; 
+		line-height: 0.5;
+		text-indent: 20px;
+    }
+	</style>
+	
+	<script>
+		window.onload = function() {
+			Url='https://script.google.com/macros/s/AKfycbzQcuixybvui9Yuu-cFX6woAdXe6B22iSPo16n2LVO4P2nOCqwdb_rVg9iiGC9ycNRCRQ/exec';
+			xmlHttp = new XMLHttpRequest();
+			xmlHttp.open('GET', Url, false );
+			xmlHttp.send();
+			res=xmlHttp.responseText;
+			jres=JSON.parse(res);
+			for (i=0;i<jres.length;i++){
+				if (jres[i]['type']=='title'){
+					document.querySelector('title').textContent = jres[i]['name'];
+				} else if (jres[i]['type']=='button'){
+					var newlink=document.createElement("a");
+					newlink.href=jres[i]['code'];
+					newlink.className='thebutton';
+					newlink.draggable=true;
+					newlink.textContent=jres[i]['name'];
+					document.body.appendChild(newlink);
+					commentline=jres[i]['comment'].split('\n')
+					for (j=0;j<commentline.length;j++){
+						newtext=document.createElement("p");
+						newtext.textContent=commentline[j];
+						document.body.appendChild(newtext);
+					}	
+				}
+			}
+		};
+	</script>
+		
+</body>
+</html>
