@@ -30,7 +30,8 @@
 		var params = new URLSearchParams(queryString);
 		var thesite = params.get('thesite');
 		var theID = params.get('theID');
-		Url='https://script.google.com/macros/s/AKfycbynjuu-HFmKw3xMwTChJk_C4C4cahL-9PpG4pdOjZO9fOMmL3ivaG-yOk1YBNJ1k-yuJg/exec?thesite='+thesite+'&theid='+theID;
+		theapiurl='https://script.google.com/macros/s/AKfycbxvAz2qT95uxLe-yqoO9WnYdQLZTUZzBBZwsOrhAhWnIjMX_1ugRuVZ5tCcg6JzFCd5hA/exec';
+		Url=theapiurl+'?mode=download&thesite='+thesite+'&theid='+theID;
 		xmlHttp = new XMLHttpRequest();
 		xmlHttp.open('GET', Url, false );
 		xmlHttp.send();
@@ -63,7 +64,7 @@
 			container.className='container';
 			var table = document.createElement('table');
 			table.className='thetable';
-			titilelist=['日期▼','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA',''];
+			titilelist=['日期▼','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA','',''];
 			inserttitle(table,titilelist);
 			insertdata={};
 			for (i=0;i<jres.length;i++){
@@ -305,6 +306,17 @@
 						showrow(clickedRow);
 					});
 					cell.appendChild(button);
+					cell = row.insertCell();
+					cell.style.height='23px';
+					cell.className='no-print';
+					button = document.createElement('button');
+					button.className='no-print';
+					button.textContent = '更新';
+					button.addEventListener('click', function(event) {
+						var clickedRow = event.target.parentNode.parentNode;
+						deleterow(clickedRow);
+					});
+					cell.appendChild(button);
 					
 				}
 			}
@@ -332,6 +344,23 @@
 		  .catch((error) => {
 			console.error('出錯了:', error);
 		  });
+	}
+	function deleterow(clickedRow){
+		thedate = clickedRow.cells[0].textContent;
+		deletedata=insertdata[thedate]['rowdata'];
+		deletearray=[];
+		for (i=0;i<deletedata.length;i++){
+			templine='userID='+deletedata[i]['userID']+'&RELKEY1='+deletedata[i]['RELKEY1'];
+			deletearray.push(templine);
+		}
+		delUrl=theapiurl+'?mode=delete&postkeys='+btoa(JSON.stringify(deletearray));
+		xmlHttp = new XMLHttpRequest();
+		xmlHttp.open('GET', delUrl, false );
+		xmlHttp.send();
+		delres=xmlHttp.responseText;
+		if (delres=='suscess'){
+			location.reload();
+		}
 	}
 	function showrow(clickedRow){
 		var newWindow = window.open('', '_blank');
@@ -432,6 +461,10 @@
 					label: title,
 					borderColor: 'rgb(75, 192, 192)',
 					data: jsonData,
+					borderWidth: 4,
+					
+					pointRadius: 8, // 點的大小
+					pointHoverRadius: 12, // 滑鼠懸停時的點大小
 					fill: false
 					}]
 				},
