@@ -13,11 +13,11 @@
 .container { display: flex; width: 1920px;  }
 .theerror {font-size: 40px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
 .thesitename {width: 1100px; text-align: center; font-size: 40px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
-.basic {font-size: 20px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
+.basic {font-size: 24px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
 .thetable { flex: 0 0 1050px; border-collapse: collapse; height: 0px; }
-.thetable th { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: '微軟正黑體'}
-.thetable td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: '微軟正黑體'}
-.thetable tr { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: '微軟正黑體'}
+.thetable th { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
+.thetable td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
+.thetable tr { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
 .thetable th { background-color: #f2f2f2;}
 #chartContainer { width: 600px; height: 600px;}
 #myLineChart { width: 600px; height: 600px;}
@@ -26,10 +26,12 @@
 </style>
 <script>
 	window.onload = function() {
-		var queryString = window.location.search;
-		var params = new URLSearchParams(queryString);
-		var thesite = params.get('thesite');
-		var theID = params.get('theID');
+		//var queryString = window.location.search;
+		//var params = new URLSearchParams(queryString);
+		//var thesite = params.get('thesite');
+		//var theID = params.get('theID');
+		thesite='X015';
+		theID='T121017100';
 		theapiurl='https://script.google.com/macros/s/AKfycbxvAz2qT95uxLe-yqoO9WnYdQLZTUZzBBZwsOrhAhWnIjMX_1ugRuVZ5tCcg6JzFCd5hA/exec';
 		Url=theapiurl+'?mode=download&thesite='+thesite+'&theid='+theID;
 		xmlHttp = new XMLHttpRequest();
@@ -377,9 +379,9 @@
 			newWindow.document.write('<style>\n');
 			newWindow.document.write('.theerror {font-size: 40px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
 			newWindow.document.write('.thesitename {width: 1100px; text-align: center; font-size: 40px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
-			newWindow.document.write('.basic {font-size: 20px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
+			newWindow.document.write('.basic {font-size: 24px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
 			newWindow.document.write('table { border-collapse: collapse; width: 1050px; }\n');
-			newWindow.document.write('th, td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-family: \'微軟正黑體\'; }\n');
+			newWindow.document.write('th, td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: \'微軟正黑體\'; }\n');
 			newWindow.document.write('th { background-color: #f2f2f2; }\n');
 			newWindow.document.write('</style>\n');
 			newWindow.document.write('</head>\n');
