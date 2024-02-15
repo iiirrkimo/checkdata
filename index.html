@@ -15,9 +15,9 @@
 .thesitename {width: 1100px; text-align: center; font-size: 40px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
 .basic {font-size: 24px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
 .thetable { flex: 0 0 1050px; border-collapse: collapse; height: 0px; }
-.thetable th { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
-.thetable td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
-.thetable tr { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
+.thetable th { border: 2px solid #020202; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
+.thetable td { border: 2px solid #020202; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
+.thetable tr { border: 2px solid #020202; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
 .thetable th { background-color: #f2f2f2;}
 button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 #chartContainer { width: 600px; height: 600px;}
@@ -28,151 +28,166 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 <script>
 	window.onload = function() {
 		var queryString = window.location.search;
-		var params = new URLSearchParams(queryString);
-		var thesite = params.get('thesite');
-		var theID = params.get('theID');
-		theapiurl='https://script.google.com/macros/s/AKfycbxvAz2qT95uxLe-yqoO9WnYdQLZTUZzBBZwsOrhAhWnIjMX_1ugRuVZ5tCcg6JzFCd5hA/exec';
-		Url=theapiurl+'?mode=download&thesite='+thesite+'&theid='+theID;
-		xmlHttp = new XMLHttpRequest();
-		xmlHttp.open('GET', Url, false );
-		xmlHttp.send();
-		res=xmlHttp.responseText;
-		if (res!='error'){
-			currentsort='D';
-			jres=JSON.parse(res);
-			document.querySelector('title').textContent='檢驗報告彙總('+jres[0]['NAME']+')';
-			newtext=document.createElement('div');
-			newtext.className='thesitename';
-			newtext.textContent=jres[0]['HOS_NAME']+'檢驗報告彙總';
-			document.body.appendChild(newtext);
-			newtext=document.createElement('div');
-			newtext.className='basic';
-			newtext.textContent='姓名:'+jres[0]['NAME'];
-			document.body.appendChild(newtext);
-			newtext=document.createElement('div');
-			newtext.className='basic';
-			newtext.textContent='證號:'+jres[0]['ID'];
-			document.body.appendChild(newtext);
-			newtext=document.createElement('div');
-			newtext.className='basic';
-			cyb=jres[0]['BIRTH'].split('T')[0];
-			mkyyb=cyb.split('-')[0]-1911;
-			mkyb=mkyyb+cyb.split('-')[1]+cyb.split('-')[2];
-			newtext.textContent='生日:'+mkyb;
-			document.body.appendChild(newtext);
-			
-			container=document.createElement('div');
-			container.className='container';
-			var table = document.createElement('table');
-			table.className='thetable';
-			titilelist=['日期▼','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA','',''];
-			inserttitle(table,titilelist);
-			insertdata={};
-			for (i=0;i<jres.length;i++){
-				CYdate=jres[i]['OP_DATE1'].split('T')[0];
-				MKYY=CYdate.split('-')[0]-1911;
-				MKY=MKYY+CYdate.split('-')[1]+CYdate.split('-')[2];
-				if (insertdata[MKY]==null){
-					insertdata[MKY]={};
-				}
-				if (insertdata[MKY]['rowdata']==null){
-					insertdata[MKY]['rowdata']=[];
-				}
-				insertdata[MKY]['rowdata'].push(jres[i]);
-				for (j=0;j<jres[i]['modelOP013M1s'].length;j++){
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09005C'){
-						insertdata[MKY]['AC']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+		if (queryString!=''){
+			var params = new URLSearchParams(queryString);
+			var thesite = params.get('thesite');
+			var theID = params.get('theID');
+			theapiurl='https://script.google.com/macros/s/AKfycbxvAz2qT95uxLe-yqoO9WnYdQLZTUZzBBZwsOrhAhWnIjMX_1ugRuVZ5tCcg6JzFCd5hA/exec';
+			Url=theapiurl+'?mode=download&thesite='+thesite+'&theid='+theID;
+			xmlHttp = new XMLHttpRequest();
+			xmlHttp.open('GET', Url, false );
+			xmlHttp.send();
+			res=xmlHttp.responseText;
+			if (res!='error'){
+				currentsort='D';
+				jres=JSON.parse(res);
+				document.querySelector('title').textContent='檢驗報告彙總('+jres[0]['NAME']+')';
+				newtext=document.createElement('div');
+				newtext.className='thesitename';
+				newtext.textContent=jres[0]['HOS_NAME']+'檢驗報告彙總';
+				document.body.appendChild(newtext);
+				newtext=document.createElement('div');
+				newtext.className='basic';
+				newtext.textContent='姓名:'+jres[0]['NAME'];
+				document.body.appendChild(newtext);
+				newtext=document.createElement('div');
+				newtext.className='basic';
+				newtext.textContent='證號:'+jres[0]['ID'];
+				document.body.appendChild(newtext);
+				newtext=document.createElement('div');
+				newtext.className='basic';
+				cyb=jres[0]['BIRTH'].split('T')[0];
+				mkyyb=cyb.split('-')[0]-1911;
+				mkyb=mkyyb+cyb.split('-')[1]+cyb.split('-')[2];
+				newtext.textContent='生日:'+mkyb;
+				document.body.appendChild(newtext);
+				
+				container=document.createElement('div');
+				container.className='container';
+				var table = document.createElement('table');
+				table.className='thetable';
+				titilelist=['日期▼','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA','',''];
+				inserttitle(table,titilelist);
+				insertdata={};
+				for (i=0;i<jres.length;i++){
+					CYdate=jres[i]['OP_DATE1'].split('T')[0];
+					MKYY=CYdate.split('-')[0]-1911;
+					MKY=MKYY+CYdate.split('-')[1]+CYdate.split('-')[2];
+					if (insertdata[MKY]==null){
+						insertdata[MKY]={};
 					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09006C'){
-						insertdata[MKY]['A1C']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+					if (insertdata[MKY]['rowdata']==null){
+						insertdata[MKY]['rowdata']=[];
 					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09006C'){
-						insertdata[MKY]['A1C']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09001C'){
-						insertdata[MKY]['TC']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09004C'){
-						insertdata[MKY]['TG']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09043C'){
-						insertdata[MKY]['HDL']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09044C'){
-						insertdata[MKY]['LDL']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['desc1']=='LDL(C)'){
-						if (insertdata[MKY]['LDL']==null){
+					insertdata[MKY]['rowdata'].push(jres[i]);
+					for (j=0;j<jres[i]['modelOP013M1s'].length;j++){
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09005C'){
+							insertdata[MKY]['AC']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09006C'){
+							insertdata[MKY]['A1C']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09006C'){
+							insertdata[MKY]['A1C']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09001C'){
+							insertdata[MKY]['TC']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09004C'){
+							insertdata[MKY]['TG']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09043C'){
+							insertdata[MKY]['HDL']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09044C'){
 							insertdata[MKY]['LDL']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
 						}
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09015C'){
-						insertdata[MKY]['Cre']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='Y00001'){
-						insertdata[MKY]['eGFR']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='Y00002'){
-						if (jres[i]['modelOP013M1s'][j]['LAB1']=='UPCR'){
-							insertdata[MKY]['PCR']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						if (jres[i]['modelOP013M1s'][j]['desc1']=='LDL(C)'){
+							if (insertdata[MKY]['LDL']==null){
+								insertdata[MKY]['LDL']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+							}
 						}
-						if (jres[i]['modelOP013M1s'][j]['LAB1']=='ACR'){
-							insertdata[MKY]['ACR']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09015C'){
+							insertdata[MKY]['Cre']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='Y00001'){
+							insertdata[MKY]['eGFR']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='Y00002'){
+							if (jres[i]['modelOP013M1s'][j]['LAB1']=='UPCR'){
+								insertdata[MKY]['PCR']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+							}
+							if (jres[i]['modelOP013M1s'][j]['LAB1']=='ACR'){
+								insertdata[MKY]['ACR']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+							}
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09040C'){
+							insertdata[MKY]['UP']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='12111C'){
+							insertdata[MKY]['MA']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09016C'){
+							insertdata[MKY]['Ucre']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09025C'){
+							insertdata[MKY]['GOT']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09026C'){
+							insertdata[MKY]['GPT']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+						}
+						if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09013C'){
+							insertdata[MKY]['UA']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
 						}
 					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09040C'){
-						insertdata[MKY]['UP']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+					if (insertdata[MKY]['PCR']==null){
+						if (insertdata[MKY]['UP']!=null && insertdata[MKY]['Ucre'] !=null){
+							PCR=insertdata[MKY]['UP']/insertdata[MKY]['Ucre']*1000;
+							insertdata[MKY]['PCR']=PCR;
+						}
 					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='12111C'){
-						insertdata[MKY]['MA']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09016C'){
-						insertdata[MKY]['Ucre']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09025C'){
-						insertdata[MKY]['GOT']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09026C'){
-						insertdata[MKY]['GPT']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
-					}
-					if (jres[i]['modelOP013M1s'][j]['LABNUM']=='09013C'){
-						insertdata[MKY]['UA']=jres[i]['modelOP013M1s'][j]['S_INPUT1'];
+					if (insertdata[MKY]['ACR']==null){
+						if (insertdata[MKY]['MA']!=null && insertdata[MKY]['Ucre'] !=null){
+							ACR=insertdata[MKY]['MA']/insertdata[MKY]['Ucre']*1000;
+							insertdata[MKY]['ACR']=ACR;
+						}
 					}
 				}
-				if (insertdata[MKY]['PCR']==null){
-					if (insertdata[MKY]['UP']!=null && insertdata[MKY]['Ucre'] !=null){
-						PCR=insertdata[MKY]['UP']/insertdata[MKY]['Ucre']*1000;
-						insertdata[MKY]['PCR']=PCR;
-					}
-				}
-				if (insertdata[MKY]['ACR']==null){
-					if (insertdata[MKY]['MA']!=null && insertdata[MKY]['Ucre'] !=null){
-						ACR=insertdata[MKY]['MA']/insertdata[MKY]['Ucre']*1000;
-						insertdata[MKY]['ACR']=ACR;
-					}
-				}
+				thedates = Object.keys(insertdata);
+				thedates.sort(function(a, b) {
+				  return b.localeCompare(a);
+				});
+				insert(table,thedates);
+				
+				chartContainer=document.createElement('div');
+				container.id='chartContainer';
+				myLineChart=document.createElement('canvas');
+				myLineChart.id='myLineChart';
+				myLineChart.className='no-print';
+				
+				container.appendChild(table);
+				chartContainer.appendChild(myLineChart);
+				container.appendChild(chartContainer);
+				document.body.appendChild(container);
+			} else {
+				newtext=document.createElement('div');
+				newtext.className='theerror';
+				newtext.textContent='查無個案';
+				document.body.appendChild(newtext);
 			}
-			thedates = Object.keys(insertdata);
-			thedates.sort(function(a, b) {
-			  return b.localeCompare(a);
-			});
-			insert(table,thedates);
-			
-			chartContainer=document.createElement('div');
-			container.id='chartContainer';
-			myLineChart=document.createElement('canvas');
-			myLineChart.id='myLineChart';
-			myLineChart.className='no-print';
-			
-			container.appendChild(table);
-			chartContainer.appendChild(myLineChart);
-			container.appendChild(chartContainer);
-			document.body.appendChild(container);
 		} else {
-			newtext=document.createElement('div');
-			newtext.className='theerror';
-			newtext.textContent='查無個案';
-			document.body.appendChild(newtext);
+			thesite=prompt('檢驗所名稱');
+			thesite=thesite.toUpperCase();
+			theID=prompt('個案ID');
+			theID=theID.toUpperCase();
+			if (thesite!='' && theID!=''){
+				window.location.href=window.location.href+'?thesite='+thesite+'&theID='+theID;
+			} else {
+				newtext=document.createElement('div');
+				newtext.className='theerror';
+				newtext.textContent='輸入不完全';
+				document.body.appendChild(newtext);
+			}
 		}
 	};
 	function inserttitle(table,titilelist){
@@ -380,7 +395,7 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 			newWindow.document.write('.thesitename {width: 1100px; text-align: center; font-size: 40px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
 			newWindow.document.write('.basic {font-size: 24px; font-family: \'微軟正黑體\', sans-serif; line-height: 1.2;}\n');
 			newWindow.document.write('table { border-collapse: collapse; width: 1050px; }\n');
-			newWindow.document.write('th, td { border: 2px solid #dddddd; text-align: center; padding: 8px; font-size: 20px; font-family: \'微軟正黑體\'; }\n');
+			newWindow.document.write('th, td { border: 2px solid #020202; text-align: center; padding: 8px; font-size: 20px; font-family: \'微軟正黑體\'; }\n');
 			newWindow.document.write('th { background-color: #f2f2f2; }\n');
 			newWindow.document.write('</style>\n');
 			newWindow.document.write('</head>\n');
