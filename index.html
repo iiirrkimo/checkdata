@@ -30,7 +30,9 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 		var queryString = window.location.search;
 		var params = new URLSearchParams(queryString);
 		var thesite = params.get('thesite');
+		thesite=thesite.toUpperCase();
 		var theID = params.get('theID');
+		theID=theID.toUpperCase();
 		if (thesite!='' && thesite!=null && theID!='' && theID!=null){
 			theapiurl='https://script.google.com/macros/s/AKfycbxvAz2qT95uxLe-yqoO9WnYdQLZTUZzBBZwsOrhAhWnIjMX_1ugRuVZ5tCcg6JzFCd5hA/exec';
 			Url=theapiurl+'?mode=download&thesite='+thesite+'&theid='+theID;
