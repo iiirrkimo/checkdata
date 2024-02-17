@@ -22,16 +22,16 @@
 button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 #chartContainer { width: 600px; height: 600px;}
 #myLineChart { width: 600px; height: 600px;}
-@media print {.no-print {display: none;}
+@media print {.no-print {display: none !important;}
         }
 </style>
 <script>
 	window.onload = function() {
 		var queryString = window.location.search;
-		if (queryString!=''){
-			var params = new URLSearchParams(queryString);
-			var thesite = params.get('thesite');
-			var theID = params.get('theID');
+		var params = new URLSearchParams(queryString);
+		var thesite = params.get('thesite');
+		var theID = params.get('theID');
+		if (thesite!='' && thesite!=null && theID!='' && theID!=null){
 			theapiurl='https://script.google.com/macros/s/AKfycbxvAz2qT95uxLe-yqoO9WnYdQLZTUZzBBZwsOrhAhWnIjMX_1ugRuVZ5tCcg6JzFCd5hA/exec';
 			Url=theapiurl+'?mode=download&thesite='+thesite+'&theid='+theID;
 			xmlHttp = new XMLHttpRequest();
@@ -176,16 +176,64 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 				document.body.appendChild(newtext);
 			}
 		} else {
-			thesite=prompt('衛生所代號(X0NN)\n例如和美:x015');
-			thesite=thesite.toUpperCase();
-			theID=prompt('個案ID');
-			theID=theID.toUpperCase();
-			if (thesite!='' && theID!=''){
-				window.location.href=window.location.href+'?thesite='+thesite+'&theID='+theID;
+			gocontinue=true;
+			errmsg='';
+			if (thesite=='' || thesite == null){
+				thesite=prompt('請輸入衛生所代號，如下\nX001:社頭鄉 , X002:秀水鄉 , X003:溪湖鎮 , X004:鹿港鎮\nX007:永靖鄉 , X008:埔心鄉 , X009:福興鄉 , X010:埔鹽鄉\nX011:二水鄉 , X012:田中鎮 , X013:北斗鎮 , X014:員林市\nX015:和美鎮 , X016:線西鄉 , X017:花壇鄉 , X018:芬園鄉\nX019:伸港鄉 , X020:大村鄉 , X021:二林鎮 , X022:田尾鄉\nX023:埤頭鄉 , X024:芳苑鄉 , X025:大城鄉 , X026:竹塘鄉\nX027:溪州鄉 , X028:東區 , X029:南西北');
+				thesite=thesite.toUpperCase();
+			}
+			thesitelist={
+				"X001":"社頭鄉",
+				"X002":"秀水鄉",
+				"X003":"溪湖鎮",
+				"X004":"鹿港鎮",
+				"X007":"永靖鄉",
+				"X008":"埔心鄉",
+				"X009":"福興鄉",
+				"X010":"埔鹽鄉",
+				"X011":"二水鄉",
+				"X012":"田中鎮",
+				"X013":"北斗鎮",
+				"X014":"員林市",
+				"X015":"和美鎮",
+				"X016":"線西鄉",
+				"X017":"花壇鄉",
+				"X018":"芬園鄉",
+				"X019":"伸港鄉",
+				"X020":"大村鄉",
+				"X021":"二林鎮",
+				"X022":"田尾鄉",
+				"X023":"埤頭鄉",
+				"X024":"芳苑鄉",
+				"X025":"大城鄉",
+				"X026":"竹塘鄉",
+				"X027":"溪州鄉",
+				"X028":"東區",
+				"X029":"南西北"
+			};
+			
+			if (!Object.keys(thesitelist).includes(thesite)){
+				errmsg=errmsg+'請輸入正確的衛生所代號\n';
+				gocontinue=false;
+			} else {
+				thesitename=thesitelist[thesite];
+			}
+			if (gocontinue){
+				if (theID=='' || theID == null){
+					theID=prompt(thesitename+'衛生所\n請輸入個案身分證字號');
+					theID=theID.toUpperCase();
+				} 
+				if (theID.length!=10){
+					errmsg=errmsg+'身分證字號長度須為10\n';
+					gocontinue=false;
+				}
+			}
+			if (gocontinue){
+				window.location.href=window.location.origin+window.location.pathname+'?thesite='+thesite+'&theID='+theID;
 			} else {
 				newtext=document.createElement('div');
 				newtext.className='theerror';
-				newtext.textContent='輸入不完全';
+				newtext.textContent=errmsg;
 				document.body.appendChild(newtext);
 			}
 		}
