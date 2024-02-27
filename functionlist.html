@@ -50,6 +50,16 @@
 						newtext.textContent=commentline[j];
 						document.body.appendChild(newtext);
 					}	
+				} else if (jres[i]['type']=='multibutton'){
+					var newlink=document.createElement("a");
+					newlink.href=jres[i]['code']+jres[i]['comment'];
+					newlink.className='thebutton';
+					newlink.draggable=true;
+					newlink.textContent=jres[i]['name'];
+					document.body.appendChild(newlink);
+					newtext=document.createElement("p");
+					newtext.textContent='功能整合+依網址切換';
+					document.body.appendChild(newtext);
 				}
 			}
 		};
