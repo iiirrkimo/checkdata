@@ -37,7 +37,20 @@
 			for (i=0;i<jres.length;i++){
 				if (jres[i]['type']=='title'){
 					document.querySelector('title').textContent = jres[i]['name'];
-				}  else if (jres[i]['type']=='multibutton'){
+				}  else if (jres[i]['type']=='button'){
+					var newlink=document.createElement("a");
+					newlink.href='javascript: (function(){'+jres[i]['code']+'})();';
+					newlink.className='thebutton';
+					newlink.draggable=true;
+					newlink.textContent=jres[i]['name'];
+					document.body.appendChild(newlink);
+					commentline=jres[i]['comment'].split('\n')
+					for (j=0;j<commentline.length;j++){
+						newtext=document.createElement("p");
+						newtext.textContent=commentline[j];
+						document.body.appendChild(newtext);
+					}	
+				} else if (jres[i]['type']=='multibutton'){
 					var newlink=document.createElement("a");
 					newlink.href='javascript: (function(){'+jres[i]['code']+jres[i]['comment']+'})();';
 					newlink.className='thebutton';
