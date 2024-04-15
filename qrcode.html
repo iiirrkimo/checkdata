@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>相機掃描QR碼或條碼</title>
+    <script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
+
 </head>
 <body>
     <h1>相機掃描QR碼或條碼</h1>
     <input type="file" accept="image/*" capture="camera" id="fileInput">
     <div id="result"></div>
 
-    <script src="https://rawgit.com/atiyahdev/quaggaJS/master/dist/quagga.min.js"></script>
     <script>
         document.getElementById('fileInput').addEventListener('change', function(e) {
             var file = e.target.files[0];
