@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相機掃描QR碼或條碼</title>
+</head>
+<body>
+    <h1>相機掃描QR碼或條碼</h1>
+    <input type="file" accept="image/*" capture="camera" id="fileInput">
+    <div id="result"></div>
+
+    <script src="https://rawgit.com/atiyahdev/quaggaJS/master/dist/quagga.min.js"></script>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if(file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = new Image();
+                    img.onload = function() {
+                        Quagga.decodeSingle({
+                            src: img.src,
+                            numOfWorkers: 0,  // 不使用web workers
+                            locate: true,     // 尋找位置
+                            inputStream: {
+                                size: 800  // 影像大小，可以自行調整
+                            },
+                            decoder: {
+                                readers: ['code_128_reader', 'ean_reader', 'ean_8_reader', 'code_39_reader', 'code_39_vin_reader', 'codabar_reader', 'upc_reader', 'upc_e_reader', 'i2of5_reader', '2of5_reader', 'code_93_reader'] // 支援的條碼格式，可以根據需要增刪
+                            },
+                        }, function(result) {
+                            if(result && result.codeResult) {
+                                document.getElementById('result').textContent = '掃描結果：' + result.codeResult.code;
+                            } else {
+                                document.getElementById('result').textContent = '無法辨識。';
+                            }
+                        });
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
