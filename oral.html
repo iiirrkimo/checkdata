@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>打口篩</title>
+	<style>
+		html {
+			font-size: 18px; /* 使用固定单位 */
+		}
+
+		#H-container{
+			display : flex;
+		}
+		#H-container > div {
+			margin-right: 20px;  /* 右侧间距 */
+		}
+        
+		.table-container {
+            width: 100%; 
+            height: 400px; 
+            overflow: auto;
+            border: 1px solid 
+        }
+        .table_left {
+            width: 400px; 
+            border-collapse: collapse;
+        }
+        .table_left th, td {
+            border: 1px solid #ddd; 
+            text-align: center; 
+        }
+		.table_right {
+            width: 100%; 
+            border-collapse: collapse;
+        }
+        .table_right th, td {
+            border: 1px solid #ddd; 
+            text-align: center; 
+        }
+		Button {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            margin: 2px;
+            font-family: 'Microsoft JhengHei'; 
+            font-size: 18px; 
+            font-weight: 400;
+        }
+        Button:hover {
+            background-color: #0069d9;
+            color: white;
+            border-radius: 5px;
+            margin: 2px;
+            font-family: 'Microsoft JhengHei'; 
+            font-size: 18px; 
+            font-weight: 400;
+        }
+    </style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	
+
+</head>
+<body>
+	<h1>打口篩報告</h1>
+	<div id="H-container">
+		<div>
+			整篩編號或ID:
+			<input type="text" id="thecode" style="width: 120px;"/>
+			報告內容(4碼基本資料+1~2碼異常+2碼位置): 
+			<input type="text" id="theresult" style="width: 120px;"/>
+			<button onclick="adddata()">新增</button>
+			<button onclick="deldata()">刪除</button>
+			<button onclick="expdata()">匯出</button>
+			<input type="file" id="hidden-file-input" accept=".txt" style="display: none;" />
+			<button onclick="document.getElementById('hidden-file-input').click()">匯入</button>
+			<div class="table-container">
+				<table id="table_right" class="table_right">
+					<thead>
+						<tr>
+							<th>編號</th>
+							<th>身分證字號</th>
+							<th>教育程度</th>
+							<th>嚼檳習慣</th>
+							<th>吸菸習慣</th>
+							<th>自覺症狀</th>
+							<th>結果代碼</th>
+							<th>位置代碼</th>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div>
+			新陳掛號檔(ExcKH******.xls):
+			<input type="file" id="excel-file" accept=".xlsx, .xls" style="width: 283px; display: none;"/>
+			<button onclick="document.getElementById('excel-file').click()">讀取Excel</button>
+			<div class="table-container" id="table-container"></div>
+		</div>
+	</div>
+	1. 可先從右方匯入新陳掛號檔，有匯入可只輸入整篩末三碼進行查詢
+	<br>
+	2. 左上方輸入ID或整篩編號，中間的輸入框輸入報告(4碼基本資料，檢查結果1~2碼，位置0~2碼)後點新增
+	<br>
+	3. 方便快速登打，新增後自動清空ID及報告欄位，並移動到ID欄
+	<br>
+	4. 輸入錯誤可從表格中直接修改，ID錯誤需刪除重key
+	<br>
+	5. 支援匯出及匯入
+	<script>var numbertoidobj={},tempcount=0;const fileInput=document.getElementById("hidden-file-input");fileInput.addEventListener("change",function(e){const t=e.target.files[0];if(t){const e=new FileReader;e.onload=function(e){const t=e.target.result;for(document.querySelector("#table_right > tbody").innerHTML="",tempcount=0,acontent=t.split("\n"),tb=document.getElementById("table_right"),aaa=0;aaa<acontent.length;aaa++)for(acontentl=acontent[aaa].split(","),row=tb.children[1].insertRow(),tempcount+=1,cell=row.insertCell(),cell.textContent=tempcount,inputradio=document.createElement("input"),inputradio.type="radio",inputradio.name="currentselection",cell.appendChild(inputradio),cell=row.insertCell(),cell.addEventListener("click",function(e){if(clickedRow=e.target.closest("tr"),clickedRow){const e=clickedRow.querySelector('input[type="radio"]');e&&e.click()}}),cell.textContent=acontentl[0].toUpperCase(),i=0;i<6;i++)cell=row.insertCell(),cell.addEventListener("click",function(e){if(clickedRow=e.target.closest("tr"),clickedRow){const e=clickedRow.querySelector('input[type="radio"]');e&&e.click()}}),inputcell=document.createElement("input"),inputcell.style.width="50px",inputcell.style.textAlign="center",inputcell.value=acontentl[1+i],inputcell.addEventListener("click",function(e){if(clickedRow=e.target.closest("tr"),clickedRow){const e=clickedRow.querySelector('input[type="radio"]');e&&e.click()}}),cell.appendChild(inputcell)},e.readAsText(t)}else alert("無選擇文件")});const excelInput=document.getElementById("excel-file");function readExcel(){const e=document.getElementById("excel-file"),t=document.getElementById("table-container");if(!e.files.length)return void(t.innerHTML="請選擇一個文件。");const n=new FileReader;n.onload=function(e){const n=new Uint8Array(e.target.result),l=XLSX.read(n,{type:"array"}),r=l.SheetNames[0],c=l.Sheets[r],i=XLSX.utils.decode_range(c["!ref"]);let o='<table class="table_left"><tbody>';numbertoidobj={};for(let e=0;e<=i.e.r;++e){o+="<tr>";let t="",n="";for(let l=0;l<3;l++){const r={c:l,r:e},i=c[XLSX.utils.encode_cell(r)],d=i?i.v:"";o+=`<td>${d}</td>`,0===l&&(t=d),2===l&&(n=d)}if(o+="</tr>",n&&n.length>=3){const e=n.slice(-3);numbertoidobj[e]=t}}o+="</tbody></table>",t.innerHTML=o},n.readAsArrayBuffer(e.files[0])}function adddata(){if(errmsg="",thecode=document.getElementById("thecode").value,3==thecode.length?Object.keys(numbertoidobj).length>0?Object.keys(numbertoidobj).includes(thecode)?thecode=numbertoidobj[thecode]:errmsg+="無整篩編號\n":errmsg+="無匯入整篩掛號檔不可使用整篩編號查詢\n":10!=thecode.length&&(errmsg+="字串長度須為3或10\n"),""==errmsg)if(errmsg="",theresult=document.getElementById("theresult").value,errmsgobj=checkinputvalid(theresult),""==errmsgobj.errmsg){for(tb=document.getElementById("table_right"),row=tb.children[1].insertRow(),tempcount+=1,cell=row.insertCell(),cell.textContent=tempcount,inputradio=document.createElement("input"),inputradio.type="radio",inputradio.name="currentselection",cell.appendChild(inputradio),cell=row.insertCell(),cell.addEventListener("click",function(e){if(clickedRow=e.target.closest("tr"),clickedRow){const e=clickedRow.querySelector('input[type="radio"]');e&&e.click()}}),cell.textContent=thecode.toUpperCase(),i=0;i<6;i++)cell=row.insertCell(),cell.addEventListener("click",function(e){if(clickedRow=e.target.closest("tr"),clickedRow){const e=clickedRow.querySelector('input[type="radio"]');e&&e.click()}}),inputcell=document.createElement("input"),inputcell.style.width="50px",inputcell.style.textAlign="center",inputcell.value=errmsgobj.content[i],inputcell.addEventListener("click",function(e){if(clickedRow=e.target.closest("tr"),clickedRow){const e=clickedRow.querySelector('input[type="radio"]');e&&e.click()}}),cell.appendChild(inputcell);document.getElementById("thecode").value="",document.getElementById("theresult").value="",document.getElementById("thecode").focus()}else alert(errmsg);else alert(errmsg)}function checkinputvalid(e){let t={};return errmsg="",input=e.toUpperCase(),numbers=input.match(/\d+/g),null==numbers?errmsg+="結果沒有數字\n":(numbers=numbers[0],numbers.length<5?errmsg+="結果數字長度錯誤\n":(input1=numbers.substring(0,1),["1","2","3","4","5","6","7"].includes(input1)||(errmsg+="教育須為1~7\n"),input2=numbers.substring(1,2),["0","1","2","3","4","5"].includes(input2)||(errmsg+="嚼檳榔習慣須為0~5\n"),input3=numbers.substring(2,3),["0","1","2","3","4","5"].includes(input3)||(errmsg+="吸菸習慣須為0~5\n"),input4=numbers.substring(3,4),["0","1"].includes(input4)||(errmsg+="自覺症狀須為0~1\n"),0!=input2||0!=input3&&1!=input3||(errmsg+="不符合幾付條件\n"),input5=numbers.substring(4,input.length),["0","1","3","4","71","72","73","2","5","76","8","9","10","99"].includes(input4)||(errmsg+="檢查結果代碼錯誤\n"),"0"!=input5?(words=input.match(/\D+/g),null==words?errmsg+="結果沒有英文\n":(words=words[0],input6=words.toUpperCase(),portionlist=["AU","AD","BL","BR","CR","CL","DR","DL","ER","EL","FR","FL","GR","GL","HR","HL","IR","IL","JR","JL","KR","KL","MR","ML","L"],portionlist.includes(input6)||(errmsg+="位置代碼錯誤\n"))):(words=input.match(/\D+/g),null==words?input6="":errmsg+="檢查結果0不應有位置\n"))),""==errmsg?(t.status="suscess",t.content=[input1,input2,input3,input4,input5,input6]):(t.status="failure",t.content=[]),t.errmsg=errmsg,t}function deldata(){for(radio of(radios=document.getElementsByName("currentselection"),selected=!1,radios))if(radio.checked){selectedRadio=radio;break}selectedRadio?confirm("是否刪除?")&&(rowToDelete=selectedRadio.closest("tr"),rowToDelete&&(table=rowToDelete.closest("table"),table&&(rowIndex=rowToDelete.rowIndex,table.deleteRow(rowIndex)))):alert("未選擇")}function expdata(){if(tb=document.getElementById("table_right"),tb.rows.length>1){for(retmsg="",count=0,i=1;i<tb.rows.length;i++){for(count+=1,retmsg+=tb.rows[i].cells[1].textContent,j=2;j<8;j++)retmsg+=","+tb.rows[i].cells[j].children[0].value;retmsg+="\n"}retmsg=retmsg.substring(0,retmsg.length-1),download("口篩報告_"+count+"筆.txt",retmsg)}else alert("無紀錄")}function download(e,t){var n=document.createElement("a");n.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(t)),n.setAttribute("download",e),n.style.display="none",document.body.appendChild(n),n.click(),document.body.removeChild(n)}excelInput.addEventListener("change",function(e){e.target.files[0]?readExcel():alert("無選擇文件")});</script>
+    
+</body>
+</html>
