@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>loading</title>
+<title>檢驗報告彙總</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
-
-</head>
-<body>
 <style>
+html {font-size: 18px;}
 .container { display: flex; width: 1920px;  }
 .theerror {font-size: 40px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
 .thesitename {width: 1100px; text-align: center; font-size: 40px; font-family: '微軟正黑體', sans-serif; line-height: 1.2;}
@@ -19,18 +17,79 @@
 .thetable td { border: 2px solid #020202; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
 .thetable tr { border: 2px solid #020202; text-align: center; padding: 8px; font-size: 20px; font-family: '微軟正黑體'}
 .thetable th { background-color: #f2f2f2;}
-button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
+.outer_button { font-size: 18px; font-family: '微軟正黑體', sans-serif;}
+.inner_button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
+select {  font-size: 18px; font-family: '微軟正黑體', sans-serif;}
+input {  font-size: 18px; font-family: '微軟正黑體', sans-serif;}
 #chartContainer { width: 600px; height: 600px;}
 #myLineChart { width: 600px; height: 600px;}
-@media print {.no-print {display: none !important;}
-        }
+@media print {.no-print {display: none !important;}}
+.overlay {position: fixed; top: 0;left: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.5); z-index: 9999; }
 </style>
+</head>
+<body>
+<div class="thesitename" id="thesitename">檢驗報告彙總</div>
+<div>
+<span class='no-print'>衛生所:</span>
+<select class='no-print' id="thesite" name="thesite" type="text" style="width:150px">
+	<option value="X001">社頭鄉</option>
+	<option value="X002">秀水鄉</option>
+	<option value="X003">溪湖鎮</option>
+	<option value="X004">鹿港鎮</option>
+	<option value="X007">永靖鄉</option>
+	<option value="X008">埔心鄉</option> 
+	<option value="X009">福興鄉</option>
+	<option value="X010">埔鹽鄉</option>
+	<option value="X011">二水鄉</option>
+	<option value="X012">田中鎮</option>
+	<option value="X013">北斗鎮</option>
+	<option value="X014">員林市</option>
+	<option value="X015">和美鎮</option>
+	<option value="X016">線西鄉</option>
+	<option value="X017">花壇鄉</option>
+	<option value="X018">芬園鄉</option>
+	<option value="X019">伸港鄉</option>
+	<option value="X020">大村鄉</option> 
+	<option value="X021">二林鎮</option>
+	<option value="X022">田尾鄉</option>
+	<option value="X023">埤頭鄉</option> 
+	<option value="X024">芳苑鄉</option>
+	<option value="X025">大城鄉</option>
+	<option value="X026">竹塘鄉</option>
+	<option value="X027">溪州鄉</option>
+	<option value="X028">東區</option>
+	<option value="X029">南西北</option>
+</select>
+<span class='no-print'>身份證字號:</span>
+<input class='no-print' type="theid" id="theid" style="width: 150px;"></input>
+<button class='outer_button no-print' onclick="searchdata()">查詢</button>
+</div>
+<div class="basic"></div>
+<span class="basic" id="basicname" style="display: inline-block; width: 300px;"></span>
+<span class="basic" id="basicid" style="display: inline-block; width: 300px;"></span>
+<span class="basic" id="basicbirth" style="display: inline-block; width: 300px;"></span>
+<div class="container" id="chartContainer">
+</div>
 <script>
+	currentsort='D';
 	window.onload = function() {
 		var queryString = window.location.search;
 		var params = new URLSearchParams(queryString);
 		var thesite = params.get('thesite');
 		var theID = params.get('theID');
+		if (thesite!='' && thesite!=null){
+			document.getElementById('thesite').value=thesite;
+		}
+		if (theID!='' && theID!=null){
+			document.getElementById('theid').value=theID;
+		}
+		if (thesite!='' && thesite!=null && theID!='' && theID!=null){
+			searchdata()
+		}
+	}
+	function searchdata() {
+		var thesite = document.getElementById('thesite').value;
+		var theID = document.getElementById('theid').value;
 		if (thesite!='' && thesite!=null && theID!='' && theID!=null){
 			theapiurl='https://script.google.com/macros/s/AKfycbxvAz2qT95uxLe-yqoO9WnYdQLZTUZzBBZwsOrhAhWnIjMX_1ugRuVZ5tCcg6JzFCd5hA/exec';
 			Url=theapiurl+'?mode=download&thesite='+thesite+'&theid='+theID;
@@ -42,28 +101,16 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 				currentsort='D';
 				jres=JSON.parse(res);
 				document.querySelector('title').textContent='檢驗報告彙總('+jres[0]['NAME']+')';
-				newtext=document.createElement('div');
-				newtext.className='thesitename';
-				newtext.textContent=jres[0]['HOS_NAME']+'檢驗報告彙總';
-				document.body.appendChild(newtext);
-				newtext=document.createElement('div');
-				newtext.className='basic';
-				newtext.textContent='姓名:'+jres[0]['NAME'];
-				document.body.appendChild(newtext);
-				newtext=document.createElement('div');
-				newtext.className='basic';
-				newtext.textContent='證號:'+jres[0]['ID'];
-				document.body.appendChild(newtext);
-				newtext=document.createElement('div');
-				newtext.className='basic';
+				document.getElementById('thesitename').textContent=jres[0]['HOS_NAME']+'檢驗報告彙總';
+				document.getElementById('basicname').textContent='姓名:'+jres[0]['NAME'];
+				document.getElementById('basicid').textContent='證號:'+jres[0]['ID'];
 				cyb=jres[0]['BIRTH'].split('T')[0];
 				mkyyb=cyb.split('-')[0]-1911;
 				mkyb=mkyyb+cyb.split('-')[1]+cyb.split('-')[2];
-				newtext.textContent='生日:'+mkyb;
-				document.body.appendChild(newtext);
+				document.getElementById('basicbirth').textContent='生日:'+mkyb;
 				
-				container=document.createElement('div');
-				container.className='container';
+				container=document.getElementById('chartContainer');
+				container.innerHTML=''
 				var table = document.createElement('table');
 				table.className='thetable';
 				titilelist=['日期▼','AC','A1C','TC','TG','HDL','LDL','Cre','eGFR','UPCR','UACR','GOT','GPT','UA','',''];
@@ -160,82 +207,21 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 				insert(table,thedates);
 				
 				chartContainer=document.createElement('div');
-				container.id='chartContainer';
+				chartContainer.id='chartContainer';
 				myLineChart=document.createElement('canvas');
 				myLineChart.id='myLineChart';
 				myLineChart.className='no-print';
-				
 				container.appendChild(table);
 				chartContainer.appendChild(myLineChart);
 				container.appendChild(chartContainer);
-				document.body.appendChild(container);
 			} else {
-				newtext=document.createElement('div');
-				newtext.className='theerror';
-				newtext.textContent='查無個案';
-				document.body.appendChild(newtext);
+				document.getElementById('basicname').textContent='查無個案';
+				document.getElementById('basicid').textContent='';
+				document.getElementById('basicbirth').textContent='';
 			}
-		} else {
-			gocontinue=true;
-			errmsg='';
-			if (thesite=='' || thesite == null){
-				thesite=prompt('請輸入衛生所代號，如下\nX001:社頭鄉 , X002:秀水鄉 , X003:溪湖鎮 , X004:鹿港鎮\nX007:永靖鄉 , X008:埔心鄉 , X009:福興鄉 , X010:埔鹽鄉\nX011:二水鄉 , X012:田中鎮 , X013:北斗鎮 , X014:員林市\nX015:和美鎮 , X016:線西鄉 , X017:花壇鄉 , X018:芬園鄉\nX019:伸港鄉 , X020:大村鄉 , X021:二林鎮 , X022:田尾鄉\nX023:埤頭鄉 , X024:芳苑鄉 , X025:大城鄉 , X026:竹塘鄉\nX027:溪州鄉 , X028:東區 , X029:南西北');
-			}
-			thesite=thesite.toUpperCase();
-			thesitelist={
-				"X001":"社頭鄉",
-				"X002":"秀水鄉",
-				"X003":"溪湖鎮",
-				"X004":"鹿港鎮",
-				"X007":"永靖鄉",
-				"X008":"埔心鄉",
-				"X009":"福興鄉",
-				"X010":"埔鹽鄉",
-				"X011":"二水鄉",
-				"X012":"田中鎮",
-				"X013":"北斗鎮",
-				"X014":"員林市",
-				"X015":"和美鎮",
-				"X016":"線西鄉",
-				"X017":"花壇鄉",
-				"X018":"芬園鄉",
-				"X019":"伸港鄉",
-				"X020":"大村鄉",
-				"X021":"二林鎮",
-				"X022":"田尾鄉",
-				"X023":"埤頭鄉",
-				"X024":"芳苑鄉",
-				"X025":"大城鄉",
-				"X026":"竹塘鄉",
-				"X027":"溪州鄉",
-				"X028":"東區",
-				"X029":"南西北"
-			};
 			
-			if (!Object.keys(thesitelist).includes(thesite)){
-				errmsg=errmsg+'請輸入正確的衛生所代號\n';
-				gocontinue=false;
-			} else {
-				thesitename=thesitelist[thesite];
-			}
-			if (gocontinue){
-				if (theID=='' || theID == null){
-					theID=prompt(thesitename+'衛生所\n請輸入個案身分證字號');
-				} 
-				theID=theID.toUpperCase();
-				if (theID.length!=10){
-					errmsg=errmsg+'身分證字號長度須為10\n';
-					gocontinue=false;
-				}
-			}
-			if (gocontinue){
-				window.location.href=window.location.origin+window.location.pathname+'?thesite='+thesite+'&theID='+theID;
-			} else {
-				newtext=document.createElement('div');
-				newtext.className='theerror';
-				newtext.textContent=errmsg;
-				document.body.appendChild(newtext);
-			}
+		} else {
+			alert('請輸入ID')
 		}
 	};
 	function inserttitle(table,titilelist){
@@ -363,7 +349,7 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 					cell.style.height='23px';
 					cell.className='no-print';
 					button = document.createElement('button');
-					button.className='no-print';
+					button.className='inner_button no-print';
 					button.textContent = '詳細';
 					button.addEventListener('click', function(event) {
 						var clickedRow = event.target.parentNode.parentNode;
@@ -374,7 +360,7 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 					cell.style.height='23px';
 					cell.className='no-print';
 					button = document.createElement('button');
-					button.className='no-print';
+					button.className='inner_button no-print';
 					button.textContent = '更新';
 					button.addEventListener('click', function(event) {
 						var clickedRow = event.target.parentNode.parentNode;
@@ -423,7 +409,7 @@ button {  font-size: 16px; font-family: '微軟正黑體', sans-serif;}
 		xmlHttp.send();
 		delres=xmlHttp.responseText;
 		if (delres=='suscess'){
-			location.reload();
+			searchdata();
 		}
 	}
 	function showrow(clickedRow){
