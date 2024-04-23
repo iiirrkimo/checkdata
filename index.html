@@ -78,10 +78,10 @@ input {  font-size: 18px; font-family: '微軟正黑體', sans-serif;}
 		var thesite = params.get('thesite');
 		var theID = params.get('theID');
 		if (thesite!='' && thesite!=null){
-			document.getElementById('thesite').value=thesite;
+			document.getElementById('thesite').value=thesite.toUpperCase();
 		}
 		if (theID!='' && theID!=null){
-			document.getElementById('theid').value=theID;
+			document.getElementById('theid').value=theID.toUpperCase();
 		}
 		if (thesite!='' && thesite!=null && theID!='' && theID!=null){
 			searchdata()
