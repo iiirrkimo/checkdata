@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<title>整篩報告</title>
+		<link rel="stylesheet" href="grandhealthexam.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	</head>
+	<body>
+		<div class="mytitle">整篩報告</div>
+		<div class="H-container">
+			<div>
+				<span style="display: inline-block; width: 120px;">1. 新陳掛號檔:</span>
+				<input class="execinput" type="file" id="excel1" accept=".xlsx, .xls"/>
+			</div>
+			<div>
+				<span style="display: inline-block; width: 120px;"> 2. 部彰報告:</span>
+				<input class="execinput" type="file" id="excel2" accept=".xlsx, .xls"/>
+			</div>
+			<div>
+				<span style="display: inline-block; width: 120px;"> 3. X光報告:</span>
+				<input class="execinput" type="file" id="excel3" accept=".xlsx, .xls"/>
+			</div>
+		</div>
+		<div class="H-container">
+			<div>
+				<span style="display: inline-block; width: 120px;"> 4. FOBT報告:</span>
+				<input class="execinput" type="file" id="excel4" accept=".xlsx, .xls"/>
+			</div>
+			<div>
+				<span style="display: inline-block; width: 120px;"> 5. 子抹報告:</span>
+				<input class="execinput" type="file" id="excel5" accept=".xlsx, .xls"/>
+			</div>
+			<div>
+				<span style="display: inline-block; width: 120px;"> 6. HP報告:</span>
+				<input class="execinput" type="file" id="excel6" accept=".xlsx, .xls"/>
+			</div>
+		</div>
+		<div class="H-container">
+			<div>
+				<span style="display: inline-block; width: 120px;"> 7. PG報告:</span>
+				<input class="execinput" type="file" id="excel7" accept=".xlsx, .xls"/>
+			</div>
+			<div>
+				<span style="display: inline-block; width: 120px;"> 8. 口篩清單:</span>
+				<input class="execinput" type="file" id="excel8" accept=".xlsx, .xls"/>
+			</div>
+			<div>
+				<span style="display: inline-block; width: 120px;"> 9. 乳攝名冊:</span>
+				<input class="execinput" type="file" id="excel9" accept=".xlsx, .xls"/>
+			</div>
+		</div>
+		<div class="H-container">
+			<button class="execbutton" onclick="starttransfer()">開始轉換</button>
+			<input style="display: none;" type="file" id="excelall" accept=".xlsx, .xls"/>
+			<button class="execbutton" onclick="document.getElementById('excelall').click()" >匯入XLS</button>
+			<button class="execbutton" onclick="exportToExcel()">匯出XLS</button>
+			<button class="execbutton" onclick="exportToPDF()">匯出報告</button>
+		</div>
+		<div class="tablecontainer">
+			<table id="reporttable" class="reporttable">
+				<thead>
+					<tr>
+						<th>整篩編號</th>
+						<th>身分證字號</th>
+						<th>姓名</th>
+						<th>生日</th>
+						<th>年齡</th>
+						<th>性別</th>
+						<th>檢驗日期</th>
+						<th>掛號代碼</th>
+						<th>電話</th>
+						<th>手機</th>
+						<th>地址</th>
+						<th>收縮壓</th>
+						<th>舒張壓</th>
+						<th>身高</th>
+						<th>體重</th>
+						<th>身體質量指數</th>
+						<th>腰圍</th>
+						<th>脈搏</th>
+						<th>裸視[右眼]</th>
+						<th>裸視[左眼]</th>
+						<th>矯正[右眼]</th>
+						<th>矯正[左眼]</th>
+						<th>抽菸習慣</th>
+						<th>白血球計數(WBC)</th>
+						<th>紅血球計數(RBC)</th>
+						<th>血色素(HB)</th>
+						<th>血球容積比(HT)</th>
+						<th>平均血紅素量(MCH)</th>
+						<th>紅血球平均體積(MCV)</th>
+						<th>平均血色素濃度(MCHC)</th>
+						<th>血小板計數(PLT)</th>
+						<th>飯前血糖檢查(GLU-AC)</th>
+						<th>糖化血色素(A1C)</th>
+						<th>血清總膽固醇(CHOL)</th>
+						<th>三酸甘油酯(TG)</th>
+						<th>高密度膽固醇(HDL-C)</th>
+						<th>低密度膽固醇(LDL-C)</th>
+						<th>低密度/高密度膽固醇(LDL/HDL-C)</th>
+						<th>總膽固醇/高密度膽固醇(T-CHO/HDL)</th>
+						<th>草酸轉胺基脢AST(GOT)</th>
+						<th>丙酮轉胺基脢ALT(GPT)</th>
+						<th>甲型胎兒蛋白(AFP)</th>
+						<th>B型肝炎表面抗原(HBsAg)</th>
+						<th>B型肝炎表面抗原(數值)</th>
+						<th>C型肝炎檢查(Anti-HCV)</th>
+						<th>C型肝炎檢查(數值)</th>
+						<th>肌酸酐(CRE)</th>
+						<th>腎絲球過濾率(eGFR)</th>
+						<th>尿液總蛋白質</th>
+						<th>尿液肌酸酐</th>
+						<th>尿液總蛋白質/尿液肌酸酐比</th>	
+						<th>慢性腎臟病期數CKD</th>
+						<th>尿酸(UA)</th>
+						<th>胸部X光</th>
+						<th>胸部X光建議</th>
+						<th>驗痰</th>
+						<th>FOBT</th>
+						<th>子抹院所</th>
+						<th>子抹編號</th>
+						<th>HP</th>
+						<th>PG報告</th>
+						<th>PGI</th>
+						<th>PGI/II</th>
+						<th>口篩</th>
+						<th>乳攝首篩</th>
+						<th>上次乳攝日期</th>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<script src="grandhealthexam.js"></script>
+	</body>
+</html>
