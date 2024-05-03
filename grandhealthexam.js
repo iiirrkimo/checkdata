@@ -1,17 +1,65 @@
-explaintime="113-04-27";
-expiretime="113-07-27";
 totallist={};
 excelall = document.getElementById('excelall');
 excelall.addEventListener('change', function(event) {
 	const file = event.target.files[0];
 	if (file) {
 		starttransferall();
+		excelall.value="";
 	} else {
 		alert("無選擇文件");
 	}
 });
-
-
+const importtxt = document.getElementById('importtxt');
+importtxt.addEventListener('change', function(event) {
+	const file = event.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			const content = e.target.result;
+			jcontent=JSON.parse(content);
+			document.getElementById('clinicname').value=jcontent["clinicname"];
+			document.getElementById('cliniccode').value=jcontent["cliniccode"];
+			document.getElementById('clinicphone').value=jcontent["clinicphone"];
+			document.getElementById('clinicaddress').value=jcontent["clinicaddress"];
+			document.getElementById('doctorname').value=jcontent["doctorname"];
+			document.getElementById('doctorsp').value=jcontent["doctorsp"];
+			document.getElementById('explaindate').value=jcontent["explaindate"];
+			document.getElementById('expiredate').value=jcontent["expiredate"];
+		};
+		reader.readAsText(file);
+		importtxt.value="";
+	} else {
+		alert("無選擇文件");
+	}
+});
+startnum=document.getElementById('startnum');
+endnum=document.getElementById('endnum');
+startnum.addEventListener('change', function(event) {
+	sv=startnum.value;
+	if (isNaN(sv*1) || sv*1<1){
+		startnum.value="001";
+		alert('請輸入數值');
+	} else {
+		endnum.value=sv;
+	}
+});
+endnum.addEventListener('change', function(event) {
+	sv=startnum.value;
+	ev=endnum.value;
+	if (ev*1<sv*1){
+		endnum.value=startnum.value;
+		alert('結束編號不可小於起始編號')
+	}
+});
+et1=document.getElementById('explaindate');
+et2=document.getElementById('expiredate');
+et1.value=new Date().toISOString().split('T')[0];
+et1.addEventListener('change', function(event) {
+	let nextdate = new Date(et1.value);
+	nextdate.setDate(nextdate.getDate() + 90);
+	et2.value=nextdate.toISOString().split('T')[0]; 
+});
+et1.dispatchEvent(new Event('change', {bubbles: true}));
 papcodelist={
 "1":"(1)正常",
 "2":"(2)發炎",
@@ -33,7 +81,6 @@ papcodelist={
 "18":"(18)原位子宮頸腺癌 (AIS)",
 "21":"難以判讀"
 };
-
 async function starttransfer(){
 	try {
 		tablebody=document.getElementById('reporttable').children[1];
@@ -445,7 +492,6 @@ function showptable(){
 		}
 	}
 }
-
 function readexcelall(){
 	return new Promise((resolve, reject) => {
 		excelall = document.getElementById('excelall');
@@ -492,7 +538,6 @@ async function starttransferall(){
         alert(`${error.message}`); 
     }
 }
-
 function exportToExcel() {
     const table = document.getElementById("reporttable");
     let worksheet = XLSX.utils.table_to_sheet(table, {raw: true}); 
@@ -511,7 +556,6 @@ function exportToExcel() {
     a.click();
     URL.revokeObjectURL(url);
 }
-
 function granfromtable(){
 	tablebody=document.getElementById('reporttable').children[1];
 	grabobj={};
@@ -524,18 +568,81 @@ function granfromtable(){
 	}
 	return grabobj
 }
-
-
 function exportToPDF(){
-	printwindow = window.open('', '_blank');
 	reportlist=granfromtable();
 	reportlistkey=Object.keys(reportlist);
+	startnum=document.getElementById('startnum');
+	endnum=document.getElementById('endnum');
+	sv=startnum.value;
+	ev=endnum.value;
+	errmsg="";
+	cn=document.getElementById('clinicname').value;
+	cc=document.getElementById('cliniccode').value;
+	cp=document.getElementById('clinicphone').value;
+	ca=document.getElementById('clinicaddress').value;
+	dn=document.getElementById('doctorname').value;
+	ds=document.getElementById('doctorsp').value;
+	etv1=document.getElementById('explaindate').value;
+	etv2=document.getElementById('expiredate').value;
+	if (cn==""){
+		errmsg+="未輸入衛生所名稱\n";
+	}
+	if (cc==""){
+		errmsg+="未輸入衛生所代碼\n";
+	}
+	if (cp==""){
+		errmsg+="未輸入衛生所代碼\n";
+	}
+	if (ca==""){
+		errmsg+="未輸入衛生所地址\n";
+	}
+	if (dn==""){
+		errmsg+="未輸入醫師姓名\n";
+	}
+	if (ds==""){
+		errmsg+="未輸入醫師專科別\n";
+	}
+	if (etv1==""){
+		errmsg+="未輸入二階時間\n";
+	}
+	if (etv2==""){
+		errmsg+="未輸入轉診單過期時間\n";
+	}
+	if (sv*1>reportlistkey.length){
+		errmsg+="起始編號過大\n";
+	} else if (sv*1>0){
+		v0=sv*1-1;
+		if (ev*1>reportlistkey.length){
+			v1=reportlistkey.length;
+		} else {
+			v1=ev*1;
+		}
+	} else {
+		errmsg+="起始編號異常\n";
+	}
+	
+	if (errmsg==""){
+		convertToPDF(v0,v1,cn,cc,cp,ca,dn,ds,etv1,etv2);
+	} else {
+		alert(errmsg);
+	}
+}
+function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
+	clinicname=s1;
+	cliniccode=s2;
+	clinicphone=s3;
+	clinicaddress=s4;
+	doctorname=s5;
+	doctorsp=s6;
+	explaintime=s7;
+	expiretime=s8;
+	printwindow = window.open('', '_blank');
 	reportcontent=`
-<!DOCTYPE html><html><head><title>報告總檔匯出</title><style>html{font-family: '標楷體' ;}@media print{html, body{width: 210mm; min-height: 297mm; margin: 0; padding: 0;} .page-break{display: block; page-break-after: always;}.page-break2{display: none;}*{-webkit-print-color-adjust: exact;} } @media screen{body{background: white; width: 210mm; min-height: 297mm; margin: 20px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);} }.page-break2{height: 10px;background-color: rgba(0, 0, 0, 0.5);}.checklist_title{font-size: 24px;font-weight: 400;text-align: center;} .checklist_table_1{border-collapse: collapse; width: 95%;margin-left: auto;margin-right: auto;} .checklist_table_1 th, .checklist_table_1 td{border: 1px solid transparent;font-size: 20px;}.checklist_table_2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .checklist_table_2 th, .checklist_table_2 td{border: 1px solid;font-size: 20px;}.checklist_table_2 th:nth-child(1){width: 20%;}.checklist_table_2 td:nth-child(1){text-align: center;}.checklist_table_2 th:nth-child(2){width: 30%;}.checklist_table_2 th:nth-child(3){width: 20%;}.checklist_table_2 td:nth-child(3){text-align: center;}.checklist_table_2 th:nth-child(4){width: 30%;}.checklist_table_value{text-decoration: underline;}.checklist_table_3{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.checklist_table_3 th, .checklist_table_3 td{border: 1px solid;font-size: 20px;}.checklist_table_3 td:nth-child(1){width: 10%;}.checklist_table_3 tdnth-child(2){width: 30%;}.checklist_table_3 tdnth-child(3){width: 60%;}.checklist_sign{font-size: 20px;text-align: center;}.checklist_uppertitle{font-size: 32px;font-weight: 400;background-color: #d0e7ff;}.checklist_middletitle{font-size: 70px;font-weight: 400;text-align: center;}.checklist_content{font-size: 32px;font-weight: 400;}.checklist_splitline{font-size: 32px;font-weight: 400;text-align: center;}.report_title{font-size: 20px;font-weight: 400;text-align: center;}.report_table{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .report_table th, .report_table td{border: 1px transparent;font-size: 20px;}.report_table th:nth-child(1){width: 25%;}.report_table th:nth-child(2){width: 25%;}.report_table th:nth-child(3){width: 25%;}.report_table th:nth-child(4){width: 25%;}.report_table td:nth-child(3){text-align: center;}.report_table_underline{text-decoration: underline;text-align: center;}.report_table_title{font-size: 20px;font-weight: 400;padding: 2px;background-color: #BEBEBE;background-clip: content-box;text-align: center;}.report_table_subtitle{font-size: 20px;font-weight: 600;}.suggestion_title{font-size: 24px;font-weight: 700;text-align: center;}.suggestion_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table1 th, .suggestion_table1 td{border: 1px transparent;font-size: 20px;}.suggestion_table1 th:nth-child(1){width: 50%;}.suggestion_table1 th:nth-child(2){width: 50%;}.suggestion_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table2 th{border: 1px solid;font-size: 20px;font-weight: 600;text-align: center;}.suggestion_table2 td{border: 1px solid;font-size: 20px;}.suggestion_table2 th:nth-child(1){width: 5%;}.suggestion_table2 th:nth-child(2){width: 20%;}.suggestion_table2 th:nth-child(3){width: 75%;}.transfer_title{font-size: 24px;font-weight: 700;text-align: center;}.transfer_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .transfer_table1 th, .transfer_table1 td{border: 1px transparent;font-size: 20px;}.transfer_table1 td:nth-child(1){width: 50%;text-align: left;}.transfer_table1 td:nth-child(2){width: 50%;text-align: right;}.transfer_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transfer_table2 th, .transfer_table2 td{border: 2px solid;font-size: 16px;text-align: center;table-layout: fixed;}.transHP_title{font-size: 24px;font-weight: 700;text-align: center;}.transHP_table{border: 2px solid; border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transHP_table th, .transHP_table td{border: 1px transparent;font-size: 16px;}.transHP_end{width: 95%;font-size: 16px;font-weight: 700;text-align: left;margin-left: auto;margin-right: auto;}</style></head><body>
+<!DOCTYPE html><html><head><title>報告總檔匯出</title><style>@media print{html, body{width: 210mm; min-height: 297mm; margin: 0; padding: 0;} .page-break{display: block; page-break-after: always;}.page-break2{display: none;}*{-webkit-print-color-adjust: exact;} } @media screen{body{background: white; width: 210mm; min-height: 297mm; margin: 20px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);} }.page-break2{height: 10px;background-color: rgba(0, 0, 0, 0.5);}.checklist_title{font-size: 24px;font-family: '標楷體' ;font-weight: 400;text-align: center;} .checklist_table_1{border-collapse: collapse; width: 95%;margin-left: auto;margin-right: auto;} .checklist_table_1 th, .checklist_table_1 td{border: 1px solid transparent;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .checklist_table_2 th, .checklist_table_2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2 th:nth-child(1){width: 20%;}.checklist_table_2 td:nth-child(1){text-align: center;}.checklist_table_2 th:nth-child(2){width: 30%;}.checklist_table_2 th:nth-child(3){width: 20%;}.checklist_table_2 td:nth-child(3){text-align: center;}.checklist_table_2 th:nth-child(4){width: 30%;}.checklist_table_value{text-decoration: underline;}.checklist_table_3{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.checklist_table_3 th, .checklist_table_3 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_3 td:nth-child(1){width: 10%;}.checklist_table_3 tdnth-child(2){width: 30%;}.checklist_table_3 tdnth-child(3){width: 60%;}.checklist_sign{font-size: 20px;font-family: '標楷體' ;text-align: center;}.checklist_uppertitle{font-size: 32px;font-family: '標楷體' ;font-weight: 400;background-color: #d0e7ff;}.checklist_middletitle{font-size: 70px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.checklist_content{font-size: 32px;font-family: '標楷體' ;font-weight: 400;}.checklist_splitline{font-size: 32px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_table{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .report_table th, .report_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.report_table th:nth-child(1){width: 25%;}.report_table th:nth-child(2){width: 25%;}.report_table th:nth-child(3){width: 25%;}.report_table th:nth-child(4){width: 25%;}.report_table td:nth-child(3){text-align: center;}.report_table_underline{text-decoration: underline;text-align: center;}.report_table_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;padding: 2px;background-color: #BEBEBE;background-clip: content-box;text-align: center;}.report_table_subtitle{font-size: 20px;font-family: '標楷體' ;font-weight: 600;}.suggestion_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.suggestion_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table1 th, .suggestion_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.suggestion_table1 th:nth-child(1){width: 50%;}.suggestion_table1 th:nth-child(2){width: 50%;}.suggestion_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table2 th{border: 1px solid;font-family: '標楷體' ;font-size: 20px;font-weight: 600;text-align: center;}.suggestion_table2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.suggestion_table2 th:nth-child(1){width: 5%;}.suggestion_table2 th:nth-child(2){width: 20%;}.suggestion_table2 th:nth-child(3){width: 75%;}.transfer_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transfer_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .transfer_table1 th, .transfer_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.transfer_table1 td:nth-child(1){width: 50%;text-align: left;}.transfer_table1 td:nth-child(2){width: 50%;text-align: right;}.transfer_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transfer_table2 th, .transfer_table2 td{border: 2px solid;font-family: '標楷體' ;font-size: 16px;text-align: center;table-layout: fixed;}.transHP_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transHP_table{border: 2px solid; border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transHP_table th, .transHP_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 16px;}.transHP_end{width: 95%;font-size: 16px;font-family: '標楷體' ;font-weight: 700;text-align: left;margin-left: auto;margin-right: auto;}</style></head><body>
 `
-	for (i=0;i<reportlistkey.length;i++){
+	for (i=v0;i<v1;i++){
 		dat=reportlist[reportlistkey[i]];
-		reportcontent+='<div class="checklist_title">和美鎮衛生所整篩報告check list</div>';
+		reportcontent+='<div class="checklist_title">'+clinicname+'整篩報告check list</div>';
 		reportcontent+='<table class="checklist_table_1"><tr><td colspan="2">整篩編號 :'+dat[0]+"</td>";
 		if (dat[7]=="21"){
 			temp="23";
@@ -775,10 +882,10 @@ function exportToPDF(){
 		}
 		reportcontent+='<tr><td colspan="3">備註:<br>1. 禮卷:<span>□乳 '+t0+' '+t1+' □子抹，共 '+tcount+' 張</span><br>2. <span>□問卷補資料</span><br>3. 其他:<br><br><br></td></tr></table>';
 		reportcontent+='<br><div class="checklist_sign">解說醫師簽章:__________________　　　　領取報告及禮券簽章:__________________</div>	<div class="page-break2"></div><div class="page-break"></div>';
-		reportcontent+='<br><span class="checklist_uppertitle">編號:'+dat[0]+"　　姓名:"+dat[2]+'</span><br><br><br><br><br><br><div class="checklist_middletitle">113年萬人健康檢查<br><br>和美鎮衛生所<br><br>衛教及轉診說明書<br><br></div>';
+		reportcontent+='<br><span class="checklist_uppertitle">編號:'+dat[0]+"　　姓名:"+dat[2]+'</span><br><br><br><br><br><br><div class="checklist_middletitle">113年萬人健康檢查<br><br>'+clinicname+'<br><br>衛教及轉診說明書<br><br></div>';
 		reportcontent+='<div class="checklist_content">問卷編號:<span>'+dat[0]+'</span></div>';
 		reportcontent+='<div class="checklist_content">姓　　名:<span>'+dat[2]+'</span></div>';
-		reportcontent+='<div class="checklist_content">檢查日期:<span>'+dat[6]+'</span></div><br><div class="checklist_splitline">------------------若有疑問請洽------------------</div><div class="checklist_content">電　　話:<span> 04-7062455</span></div><br><div class="checklist_content">護理人員:</div><br><br><br><br><div class="checklist_splitline">彰化縣衛生局關心您</div>';
+		reportcontent+='<div class="checklist_content">檢查日期:<span>'+dat[6]+'</span></div><br><div class="checklist_splitline">------------------若有疑問請洽------------------</div><div class="checklist_content">電　　話:<span> '+clinicphone+'</span></div><br><div class="checklist_content">護理人員:</div><br><br><br><br><div class="checklist_splitline">彰化縣衛生局關心您</div>';
 		reportcontent+='<div class="page-break2"></div><div class="page-break"></div>';
 		reportcontent+='<div class="report_title">健康檢查報告(第一頁)</div><table class="report_table">';
 		reportcontent+='<tr><td colspan="3">整篩編號:<span>'+dat[0]+'</span></td><td>姓名:<span>'+dat[2]+'</span></td></tr>';
@@ -974,7 +1081,7 @@ function exportToPDF(){
 		reportcontent+='</table>';
 		reportcontent+='<div class="page-break2"></div><div class="page-break"></div>';
 		
-		reportcontent+='<div class="suggestion_title">彰化縣和美鎮衛生所整合式篩檢衛教單</div>';
+		reportcontent+='<div class="suggestion_title">彰化縣'+clinicname+'整合式篩檢衛教單</div>';
 		reportcontent+='<div><table class="suggestion_table1"><tr><td>整篩編號：'+dat[0]+'</td><td>姓名：'+dat[2]+'</td></tr></table></div>';
 		reportcontent+='<div><table class="suggestion_table2"><tr><th></th><th>項目</th><th>說明</th></tr>';
 		if (dat[11]*1>130 || dat[12]*1>80){
@@ -1173,8 +1280,8 @@ function exportToPDF(){
 
 }
 function generatetransfer(obj){
-	ret='<br><div class="transfer_title">全民健康保險和美鎮衛生所轉診單(轉診至________________)</div>';
-	ret+='<div><table class="transfer_table1"><tr><td>保險醫事服務機構代號：2337030012</td><td>整篩編號：'+dat[0]+'</td><tr></table>';
+	ret='<br><div class="transfer_title">全民健康保險'+clinicname+'轉診單(轉診至________________)</div>';
+	ret+='<div><table class="transfer_table1"><tr><td>保險醫事服務機構代號：'+cliniccode+'</td><td>整篩編號：'+dat[0]+'</td><tr></table>';
 	ret+='<table class="transfer_table2"><tr><td rowspan="10" style="width: 3%">原<br>診<br>治<br>醫<br>院<br>診<br>所</td><td rowspan="4" style="width: 5%">保險<br>對象<br>基本<br>資料</td><td colspan="2" style="width: 25%">姓名</td><td colspan="2" style="width: 17%">性別</td><td colspan="2" style="width: 25%">生日</td><td colspan="2" style="width: 25%">身分證號</td></tr>';
 	ret+='<tr><td colspan="2">'+dat[2]+'</td><td colspan="2">'+dat[5]+'</td><td colspan="2">'+dat[3]+'</td><td colspan="2">'+dat[1]+'</td></tr>';
 	ret+='<tr><td colspan="3">聯絡人</td><td colspan="3">連絡電話</td><td colspan="2">聯絡地址</td></tr>';
@@ -1207,8 +1314,8 @@ function generatetransfer(obj){
 		t4="□"
 	}
 	ret+='<tr><td>轉診<br>目的</td><td colspan="8" style="text-align: left;">■進一步檢查及治療<br>　　'+t1+'胃鏡檢查　'+t2+'大腸鏡檢查　'+t3+'腹部超音波檢查　'+t4+'除菌治療</td></tr>';
-	ret+='<tr><td>院所<br>住址</td><td colspan="5" style="text-align: left;">彰化縣和美鎮和東里彰美路五段319號</td><td>傳真號碼:<br>電子信箱:</td><td colspan="2"></td></tr>';
-	ret+='<tr><td>診治<br>醫師</td><td>姓名</td><td>朱振銓</td><td>科別</td><td>家醫科</td><td>電話</td><td>04-7062455</td><td>醫師簽章</td><td></td></tr>';
+	ret+='<tr><td>院所<br>住址</td><td colspan="5" style="text-align: left;">'+clinicaddress+'</td><td>傳真號碼:<br>電子信箱:</td><td colspan="2"></td></tr>';
+	ret+='<tr><td>診治<br>醫師</td><td>姓名</td><td>'+doctorname+'</td><td>科別</td><td>'+doctorsp+'</td><td>電話</td><td>'+clinicphone+'</td><td>醫師簽章</td><td></td></tr>';
 	ret+='<tr><td colspan="2">轉診<br>日期</td><td colspan="3"> '+explaintime.split('-')[0]+' 年 '+explaintime.split('-')[1]+' 月 '+explaintime.split('-')[2]+' 日</td><td>有效<br>期限</td><td colspan="3">'+expiretime.split('-')[0]+' 年 '+expiretime.split('-')[1]+' 月 '+expiretime.split('-')[2]+' 日</td></tr>';	
 	ret+='<tr><td>建議轉診<br>院所科別</td><td colspan="5"  style="text-align: left;">'+obj["T"]+'<br></td><td>轉診院所地址及專線電話</td><td colspan="2"></td></tr>';
 	ret+='<tr><td rowspan="4"><br>接<br>受<br>轉<br>診<br>醫<br>院<br>診<br>所<br><br></td><td>處<br>理<br>情<br>形</td><td colspan="8" style="text-align: left;">1.　已安排本院　　　　　　科門診治療中<br>2.　已予適當處理並轉回原院所，建議事項如下<br><br><br><br><br><br></td></tr><tr><td>治<br>療<br>摘<br>要</td>				<td colspan="8" style="text-align: left;">1.　主診斷ICD-10-CM/PCS：　　　　　　　　　　病名：<br><br><br>2.　治療藥物或手術名稱<br><br><br><br><br><br><br><br>3. 　輔助診斷之檢查結果<br><br><br><br><br><br><br><br></td></tr><tr><td>院所<br>名稱</td><td colspan="3" style="text-align: left;"></td><td colspan="2">電話或傳真：<br>電子信箱：</td><td colspan="3" style="text-align: left;"></td></tr><tr><td>診治<br>醫師</td><td>姓名</td><td></td><td>科別</td><td></td><td>醫師<br>簽章</td><td></td><td>回覆<br>日期</td><td></td></tr></table></div>';
@@ -1225,15 +1332,12 @@ function generatetransferHP(){
 	ret+='<tr><td></td><td colspan="3">糞便幽門桿菌檢查日期： '+dat[6].substring(0,3)+' 年 '+dat[6].substring(3,5)+' 月 '+dat[6].substring(5,7)+' 日</td></tr>';
 	ret+='<tr><td></td><td colspan="3">糞便幽門桿菌檢查結果：■陽性, 於治療後願意接受第2次篩檢　□是　□否</td></tr>';
 	ret+='<tr style="border-bottom: 2px solid"><td></td><td colspan="3">照會重點：請依臨床專業給予　■衛教諮詢　■進一步檢查治療　□繼續觀察</td></tr>';
-	ret+='<tr><td colspan="2">轉診衛生所： 和美鎮衛生所</td><td>電話：04-7062455</td><td>傳真：</td></tr>';
-	ret+='<tr><td colspan="4">地址：彰化縣和美鎮彰美路五段319號</td></tr><tr><td colspan="4">保險醫事服務機構代號：2337030012</td></tr><tr><td colspan="4">建議轉診科別：<span style="font-weight: 700;">肝膽腸胃科</span></td></tr>';
+	ret+='<tr><td colspan="2">轉診衛生所： '+clinicname+'</td><td>電話：'+clinicphone+'</td><td>傳真：</td></tr>';
+	ret+='<tr><td colspan="4">地址：'+clinicaddress+'</td></tr><tr><td colspan="4">保險醫事服務機構代號：'+cliniccode+'</td></tr><tr><td colspan="4">建議轉診科別：<span style="font-weight: 700;">肝膽腸胃科</span></td></tr>';
 	ret+='<tr style="border-bottom: 2px solid"><td colspan="2">聯絡人：<br><br></td><td>醫師簽章：<br><br></td><td>轉診日期：<br><br></td></tr><tr><td colspan="3">三、轉診後處理(由確診及治療醫院填寫)</td><td style="border-left: 2px solid"></td></tr><tr><td style="text-align: right; ">1.<br><br></td><td colspan="2">請依專業以及健保規範判斷，協助諮詢說明胃幽門桿菌感染的臨床意義與對健康的可能影響</td><td style="border-left: 2px solid"></td></tr><tr><td style="text-align: right; ">2.</td><td colspan="2">處方</td><td style="border-left: 2px solid">就診院所：____________________</td></tr><tr><td></td><td colspan="2">（1）依病情或健保規範需進一步檢查做胃鏡檢查</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□是</td><td style="border-left: 2px solid">就診科別：____________________</td></tr><tr><td></td><td colspan="2">　　　　□否；請說明：____________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□病人拒絕</td><td style="border-left: 2px solid">醫師姓名：____________________</td></tr><tr><td></td><td colspan="2">（2）上消化道內視鏡</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□正常</td><td style="border-left: 2px solid">病 歷 號：____________________</td></tr><tr><td></td><td colspan="2">　　　　□胃炎；位置範圍：____________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□胃潰瘍；位置範圍：__________________________</td><td style="border-left: 2px solid">診察日期：_____年_____月______日</td></tr><tr><td></td><td colspan="2">　　　　□十二指腸潰瘍；位置範圍：____________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□胃食道逆流；程度：__________________________</td><td style="border-left: 2px solid">回覆日期：_____年_____月______日</td></tr><tr><td></td><td colspan="2">　　　　□胃腫瘤；位置範圍：__________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□切片</td><td style="border-left: 2px solid;font-weight: 700;">四、醫師建議</td></tr><tr><td></td><td colspan="2">　　　　　切片結果：__________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□其他：______________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">（3）上消化道攝影</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□正常</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□異常；請說明：______________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">（4）口服藥</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□無　□病人拒服　□其他用藥，藥名____________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□公費除菌藥(一線)</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Amoxicillin 1000mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Metronidazole 250mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Clarithromycin 500mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□公費除菌藥(二線)</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI□Amoxicillin□Levofloxacin</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI□Bismuth□Tetracycline□Metronidazole</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□健保</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□自費，藥名__________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　服用週期□5天　□10天　□其他_________________</td><td style="border-left: 2px solid"></td></tr></table><div class="transHP_end"><span>備註：轉診單填妥後請於個案確診日隔天 中午前回傳至衛生所。<br>　　　轉診紀錄單正本及胃鏡紙本報告單，請於個案確診後1周內寄回衛生所，感謝您。</span></div></div>';
 	ret+='<div class="page-break2"></div><div class="page-break"></div>';
 	return ret
 }
-
-
-
 function addcomment(value,upper,lower,checkNAN){
 	retvalue=value;
 	if (upper!=0){
@@ -1253,4 +1357,72 @@ function addcomment(value,upper,lower,checkNAN){
 	}
 	return retvalue
 }
+function exportbasic(){
+	errmsg='';
+	cn=document.getElementById('clinicname').value;
+	cc=document.getElementById('cliniccode').value;
+	cp=document.getElementById('clinicphone').value;
+	ca=document.getElementById('clinicaddress').value;
+	dn=document.getElementById('doctorname').value;
+	ds=document.getElementById('doctorsp').value;
+	etv1=document.getElementById('explaindate').value;
+	etv2=document.getElementById('expiredate').value;
+	if (cn==""){
+		errmsg+="未輸入衛生所名稱\n";
+	}
+	if (cc==""){
+		errmsg+="未輸入衛生所代碼\n";
+	}
+	if (cp==""){
+		errmsg+="未輸入衛生所代碼\n";
+	}
+	if (ca==""){
+		errmsg+="未輸入衛生所地址\n";
+	}
+	if (dn==""){
+		errmsg+="未輸入醫師姓名\n";
+	}
+	if (ds==""){
+		errmsg+="未輸入醫師專科別\n";
+	}
+	if (etv1==""){
+		errmsg+="未輸入二階時間\n";
+	}
+	if (etv2==""){
+		errmsg+="未輸入轉診單過期時間\n";
+	}
+	if (errmsg==""){
+		tempobj={};
+		tempobj["clinicname"]=cn;
+		tempobj["cliniccode"]=cc;
+		tempobj["clinicphone"]=cp;
+		tempobj["clinicaddress"]=ca;
+		tempobj["doctorname"]=dn;
+		tempobj["doctorsp"]=ds;
+		tempobj["explaindate"]=etv1;
+		tempobj["expiredate"]=etv2;
+		download(cn+"_"+etv1+'_基本設定.txt',JSON.stringify(tempobj));
+	} else {
+		alert(errmsg);
+	}
+}
 
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
+function cleanbasic(){
+	document.getElementById('clinicname').value="";
+	document.getElementById('cliniccode').value="";
+	document.getElementById('clinicphone').value="";
+	document.getElementById('clinicaddress').value="";
+	document.getElementById('doctorname').value="";
+	document.getElementById('doctorsp').value="";
+	document.getElementById('explaindate').value=new Date().toISOString().split('T')[0];
+	document.getElementById('explaindate').dispatchEvent(new Event('change', {bubbles: true}));
+}

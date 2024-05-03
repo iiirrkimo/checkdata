@@ -2,13 +2,14 @@
 <html lang="zh">
 	<head>
 		<meta charset="UTF-8">
-		<title>整篩報告</title>
+		<title>整篩報告匯出</title>
 		<link rel="stylesheet" href="grandhealthexam.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 	</head>
 	<body>
-		<div class="mytitle">整篩報告</div>
-		<div class="H-container">
+		<div class="mytitle">整篩報告匯出</div>
+		<div class="mytitle2">1. EXCEL匯入</div>
+		<div class="H-container" style="padding-left:40px;">
 			<div>
 				<span style="display: inline-block; width: 120px;">1. 新陳掛號檔:</span>
 				<input class="execinput" type="file" id="excel1" accept=".xlsx, .xls"/>
@@ -22,7 +23,7 @@
 				<input class="execinput" type="file" id="excel3" accept=".xlsx, .xls"/>
 			</div>
 		</div>
-		<div class="H-container">
+		<div class="H-container" style="padding-left:40px;">
 			<div>
 				<span style="display: inline-block; width: 120px;"> 4. FOBT報告:</span>
 				<input class="execinput" type="file" id="excel4" accept=".xlsx, .xls"/>
@@ -36,7 +37,7 @@
 				<input class="execinput" type="file" id="excel6" accept=".xlsx, .xls"/>
 			</div>
 		</div>
-		<div class="H-container">
+		<div class="H-container" style="padding-left:40px;">
 			<div>
 				<span style="display: inline-block; width: 120px;"> 7. PG報告:</span>
 				<input class="execinput" type="file" id="excel7" accept=".xlsx, .xls"/>
@@ -50,12 +51,55 @@
 				<input class="execinput" type="file" id="excel9" accept=".xlsx, .xls"/>
 			</div>
 		</div>
-		<div class="H-container">
-			<button class="execbutton" onclick="starttransfer()">開始轉換</button>
-			<input style="display: none;" type="file" id="excelall" accept=".xlsx, .xls"/>
-			<button class="execbutton" onclick="document.getElementById('excelall').click()" >匯入XLS</button>
-			<button class="execbutton" onclick="exportToExcel()">匯出XLS</button>
-			<button class="execbutton" onclick="exportToPDF()">匯出報告</button>
+		<div class="H-container" style="padding-left:40px;">
+			<div>
+				<div class="H-container">
+					<button class="execbutton" onclick="starttransfer()">開始轉換</button>
+					<input style="display: none;" type="file" id="excelall" accept=".xlsx, .xls"/>
+					<button class="execbutton" onclick="document.getElementById('excelall').click()" >匯入總檔XLS</button>
+					<button class="execbutton" onclick="exportToExcel()">匯出總檔XLS</button>
+					
+				</div>
+			</div>
+		</div>
+		<div>
+			<div>
+				<span class="mytitle2" style="padding-right:40px;">2. 基本資料設定</span>
+				<button class="execbutton" onclick="document.getElementById('importtxt').click()">匯入基本資料</button>
+				<input style="display: none;" type="file" id="importtxt" accept=".txt"/>
+				<button class="execbutton" onclick="exportbasic()">匯出基本資料</button>
+				<button class="execbutton" onclick="cleanbasic()">清除基本資料</button>
+			</div>
+			<div class="H-container" style="padding-left:40px; height: 32px;">
+				<span>1. 衛生所名稱：</span>
+				<input id="clinicname" style="width: 120px; height: 25px;text-align: left;"  type="text" placeholder="EX:XXX衛生所"/>
+				<span style="padding-left:20px;">2. 衛生所代碼：</span>
+				<input id="cliniccode" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="EX:2337XXXXXX"/>
+				<span style="padding-left:20px;">3. 衛生所電話：</span>
+				<input id="clinicphone" style="width: 147px; height: 25px;text-align: left; "  type="text" placeholder="EX:04-7115141"/>
+				<span style="padding-left:20px;">4. 衛生所地址：</span>
+				<input id="clinicaddress" style="width: 420px; height: 25px;text-align: left; "  type="text" placeholder="EX:彰化縣彰化市中山路二段162號"/>
+			</div>
+			<div class="H-container" style="padding-left:40px;">
+				<span>5. 醫師姓名：　</span>
+				<input id="doctorname" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="EX:王大明"/>
+				<span style="padding-left:20px;">6. 醫師專科：　</span>
+				<input id="doctorsp" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="EX:家醫科"/>
+				<span style="padding-left:20px;">7. 二階日期：　</span>
+				<input id="explaindate" style="width: 150px; height: 25px;text-align: left; " type="date"/>
+				<span style="padding-left:20px;">8. 轉診到期：　</span>
+				<input id="expiredate" style="width: 150px; height: 25px;text-align: left; " type="date"/>
+			</div>
+		</div>
+		<div>
+			<div class="mytitle2">3. 選擇並匯出</div>
+			<div class="H-container" style="padding-left:40px;">
+				<span>1. 整篩編號:　</span>
+				<input id="startnum" style="width: 50px; height: 25px;text-align: center; "  type="text" title="請輸入最多3位數字" maxlength="3" value="001"/>
+				<span style="display: inline-block; width: 20px;text-align: center;">~</span>
+				<input id="endnum" style="width: 50px; height: 25px; text-align: center; " type="text" title="請輸入最多3位數字" maxlength="3" value="001"/>
+				<button class="execbutton" onclick="exportToPDF()">匯出報告</button>
+			</div>
 		</div>
 		<div class="tablecontainer">
 			<table id="reporttable" class="reporttable">
