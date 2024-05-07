@@ -7,7 +7,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 	</head>
 	<body>
-		<div class="mytitle">整篩報告匯出</div>
 		<div class="mytitle2">1. EXCEL匯入</div>
 		<div class="H-container" style="padding-left:40px;">
 			<div>
@@ -69,35 +68,96 @@
 				<input style="display: none;" type="file" id="importtxt" accept=".txt"/>
 				<button class="execbutton" onclick="exportbasic()">匯出基本資料</button>
 				<button class="execbutton" onclick="cleanbasic()">清除基本資料</button>
+				<button class="execbutton" onclick="showopdlist()">預覽門診表</button>
 			</div>
 			<div class="H-container" style="padding-left:40px; height: 32px;">
 				<span>1. 衛生所名稱：</span>
-				<input id="clinicname" style="width: 120px; height: 25px;text-align: left;"  type="text" placeholder="EX:XXX衛生所"/>
+				<input id="clinicname" style="width: 120px; height: 25px;text-align: left;"  type="text" placeholder="ex:XXX衛生所"/>
 				<span style="padding-left:20px;">2. 衛生所代碼：</span>
-				<input id="cliniccode" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="EX:2337XXXXXX"/>
+				<input id="cliniccode" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:2337XXXXXX"/>
 				<span style="padding-left:20px;">3. 衛生所電話：</span>
-				<input id="clinicphone" style="width: 147px; height: 25px;text-align: left; "  type="text" placeholder="EX:04-7115141"/>
+				<input id="clinicphone" style="width: 147px; height: 25px;text-align: left; "  type="text" placeholder="ex:04-7115141"/>
 				<span style="padding-left:20px;">4. 衛生所地址：</span>
-				<input id="clinicaddress" style="width: 420px; height: 25px;text-align: left; "  type="text" placeholder="EX:彰化縣彰化市中山路二段162號"/>
+				<input id="clinicaddress" style="width: 420px; height: 25px;text-align: left; "  type="text" placeholder="ex:彰化縣彰化市中山路二段162號"/>
 			</div>
 			<div class="H-container" style="padding-left:40px;">
 				<span>5. 醫師姓名：　</span>
-				<input id="doctorname" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="EX:王大明"/>
+				<input id="doctorname" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:王大明"/>
 				<span style="padding-left:20px;">6. 醫師專科：　</span>
-				<input id="doctorsp" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="EX:家醫科"/>
+				<input id="doctorsp" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:家醫科"/>
 				<span style="padding-left:20px;">7. 二階日期：　</span>
 				<input id="explaindate" style="width: 150px; height: 25px;text-align: left; " type="date"/>
 				<span style="padding-left:20px;">8. 轉診到期：　</span>
 				<input id="expiredate" style="width: 150px; height: 25px;text-align: left; " type="date"/>
 			</div>
+			<div class="H-container" style="padding-left:0px;">
+				<div style="padding-left:40px;text-align:center;"><span>9.<br>門<br>診<br>時<br>間<br>表</span></div>
+				<div style="padding-left:20px;">
+					<span style="text-align:center;width: 120px; display:inline-block;">時段</span>
+					<br>
+					<span style="text-align:center;width: 120px; display:inline-block;">上午時間</span>
+					<br>
+					<input id="amtime" style="width: 120px; height: 25px;text-align: left; text-align: center;"  type="text" placeholder="ex:0800~1130"/>
+					<br>
+					<span style="text-align:center;width: 120px; display:inline-block;"> 下午時間</span>
+					<br>
+					<input id="pmtime" style="width: 120px; height: 25px;text-align: left; text-align: center;"  type="text" placeholder="ex:1300~1630"/>
+				</div>
+				<div style="padding-left:20px;">
+					<span style="text-align:center;width: 120px; display:inline-block;">星期一</span>
+					<br>
+					<textarea id="opdam1" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+					<br>
+					<textarea id="opdpm1" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+				</div>
+				<div style="padding-left:20px;">
+					<span style="text-align:center;width: 120px; display:inline-block;">星期二</span>
+					<br>
+					<textarea id="opdam2" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+					<br>
+					<textarea id="opdpm2" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+				</div>
+				<div style="padding-left:20px;">
+					<span style="text-align:center;width: 120px; display:inline-block;">星期三</span>
+					<br>
+					<textarea id="opdam3" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+					<br>
+					<textarea id="opdpm3" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+				</div>
+				<div style="padding-left:20px;">
+					<span style="text-align:center;width: 120px; display:inline-block;">星期四</span>
+					<br>
+					<textarea id="opdam4" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+					<br>
+					<textarea id="opdpm4" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+				</div>
+				<div style="padding-left:20px;">
+					<span style="text-align:center;width: 120px; display:inline-block;">星期五</span>
+					<br>
+					<textarea id="opdam5" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+					<br>
+					<textarea id="opdpm5" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
+				</div>
+			</div>
 		</div>
 		<div>
 			<div class="mytitle2">3. 選擇並匯出</div>
 			<div class="H-container" style="padding-left:40px;">
-				<span>1. 整篩編號:　</span>
+				<span>整篩編號:　</span>
 				<input id="startnum" style="width: 50px; height: 25px;text-align: center; "  type="text" title="請輸入最多3位數字" maxlength="3" value="001"/>
 				<span style="display: inline-block; width: 20px;text-align: center;">~</span>
 				<input id="endnum" style="width: 50px; height: 25px; text-align: center; " type="text" title="請輸入最多3位數字" maxlength="3" value="001"/>
+				<span>　匯出項目:</span>
+				<input id="checkchecklist" style="width: 20px;" type="checkbox" checked=true>
+				<label for="checkchecklist" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block" >checklist</label>
+				<input id="checkreport" style="width: 20px;" type="checkbox"  checked=true>
+				<label for="checkreport" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block">衛教及轉診說明書</label>
+				<input id="checksmoke" style="width: 20px;" type="checkbox"  checked=true>
+				<label for="checksmoke" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block">戒菸建議書</label>
+				<input id="checktransfer" style="width: 20px;" type="checkbox"  checked=true>
+				<label for="checktransfer" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block">轉診單</label>
+				<input id="checkall" style="width: 20px;" type="checkbox">
+				<label for="checkall" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block">全選</label>
 				<button class="execbutton" onclick="exportToPDF()">匯出報告</button>
 			</div>
 		</div>

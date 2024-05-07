@@ -3,6 +3,7 @@ html {
 }
 .H-container{
 	display : flex;
+	align-items: center; 
 }
 .execinput {
 	margin: 2px;
@@ -28,7 +29,7 @@ html {
 	padding-left: 20px;
 }
 .tablecontainer {
-	height: 500px; 
+	height: 440px; 
 	overflow-y: auto;   
 	overflow-x: scroll; 
 	border: 1px solid 
