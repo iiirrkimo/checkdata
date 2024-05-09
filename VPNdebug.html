@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VPNdebug</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.9.1/jszip.min.js"></script>
+	<link rel="stylesheet" href="VPNdebug.css">
+</head>
+<body>
+	<div>
+		<input class="titlearea" style="width:100%;" type="file" id="zipfile" accept=".zip">
+	</div>
+	<div style="margin-top: 5px;">
+		<button class="titlearea" id="viewzipbutton">讀取內容</button>
+		<span id="ziptype"></span>
+		<button class="titlearea" id="trydebug">開始除錯</button>
+	</div>
+	<div class="scrollcontainer" id="container1" style="height: 600px; display:block">
+		<pre id="ziptxtcontent"></pre>
+	</div>
+	<div class="scrollcontainer" id="container2" style="height: 300px; display:none">
+		<table id="uptable" class="debugtable">
+			<thead>
+				<tr>
+					<th>編號</th>
+					<th>就醫日期</th>
+					<th>身分證字號</th>
+					<th>姓名</th>
+					<th>清單段錯誤項目</th>
+					<th>醫令段錯誤項目</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div class="scrollcontainer" id="container3"  style="height: 300px; display:none">
+		<table id="downtable" class="debugtable">
+			<thead>
+				<tr>
+					<th>錯誤欄位</th>
+					<th>內容</th>
+					<th>錯誤代碼</th>
+					<th>就醫分類</th>
+					<th>錯誤原因</th>
+					<th style="text-align:left">處理方式</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+    <script src="VPNdebug.js"></script>
+</body>
+</html>
