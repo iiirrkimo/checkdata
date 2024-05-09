@@ -7,7 +7,7 @@
 	.towebsite {
 		border: none; 
 		padding: 5px; 
-		margin-left: 5px; 
+		margin: 5px; 
 		text-decoration: none; 
 		font-size: 32px;
 		font-family: '微軟正黑體', sans-serif; 
@@ -32,8 +32,9 @@
 		btnlist=[
 			{ "name": "新增功能", "url" : "https://iiirrkimo.github.io/checkdata/functionlist.html"},
 			{ "name": "檢查報告", "url" : "https://iiirrkimo.github.io/checkdata/checkdata.html"},
-			{ "name": "打 口 篩", "url" : "https://iiirrkimo.github.io/checkdata/oral.html"},
+			{ "name": "登打口篩", "url" : "https://iiirrkimo.github.io/checkdata/oral.html"},
 			{ "name": "整篩報告", "url" : "https://iiirrkimo.github.io/checkdata/grandhealthexam.html"},
+			{ "name": "VPN除錯", "url" : "https://iiirrkimo.github.io/checkdata/VPNdebug.html"},
 		];
 		for (let i=0;i<btnlist.length;i++){
 			button=document.createElement("button");
@@ -43,6 +44,7 @@
 				window.open(btnlist[i].url, '_blank');
 			});
 			document.body.appendChild(button);
+			document.body.appendChild(document.createElement("br"));
 		}
 		
 	};
