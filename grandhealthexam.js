@@ -525,6 +525,7 @@ function showptable(){
 			}
 		}
 	}
+	document.getElementById('endnum').value=numlist.length;
 }
 function readexcelall(){
 	return new Promise((resolve, reject) => {
@@ -926,7 +927,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				t0=addcomment(dat[16],80,0,true);
 			}
 			reportcontent+='<tr><td class="report_table_subtitle">腰圍</td><td>Wiastline</td><td>'+t0+'</td><td>男性:≦90公分<br>女性:≦80公分</td></tr>';
-			t0=addcomment(dat[17],60,100,true);
+			t0=addcomment(dat[17],100,60,true);
 			reportcontent+='<tr><td class="report_table_subtitle">脈搏</td><td>Pulse rate</td><td>'+t0+'</td><td>60~100次/分</td></tr>';
 			t0=(dat[18] !== "" ? addcomment(dat[18], 2.0, 0.6, true) : null) ?? "未測量";
 			t1=(dat[19] !== "" ? addcomment(dat[19], 2.0, 0.6, true) : null) ?? "未測量";
@@ -984,26 +985,32 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			t0=addcomment(dat[40],40,0,true);
 			reportcontent+='<tr><td class="report_table_subtitle">丙酮轉胺基酶(肝)</td><td>ALT(GPT)</td><td>'+t0+'</td><td>≤40 mg/dL</td></tr>';
 			if (dat[42].includes('陽性')){
-				t0="✱"+dat[42];
+				t0="*"+dat[42];
 			} else {
 				t0=dat[42];
 			}
 			t1=(!isNaN(dat[43]*1) ? dat[43] : null) ?? "";
 			reportcontent+='<tr><td class="report_table_subtitle">B肝表面抗原(定性)</td><td>HBsAg</td><td>'+t0+'</td><td>陰性</td></tr>';
+			if (t1!=""){
+				t1=addcomment(t1,1,0,true);
+			}
 			reportcontent+='<tr><td class="report_table_subtitle">B肝表面抗原(定量)</td><td>HBsAg</td><td>'+t1+'</td><td><1 S/CO</td></tr>';
 			if (dat[44].includes('陽性')){
-				t0="✱"+dat[44];
+				t0="*"+dat[44];
 			} else {
 				t0=dat[44];
 			}
 			t1=(!isNaN(dat[45]*1) ? dat[45] : null) ?? "";
+			if (t1!=""){
+				t1=addcomment(t1,1,0,true);
+			}
 			reportcontent+='<tr><td class="report_table_subtitle">C肝抗體(定性)</td><td>Anti-HCV</td><td>'+t0+'</td><td>陰性</td></tr>';
 			reportcontent+='<tr><td class="report_table_subtitle">C肝抗體(定量)</td><td>Anti-HCV</td><td>'+t1+'</td><td><1.5 S/CO</td></tr>';
 			t0=addcomment(dat[41],9,0,true);
 			reportcontent+='<tr><td class="report_table_subtitle">甲型胎兒蛋白(肝癌)</td><td>α-fetoprotein</td><td>'+t0+'</td><td><9.00 ng/mL</td></tr>';
 			reportcontent+='<tr><td colspan="4" class="report_table_title">腎功能、蛋白尿檢查</td></tr>';
-			t0=addcomment(dat[46],1.2,0.4,true);
-			reportcontent+='<tr><td class="report_table_subtitle">肌酸酐</td><td>Creatinine</td><td>'+t0+'</td><td>0.4~1.2 mg</td></tr>';
+			t0=addcomment(dat[46],1.3,0.4,true);
+			reportcontent+='<tr><td class="report_table_subtitle">肌酸酐</td><td>Creatinine</td><td>'+t0+'</td><td>0.4~1.3 mg</td></tr>';
 			t0=addcomment(dat[47],0,60,true);
 			reportcontent+='<tr><td class="report_table_subtitle">腎絲球過濾率</td><td>eGFR</td><td>'+t0+'</td><td>>60 ml/min/1.73m^2</td></tr>';
 			if (dat[48]=="<6.00"){
@@ -1021,7 +1028,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			}
 			reportcontent+='<tr><td class="report_table_subtitle">尿液蛋白質/肌酸酐</td><td>UPCR</td><td>'+t0+'</td><td><150 mg/g</td></tr>';
 			if (dat[51]!="正常"){
-				t0=dat[51]+"✱";
+				t0=dat[51]+"*";
 			} else {
 				t0=dat[51];
 			}
@@ -1037,14 +1044,14 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			} else {
 				if (dat[57]==""){
 					t0="未做";
-					t1="✱";
+					t1="*";
 				} else {
 					papcode=dat[58];
 					t0="【"+dat[57]+"】"+papcodelist[papcode];
 					if (["1","2","3"].includes(papcode)){
 						t1="";
 					} else {
-						t1="✱";
+						t1="*";
 					}
 				}
 			}
@@ -1052,7 +1059,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (dat[56]==""){
 				t0="未做";
 			} else if (dat[56]=="陽性"){
-				t0=dat[56]+"✱";
+				t0=dat[56]+"*";
 			} else {
 				t0=dat[56]
 			}
@@ -1060,7 +1067,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (dat[59]==""){
 				t0="未做";
 			} else if (dat[59]=="陽性"){
-				t0=dat[59]+"✱";
+				t0=dat[59]+"*";
 			} else {
 				t0=dat[59]
 			}
@@ -1069,7 +1076,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (dat[60]==""){
 				t0="未做";
 			} else if (dat[60]=="陽性"){
-				t0=dat[60]+"✱";
+				t0=dat[60]+"*";
 			} else {
 				t0=dat[60]
 			}
@@ -1337,7 +1344,10 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			}
 		}
 	}
-	reportcontent+="</body></html>";
+	reportcontent+="</body>";
+	reportcontent+='<script>document.addEventListener("DOMContentLoaded", function() {var cells = document.querySelectorAll("table td");cells.forEach(function(cell) { if (cell.textContent.includes("*") || cell.textContent.includes("↑")) {cell.classList.add("highlightupper");} else if (cell.textContent.includes("↓")){cell.classList.add("highlightlower");}});});</script>';
+	
+	reportcontent+"</html>";
 	printwindow.document.open();
     printwindow.document.write(reportcontent);
     printwindow.document.close();
@@ -1345,7 +1355,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 }
 function addtitle(titlename){
 	retv="<!DOCTYPE html><html><head><title>"+titlename;
-	retv+=`</title><style>@media print{html, body{width: 210mm; min-height: 297mm; margin: 0; padding: 0;} .page-break{display: block; page-break-after: always;}.page-break2{display: none;}*{-webkit-print-color-adjust: exact;} } @media screen{body{background: white; width: 210mm; min-height: 297mm; margin: 20px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);} }.page-break2{height: 10px;background-color: rgba(0, 0, 0, 0.5);}.checklist_title{font-size: 24px;font-family: '標楷體' ;font-weight: 400;text-align: center;} .checklist_table_1{border-collapse: collapse; width: 95%;margin-left: auto;margin-right: auto;} .checklist_table_1 th, .checklist_table_1 td{border: 1px solid transparent;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .checklist_table_2 th, .checklist_table_2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2 th:nth-child(1){width: 20%;}.checklist_table_2 td:nth-child(1){text-align: center;}.checklist_table_2 th:nth-child(2){width: 30%;}.checklist_table_2 th:nth-child(3){width: 20%;}.checklist_table_2 td:nth-child(3){text-align: center;}.checklist_table_2 th:nth-child(4){width: 30%;}.checklist_table_value{text-decoration: underline;}.checklist_table_3{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.checklist_table_3 th, .checklist_table_3 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_3 td:nth-child(1){width: 10%;}.checklist_table_3 tdnth-child(2){width: 30%;}.checklist_table_3 tdnth-child(3){width: 60%;}.checklist_sign{font-size: 20px;font-family: '標楷體' ;text-align: center;}.checklist_uppertitle{font-size: 32px;font-family: '標楷體' ;font-weight: 400;background-color: #d0e7ff;}.checklist_middletitle{font-size: 70px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.checklist_content{font-size: 32px;font-family: '標楷體' ;font-weight: 400;}.checklist_splitline{font-size: 32px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_table{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .report_table th, .report_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.report_table th:nth-child(1){width: 25%;}.report_table th:nth-child(2){width: 25%;}.report_table th:nth-child(3){width: 25%;}.report_table th:nth-child(4){width: 25%;}.report_table td:nth-child(3){text-align: center;}.report_table_underline{text-decoration: underline;text-align: center;}.report_table_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;padding: 2px;background-color: #BEBEBE;background-clip: content-box;text-align: center;}.report_table_subtitle{font-size: 20px;font-family: '標楷體' ;font-weight: 600;}.suggestion_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.suggestion_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table1 th, .suggestion_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.suggestion_table1 th:nth-child(1){width: 50%;}.suggestion_table1 th:nth-child(2){width: 50%;}.suggestion_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table2 th{border: 1px solid;font-family: '標楷體' ;font-size: 20px;font-weight: 600;text-align: center;}.suggestion_table2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.suggestion_table2 th:nth-child(1){width: 5%;}.suggestion_table2 th:nth-child(2){width: 20%;}.suggestion_table2 th:nth-child(3){width: 75%;}.transfer_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transfer_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .transfer_table1 th, .transfer_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.transfer_table1 td:nth-child(1){width: 50%;text-align: left;}.transfer_table1 td:nth-child(2){width: 50%;text-align: right;}.transfer_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transfer_table2 th, .transfer_table2 td{border: 2px solid;font-family: '標楷體' ;font-size: 16px;text-align: center;table-layout: fixed;}.transHP_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transHP_table{border: 2px solid; border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transHP_table th, .transHP_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 16px;}.transHP_end{width: 95%;font-size: 16px;font-family: '標楷體' ;font-weight: 700;text-align: left;margin-left: auto;margin-right: auto;} .quitsmoke_title{width: 95%; font-size: 40px; font-family: '標楷體' ;font-weight: 700;display: flex;align-items: center;justify-content: center;margin-left: auto; margin-right: auto;} .quitsmoke_content{font-size: 32px; font-family: '標楷體' ;} .quitsmoke_table{border-collapse: collapse; font-size: 24px; font-family: '標楷體' ;width: 90%; margin-left: auto; margin-right: auto;} .quitsmoke_table td{border: 2px solid;font-family: '標楷體' ;font-size: 24px; text-align: center;}</style></head><body>
+	retv+=`</title><style>@media print{html, body{width: 210mm; min-height: 297mm; margin: 0; padding: 0;} .page-break{display: block; page-break-after: always;}.page-break2{display: none;}*{-webkit-print-color-adjust: exact;} } @media screen{body{background: white; width: 210mm; min-height: 297mm; margin: 20px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);} }.page-break2{height: 10px;background-color: rgba(0, 0, 0, 0.5);}.checklist_title{font-size: 24px;font-family: '標楷體' ;font-weight: 400;text-align: center;} .checklist_table_1{border-collapse: collapse; width: 95%;margin-left: auto;margin-right: auto;} .checklist_table_1 th, .checklist_table_1 td{border: 1px solid transparent;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .checklist_table_2 th, .checklist_table_2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2 th:nth-child(1){width: 20%;}.checklist_table_2 td:nth-child(1){text-align: center;}.checklist_table_2 th:nth-child(2){width: 30%;}.checklist_table_2 th:nth-child(3){width: 20%;}.checklist_table_2 td:nth-child(3){text-align: center;}.checklist_table_2 th:nth-child(4){width: 30%;}.checklist_table_value{text-decoration: underline;}.checklist_table_3{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.checklist_table_3 th, .checklist_table_3 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_3 td:nth-child(1){width: 10%;}.checklist_table_3 tdnth-child(2){width: 30%;}.checklist_table_3 tdnth-child(3){width: 60%;}.checklist_sign{font-size: 20px;font-family: '標楷體' ;text-align: center;}.checklist_uppertitle{font-size: 32px;font-family: '標楷體' ;font-weight: 400;background-color: #d0e7ff;}.checklist_middletitle{font-size: 70px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.checklist_content{font-size: 32px;font-family: '標楷體' ;font-weight: 400;}.checklist_splitline{font-size: 32px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_table{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .report_table th, .report_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.report_table th:nth-child(1){width: 25%;}.report_table th:nth-child(2){width: 25%;}.report_table th:nth-child(3){width: 25%;}.report_table th:nth-child(4){width: 25%;}.report_table td:nth-child(3){text-align: center;}.report_table_underline{text-decoration: underline;text-align: center;}.report_table_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;padding: 2px;background-color: #BEBEBE;background-clip: content-box;text-align: center;}.report_table_subtitle{font-size: 20px;font-family: '標楷體' ;font-weight: 600;}.suggestion_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.suggestion_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table1 th, .suggestion_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.suggestion_table1 th:nth-child(1){width: 50%;}.suggestion_table1 th:nth-child(2){width: 50%;}.suggestion_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table2 th{border: 1px solid;font-family: '標楷體' ;font-size: 20px;font-weight: 600;text-align: center;}.suggestion_table2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.suggestion_table2 th:nth-child(1){width: 5%;}.suggestion_table2 th:nth-child(2){width: 20%;}.suggestion_table2 th:nth-child(3){width: 75%;}.transfer_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transfer_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .transfer_table1 th, .transfer_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.transfer_table1 td:nth-child(1){width: 50%;text-align: left;}.transfer_table1 td:nth-child(2){width: 50%;text-align: right;}.transfer_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transfer_table2 th, .transfer_table2 td{border: 2px solid;font-family: '標楷體' ;font-size: 16px;text-align: center;table-layout: fixed;}.transHP_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transHP_table{border: 2px solid; border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transHP_table th, .transHP_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 16px;}.transHP_end{width: 95%;font-size: 16px;font-family: '標楷體' ;font-weight: 700;text-align: left;margin-left: auto;margin-right: auto;} .quitsmoke_title{width: 95%; font-size: 40px; font-family: '標楷體' ;font-weight: 700;display: flex;align-items: center;justify-content: center;margin-left: auto; margin-right: auto;} .quitsmoke_content{font-size: 32px; font-family: '標楷體' ;} .quitsmoke_table{border-collapse: collapse; font-size: 24px; font-family: '標楷體' ;width: 90%; margin-left: auto; margin-right: auto;} .quitsmoke_table td{border: 2px solid;font-family: '標楷體' ;font-size: 24px; text-align: center;} .highlightupper {color: red; font-weight: 600;} .highlightlower {color: blue; font-weight: 600;}</style></head><body>
 	`
 	return retv
 }
@@ -1434,7 +1444,7 @@ function addcomment(value,upper,lower,checkNAN){
 	}
 	if (checkNAN){
 		if (isNaN(value*1)){
-			retvalue=value+"✱";
+			retvalue=value+"*";
 		}
 	}
 	return retvalue
