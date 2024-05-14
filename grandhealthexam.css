@@ -3,13 +3,12 @@ html {
 }
 .H-container{
 	display : flex;
-	align-items: center; 
 }
 .execinput {
 	margin: 2px;
 	font-size: 18px; 
 	font-weight: 400;
-	width: 400px;
+	width: 300px;
 }
 .execbutton {
 	margin: 2px;

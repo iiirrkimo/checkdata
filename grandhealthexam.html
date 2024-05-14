@@ -7,139 +7,161 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 	</head>
 	<body>
-		<div class="mytitle2">1. EXCEL匯入</div>
-		<div class="H-container" style="padding-left:40px;">
-			<div>
-				<span style="display: inline-block; width: 120px;">1. 新陳掛號檔:</span>
-				<input class="execinput" type="file" id="excel1" accept=".xlsx, .xls"/>
+		
+		<div class="H-container">
+			<div style="width:48%">
+				<div class="mytitle2">1. 基本資料設定</div>
+				<div>
+					<button class="execbutton" onclick="document.getElementById('importtxt').click()">匯入基本資料</button>
+					<input style="display: none;" type="file" id="importtxt" accept=".txt"/>
+					<button class="execbutton" onclick="exportbasic()">匯出基本資料</button>
+					<button class="execbutton" onclick="cleanbasic()">清除基本資料</button>
+					<button class="execbutton" onclick="showopdlist()">預覽門診表</button>
+				</div>
+				<div class="H-container" style="padding-left:20px; height: 32px;">
+					<span>1. 衛生所名稱：</span>
+					<input id="clinicname" style="width: 120px; height: 25px;text-align: left;"  type="text" placeholder="ex:XXX衛生所"/>
+					<span style="padding-left:20px;">2. 衛生所代碼：</span>
+					<input id="cliniccode" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:2337XXXXXX"/>
+					<span style="padding-left:20px;">3. 衛生所電話：</span>
+					<input id="clinicphone" style="width: 147px; height: 25px;text-align: left; "  type="text" placeholder="ex:04-7115141"/>
+				</div>
+				<div class="H-container" style="padding-left:20px; height: 32px;">
+					<span style="padding-left:0px;">4. 衛生所地址：</span>
+					<input id="clinicaddress" style="width: 700px; height: 25px;text-align: left; "  type="text" placeholder="ex:彰化縣彰化市中山路二段162號"/>
+				
+				</div>
+				<div class="H-container" style="padding-left:20px; height: 32px;">
+					<span>5. 醫師姓名：　</span>
+					<input id="doctorname" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:王大明"/>
+					<span style="padding-left:20px;">6. 醫師專科：　</span>
+					<input id="doctorsp" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:家醫科"/>
+				</div>
+				<div class="H-container" style="padding-left:20px; height: 32px;">	
+					<span style="padding-left:00px;">7. 二階日期：　</span>
+					<input id="explaindate" style="width: 123px; height: 25px;text-align: left; " type="date"/>
+					<span style="padding-left:20px;">8. 轉診到期：　</span>
+					<input id="expiredate" style="width: 123px; height: 25px;text-align: left; " type="date"/>
+				</div>
+				<div class="H-container" style="padding-left:0px;">
+					<div style="padding-left:20px;text-align:center;"><span>9.<br>門<br>診<br>時<br>間<br>表</span></div>
+					<div style="padding-left:20px;">
+						<span style="text-align:center;width: 120px; display:inline-block;">時段</span>
+						<br>
+						<span style="text-align:center;width: 120px; display:inline-block;">上午時間</span>
+						<br>
+						<input id="amtime" style="width: 120px; height: 25px;text-align: left; text-align: center;"  type="text" placeholder="ex:0800~1130"/>
+						<br>
+						<span style="text-align:center;width: 120px; display:inline-block;"> 下午時間</span>
+						<br>
+						<input id="pmtime" style="width: 120px; height: 25px;text-align: left; text-align: center;"  type="text" placeholder="ex:1300~1630"/>
+					</div>
+					<div style="padding-left:20px;">
+						<span style="text-align:center;width: 100px; display:inline-block;">星期一</span>
+						<br>
+						<textarea id="opdam1" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+						<br>
+						<textarea id="opdpm1" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+					</div>
+					<div style="padding-left:20px;">
+						<span style="text-align:center;width: 100px; display:inline-block;">星期二</span>
+						<br>
+						<textarea id="opdam2" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+						<br>
+						<textarea id="opdpm2" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+					</div>
+					<div style="padding-left:20px;">
+						<span style="text-align:center;width: 100px; display:inline-block;">星期三</span>
+						<br>
+						<textarea id="opdam3" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+						<br>
+						<textarea id="opdpm3" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+					</div>
+					<div style="padding-left:20px;">
+						<span style="text-align:center;width: 100px; display:inline-block;">星期四</span>
+						<br>
+						<textarea id="opdam4" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+						<br>
+						<textarea id="opdpm4" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+					</div>
+					<div style="padding-left:20px;">
+						<span style="text-align:center;width: 100px; display:inline-block;">星期五</span>
+						<br>
+						<textarea id="opdam5" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+						<br>
+						<textarea id="opdpm5" style="width: 100px; height: 50px;text-align: center; resize: none;"></textarea>
+					</div>
+				</div>
 			</div>
-			<div>
-				<span style="display: inline-block; width: 120px;"> 2. 部彰報告:</span>
-				<input class="execinput" type="file" id="excel2" accept=".xlsx, .xls"/>
-			</div>
-			<div>
-				<span style="display: inline-block; width: 120px;"> 3. X光報告:</span>
-				<input class="execinput" type="file" id="excel3" accept=".xlsx, .xls"/>
-			</div>
-		</div>
-		<div class="H-container" style="padding-left:40px;">
-			<div>
-				<span style="display: inline-block; width: 120px;"> 4. FOBT報告:</span>
-				<input class="execinput" type="file" id="excel4" accept=".xlsx, .xls"/>
-			</div>
-			<div>
-				<span style="display: inline-block; width: 120px;"> 5. 子抹報告:</span>
-				<input class="execinput" type="file" id="excel5" accept=".xlsx, .xls"/>
-			</div>
-			<div>
-				<span style="display: inline-block; width: 120px;"> 6. HP報告:</span>
-				<input class="execinput" type="file" id="excel6" accept=".xlsx, .xls"/>
-			</div>
-		</div>
-		<div class="H-container" style="padding-left:40px;">
-			<div>
-				<span style="display: inline-block; width: 120px;"> 7. PG報告:</span>
-				<input class="execinput" type="file" id="excel7" accept=".xlsx, .xls"/>
-			</div>
-			<div>
-				<span style="display: inline-block; width: 120px;"> 8. 口篩清單:</span>
-				<input class="execinput" type="file" id="excel8" accept=".xlsx, .xls"/>
-			</div>
-			<div>
-				<span style="display: inline-block; width: 120px;"> 9. 乳攝名冊:</span>
-				<input class="execinput" type="file" id="excel9" accept=".xlsx, .xls"/>
-			</div>
-		</div>
-		<div class="H-container" style="padding-left:40px;">
-			<div>
-				<div class="H-container">
-					<button class="execbutton" onclick="starttransfer()">開始轉換</button>
-					<input style="display: none;" type="file" id="excelall" accept=".xlsx, .xls"/>
-					<button class="execbutton" onclick="document.getElementById('excelall').click()" >匯入總檔XLS</button>
-					<button class="execbutton" onclick="exportToExcel()">匯出總檔XLS</button>
-					
+		
+			
+			<div style="width:50%">
+				<div class="mytitle2">2. EXCEL匯入</div>
+				<div class="H-container" style="padding-left:40px;">
+					<div>
+						<span style="display: inline-block; width: 120px;">01.新陳總檔:</span>
+						<input class="execinput" type="file" id="excel1" accept=".xlsx, .xls"/>
+					</div>
+					<div>
+						<span style="display: inline-block; width: 120px;">02. 部彰報告:</span>
+						<input class="execinput" type="file" id="excel2" accept=".xlsx, .xls"/>
+					</div>
+				</div>
+				<div class="H-container" style="padding-left:40px;">
+					<div>
+						<span style="display: inline-block; width: 120px;">03. X光報告:</span>
+						<input class="execinput" type="file" id="excel3" accept=".xlsx, .xls"/>
+					</div>
+					<div>
+						<span style="display: inline-block; width: 120px;">04. FOBT報告:</span>
+						<input class="execinput" type="file" id="excel4" accept=".xlsx, .xls"/>
+					</div>
+				</div>
+				<div class="H-container" style="padding-left:40px;">
+					<div>
+						<span style="display: inline-block; width: 120px;">05. 子抹報告:</span>
+						<input class="execinput" type="file" id="excel5" accept=".xlsx, .xls"/>
+					</div>
+					<div>
+						<span style="display: inline-block; width: 120px;">06. HP報告:</span>
+						<input class="execinput" type="file" id="excel6" accept=".xlsx, .xls"/>
+					</div>
+				</div>
+				<div class="H-container" style="padding-left:40px;">
+					<div>
+						<span style="display: inline-block; width: 120px;">07. PG報告:</span>
+						<input class="execinput" type="file" id="excel7" accept=".xlsx, .xls"/>
+					</div>
+					<div>
+						<span style="display: inline-block; width: 120px;">08. 口篩清單:</span>
+						<input class="execinput" type="file" id="excel8" accept=".xlsx, .xls"/>
+					</div>
+				</div>
+				<div class="H-container" style="padding-left:40px;">
+					<div>
+						<span style="display: inline-block; width: 120px;">09. 乳攝名冊:</span>
+						<input class="execinput" type="file" id="excel9" accept=".xlsx, .xls"/>
+					</div>
+					<div>
+						<span style="display: inline-block; width: 120px;">10. HBV DNA:</span>
+						<input class="execinput" type="file" id="excel10" accept=".xlsx, .xls"/>
+					</div>
+				</div>
+				<div class="H-container" style="padding-left:40px;">
+					<div>
+						<div class="H-container">
+							<button class="execbutton" onclick="starttransfer()">開始轉換</button>
+							<input style="display: none;" type="file" id="excelall" accept=".xlsx, .xls"/>
+							<button class="execbutton" onclick="document.getElementById('excelall').click()" >匯入總檔XLS</button>
+							<button class="execbutton" onclick="exportToExcel()">匯出總檔XLS</button>
+							
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div>
-			<div>
-				<span class="mytitle2" style="padding-right:40px;">2. 基本資料設定</span>
-				<button class="execbutton" onclick="document.getElementById('importtxt').click()">匯入基本資料</button>
-				<input style="display: none;" type="file" id="importtxt" accept=".txt"/>
-				<button class="execbutton" onclick="exportbasic()">匯出基本資料</button>
-				<button class="execbutton" onclick="cleanbasic()">清除基本資料</button>
-				<button class="execbutton" onclick="showopdlist()">預覽門診表</button>
-			</div>
-			<div class="H-container" style="padding-left:40px; height: 32px;">
-				<span>1. 衛生所名稱：</span>
-				<input id="clinicname" style="width: 120px; height: 25px;text-align: left;"  type="text" placeholder="ex:XXX衛生所"/>
-				<span style="padding-left:20px;">2. 衛生所代碼：</span>
-				<input id="cliniccode" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:2337XXXXXX"/>
-				<span style="padding-left:20px;">3. 衛生所電話：</span>
-				<input id="clinicphone" style="width: 147px; height: 25px;text-align: left; "  type="text" placeholder="ex:04-7115141"/>
-				<span style="padding-left:20px;">4. 衛生所地址：</span>
-				<input id="clinicaddress" style="width: 420px; height: 25px;text-align: left; "  type="text" placeholder="ex:彰化縣彰化市中山路二段162號"/>
-			</div>
-			<div class="H-container" style="padding-left:40px;">
-				<span>5. 醫師姓名：　</span>
-				<input id="doctorname" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:王大明"/>
-				<span style="padding-left:20px;">6. 醫師專科：　</span>
-				<input id="doctorsp" style="width: 120px; height: 25px;text-align: left; "  type="text" placeholder="ex:家醫科"/>
-				<span style="padding-left:20px;">7. 二階日期：　</span>
-				<input id="explaindate" style="width: 150px; height: 25px;text-align: left; " type="date"/>
-				<span style="padding-left:20px;">8. 轉診到期：　</span>
-				<input id="expiredate" style="width: 150px; height: 25px;text-align: left; " type="date"/>
-			</div>
-			<div class="H-container" style="padding-left:0px;">
-				<div style="padding-left:40px;text-align:center;"><span>9.<br>門<br>診<br>時<br>間<br>表</span></div>
-				<div style="padding-left:20px;">
-					<span style="text-align:center;width: 120px; display:inline-block;">時段</span>
-					<br>
-					<span style="text-align:center;width: 120px; display:inline-block;">上午時間</span>
-					<br>
-					<input id="amtime" style="width: 120px; height: 25px;text-align: left; text-align: center;"  type="text" placeholder="ex:0800~1130"/>
-					<br>
-					<span style="text-align:center;width: 120px; display:inline-block;"> 下午時間</span>
-					<br>
-					<input id="pmtime" style="width: 120px; height: 25px;text-align: left; text-align: center;"  type="text" placeholder="ex:1300~1630"/>
-				</div>
-				<div style="padding-left:20px;">
-					<span style="text-align:center;width: 120px; display:inline-block;">星期一</span>
-					<br>
-					<textarea id="opdam1" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-					<br>
-					<textarea id="opdpm1" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-				</div>
-				<div style="padding-left:20px;">
-					<span style="text-align:center;width: 120px; display:inline-block;">星期二</span>
-					<br>
-					<textarea id="opdam2" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-					<br>
-					<textarea id="opdpm2" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-				</div>
-				<div style="padding-left:20px;">
-					<span style="text-align:center;width: 120px; display:inline-block;">星期三</span>
-					<br>
-					<textarea id="opdam3" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-					<br>
-					<textarea id="opdpm3" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-				</div>
-				<div style="padding-left:20px;">
-					<span style="text-align:center;width: 120px; display:inline-block;">星期四</span>
-					<br>
-					<textarea id="opdam4" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-					<br>
-					<textarea id="opdpm4" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-				</div>
-				<div style="padding-left:20px;">
-					<span style="text-align:center;width: 120px; display:inline-block;">星期五</span>
-					<br>
-					<textarea id="opdam5" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-					<br>
-					<textarea id="opdpm5" style="width: 120px; height: 50px;text-align: center; resize: none;"></textarea>
-				</div>
-			</div>
-		</div>
+		
+		
 		<div>
 			<div class="mytitle2">3. 選擇並匯出</div>
 			<div  class="H-container" style="padding-left:40px;">
@@ -233,6 +255,7 @@
 						<th>口篩</th>
 						<th>乳攝首篩</th>
 						<th>上次乳攝日期</th>
+						<th>HBV DNA</th>
 				</thead>
 				<tbody>
 				</tbody>
