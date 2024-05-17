@@ -12,11 +12,11 @@
 			<div style="width:48%">
 				<div class="mytitle2">1. 基本資料設定</div>
 				<div>
-					<button class="execbutton" onclick="document.getElementById('importtxt').click()">匯入基本資料</button>
+					<button class="execbutton" id="importtxt0">匯入基本資料</button>
 					<input style="display: none;" type="file" id="importtxt" accept=".txt"/>
-					<button class="execbutton" onclick="exportbasic()">匯出基本資料</button>
-					<button class="execbutton" onclick="cleanbasic()">清除基本資料</button>
-					<button class="execbutton" onclick="showopdlist()">預覽門診表</button>
+					<button class="execbutton" id="exporttxt">匯出基本資料</button>
+					<button class="execbutton" id="cleanbasicbutton">清除基本資料</button>
+					<button class="execbutton" id="showopdlistbutton">預覽門診表</button>
 				</div>
 				<div class="H-container" style="padding-left:20px; height: 32px;">
 					<span>1. 衛生所名稱：</span>
@@ -150,10 +150,10 @@
 				<div class="H-container" style="padding-left:40px;">
 					<div>
 						<div class="H-container">
-							<button class="execbutton" onclick="starttransfer()">開始轉換</button>
+							<button class="execbutton" id="starttransferbutton">開始轉換</button>
 							<input style="display: none;" type="file" id="excelall" accept=".xlsx, .xls"/>
-							<button class="execbutton" onclick="document.getElementById('excelall').click()" >匯入總檔XLS</button>
-							<button class="execbutton" onclick="exportToExcel()">匯出總檔XLS</button>
+							<button class="execbutton" id="excelall0" >匯入總檔XLS</button>
+							<button class="execbutton" id="exportToExcelbutton">匯出總檔XLS</button>
 							
 						</div>
 					</div>
@@ -180,7 +180,7 @@
 				<label for="checktransfer" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block">轉診單</label>
 				<input id="checkall" style="width: 20px;" type="checkbox">
 				<label for="checkall" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block">全選</label>
-				<button class="execbutton" onclick="exportToPDF()">匯出報告</button>
+				<button class="execbutton" id="exportToPDFbutton">匯出報告</button>
 			</div>
 			<div  id="downloadarea" style="padding-left:40px;">
 			</div>
