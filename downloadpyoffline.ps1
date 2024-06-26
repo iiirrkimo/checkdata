@@ -1,44 +1,44 @@
-Write-Output "¤@Áä¤U¸üPHPCIISÂ÷½uª©¡A¨Ì·Óºô¸ô³t«×¤£¦P¬ù»İ­n5-10¤ÀÄÁ"
+Write-Output "ä¸€éµä¸‹è¼‰PHPCIISé›¢ç·šç‰ˆï¼Œä¾ç…§ç¶²è·¯é€Ÿåº¦ä¸åŒç´„éœ€è¦5-10åˆ†é˜"
 do {
-	$choice = Read-Host "¬O§_¶}©l¤U¸ü? (Y/N)"
-		if ($choice -eq "Y" -or $choice -eq "y") {
+	$choice = Read-Host "æ˜¯å¦é–‹å§‹ä¸‹è¼‰? (Y/N)"
+	if ($choice -eq "Y" -or $choice -eq "y") {
 		$onedriveUrl1 = "https://onedrive.live.com/download?cid=8614C09CCA60D67B&resid=8614C09CCA60D67B%211474&authkey=%21AEDqpOImUyw7qcA"
 		$onedriveUrl2 = "https://onedrive.live.com/download?cid=8614C09CCA60D67B&resid=8614C09CCA60D67B%211468&authkey=%21AEDqpOImUyw7qcA"
 		$onedriveUrl3 = "https://onedrive.live.com/download?cid=8614C09CCA60D67B&resid=8614C09CCA60D67B%211473&authkey=%21AEDqpOImUyw7qcA"
-		$downloadPath1 = "C:\pyoffline\PHPCIISÂ÷½uª©»¡©ú.pptx"
+		$downloadPath1 = "C:\pyoffline\PHPCIISé›¢ç·šç‰ˆèªªæ˜.pptx"
 		$downloadPath2 = "C:\pyoffline\py_offline_autoupdate.zip"
 		$downloadPath3 = "C:\pyoffline\PY_Offline.zip"
 		$extractPath = "C:\pyoffline\" 
-		Write-Output "ÀË¬d¬O§_¦³C:\pyoffline\"
+		Write-Output "æª¢æŸ¥æ˜¯å¦æœ‰C:\pyoffline\"
 		if (-Not (Test-Path -Path $extractPath)) {
-			Write-Output "µL¸ê®Æ§¨¡A·s¼WC:\pyoffline\"
+			Write-Output "ç„¡è³‡æ–™å¤¾ï¼Œæ–°å¢C:\pyoffline\"
 			New-Item -Path $extractPath -ItemType Directory
-			Write-Output "·s¼W§¹¦¨"
+			Write-Output "æ–°å¢å®Œæˆ"
 		}
-		$arr1 = @($onedriveUrl1, $onedriveUrl3 , $onedriveUrl4)
-		$arr2 = @($downloadPath1, $downloadPath3 , $downloadPath4)
-		Write-Output "¶}©l¤U¸ü§@·~"
+		$arr1 = @($onedriveUrl1, $onedriveUrl2 , $onedriveUrl3)
+		$arr2 = @($downloadPath1, $downloadPath2 , $downloadPath3)
+		Write-Output "é–‹å§‹ä¸‹è¼‰ä½œæ¥­"
 		for ($i = 0; $i -lt 3; $i++) {
 			if (-Not (Test-Path -Path (Split-Path $arr2[$i]))) {
 				New-Item -Path (Split-Path $arr2[$i]) -ItemType Directory
 			}
 			Write-Output $arr2[$i]
 			$webClient.DownloadFile($arr1[$i],$arr2[$i])
-			Write-Output "¤U¸ü§¹¦¨"
+			Write-Output "ä¸‹è¼‰å®Œæˆ"
 			if ($i -ne 0) {
-				Write-Output "¶}©l¸ÑÀ£ÁY"
+				Write-Output "é–‹å§‹è§£å£“ç¸®"
 				Add-Type -AssemblyName System.IO.Compression.FileSystem
 				[System.IO.Compression.ZipFile]::ExtractToDirectory($arr2[$i], $extractPath)
-				Write-Output "¸ÑÀ£ÁY§¹¦¨"
+				Write-Output "è§£å£“ç¸®å®Œæˆ"
 				Remove-Item $arr2[$i] -Force
-				Write-Output "²¾°£À£ÁYÀÉ"
+				Write-Output "ç§»é™¤å£“ç¸®æª”"
 			}
 		}
-		Write-Output "¤U¸ü§@·~»P¸ÑÀ£ÁY§¹¦¨"
-		Write-Output "»İ­n»P½Ã¥Í§½¥Ó½Ğreg.keyÀÉ®×¥H¶}±ÒÂ÷½uª©"
-		Write-Output "½Ğ¶}±ÒPY_Offline_starter¥H¶i¦æ§ó·sµ{¦¡½X§@·~"
-		Write-Output "«ØÄ³¾\ÅªPHPCIISÂ÷½uª©»¡©ú"
-		$choice = Read-Host "¬O§_¼W¥[¨ì®à­±¦¨¬°±¶®|? (Y/N)"
+		Write-Output "ä¸‹è¼‰ä½œæ¥­èˆ‡è§£å£“ç¸®å®Œæˆ"
+		Write-Output "éœ€è¦èˆ‡è¡›ç”Ÿå±€ç”³è«‹reg.keyæª”æ¡ˆä»¥é–‹å•Ÿé›¢ç·šç‰ˆ"
+		Write-Output "è«‹é–‹å•ŸPY_Offline_starterä»¥é€²è¡Œæ›´æ–°ç¨‹å¼ç¢¼ä½œæ¥­"
+		Write-Output "å»ºè­°é–±è®€PHPCIISé›¢ç·šç‰ˆèªªæ˜"
+		$choice = Read-Host "æ˜¯å¦å¢åŠ åˆ°æ¡Œé¢æˆç‚ºæ·å¾‘? (Y/N)"
 		do {
 			if ($choice -eq "Y" -or $choice -eq "y") {
 				$fileToAdd = "C:\pyoffline\PY_Offline_starter.exe"
@@ -46,19 +46,19 @@ do {
 				$shell = New-Object -ComObject WScript.Shell
 				$shortcut = $shell.CreateShortcut("$desktopPath\Shortcut.lnk")
 				$shortcut.TargetPath = $fileToAdd
-				$shortcut.Description = "PHPCIISÂ÷½uª©"
+				$shortcut.Description = "PHPCIISé›¢ç·šç‰ˆ"
 				$shortcut.Save()
 			}
 		} while ($choice -ne "Y" -and $choice -ne "y" -and $choice -ne "N" -and $choice -ne "n")
 		do {
-			$choice = Read-Host "¬O§_¥´¶}¤U¸ü¸ê®Æ§¨? (Y/N)"
+			$choice = Read-Host "æ˜¯å¦æ‰“é–‹ä¸‹è¼‰è³‡æ–™å¤¾? (Y/N)"
 			if ($choice -eq "Y" -or $choice -eq "y") {
 				Invoke-Item $extractPath
 			}
 		} while ($choice -ne "Y" -and $choice -ne "y" -and $choice -ne "N" -and $choice -ne "n")
 	} 
 } while ($choice -ne "Y" -and $choice -ne "y" -and $choice -ne "N" -and $choice -ne "n")
-Read-Host "¿é¤J¥ô·NÁä¥Hµ²§ô"
+Read-Host "è¼¸å…¥ä»»æ„éµä»¥çµæŸ"
 exit
 
 
