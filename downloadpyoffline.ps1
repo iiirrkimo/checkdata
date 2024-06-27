@@ -89,9 +89,11 @@ do {
 		Invoke-Item $extractPath
 	}
 } while ($choice -ne "Y" -and $choice -ne "y" -and $choice -ne "N" -and $choice -ne "n")
-Write-Host "請閱讀PHPCIIS離線版說明"
-Invoke-Item "C:\pyoffline\PHPCIIS離線版說明.pptx"
+do {
+	$choice = Read-Host "是否打開PHPCIIS離線版說明? (Y/N)"
+	if ($choice -eq "Y" -or $choice -eq "y") {
+		Invoke-Item "C:\pyoffline\PHPCIIS離線版說明.pptx"
+	}
+} while ($choice -ne "Y" -and $choice -ne "y" -and $choice -ne "N" -and $choice -ne "n")
 Write-Host "即將關閉"
 Pause
-
-
