@@ -10,12 +10,15 @@ do {
 		$downloadPath2 = "C:\pyoffline\py_offline_autoupdate.zip"
 		$downloadPath3 = "C:\pyoffline\PY_Offline.zip"
 		$extractPath = "C:\pyoffline\" 
-		
+		$tempPath = "C:\pyoffline\temp\" 
 		Write-Output "檢查是否有C:\pyoffline\"
 		if (-Not (Test-Path -Path $extractPath)) {
 			Write-Output "無資料夾，新增C:\pyoffline\"
 			New-Item -Path $extractPath -ItemType Directory
 			Write-Output "新增完成"
+		}
+		if (-Not (Test-Path -Path $tempPath)) {
+			New-Item -Path $tempPath -ItemType Directory
 		}
 		$arr1 = @($onedriveUrl1, $onedriveUrl2 , $onedriveUrl3)
 		$arr2 = @($downloadPath1, $downloadPath2 , $downloadPath3)
@@ -32,8 +35,10 @@ do {
 				Write-Output "開始解壓縮"
 				try {
 					Add-Type -AssemblyName System.IO.Compression.FileSystem
-					[System.IO.Compression.ZipFile]::ExtractToDirectory($arr2[$i], $extractPath)
+					[System.IO.Compression.ZipFile]::ExtractToDirectory($arr2[$i], $tempPath)
 					Write-Output "解壓縮完成"
+					Copy-Item -Path "C:\pyoffline\temp\*" -Destination "C:\pyoffline\" -Recurse -Force
+					Remove-Item -Path "C:\pyoffline\temp\*" -Recurse -Force
 					Remove-Item $arr2[$i] -Force
 					Write-Output "移除壓縮檔"
 				} catch {
@@ -41,6 +46,7 @@ do {
 				} 
 			}
 		}
+		Remove-Item -Path $tempPath
 		Write-Output "下載作業與解壓縮完成"
 		Write-Output "需要與衛生局申請reg.key檔案以開啟離線版"
 		Write-Output "請開啟PY_Offline_starter以進行更新程式碼作業"
@@ -73,11 +79,16 @@ do {
 				Write-Host "時間格式不正確，請輸入有效的時間格式 (HH:mm PM)。"
 			}
 		} until ($valid)
+		$TaskName = "OfflineUpdate"
+		Write-Host "檢查是否有工作排程"
+		if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
+			Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
+			Write-Host "刪除原工作排程"
+		}
 		$Action = New-ScheduledTaskAction -Execute "C:\pyoffline\py_offline_autoupdate.exe" -WorkingDirectory "C:\pyoffline"
 		$Trigger = New-ScheduledTaskTrigger -Daily -At $updatetime 
-		Register-ScheduledTask -TaskName "OfflineUpdate" -Action $Action -Trigger $Trigger
+		Register-ScheduledTask -TaskName $TaskName -Action $Action -Trigger $Trigger
 		Write-Host "新增工作排程OfflineUpdate於" $updatetime
-		Write-Host "若需修改請從工作排程器中手動修改，請參考PHPCIIS離線版說明。"
 	} elseif ($choice -eq "N" -or $choice -eq "n") {
 		Write-Host "不自動設定，若要自動更新請之後手動設定，請參考PHPCIIS離線版說明。"
 	} 
@@ -92,7 +103,12 @@ do {
 do {
 	$choice = Read-Host "是否打開PHPCIIS離線版說明? (Y/N)"
 	if ($choice -eq "Y" -or $choice -eq "y") {
-		Invoke-Item "C:\pyoffline\PHPCIIS離線版說明.pptx"
+		if (Test-Path -Path "C:\pyoffline\PHPCIIS離線版說明.pptx") {
+			Invoke-Item "C:\pyoffline\PHPCIIS離線版說明.pptx"
+		} else {
+			Write-Output "檔案遺失，請重新下載"
+		}
+		
 	}
 } while ($choice -ne "Y" -and $choice -ne "y" -and $choice -ne "N" -and $choice -ne "n")
 Write-Host "即將關閉"
