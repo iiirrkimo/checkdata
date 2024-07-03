@@ -788,7 +788,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if(dat[47]*1<60){
 				t1="✱";
 			} else {
-				t2="";
+				t1="";
 			}
 			if (dat[50]=='因數值超出線性，無法計算比值。'){
 				temp="尿蛋白<6";
@@ -800,7 +800,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				}
 				
 			}
-			reportcontent+='<tr><td>慢性腎臟病(CKD)</td><td>'+t0+dat[51]+'，eGFR:<span class="checklist_table_value">'+t2+dat[47]+'</span><br>UPCR:<span class="checklist_table_value">'+temp+'</span></td><td>'+temp2+'</td><td>□已就醫，院所：</td></tr>';
+			reportcontent+='<tr><td>慢性腎臟病(CKD)</td><td>'+t0+dat[51]+'，eGFR:<span class="checklist_table_value">'+t1+dat[47]+'</span><br>UPCR:<span class="checklist_table_value">'+temp+'</span></td><td>'+temp2+'</td><td>□已就醫，院所：</td></tr>';
 			if (dat[33]*1>200){
 				t0="✱"+dat[33];
 			} else {
@@ -1237,12 +1237,25 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				t0="□";
 			}
 			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">血壓偏高</td><td>1. 生活型態調整：SABCDE策略，少鹽(S)、限酒(A)、減重(B)、戒菸(C)、飲食調整(D)和運動(E)。<br>2. 722量血壓：「7」連續七天量測、「2」起床、睡前各量一次、「2」每次量兩遍，若超過130/80mmHg則建議就醫。</td></tr>';
-			if (dat[31]*1>100 || dat[32]*1>5.6){
-				t0="■";
+			
+			if (dat[20]=="" && dat[21]==""){
+				if (dat[18]=="" && dat[19]==""){
+					t0="□";
+				} else {
+					if (dat[18]*1<0.6 || dat[19]*1<0.6 || isNaN(dat[18]*1) || isNaN(dat[19]*1)){
+						t0="■";
+					} else {
+						t0="□";
+					}
+				}
 			} else {
-				t0="□";
+				if (dat[20]*1<0.6 || dat[21]*1<0.6){
+					t0="■";
+				} else {
+					t0="□";
+				}
 			}
-			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">血糖偏高</td><td>1. 生活型態調整：多運動，均衡飲食，定時定量，多選用富含纖維質的食物，少吃富含精緻糖類的食品(糖果、煉乳、中西式甜點心)。<br>2. 生活型態調整後3~6個月請再次抽血追蹤(需空腹)。</td></tr>';
+			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">視力檢查</td><td>1. 眼睛看不清楚不是只有老花，許多疾病都可能導致視力模糊，結膜炎、角膜炎、白內障、青光眼、視神經炎、視網膜剝離及糖尿病網膜病變等等都可導致視力下降。<br>2. 若出現流淚、視力模糊、眼前出現雙影、黑影或飛蚊現象，怕光、有異物感、眼睛腫脹疼痛、視野缺損等等症狀請至眼科就醫。<br>3. 平時視力保健﹕閱讀時保持30公分以上距離、閱讀1小時休息10分鐘、望遠凝視、避免過度使用3C產品等，並定期視力檢查。</td></tr>';
 			if (dat[25]*1<12){
 				t0="■";
 			} else {
@@ -1250,6 +1263,14 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			}
 			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">貧血</td><td>1. 貧血原因十分多樣，需針對個別原因進行處理，一般缺鐵性貧血及地中海型貧血較常見，若有疑問可至血液腫瘤科諮詢。</td></tr>';
 
+			
+			if (dat[31]*1>100 || dat[32]*1>5.6){
+				t0="■";
+			} else {
+				t0="□";
+			}
+			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">血糖偏高</td><td>1. 生活型態調整：多運動，均衡飲食，定時定量，多選用富含纖維質的食物，少吃富含精緻糖類的食品(糖果、煉乳、中西式甜點心)。<br>2. 生活型態調整後3~6個月請再次抽血追蹤(需空腹)。</td></tr>';
+			
 			if (dat[33]*1>200 || dat[34]*1>150 || dat[36]*1>130 || (dat[5]=="男" && dat[35]*1<40) || (dat[5]=="女" && dat[35]*1<50)){
 				t0="■";
 			} else {
@@ -1289,17 +1310,6 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				t0="□";
 			}
 			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">C型肝炎</td></tr>';
-			if (dat[41]*1>=9){
-				t0="■";
-			} else {
-				t0="□";
-			}
-			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">甲型胎兒蛋白<br>偏高</td><td>甲型胎兒蛋白(α-Fetoprotein)是一種α-1球蛋白，由胎兒的卵黃囊、腸胃道及肝臟分泌，成人則多由肝臟分泌，許多肝病皆可能伴隨甲型胎兒蛋白升高，80-90%的肝細胞癌病人血清中甲型胎兒蛋白有升高現象，檢查結果偏高建議至肝膽腸胃科接受腹部超音波檢查。</td></tr>';
-			
-			
-
-			
-			
 			
 			
 			
@@ -1309,31 +1319,14 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			reportcontent+='<div class="suggestion_title">彰化縣'+clinicname+'整合式篩檢衛教單(2/2)</div>';
 			reportcontent+='<div><table class="suggestion_table1"><tr><td>整篩編號：'+dat[0]+'</td><td>姓名：'+dat[2]+'</td></tr></table></div>';
 			reportcontent+='<div><table class="suggestion_table2"><tr><th></th><th>項目</th><th>說明</th></tr>';
+			if (dat[41]*1>=9){
+				t0="■";
+			} else {
+				t0="□";
+			}
+			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">甲型胎兒蛋白<br>偏高</td><td>甲型胎兒蛋白(α-Fetoprotein)是一種α-1球蛋白，由胎兒的卵黃囊、腸胃道及肝臟分泌，成人則多由肝臟分泌，許多肝病皆可能伴隨甲型胎兒蛋白升高，80-90%的肝細胞癌病人血清中甲型胎兒蛋白有升高現象，檢查結果偏高建議至肝膽腸胃科接受腹部超音波檢查。</td></tr>';
 			
-			if (dat[66]!="Target not detected"){
-				t0="■";
-			} else {
-				t0="□";
-			}
-			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">B肝DNA</td><td>代表的是病毒量，也就是病毒活性。一般以2000IU/mL，以及20,000IU/mL當作分界：<br>1.<2000IU/mL:低病毒量，建議可以每半年抽血追蹤。<br>2.2000-20,000IU/mL，可依病人狀況，3-6個月抽血追蹤。<br>3.病毒量>20,000IU/mL, 建議每3個月抽血追蹤一次肝指數。<br>4.若病毒量>2000 IU/mL 且ALT> 2x 正常值，建議轉診專科醫師給予抗病毒藥物治療。<br>5.以上個案皆建議每6個月追蹤一次超音波。</td></tr>';
 			
-			if (dat[67]*1>=1){
-				t0="■";
-			} else {
-				t0="□";
-			}
-			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">B肝e抗原</td><td>代表的是疾病早期，病毒量通常較高，也較容易肝指數異常，建議可以3個月抽血追蹤及HBeAg，若ALT >2x 正常值，建議轉診專科醫師給予抗病毒藥物治療。</td></tr>';
-			if (dat[68]*1>=1){
-				t0="■";
-			} else {
-				t0="□";
-			}
-			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">D型肝炎抗體</td><td>D型肝炎病毒是一種感染B肝患者的病毒，而D型肝炎抗體可作為篩檢是否有慢性HDV感染的工具。anti-HDV 陽性患者，理論上應使用HDV病毒量檢測是否有HDV 存在，不過目前並沒有相關試劑，同時HDV也沒有可以有效治癒的藥物，所以若有anti-HDV陽性患者，需避免體液傳染給他人。</td></tr>';
-			if (dat[59]=="陽性"){
-				t0="■";
-			} else {
-				t0="□";
-			}
 			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">幽門桿菌抗原</td><td>若為陽性，表示疑似胃幽門螺旋桿菌感染，可能導致胃腸道出血、穿孔等併發症，嚴重者可能導致胃癌。建議胃鏡檢查，並接受除菌治療。</td></tr>';
 			if (dat[60]=="陽性"){
 				t0="■";
@@ -1391,7 +1384,13 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			reportcontent+='<div class="suggestion_title" style="text-align: left;">電話:'+clinicphone+'；地址:'+clinicaddress+'</div>';
 			
 			reportcontent+='<div class="page-break2"></div><div class="page-break"></div>';
+			
+			if (dat[66]!=''){
+				reportcontent+=generateHBVconsult();
+			}
+		
 		}
+		
 		if (document.getElementById("checksmoke").checked){
 			//addquitsmoke
 			if (dat[22]=='有'){
@@ -1542,7 +1541,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 }
 function addtitle(titlename){
 	retv="<!DOCTYPE html><html><head><title>"+titlename;
-	retv+=`</title><style>@media print{html, body{width: 210mm; min-height: 297mm; margin: 0; padding: 0;} .page-break{display: block; page-break-after: always;}.page-break2{display: none;}*{-webkit-print-color-adjust: exact;} } @media screen{body{background: white; width: 210mm; min-height: 297mm; margin: 20px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);} }.page-break2{height: 10px;background-color: rgba(0, 0, 0, 0.5);}.checklist_title{font-size: 24px;font-family: '標楷體' ;font-weight: 400;text-align: center;} .checklist_table_1{border-collapse: collapse; width: 95%;margin-left: auto;margin-right: auto;} .checklist_table_1 th, .checklist_table_1 td{border: 1px solid transparent;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .checklist_table_2 th, .checklist_table_2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2 th:nth-child(1){width: 20%;}.checklist_table_2 td:nth-child(1){text-align: center;}.checklist_table_2 th:nth-child(2){width: 30%;}.checklist_table_2 th:nth-child(3){width: 20%;}.checklist_table_2 td:nth-child(3){text-align: center;}.checklist_table_2 th:nth-child(4){width: 30%;}.checklist_table_value{text-decoration: underline;}.checklist_table_3{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.checklist_table_3 th, .checklist_table_3 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_3 td:nth-child(1){width: 10%;}.checklist_table_3 tdnth-child(2){width: 30%;}.checklist_table_3 tdnth-child(3){width: 60%;}.checklist_sign{font-size: 20px;font-family: '標楷體' ;text-align: center;}.checklist_uppertitle{font-size: 32px;font-family: '標楷體' ;font-weight: 400;background-color: #d0e7ff;}.checklist_middletitle{font-size: 70px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.checklist_content{font-size: 32px;font-family: '標楷體' ;font-weight: 400;}.checklist_splitline{font-size: 32px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_table{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .report_table th, .report_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.report_table th:nth-child(1){width: 25%;}.report_table th:nth-child(2){width: 25%;}.report_table th:nth-child(3){width: 25%;}.report_table th:nth-child(4){width: 25%;}.report_table td:nth-child(3){text-align: center;}.report_table_underline{text-decoration: underline;text-align: center;}.report_table_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;padding: 2px;background-color: #BEBEBE;background-clip: content-box;text-align: center;}.report_table_subtitle{font-size: 20px;font-family: '標楷體' ;font-weight: 600;}.suggestion_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.suggestion_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table1 th, .suggestion_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.suggestion_table1 th:nth-child(1){width: 50%;}.suggestion_table1 th:nth-child(2){width: 50%;}.suggestion_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table2 th{border: 1px solid;font-family: '標楷體' ;font-size: 20px;font-weight: 600;text-align: center;}.suggestion_table2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.suggestion_table2 th:nth-child(1){width: 5%;}.suggestion_table2 th:nth-child(2){width: 20%;}.suggestion_table2 th:nth-child(3){width: 75%;}.transfer_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transfer_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .transfer_table1 th, .transfer_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.transfer_table1 td:nth-child(1){width: 50%;text-align: left;}.transfer_table1 td:nth-child(2){width: 50%;text-align: right;}.transfer_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transfer_table2 th, .transfer_table2 td{border: 2px solid;font-family: '標楷體' ;font-size: 16px;text-align: center;table-layout: fixed;}.transHP_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transHP_table{border: 2px solid; border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transHP_table th, .transHP_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 16px;}.transHP_end{width: 95%;font-size: 16px;font-family: '標楷體' ;font-weight: 700;text-align: left;margin-left: auto;margin-right: auto;} .quitsmoke_title{width: 95%; font-size: 40px; font-family: '標楷體' ;font-weight: 700;display: flex;align-items: center;justify-content: center;margin-left: auto; margin-right: auto;} .quitsmoke_content{font-size: 32px; font-family: '標楷體' ;} .quitsmoke_table{border-collapse: collapse; font-size: 24px; font-family: '標楷體' ;width: 90%; margin-left: auto; margin-right: auto;} .quitsmoke_table td{border: 2px solid;font-family: '標楷體' ;font-size: 24px; text-align: center;} .highlightupper {color: red; font-weight: 600;} .highlightlower {color: blue; font-weight: 600;}</style></head><body>
+	retv+=`</title><style>@media print{html, body{width: 210mm; min-height: 297mm; margin: 0; padding: 0;} .page-break{display: block; page-break-after: always;}.page-break2{display: none;}*{-webkit-print-color-adjust: exact;} } @media screen{body{background: white; width: 210mm; min-height: 297mm; margin: 20px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);} }.page-break2{height: 10px;background-color: rgba(0, 0, 0, 0.5);}.checklist_title{font-size: 24px;font-family: '標楷體' ;font-weight: 400;text-align: center;} .checklist_table_1{border-collapse: collapse; width: 95%;margin-left: auto;margin-right: auto;} .checklist_table_1 th, .checklist_table_1 td{border: 1px solid transparent;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .checklist_table_2 th, .checklist_table_2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_2 th:nth-child(1){width: 20%;}.checklist_table_2 td:nth-child(1){text-align: center;}.checklist_table_2 th:nth-child(2){width: 30%;}.checklist_table_2 th:nth-child(3){width: 20%;}.checklist_table_2 td:nth-child(3){text-align: center;}.checklist_table_2 th:nth-child(4){width: 30%;}.checklist_table_value{text-decoration: underline;}.checklist_table_3{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.checklist_table_3 th, .checklist_table_3 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.checklist_table_3 td:nth-child(1){width: 10%;}.checklist_table_3 tdnth-child(2){width: 30%;}.checklist_table_3 tdnth-child(3){width: 60%;}.checklist_sign{font-size: 20px;font-family: '標楷體' ;text-align: center;}.checklist_uppertitle{font-size: 32px;font-family: '標楷體' ;font-weight: 400;background-color: #d0e7ff;}.checklist_middletitle{font-size: 70px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.checklist_content{font-size: 32px;font-family: '標楷體' ;font-weight: 400;}.checklist_splitline{font-size: 32px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;text-align: center;}.report_table{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .report_table th, .report_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.report_table th:nth-child(1){width: 25%;}.report_table th:nth-child(2){width: 25%;}.report_table th:nth-child(3){width: 25%;}.report_table th:nth-child(4){width: 25%;}.report_table td:nth-child(3){text-align: center;}.report_table_underline{text-decoration: underline;text-align: center;}.report_table_title{font-size: 20px;font-family: '標楷體' ;font-weight: 400;padding: 2px;background-color: #BEBEBE;background-clip: content-box;text-align: center;}.report_table_subtitle{font-size: 20px;font-family: '標楷體' ;font-weight: 600;}.suggestion_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.suggestion_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table1 th, .suggestion_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.suggestion_table1 th:nth-child(1){width: 50%;}.suggestion_table1 th:nth-child(2){width: 50%;}.suggestion_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .suggestion_table2 th{border: 1px solid;font-family: '標楷體' ;font-size: 20px;font-weight: 600;text-align: center;}.suggestion_table2 td{border: 1px solid;font-family: '標楷體' ;font-size: 20px;}.suggestion_table2 th:nth-child(1){width: 5%;}.suggestion_table2 th:nth-child(2){width: 20%;}.suggestion_table2 th:nth-child(3){width: 75%;}.transfer_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transfer_table1{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;} .transfer_table1 th, .transfer_table1 td{border: 1px transparent;font-family: '標楷體' ;font-size: 20px;}.transfer_table1 td:nth-child(1){width: 50%;text-align: left;}.transfer_table1 td:nth-child(2){width: 50%;text-align: right;}.transfer_table2{border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transfer_table2 th, .transfer_table2 td{border: 2px solid;font-family: '標楷體' ;font-size: 16px;text-align: center;table-layout: fixed;}.transHP_title{font-size: 24px;font-family: '標楷體' ;font-weight: 700;text-align: center;}.transHP_table{border: 2px solid; border-collapse: collapse; width: 95%;table-layout: fixed;margin-left: auto;margin-right: auto;}.transHP_table th, .transHP_table td{border: 1px transparent;font-family: '標楷體' ;font-size: 16px;}.transHP_end{width: 95%;font-size: 16px;font-family: '標楷體' ;font-weight: 700;text-align: left;margin-left: auto;margin-right: auto;} .quitsmoke_title{width: 95%; font-size: 40px; font-family: '標楷體' ;font-weight: 700;display: flex;align-items: center;justify-content: center;margin-left: auto; margin-right: auto;} .quitsmoke_content{font-size: 32px; font-family: '標楷體' ;} .quitsmoke_table{border-collapse: collapse; font-size: 24px; font-family: '標楷體' ;width: 90%; margin-left: auto; margin-right: auto;} .quitsmoke_table td{border: 2px solid;font-family: '標楷體' ;font-size: 24px; text-align: center;} .highlightupper {color: red; font-weight: 600;} .highlightlower {color: blue; font-weight: 600;} .HBVconsule{font-family: '標楷體' ;} </style></head><body>
 	`
 	return retv
 }
@@ -1557,6 +1556,43 @@ function generatequitsmoke(){
 	
 	return retv
 	
+}
+function generateHBVconsult(){
+	retv='<div>';
+	retv+='<div class="suggestion_title" style="font-size: 32px;">B肝相關檢驗項目說明</div>';
+	retv+='<div><table class="suggestion_table1"><tr><td style="font-size: 24px;">整篩編號：'+dat[0]+'</td><td style="font-size: 24px;">姓名：'+dat[2]+'</td></tr></table></div>';
+	if (dat[66]=='Target not detected'){
+		dnaunit="　";
+	} else {
+		dnaunit='　IU/mL';
+	}
+	retv+='<span class="HBVconsule" style="font-size: 24px;">➤HBV DNA:　'+dat[66]+dnaunit+'</span>';
+	retv+='<div style="border: 2px solid black; border-radius: 15px; padding: 10px; width: 95%;">'
+	retv+='<span class="HBVconsule" style="font-size: 20px;">此為病毒量，亦即病毒活性。一般以2000 IU/mL，以及20,000 IU/mL當作分界：</span><br>';
+	retv+='<span class="HBVconsule" style="font-size: 20px;">1.「<2,000 IU/mL」-為低病毒量，一般建議可以每半年抽血追蹤一次肝指數(GOT、GPT)。</span><br>';
+	retv+='<span class="HBVconsule" style="font-size: 20px;">2.「2000-20,000 IU/mL」-建議可依病人狀況，3-6個月抽血追蹤一次肝指數。</span><br>';
+	retv+='<span class="HBVconsule" style="font-size: 20px;">3.「>20,000 IU/mL」-建議每3個月抽血追蹤一次肝指數。</span><br>';
+	retv+='<span class="HBVconsule" style="font-size: 20px;">4.「>2000 IU/mL」且「ALT大於2倍正常值」-建議轉診專科醫師給予抗病毒藥物治療。</span><br>';
+	retv+='<span class="HBVconsule" style="font-size: 20px;">※	以上個案皆建議每6個月追蹤一次超音波。</span><br>';
+	retv+='</div><br>';
+	retv+='<span class="HBVconsule" style="font-size: 24px;">➤HBeAg:　'+dat[67]+'　S/CO</span>';
+	retv+='<div style="border: 2px solid black; border-radius: 15px; padding: 10px; width: 95%;">'
+	retv+='<span class="HBVconsule" style="font-size: 20px;">代表疾病早期，病毒量通常較高，也較容易肝指數異常，建議可以3個月抽血追蹤一次肝功能(GOT、GPT)及HBeAg，若ALT大於2倍正常值，建議轉診專科醫師給予抗病毒藥物治療。</span><br>';
+	retv+='</div><br>';
+	retv+='<span class="HBVconsule" style="font-size: 24px;">➤Anti-HDV:　'+dat[68]+'　S/CO</span>';
+	retv+='<div class="HBVconsule" style="border: 2px solid black; border-radius: 15px; padding: 10px; width: 95%;">'
+	retv+='<span class="HBVconsule" style="font-size: 20px;">D型肝炎病毒是一種只會感染B肝患者的病毒，而D型肝炎抗體 (anti-HDV) 可作為篩檢是否有慢性HDV感染的工具。anti-HDV陰性患者，沒有HDV感染，但anti-HDV 陽性患者，理論上應進一步使用HDV病毒量檢測是否有活動性HDV 存在，不過目前並沒有被認證的試劑，同時HDV目前也沒有可以有效治癒的藥物，所以若有anti-HDV 陽性患者，需要給予衛教，避免體液傳染給他人，以及更加注意是否有罹患肝硬化或肝癌的情況。</span><br>';
+	retv+='</div><br><br><br><br>';
+	retv+='<span style="font-size: 24px;">---------------------------------------------------------------------------------------------------</span>';
+	retv+='<div class="suggestion_title" style="font-size: 32px;">彰化縣衛生局B肝檢驗統計問卷</div>';
+	retv+='<div><table class="suggestion_table1"><tr><td style="font-size: 24px;">整篩編號：'+dat[0]+'</td><td style="font-size: 24px;">姓名：'+dat[2]+'</td></tr></table></div><br>';
+	retv+='<span class="HBVconsule" style="font-size: 24px;">1. 現在或最近3年內，有沒有使用Ｂ肝抗病毒藥物, 如貝樂克或韋立得？</span><br><br><br>';
+	retv+='<span class="HBVconsule" style="font-size: 24px;">2. 若已經停藥，大約停多久？</span><br><br><br>';
+	retv+='<span class="HBVconsule" style="font-size: 24px;">3. 若有機會可以治療，但一次要吃5年的藥，是否有治療意願呢？</span><br>';
+	retv+='<span class="HBVconsule" style="font-size: 24px;">　病毒量: '+dat[66]+dnaunit+'</span><br><br><br><br>';
+	retv+='<span class="HBVconsule" style="font-size: 24px;">填表人:__________________________</span><br>';
+	retv+='</div><div class="page-break2"></div><div class="page-break"></div>';
+	return retv
 }
 function generatetransfer(obj){
 	ret='<br><div class="transfer_title">全民健康保險'+clinicname+'轉診單(轉診至________________)</div>';
