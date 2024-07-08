@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="translist.js"></script>
+	
+    <title>轉診用</title>
+</head>
+<body>
+	<form id="fruitForm">
+		<span>整篩編號:</span>
+		<br>
+		<span id="prenumber"></span>
+		<input id="number" style="width: 50px; height: 25px;text-align: center;"  type="text" placeholder="ex:001"/>
+		<br>
+		<span>轉診科別:</span>
+		<br>
+        <label>
+            <input type="radio" name="specialist" value="胸腔內科"> 胸腔內科
+        </label><br>
+        <label>
+            <input type="radio" name="specialist" value="肝膽腸胃科"> 肝膽腸胃科
+        </label><br>
+        <label>
+            <input type="radio" name="specialist" value="腎臟內科"> 腎臟內科
+        </label><br>
+        <label>
+            <input type="radio" name="specialist" value="婦產科"> 婦產科
+        </label><br>
+        <label>
+            <input type="radio" name="specialist" value="心臟內科"> 心臟內科
+        </label><br>
+		<label>
+            <input type="radio" name="specialist" value="骨科"> 骨科
+        </label><br>
+		<span>轉診醫院:</span><br>
+		<label>
+            <input type="radio" name="hospital" value="彰化_基督教醫院"> 彰化_基督教醫院
+        </label><br>
+        <label>
+            <input type="radio" name="hospital" value="鹿港_基督教醫院"> 鹿港_基督教醫院
+        </label><br>
+        <label>
+            <input type="radio" name="hospital" value="漢銘_基督教醫院"> 漢銘_基督教醫院
+        </label><br>
+        <label>
+            <input type="radio" name="hospital" value="彰化_秀傳醫院"> 彰化_秀傳醫院
+        </label><br>
+        <label>
+            <input type="radio" name="hospital" value="彰濱_秀傳醫院"> 彰濱_秀傳醫院
+        </label><br>
+		<label>
+            <input type="radio" name="hospital" value="部立彰化醫院"> 部立彰化醫院
+        </label><br>
+		<label>
+            <input type="radio" name="hospital" value="道周醫院"> 道周醫院
+        </label><br>
+		<label>
+            <input type="radio" name="hospital" value="台中_榮民總醫院"> 台中_榮民總醫院
+        </label><br>
+		<label>
+            <input type="radio" name="hospital" value="中國_附設醫院"> 中國_附設醫院
+        </label><br>
+		<label>
+            <input type="radio" name="hospital" value="中山_附設醫院"> 中山_附設醫院
+        </label><br>
+		<label>
+            <input type="radio" name="hospital" value="童綜合醫院"> 童綜合醫院
+        </label><br>
+        <button type="button" onclick="transfertogoogle()">預填google表單</button>
+    </form>
+	<script>
+	window.onload = function() {
+		var queryString = window.location.search;
+		var params = new URLSearchParams(queryString);
+		var innum = params.get('num');
+		var inspe = params.get('spe');
+		T_specialist=['transCM','transGI','transNEP','transGYN','transCV','transORT']
+		prenumber=Object.keys(alltransferarray)[0]
+		prenumber=prenumber.substring(0,prenumber.length-3);
+		document.getElementById('prenumber').textContent=prenumber;
+		if (innum!='' && innum!=null){
+			thenumber=prenumber+innum;
+			document.getElementById('number').value=innum;
+		}
+		if (inspe!='' && inspe!=null){
+			document.getElementsByName('specialist')[inspe].checked=true;
+		}
+		if (innum!='' && innum!=null && inspe!='' && inspe!=null){
+			transfertogoogle()
+		}
+	}
+	function transfertogoogle(){
+		errmsg='';
+		transfernumber=document.getElementById('number').value;
+		if (transfernumber!=''){
+			transfernumber="000"+transfernumber
+			transfernumber=transfernumber.substring(transfernumber.length-3,transfernumber.length);
+			finalnumber=prenumber+transfernumber;
+		} else {
+			errmsg=errmsg+"請輸入整篩編號"
+		}
+		
+		specialist=document.getElementsByName('specialist');
+		selectedspecialist=false;
+		T_special=null;
+		for (let i=0;i<specialist.length;i++){
+			if (specialist[i].checked){
+				selectedspecialist=specialist[i].value;
+				T_special=T_specialist[i];
+				break
+			}
+		}
+		if (!selectedspecialist){
+			errmsg=errmsg+"請轉診選擇科別"
+		} 
+		
+		
+		hoslist=document.getElementsByName('hospital');
+		selectedhoslist=false;
+		for (let i=0;i<hoslist.length;i++){
+			if (hoslist[i].checked){
+				selectedhoslist=hoslist[i].value;
+				break
+			}
+		}
+		if (!selectedhoslist){
+			selectedhoslist="";
+		} 
+		try {
+			transferreason=alltransferarray[finalnumber][T_special]['S']
+		} catch (e) {
+			transferreason=""
+		} finally {
+			if (errmsg==""){
+				theurl='https://docs.google.com/forms/d/e/1FAIpQLScraV4hy7QCqewrjtR1GTGQ8ftyWKuvU8tfowQudiKzRcNr7w/viewform?usp=pp_url';
+				theurl=theurl+'&entry.1088351636='+finalnumber;
+				theurl=theurl+'&entry.451312378='+transferreason;
+				theurl=theurl+'&entry.364357672='+selectedspecialist;
+				theurl=theurl+'&entry.1075180856='+selectedhoslist;
+				encodedURI = encodeURI(theurl);
+				location.herf=encodedURI;
+			} else {
+				alert(errmsg);
+			}
+		}
+	}
+	</script>
+</body>
+</html>
