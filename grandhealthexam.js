@@ -26,8 +26,8 @@ document.getElementById('exportToExcelbutton').addEventListener('click', functio
 	exportToExcel()
 });
 
-document.getElementById('exportToPDFbutton').addEventListener('click', function(event) {
-	exportToPDF()
+document.getElementById('exportToPDFbutton').addEventListener('click', async function(event) {
+	await exportToPDF()
 });
 
 
@@ -678,7 +678,7 @@ function granfromtable(){
 	}
 	return grabobj
 }
-function exportToPDF(){
+async function exportToPDF(){
 	reportlist=granfromtable();
 	reportlistkey=Object.keys(reportlist);
 	startnum=document.getElementById('startnum');
@@ -703,12 +703,12 @@ function exportToPDF(){
 		errmsg+="請至少選擇一種項目匯出\n";
 	}
 	if (errmsg==""){
-		convertToPDF(v0,v1,cn,cc,cp,ca,dn,ds,etv1,etv2);
+		await convertToPDF(v0,v1,cn,cc,cp,ca,dn,ds,etv1,etv2);
 	} else {
 		alert(errmsg);
 	}
 }
-function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
+async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 	clinicname=s1;
 	cliniccode=s2;
 	clinicphone=s3;
@@ -719,6 +719,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 	expiretime=s8;
 	//printwindow = window.open('', '_blank');
 	reportcontent=addtitle("報告匯出");
+	alltransferarray={};
 	for (i=v0;i<v1;i++){
 		dat=reportlist[reportlistkey[i]];
 		//addchecklist
@@ -1092,7 +1093,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			}
 			reportcontent+='<tr><td class="report_table_subtitle">B肝表面抗原(定量)</td><td>HBsAg</td><td>'+t1+'</td><td><1 S/CO</td></tr>';
 			if (dat[66]!="" && dat[66]!="未操作"){
-				if (dat[66]!="Target not detected"){
+				if (dat[66].toLowerCase()!="Target not detected".toLowerCase()){
 					t1=dat[66]+"*";
 				} else {
 					t1='未檢出';
@@ -1397,6 +1398,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				reportcontent+=generatequitsmoke();
 			}
 		}
+		
 		if (document.getElementById("checktransfer").checked){
 			//addtransfer
 			transGI={"S":"","P":"","T":"■肝膽腸胃科　　□婦產科　　　□心臟科<br>□大腸直腸外科　□乳房外科　　□骨科<br>□腎臟科　　　　□胸腔科　　　□其他:________"};
@@ -1413,7 +1415,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				transGI["S"]+="B型肝炎表面抗原"+dat[42]+"，";
 				transGI["P"]+="腹部超音波檢查";
 				if (dat[66]!="" && dat[66]!="未操作" ){
-					if (dat[66]!="Target not detected"){
+					if (dat[66].toLowerCase()!="Target not detected".toLowerCase()){
 						transGI["S"]+="HBV viral load: "+dat[66]+" IU/mL，";
 						transGI["P"]+="腹部超音波檢查進一步檢查及治療";
 					} else {
@@ -1470,7 +1472,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (transGI["S"]!=""){
 				transGI["S"]+="煩請醫師診治";
 				transGI["S"]="個案於"+dat[6]+"參加彰化縣衛生局整合式篩檢，發現"+transGI["S"];
-				reportcontent+=generatetransfer(transGI);
+				reportcontent+=await generatetransfer(transGI,"1");
 				if (transGI["S"].includes('胃幽門桿菌')){
 					reportcontent+=generatetransferHP();
 				}
@@ -1482,7 +1484,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (transCV["S"]!=""){
 				transCV["S"]+="煩請醫師診治";
 				transCV["S"]="個案於"+dat[6]+"參加彰化縣衛生局整合式篩檢，發現"+transCV["S"];
-				reportcontent+=generatetransfer(transCV);
+				reportcontent+=await generatetransfer(transCV,"4");
 			}
 			if (dat[54].includes('胸腔內科')){
 				transCM["S"]+="胸部X光檢查報告: "+dat[53].replaceAll("其他：","")+"，";
@@ -1491,7 +1493,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (transCM["S"]!=""){
 				transCM["S"]+="煩請醫師診治";
 				transCM["S"]="個案於"+dat[6]+"參加彰化縣衛生局整合式篩檢，發現"+transCM["S"];
-				reportcontent+=generatetransfer(transCM);
+				reportcontent+=await generatetransfer(transCM,"0");
 			}
 			if (dat[54].includes('骨科')){
 				transORT["S"]+="胸部X光檢查報告: "+dat[53].replaceAll("其他：","")+"，";
@@ -1500,7 +1502,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (transORT["S"]!=""){
 				transORT["S"]+="煩請醫師診治";
 				transORT["S"]="個案於"+dat[6]+"參加彰化縣衛生局整合式篩檢，發現"+transORT["S"];
-				reportcontent+=generatetransfer(transORT);
+				reportcontent+=await generatetransfer(transORT,"5");
 			}
 			if (['第4期','第5期'].includes(dat[51])){
 				transNEP["S"]+="腎功能異常，Creatinine:"+dat[46]+"mg/dL,eGFR:"+dat[47]+"ml/min/1.73m^2，UPCR:"+dat[50]+'mg/g，';
@@ -1509,7 +1511,7 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (transNEP["S"]!=""){
 				transNEP["S"]+="煩請醫師診治";
 				transNEP["S"]="個案於"+dat[6]+"參加彰化縣衛生局整合式篩檢，發現"+transNEP["S"];
-				reportcontent+=generatetransfer(transNEP);
+				reportcontent+=await generatetransfer(transNEP,"2");
 			}
 			if (dat[58]*1>3){
 				papcode=dat[58];
@@ -1519,8 +1521,18 @@ function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (transGYN["S"]!=""){
 				transGYN["S"]+="煩請醫師診治";
 				transGYN["S"]="個案於"+dat[6]+"參加彰化縣衛生局整合式篩檢，發現"+transGYN["S"];
-				reportcontent+=generatetransfer(transGYN);
+				reportcontent+=await generatetransfer(transGYN,"3");
 			}
+			
+			temptransfer={};
+			temptransfer['transGI']=transGI;
+			temptransfer['transCV']=transCV;
+			temptransfer['transCM']=transCM;
+			temptransfer['transNEP']=transNEP;
+			temptransfer['transORT']=transORT;
+			temptransfer['transGYN']=transGYN;
+			alltransferarray[reportlistkey[i]]=temptransfer;
+			
 		}
 	}
 	reportcontent+="</body>";
@@ -1561,7 +1573,7 @@ function generateHBVconsult(){
 	retv='<div>';
 	retv+='<div class="suggestion_title" style="font-size: 32px;">B肝相關檢驗項目說明</div>';
 	retv+='<div><table class="suggestion_table1"><tr><td style="font-size: 24px;">整篩編號：'+dat[0]+'</td><td style="font-size: 24px;">姓名：'+dat[2]+'</td></tr></table></div>';
-	if (dat[66]=='Target not detected'){
+	if (dat[66].toLowerCase()=='Target not detected'.toLowerCase()){
 		dnaunit="　";
 	} else {
 		dnaunit='　IU/mL';
@@ -1594,9 +1606,19 @@ function generateHBVconsult(){
 	retv+='</div><div class="page-break2"></div><div class="page-break"></div>';
 	return retv
 }
-function generatetransfer(obj){
-	ret='<br><div class="transfer_title">全民健康保險'+clinicname+'轉診單(轉診至________________)</div>';
-	ret+='<div><table class="transfer_table1"><tr><td>保險醫事服務機構代號：'+cliniccode+'</td><td>整篩編號：'+dat[0]+'</td><tr></table>';
+async function generatetransfer(obj,spe){
+	let theminnum=dat[0].substring(dat[0].length-3,dat[0].length);
+	let newurl='https://iiirrkimo.github.io/checkdata/fasttrans.html?num='+theminnum+'&spe='+spe;
+	imgrcode=await generateBase64QRCode(newurl);
+	imgcode='<img style="height:70px;" src="'+imgrcode+'">';
+	let ret = '<div style="display: flex;">'
+	ret+='<div>';
+	ret+='<div class="transfer_title">全民健康保險 ' + clinicname + ' 轉診單(轉診至________________)</div>';
+	ret+='<table class="transfer_table1"><tr><td>保險醫事服務機構代號：'+cliniccode+'</td><td>整篩編號：'+dat[0]+'</td><tr></table>';
+	ret+='</div>';
+	ret+=imgcode;
+	ret+='</div>';
+	ret+='<div>';
 	ret+='<table class="transfer_table2"><tr><td rowspan="10" style="width: 3%">原<br>診<br>治<br>醫<br>院<br>診<br>所</td><td rowspan="4" style="width: 5%">保險<br>對象<br>基本<br>資料</td><td colspan="2" style="width: 25%">姓名</td><td colspan="2" style="width: 17%">性別</td><td colspan="2" style="width: 25%">生日</td><td colspan="2" style="width: 25%">身分證號</td></tr>';
 	ret+='<tr><td colspan="2">'+dat[2]+'</td><td colspan="2">'+dat[5]+'</td><td colspan="2">'+dat[3]+'</td><td colspan="2">'+dat[1]+'</td></tr>';
 	ret+='<tr><td colspan="3">聯絡人</td><td colspan="3">連絡電話</td><td colspan="2">聯絡地址</td></tr>';
@@ -1637,6 +1659,18 @@ function generatetransfer(obj){
 	ret+='<div class="page-break2"></div><div class="page-break"></div>';
 	return ret
 }
+
+async function generateBase64QRCode(url) {
+	try {
+		let base64Image = await QRCode.toDataURL(url, { type: 'image/png', width: 128, margin: 1 });
+		return base64Image;
+	} catch (error) {
+		return 'QR code generation failed';
+	}
+}
+
+
+
 function generatetransferHP(){
 	ret='<div class="transHP_title">彰化縣　健康篩檢服務　糞便幽門桿菌檢查　轉診紀錄單</div><div><table class="transHP_table">';
 	ret+='<tr><td style="width:5%">一、</td><td style="width:30%">個案基本資料:</td><td style="width:30%"></td><td style="width:35%"></td></tr>';
@@ -1651,6 +1685,36 @@ function generatetransferHP(){
 	ret+='<tr><td colspan="4">地址：'+clinicaddress+'</td></tr><tr><td colspan="4">保險醫事服務機構代號：'+cliniccode+'</td></tr><tr><td colspan="4">建議轉診科別：<span style="font-weight: 700;">肝膽腸胃科</span></td></tr>';
 	ret+='<tr style="border-bottom: 2px solid"><td colspan="2">聯絡人：<br><br></td><td>醫師簽章：<br><br></td><td>轉診日期：<br><br></td></tr><tr><td colspan="3">三、轉診後處理(由確診及治療醫院填寫)</td><td style="border-left: 2px solid"></td></tr><tr><td style="text-align: right; ">1.<br><br></td><td colspan="2">請依專業以及健保規範判斷，協助諮詢說明胃幽門桿菌感染的臨床意義與對健康的可能影響</td><td style="border-left: 2px solid"></td></tr><tr><td style="text-align: right; ">2.</td><td colspan="2">處方</td><td style="border-left: 2px solid">就診院所：____________________</td></tr><tr><td></td><td colspan="2">（1）依病情或健保規範需進一步檢查做胃鏡檢查</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□是</td><td style="border-left: 2px solid">就診科別：____________________</td></tr><tr><td></td><td colspan="2">　　　　□否；請說明：____________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□病人拒絕</td><td style="border-left: 2px solid">醫師姓名：____________________</td></tr><tr><td></td><td colspan="2">（2）上消化道內視鏡</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□正常</td><td style="border-left: 2px solid">病 歷 號：____________________</td></tr><tr><td></td><td colspan="2">　　　　□胃炎；位置範圍：____________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□胃潰瘍；位置範圍：__________________________</td><td style="border-left: 2px solid">診察日期：_____年_____月______日</td></tr><tr><td></td><td colspan="2">　　　　□十二指腸潰瘍；位置範圍：____________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□胃食道逆流；程度：__________________________</td><td style="border-left: 2px solid">回覆日期：_____年_____月______日</td></tr><tr><td></td><td colspan="2">　　　　□胃腫瘤；位置範圍：__________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□切片</td><td style="border-left: 2px solid;font-weight: 700;">四、醫師建議</td></tr><tr><td></td><td colspan="2">　　　　　切片結果：__________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□其他：______________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">（3）上消化道攝影</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□正常</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□異常；請說明：______________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">（4）口服藥</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□無　□病人拒服　□其他用藥，藥名____________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□公費除菌藥(一線)</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Amoxicillin 1000mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Metronidazole 250mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Clarithromycin 500mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□公費除菌藥(二線)</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI□Amoxicillin□Levofloxacin</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI□Bismuth□Tetracycline□Metronidazole</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□健保</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□自費，藥名__________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　服用週期□5天　□10天　□其他_________________</td><td style="border-left: 2px solid"></td></tr></table><div class="transHP_end"><span>備註：轉診單填妥後請於個案確診日隔天 中午前回傳至衛生所。<br>　　　轉診紀錄單正本及胃鏡紙本報告單，請於個案確診後1周內寄回衛生所，感謝您。</span></div></div>';
 	ret+='<div class="page-break2"></div><div class="page-break"></div>';
+	
+	ret='<div class="transHP_title" style="font-size:28px;">彰化縣　幽門桿菌治療　電話追蹤關懷紀錄單</div><br>';
+	ret+='<table style="margin-left:20px;width:95%;font-family:標楷體;font-size:24px;">';
+	ret+='<tr style="height:50px;"><td style="width:45%">姓名：'+dat[2]+'('+dat[5]+')</td><td style="width:45%">整篩編號：'+dat[0]+'</td></tr>';
+	ret+='<tr style="height:50px;"><td style="width:45%">身分證：'+dat[1]+'</td><td style="width:45%">生日：'+dat[3]+'</td></tr>';
+	ret+='<tr style="height:50px;"><td style="width:45%">電話：'+dat[8]+'</td><td style="width:45%">手機：'+dat[9]+'</td></tr>';
+	ret+='<tr style="height:50px;"><td colspan="2" style="width:90%">地址：'+dat[10]+'</td></tr>';
+	ret+='<tr style="height:50px;"><td style="width:45%">服藥日：</td><td style="width:45%">醫院：</td></tr>';
+	ret+='<tr style="height:50px;"><td colspan="2" style="width:90%">結果：</td></tr>';
+	ret+='</table>';
+	ret+='<table class="quitsmoke_table">';
+	ret+='<tr style="height:50px;"><td>諮詢項目</td><td>電訪日期:</td><td>電訪日期:</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">1.是否確實服藥</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">2.皮膚過敏、紅疹、癢</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">3.噁心嘔吐</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">4.頭痛頭暈</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">5.腹痛腹瀉</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">6.胃痛胃口差</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">7.其他副作用</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='<tr style="height:50px;"><td style="text-align:left">8.特殊狀況轉知地段</td><td>□ 是    □ 否</td><td>□ 是    □ 否</td></tr>';
+	ret+='</table><br><br>';
+	ret+='<span style="font-family:標楷體;font-size:24px;height:70px;display: inline-block;">　個案特殊事件:_______________________________________________</span><br>';
+	ret+='<span style="font-family:標楷體;font-size:24px;height:70px;display: inline-block;">　____________________________________________________________</span><br>';
+	ret+='<span style="font-family:標楷體;font-size:24px;height:70px;display: inline-block;">　____________________________________________________________</span><br>';
+	ret+='<span style="font-family:標楷體;font-size:24px;height:70px;display: inline-block;">　地段：______________　　　　　　　關懷員：__________________</span><br>';
+	
+	
+	
+	ret+='<div class="page-break2"></div><div class="page-break"></div>';
+	
 	return ret
 }
 function addcomment(value,upper,lower,checkNAN){
