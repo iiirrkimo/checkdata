@@ -26,6 +26,10 @@ document.getElementById('exportToExcelbutton').addEventListener('click', functio
 	exportToExcel()
 });
 
+document.getElementById('downloadform').addEventListener('click', function(event) {
+	downloadform()
+});
+
 document.getElementById('exportToPDFbutton').addEventListener('click', async function(event) {
 	await exportToPDF()
 });
@@ -104,7 +108,7 @@ et2=document.getElementById('expiredate');
 et1.value=new Date().toISOString().split('T')[0];
 et1.addEventListener('change', function(event) {
 	let nextdate = new Date(et1.value);
-	nextdate.setDate(nextdate.getDate() + 90);
+	nextdate.setDate(nextdate.getDate() + 89);
 	et2.value=nextdate.toISOString().split('T')[0]; 
 });
 et1.dispatchEvent(new Event('change', {bubbles: true}));
@@ -151,6 +155,9 @@ papcodelist={
 "18":"(18)原位子宮頸腺癌 (AIS)",
 "21":"難以判讀"
 };
+function downloadform(){
+	window.open("https://iiirrkimo.github.io/checkdata/標準格式.zip","_blank")
+}
 async function starttransfer(){
 	try {
 		tablebody=document.getElementById('reporttable').children[1];
@@ -765,7 +772,7 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			} else {
 				temp="　";
 			}
-			if (dat[32]*1>=6.5){
+			if (dat[32]*1>=5.7){
 				temp2="✱";
 			} else {
 				temp2="　";
@@ -1074,9 +1081,9 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			reportcontent+='<tr><td class="report_table_underline">中文名稱</td><td class="report_table_underline">英文名稱</td><td class="report_table_underline">檢驗值</td><td class="report_table_underline">參考值</td></tr>';
 			reportcontent+='<tr><td colspan="4" class="report_table_title">肝功能、病毒性肝炎、肝臟腫瘤標記檢查</td></tr>';
 			t0=addcomment(dat[39],40,0,true);
-			reportcontent+='<tr><td class="report_table_subtitle">草酸轉胺基酶(肝)</td><td>AST(GOT)</td><td>'+t0+'</td><td>≤40 mg/dL</td></tr>';
+			reportcontent+='<tr><td class="report_table_subtitle">草酸轉胺基酶(肝)</td><td>AST(GOT)</td><td>'+t0+'</td><td>≤40 IU/L</td></tr>';
 			t0=addcomment(dat[40],40,0,true);
-			reportcontent+='<tr><td class="report_table_subtitle">丙酮轉胺基酶(肝)</td><td>ALT(GPT)</td><td>'+t0+'</td><td>≤40 mg/dL</td></tr>';
+			reportcontent+='<tr><td class="report_table_subtitle">丙酮轉胺基酶(肝)</td><td>ALT(GPT)</td><td>'+t0+'</td><td>≤40 IU/L</td></tr>';
 			if (dat[42].includes('陽性')){
 				t0=dat[42]+"*";
 			} else {
@@ -1133,13 +1140,13 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			reportcontent+='<tr><td class="report_table_subtitle">C肝抗體(定性)</td><td>Anti-HCV</td><td>'+t0+'</td><td>陰性</td></tr>';
 			reportcontent+='<tr><td class="report_table_subtitle">C肝抗體(定量)</td><td>Anti-HCV</td><td>'+t1+'</td><td><1.5 S/CO</td></tr>';
 			t0=addcomment(dat[41],9,0,true);
-			reportcontent+='<tr><td class="report_table_subtitle">甲型胎兒蛋白(肝癌)</td><td>α-fetoprotein</td><td>'+t0+'</td><td><9.00 ng/mL</td></tr>';
+			reportcontent+='<tr><td class="report_table_subtitle">甲型胎兒蛋白(肝癌)</td><td>α-fetoprotein</td><td>'+t0+'</td><td><7.00 ng/mL</td></tr>';
 			reportcontent+='<tr><td colspan="4" class="report_table_title">腎功能、蛋白尿檢查</td></tr>';
 			t0=addcomment(dat[46],1.3,0.4,true);
 			reportcontent+='<tr><td class="report_table_subtitle">肌酸酐</td><td>Creatinine</td><td>'+t0+'</td><td>0.4~1.3 mg</td></tr>';
 			t0=addcomment(dat[47],0,60,true);
 			reportcontent+='<tr><td class="report_table_subtitle">腎絲球過濾率</td><td>eGFR</td><td>'+t0+'</td><td>>60 ml/min/1.73m^2</td></tr>';
-			if (dat[48]=="<6.00"){
+			if (dat[48].includes("<")){
 				t0=dat[48];
 			} else {
 				t0=addcomment(dat[48],10,0,true);
@@ -1148,15 +1155,15 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			t0=addcomment(dat[49],250,60,true);
 			reportcontent+='<tr><td class="report_table_subtitle">尿液肌酸酐</td><td>Urine creatinine</td><td>'+t0+'</td><td>60~250 mg/dL</td></tr>';
 			if (dat[50].includes('超出線性')){
-				t0='尿蛋白<6，不需計算';
+				t0='不需計算';
 			} else {
 				t0=addcomment(dat[50],150,0,true);
 			}
 			reportcontent+='<tr><td class="report_table_subtitle">尿液蛋白質/肌酸酐</td><td>UPCR</td><td>'+t0+'</td><td><150 mg/g</td></tr>';
-			if (dat[51]!="正常"){
-				t0=dat[51]+"*";
-			} else {
+			if (dat[51]=="正常" || dat[51]=="無法計算"){
 				t0=dat[51];
+			} else {
+				t0=dat[51]+"*";
 			}
 			reportcontent+='<tr><td class="report_table_subtitle">慢性腎臟病期數</td><td>CKD stage</td><td>'+t0+'</td><td>正常</td></tr>';
 			t0=addcomment(dat[52],7,0,true);
@@ -1226,7 +1233,7 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			reportcontent+='<div><table class="suggestion_table1"><tr><td>整篩編號：'+dat[0]+'</td><td>姓名：'+dat[2]+'</td></tr></table></div>';
 			reportcontent+='<div><table class="suggestion_table2"><tr><th></th><th>項目</th><th>說明</th></tr>';
 			
-			if ((dat[5]=="男" && dat[16]*1>=90) || (dat[5]=="女" && dat[16]*1>=80) || dat[15]*1>=24){
+			if ((dat[5]=="男" && dat[16]*1>90) || (dat[5]=="女" && dat[16]*1>80) || dat[15]*1>24){
 				t0="■";
 			} else {
 				t0="□";
@@ -1281,7 +1288,11 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (dat[51].includes('期')){
 				t0="■";
 			} else {
-				t0="□";
+				if (dat[47]*1<60){
+					t0="■";
+				} else {
+					t0="□";
+				}
 			}
 			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">腎功能異常</td><td>1. 生活型態調整：多攝取水份，避免吃高鈉或過度加工食物(醃漬品、各式罐頭)，避免使用來不明的成藥、中草藥、電台藥物或保健食品，避免使用傷腎藥物(消炎止痛藥)。<br>2. 生活型態調整後3~6個月請再次抽血驗尿追蹤(不需空腹)。</td></tr>';
 			if (dat[52]*1>7){
@@ -1326,8 +1337,11 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				t0="□";
 			}
 			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">甲型胎兒蛋白<br>偏高</td><td>甲型胎兒蛋白(α-Fetoprotein)是一種α-1球蛋白，由胎兒的卵黃囊、腸胃道及肝臟分泌，成人則多由肝臟分泌，許多肝病皆可能伴隨甲型胎兒蛋白升高，80-90%的肝細胞癌病人血清中甲型胎兒蛋白有升高現象，檢查結果偏高建議至肝膽腸胃科接受腹部超音波檢查。</td></tr>';
-			
-			
+			if (dat[59]=="陽性"){
+				t0="■";
+			} else {
+				t0="□";
+			}
 			reportcontent+='<tr><td style="text-align: center;">'+t0+'</td><td style="text-align: center;">幽門桿菌抗原</td><td>若為陽性，表示疑似胃幽門螺旋桿菌感染，可能導致胃腸道出血、穿孔等併發症，嚴重者可能導致胃癌。建議胃鏡檢查，並接受除菌治療。</td></tr>';
 			if (dat[60]=="陽性"){
 				t0="■";
@@ -1447,7 +1461,7 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 				transGI["S"]+="C型肝炎表面抗原"+dat[44]+"，";
 				transGI["P"]+="腹部超音波檢查";
 			}
-			if (dat[41]*1>9){
+			if (dat[41]*1>7){
 				transGI["S"]+="甲型胎兒蛋白偏高，"+dat[41]+"ng/mL，";
 				transGI["P"]+="進一步檢查及治療";
 			}
@@ -1507,6 +1521,9 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			if (['第4期','第5期'].includes(dat[51])){
 				transNEP["S"]+="腎功能異常，Creatinine:"+dat[46]+"mg/dL,eGFR:"+dat[47]+"ml/min/1.73m^2，UPCR:"+dat[50]+'mg/g，';
 				transNEP["P"]+="進一步檢查及治療";
+			} else if (dat[50]*1>=1000){
+				transNEP["S"]+="腎功能異常，Creatinine:"+dat[46]+"mg/dL,eGFR:"+dat[47]+"ml/min/1.73m^2，UPCR:"+dat[50]+'mg/g，';
+				transNEP["P"]+="進一步檢查及治療";
 			}
 			if (transNEP["S"]!=""){
 				transNEP["S"]+="煩請醫師診治";
@@ -1525,12 +1542,12 @@ async function convertToPDF(v0,v1,s1,s2,s3,s4,s5,s6,s7,s8){
 			}
 			
 			temptransfer={};
-			temptransfer['transGI']=transGI;
-			temptransfer['transCV']=transCV;
-			temptransfer['transCM']=transCM;
-			temptransfer['transNEP']=transNEP;
-			temptransfer['transORT']=transORT;
-			temptransfer['transGYN']=transGYN;
+			temptransfer['transGI']=transGI['S'];
+			temptransfer['transCV']=transCV['S'];
+			temptransfer['transCM']=transCM['S'];
+			temptransfer['transNEP']=transNEP['S'];
+			temptransfer['transORT']=transORT['S'];
+			temptransfer['transGYN']=transGYN['S'];
 			alltransferarray[reportlistkey[i]]=temptransfer;
 			
 		}
@@ -1578,6 +1595,7 @@ function generateHBVconsult(){
 	} else {
 		dnaunit='　IU/mL';
 	}
+	retv+='<span class="HBVconsule" style="font-size: 24px;">➤目前肝指數: GOT : '+dat[39]+' IU/L ； GPT : '+dat[40]+'IU/L</span><br>';
 	retv+='<span class="HBVconsule" style="font-size: 24px;">➤HBV DNA:　'+dat[66]+dnaunit+'</span>';
 	retv+='<div style="border: 2px solid black; border-radius: 15px; padding: 10px; width: 95%;">'
 	retv+='<span class="HBVconsule" style="font-size: 20px;">此為病毒量，亦即病毒活性。一般以2000 IU/mL，以及20,000 IU/mL當作分界：</span><br>';
@@ -1594,7 +1612,7 @@ function generateHBVconsult(){
 	retv+='<span class="HBVconsule" style="font-size: 24px;">➤Anti-HDV:　'+dat[68]+'　S/CO</span>';
 	retv+='<div class="HBVconsule" style="border: 2px solid black; border-radius: 15px; padding: 10px; width: 95%;">'
 	retv+='<span class="HBVconsule" style="font-size: 20px;">D型肝炎病毒是一種只會感染B肝患者的病毒，而D型肝炎抗體 (anti-HDV) 可作為篩檢是否有慢性HDV感染的工具。anti-HDV陰性患者，沒有HDV感染，但anti-HDV 陽性患者，理論上應進一步使用HDV病毒量檢測是否有活動性HDV 存在，不過目前並沒有被認證的試劑，同時HDV目前也沒有可以有效治癒的藥物，所以若有anti-HDV 陽性患者，需要給予衛教，避免體液傳染給他人，以及更加注意是否有罹患肝硬化或肝癌的情況。</span><br>';
-	retv+='</div><br><br><br><br>';
+	retv+='</div><br><br>';
 	retv+='<span style="font-size: 24px;">---------------------------------------------------------------------------------------------------</span>';
 	retv+='<div class="suggestion_title" style="font-size: 32px;">彰化縣衛生局B肝檢驗統計問卷</div>';
 	retv+='<div><table class="suggestion_table1"><tr><td style="font-size: 24px;">整篩編號：'+dat[0]+'</td><td style="font-size: 24px;">姓名：'+dat[2]+'</td></tr></table></div><br>';
@@ -1686,7 +1704,7 @@ function generatetransferHP(){
 	ret+='<tr style="border-bottom: 2px solid"><td colspan="2">聯絡人：<br><br></td><td>醫師簽章：<br><br></td><td>轉診日期：<br><br></td></tr><tr><td colspan="3">三、轉診後處理(由確診及治療醫院填寫)</td><td style="border-left: 2px solid"></td></tr><tr><td style="text-align: right; ">1.<br><br></td><td colspan="2">請依專業以及健保規範判斷，協助諮詢說明胃幽門桿菌感染的臨床意義與對健康的可能影響</td><td style="border-left: 2px solid"></td></tr><tr><td style="text-align: right; ">2.</td><td colspan="2">處方</td><td style="border-left: 2px solid">就診院所：____________________</td></tr><tr><td></td><td colspan="2">（1）依病情或健保規範需進一步檢查做胃鏡檢查</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□是</td><td style="border-left: 2px solid">就診科別：____________________</td></tr><tr><td></td><td colspan="2">　　　　□否；請說明：____________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□病人拒絕</td><td style="border-left: 2px solid">醫師姓名：____________________</td></tr><tr><td></td><td colspan="2">（2）上消化道內視鏡</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□正常</td><td style="border-left: 2px solid">病 歷 號：____________________</td></tr><tr><td></td><td colspan="2">　　　　□胃炎；位置範圍：____________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□胃潰瘍；位置範圍：__________________________</td><td style="border-left: 2px solid">診察日期：_____年_____月______日</td></tr><tr><td></td><td colspan="2">　　　　□十二指腸潰瘍；位置範圍：____________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□胃食道逆流；程度：__________________________</td><td style="border-left: 2px solid">回覆日期：_____年_____月______日</td></tr><tr><td></td><td colspan="2">　　　　□胃腫瘤；位置範圍：__________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□切片</td><td style="border-left: 2px solid;font-weight: 700;">四、醫師建議</td></tr><tr><td></td><td colspan="2">　　　　　切片結果：__________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□其他：______________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">（3）上消化道攝影</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□正常</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□異常；請說明：______________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">（4）口服藥</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　結果：□無　□病人拒服　□其他用藥，藥名____________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□公費除菌藥(一線)</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Amoxicillin 1000mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Metronidazole 250mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□Clarithromycin 500mgBID</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□公費除菌藥(二線)</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI□Amoxicillin□Levofloxacin</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　　　□PPI□Bismuth□Tetracycline□Metronidazole</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□健保</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　□自費，藥名__________________________________</td><td style="border-left: 2px solid"></td></tr><tr><td></td><td colspan="2">　　　　服用週期□5天　□10天　□其他_________________</td><td style="border-left: 2px solid"></td></tr></table><div class="transHP_end"><span>備註：轉診單填妥後請於個案確診日隔天 中午前回傳至衛生所。<br>　　　轉診紀錄單正本及胃鏡紙本報告單，請於個案確診後1周內寄回衛生所，感謝您。</span></div></div>';
 	ret+='<div class="page-break2"></div><div class="page-break"></div>';
 	
-	ret='<div class="transHP_title" style="font-size:28px;">彰化縣　幽門桿菌治療　電話追蹤關懷紀錄單</div><br>';
+	ret+='<div class="transHP_title" style="font-size:28px;">彰化縣　幽門桿菌治療　電話追蹤關懷紀錄單</div><br>';
 	ret+='<table style="margin-left:20px;width:95%;font-family:標楷體;font-size:24px;">';
 	ret+='<tr style="height:50px;"><td style="width:45%">姓名：'+dat[2]+'('+dat[5]+')</td><td style="width:45%">整篩編號：'+dat[0]+'</td></tr>';
 	ret+='<tr style="height:50px;"><td style="width:45%">身分證：'+dat[1]+'</td><td style="width:45%">生日：'+dat[3]+'</td></tr>';
