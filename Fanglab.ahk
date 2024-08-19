@@ -2,7 +2,7 @@
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-VERname:="Fang_LAB_V4"
+VER:="1130814"
 ;~ ExtractText(result, "BB2.pdf")
 ;~ IfExist, result.txt
 ;~ {
@@ -24,11 +24,11 @@ jmethod:=JsonParse(method)
 ;~ FileAppend, %jmethods%, dump.txt
 
 gui, main: font, s15 cBlack, 微軟正黑體
-gui, main: show, xcenter ycenter w680 h720, %VERname%
+gui, main: show, xcenter ycenter w680 h640, % "Fang_LAB_" . ver
 xx=5
 yy=5
 
-gui, main: add,text, x%xx% y%yy% w80 h30 center gRE, 選擇模式
+gui, main: add,text, x%xx% y%yy% w80 h30 center gre , 選擇模式
 xx+=80
 gui, main: font, s13 cBlack, 微軟正黑體
 gui, main: add, dropdownlist, x%xx% y%yy% w500 h30 r10 vMode gselectmode, 
@@ -57,10 +57,12 @@ gui, main: add,button, x%xx% y%yy% w90 h60 gtrall, 開始`n轉換
 yy+=60
 xx=5
 gui, main: font, s15 cBlue, 微軟正黑體
-gui, main: add,text, x%xx% y%yy% w580 h30 gtest, 勾選項目為查核樣品
+gui, main: add,text, x%xx% y%yy% w480 h30, 勾選項目為查核樣品
 gui, main: font, s15 cBlack, 微軟正黑體
-xx+=580
+xx+=490
 gui, main: add,button, x%xx% y%yy% w90 h30 gselectall, 全部選擇
+xx+=90
+gui, main: add,button, x%xx% y%yy% w90 h30 gselectpreload, 選擇預設
 yy+=30
 xx=5
 gui, main: font, s13 cBlack, 微軟正黑體
@@ -78,7 +80,7 @@ gui, main: add,text, x%xx% y%yy% w70 h30  center, 濃度
 yy+=30
 xx=5
 gui, main: font, s13 cBlack, 微軟正黑體
-gui, main: add, dropdownlist, x%xx% y%yy% w70 h30 r10 vGSam1 Disabled gGSam1, STD|ICV|CCV|BK|SPK|TEST
+gui, main: add, dropdownlist, x%xx% y%yy% w70 h30 r10 vGSam1 Disabled gGSam1, STD|ICV|CCV|BK|SPK|DUP|TEST
 xx+=70
 gui, main: add, dropdownlist, x%xx% y%yy% w70 h30 r10 vGSam2 Disabled gGSam2, 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20
 xx+=70
@@ -118,7 +120,10 @@ gui, main: font, s13 cBlack, 微軟正黑體
 gui, main: add,ListView, x%xx% y%yy% w670 h180 vlist_sample AltSubmit glist_sample,  種類|編號|檢體|濃度|重量|體積|稀釋|內標|說明
 gui, main: font, s15 cBlack, 微軟正黑體
 yy+=180
+yyy:=yy+3
 xx=5
+gui, main: add,TEXT, x%xx% y%yyy% w40 h60 center cred, 合`n計
+xx=40
 gui, main: add,TEXT, x%xx% y%yy% w50 h30 center, STD:
 xx+=50
 gui, main: add,TEXT, x%xx% y%yy% w30 h30 center cblue vcountSTD, 0
@@ -130,25 +135,31 @@ xx+=30
 gui, main: add,TEXT, x%xx% y%yy% w50 h30 center, CCV:
 xx+=50
 gui, main: add,TEXT, x%xx% y%yy% w30 h30 center cblue vcountCCV, 0
-yy+=30
-xx=5
+xx+=30
 gui, main: add,TEXT, x%xx% y%yy% w50 h30 center, BK:
 xx+=50
 gui, main: add,TEXT, x%xx% y%yy% w30 h30 center cblue vcountBK, 0
 xx+=30
+yy+=30
+xx=40
 gui, main: add,TEXT, x%xx% y%yy% w50 h30 center, SPK:
 xx+=50
 gui, main: add,TEXT, x%xx% y%yy% w30 h30 center cblue vcountSPK, 0
+xx+=30
+gui, main: add,TEXT, x%xx% y%yy% w50 h30 center, DUP:
+xx+=50
+gui, main: add,TEXT, x%xx% y%yy% w30 h30 center cblue vcountDUP, 0
 xx+=30
 gui, main: add,TEXT, x%xx% y%yy% w50 h30 center, TEST:
 xx+=50
 gui, main: add,TEXT, x%xx% y%yy% w30 h30 center cblue vcountTEST, 0
 yy-=30
 xx+=30
+xx+=85
 gui, main: add,button, x%xx% y%yy% w100 h60 Disabled vimpTXT gimpTXT, 匯入`nTXT
-xx+=95
+xx+=105
 gui, main: add,button, x%xx% y%yy% w100 h60 Disabled vexpTXT gexpTXT, 匯出`nTXT
-xx+=95
+xx+=105
 gui, main: add,button, x%xx% y%yy% w100 h60 Disabled  vtransexcel gtransexcel , 轉換`nEXCEL
 
 menu, samplemenu, add, 修改檢體
@@ -167,20 +178,24 @@ return
 
 impTXT:
 FileSelectFile, inputtxt, 1 , %A_ScriptDir% , ,*.TXT
-fileread, inputtxts, %inputtxt%
-jimptxt:=JsonParse(inputtxts)
-gui,main:default
-gui,main:listview, list_sample
-LV_Delete()
-loop, % jimptxt.MaxIndex()
-{
-	LV_add("",jimptxt[A_index][1],jimptxt[A_index][2],jimptxt[A_index][3],jimptxt[A_index][4],jimptxt[A_index][5],jimptxt[A_index][6],jimptxt[A_index][7],jimptxt[A_index][8],jimptxt[A_index][9])
+if (ErrorLevel=0){
+	fileread, inputtxts, %inputtxt%
+	jimptxt:=JsonParse(inputtxts)
+	gui,main:default
+	gui,main:listview, list_sample
+	LV_Delete()
+	loop, % jimptxt.MaxIndex()
+	{
+		LV_add("",jimptxt[A_index][1],jimptxt[A_index][2],jimptxt[A_index][3],jimptxt[A_index][4],jimptxt[A_index][5],jimptxt[A_index][6],jimptxt[A_index][7],jimptxt[A_index][8],jimptxt[A_index][9])
+	}
+	loop, 9
+	{
+		LV_ModifyCol(A_index, "AutoHdr")
+	}
+	gosub, countsample
+} else {
+	msgbox, 4096, 錯誤, 無選擇檔案
 }
-loop, 9
-{
-	LV_ModifyCol(A_index, "AutoHdr")
-}
-gosub, countsample
 return
 
 expTXT:
@@ -215,6 +230,7 @@ listicv:=0
 listccv:=0
 listbk:=0
 listspk:=0
+listdup:=0
 listtest:=0
 loop, % totalrow
 {
@@ -229,6 +245,8 @@ loop, % totalrow
 		listbk+=1
 	} else if (item="SPK"){
 		listspk+=1
+	} else if (item="DUP"){
+		listdup+=1
 	} else if (item="TEST"){
 		listtest+=1
 	}
@@ -238,6 +256,7 @@ guicontrol, main:, countICV, % listicv
 guicontrol, main:, countCCV, % listccv
 guicontrol, main:, countBK, % listbk
 guicontrol, main:, countSPK, % listspk
+guicontrol, main:, countDUP, % listdup
 guicontrol, main:, countTEST, % listtest
 return
 
@@ -367,139 +386,212 @@ IfMsgBox, yes
 return
 
 transexcel:
-guicontrolget, mode, main:, mode
-gui, main:default
-gui, main:listview, list_abr
-listcompoundcount:=LV_GetCount()
+errmsg:=""
+guicontrolget,countSTD, main:, countSTD
+guicontrolget,countICV, main:, countICV
+guicontrolget,countCCV, main:, countCCV
+guicontrolget,countBK, main:, countBK
+guicontrolget,countSPK, main:, countSPK
+guicontrolget,countDUP, main:, countDUP
+guicontrolget,countTEST, main:, countTEST
+if (countSTD<5){
+	errmsg:=errmsg . "STD數量需>=5`n"
+} 
+if (countICV!=1){
+	errmsg:=errmsg . "ICV數量需=1`n"
+} 
+if (countCCV!=2){
+	errmsg:=errmsg . "CCV數量需=2`n"
+} 
+if (countBK!=1){
+	errmsg:=errmsg . "Blank數量需=1`n"
+} 
+if (countSPK!=1){
+	errmsg:=errmsg . "Spike數量需=1`n"
+} 
+if (countDUP!=1){
+	errmsg:=errmsg . "Duplicate數量需=1`n"
+} 
+if (countTEST<1){
+	errmsg:=errmsg . "TEST數量需>=1`n"
+}
+if (errmsg=""){
 
-gui, main:default
-gui, main:listview, list_sample
-listsamplecount:=LV_GetCount()
-if (samcount=0 || listcompoundcount=0){
-	msgbox,4096,錯誤, 無檢體
-} else {
-	oupt:={}
-	oupt["yabr"]:={}
-	oupt["yabr"]["order"]:={}
-	oupt["SPKcompound"]:={}
-	oupt["SPKcompound"]["order"]:={}
-	oupt["SPKcompound"]["list"]:=[]
-	sam_STD:={}
-	sam_ICV:={}
-	sam_CCV:={}
-	sam_BK:={}
-	sam_SPK:={}
-	sam_TEST:={}
+	guicontrolget, mode, main:, mode
 	gui, main:default
 	gui, main:listview, list_abr
-	
-	loop, % listcompoundcount
-	{
-		LV_GetText(Y1,A_Index,1)
-		LV_GetText(Y2,A_Index,2)
-		LV_GetText(Y3,A_Index,3)
-		LV_GetText(Y4,A_Index,4)
-		LV_GetText(Y5,A_Index,5)
-		oupt["yabr"]["order"][Y1]:=Y2
-		oupt["yabr"][Y2]:={}
-		oupt["yabr"][Y2]["a"]:=Y3
-		oupt["yabr"][Y2]["b"]:=Y4
-		oupt["yabr"][Y2]["r"]:=Y5
-	}
-	SS=0
-	compoundcheckcount:=0
-	loop, % listcompoundcount
-	{
-		SS:=LV_GetNext(ss, "c")
-		if (SS!=0){
-			compoundcheckcount+=1
-			LV_GetText(CC2,SS,2)
-			oupt["SPKcompound"]["order"][compoundcheckcount]:=CC2
-			oupt["SPKcompound"]["list"].push(CC2)
-		} else {
-			break
-		}
-	}
+	listcompoundcount:=LV_GetCount()
+
 	gui, main:default
 	gui, main:listview, list_sample
-	loop, % listsamplecount
-	{
-		samplerow:=A_Index
-		tempsample:={}
-		loop, 9
+	listsamplecount:=LV_GetCount()
+	if (samcount=0 || listcompoundcount=0){
+		msgbox,4096,錯誤, 無檢體
+	} else {
+		oupt:={}
+		oupt["yabr"]:={}
+		oupt["yabr"]["order"]:={}
+		oupt["SPKcompound"]:={}
+		oupt["SPKcompound"]["order"]:={}
+		oupt["SPKcompound"]["list"]:=[]
+		sam_STD:={}
+		sam_ICV:={}
+		sam_CCV:={}
+		sam_BK:={}
+		sam_SPK:={}
+		sam_DUP:={}
+		sam_TEST:={}
+		gui, main:default
+		gui, main:listview, list_abr
+		
+		loop, % listcompoundcount
 		{
-			LV_GetText(C%A_index%,samplerow,A_index)
-			
+			LV_GetText(Y1,A_Index,1)
+			LV_GetText(Y2,A_Index,2)
+			LV_GetText(Y3,A_Index,3)
+			LV_GetText(Y4,A_Index,4)
+			LV_GetText(Y5,A_Index,5)
+			oupt["yabr"]["order"][Y1]:=Y2
+			oupt["yabr"][Y2]:={}
+			oupt["yabr"][Y2]["a"]:=Y3
+			oupt["yabr"][Y2]["b"]:=Y4
+			oupt["yabr"][Y2]["r"]:=Y5
 		}
-		if (C2="N/A"){
-			C2=1
+		SS=0
+		compoundcheckcount:=0
+		loop, % listcompoundcount
+		{
+			SS:=LV_GetNext(ss, "c")
+			if (SS!=0){
+				compoundcheckcount+=1
+				LV_GetText(CC2,SS,2)
+				oupt["SPKcompound"]["order"][compoundcheckcount]:=CC2
+				oupt["SPKcompound"]["list"].push(CC2)
+			} else {
+				break
+			}
 		}
-		tempsample["type"]:=c1
-		tempsample["num"]:=c2
-		tempsample["sample"]:=C3
-		tempsample["conc"]:=C4
-		tempsample["weight"]:=C5
-		tempsample["volume"]:=C6
-		tempsample["dilute"]:=C7
-		tempsample["is"]:=C8
-		tempsample["remark"]:=C9
-		sam_%C1%[C2]:=tempsample
-		oupt[C1]:=sam_%C1%
+		gui, main:default
+		gui, main:listview, list_sample
+		loop, % listsamplecount
+		{
+			samplerow:=A_Index
+			tempsample:={}
+			loop, 9
+			{
+				LV_GetText(C%A_index%,samplerow,A_index)
+				
+			}
+			if (C2="N/A"){
+				C2=1
+			}
+			tempsample["type"]:=c1
+			tempsample["num"]:=c2
+			tempsample["sample"]:=C3
+			tempsample["conc"]:=C4
+			tempsample["weight"]:=C5
+			tempsample["volume"]:=C6
+			tempsample["dilute"]:=C7
+			tempsample["is"]:=C8
+			tempsample["remark"]:=C9
+			sam_%C1%[C2]:=tempsample
+			oupt[C1]:=sam_%C1%
+		}
+		rep:=generatefromobj(oupt,jres,jmethod)
+		
+		;~ jmethods:=JsonDump(oupt)
+		;~ Clipboard:=jmethods
+		Clipboard:=rep
+		
+		
+		;~ LAB0 := ComObjCreate("Excel.Application")
+		;~ LAB0.Visible := true
+		;~ xlspath = %A_ScriptDir%\Fanglab.xlsm
+		;~ SplitPath, xlspath, xlsFile
+		;~ LAB01:=LAB0.Workbooks.Open(xlspath)
+		;~ LAB01.sheets("檢量線").Range("A:I").clear
+		;~ LAB01.sheets("檢量線").Range("A1:A1").PasteSpecial
+		msgbox,4096, 完成,  完成
 	}
-	rep:=generatefromobj(oupt,jres,jmethod)
-	
-	;~ jmethods:=JsonDump(oupt)
-	;~ Clipboard:=jmethods
-	Clipboard:=rep
-	
-	
-	LAB0 := ComObjCreate("Excel.Application")
-	LAB0.Visible := true
-	xlspath = %A_ScriptDir%\Fanglab.xlsm
-	SplitPath, xlspath, xlsFile
-	LAB01:=LAB0.Workbooks.Open(xlspath)
-	LAB01.sheets("檢量線").Range("A:I").clear
-	LAB01.sheets("檢量線").Range("A1:A1").PasteSpecial
-	msgbox 完成
+} else {
+	msgbox,4096,錯誤, % errmsg
 }
 return
 
 generatefromobj(js,jres,jmethod){
 	guicontrolget, mode, main:, mode
+	mgt:=jmethod["generaltitle"]
 	rep:=""
+	;~ STD
 	rep:=rep . "三、檢量線製作：`n"
+	thisgt:=jmethod[mode]["titles"]["STD"]
 	loop, % js.yabr.order.MaxIndex()
 	{
-		comp:=js.yabr.order[A_Index]
-		yabrnum:=A_Index
-		rep:=rep . A_Index . "." . comp . "`t"
-		loop, % js.STD.MaxIndex()
+		compound:=A_Index
+		comp:=js.yabr.order[compound]
+		
+		loop, % thisgt.MaxIndex()
 		{
-			rep:=rep . js["STD"][A_Index]["type"] . js["STD"][A_Index]["num"] . "`t"
+			row:=A_index
+			rowtype:=jmethod[mode]["titles"]["STD"][row]
+			loop, % js.STD.MaxIndex()
+			{
+				column:=A_index
+				if (rowtype="STD_comp"){
+					if (column=1){
+						rep:=rep . compound . "." . comp . "`t"
+					} 
+					rep:=rep . "STD" . column . "`t"
+				} else if (rowtype="STD_conc"){
+					if (column=1){
+						rep:=rep . "濃度(" . jmethod[mode]["unit"] . ")`t"
+					} 
+					rep:=rep . js["STD"][column]["conc"] . ".000`t"
+				} else if (rowtype="STD_ana"){
+					if (column=1){
+						rep:=rep . "Ana Peak`t"
+					} 
+					posi:=checknuminsmaple(js["STD"][column]["sample"],jres)
+					rep:=rep . jres.sample[posi][comp]["peakarea"] . "`t"
+				} else if (rowtype="STD_yaxb"){
+					if (column=1){
+						rep:=rep . "y=ax+b"
+					} 
+				} else if (rowtype="STD_r"){
+					if (column=1){
+						rep:=rep . "相關系數r=`t" . js["yabr"][comp]["r"] . "`t斜率(a)=`t" . js["yabr"][comp]["a"] . "`t截距(b)=`t" . js["yabr"][comp]["b"] . "`n"
+						rep:=rep . "`ty = " . js["yabr"][comp]["a"] . " x+ " . js["yabr"][comp]["b"]
+					} 
+				} else if (rowtype="STD_ANAIS"){
+					posi:=checknuminsmaple(js["STD"][column]["sample"],jres)
+					ANAIS:=round(jres.sample[posi][comp]["peakarea"]/jres.sample[posi][comp]["ISArea"],4)
+					if (column=1){
+						rep:=rep . "Ana Peak/IS Peak`t"
+					} 
+					rep:=rep . ANAIS . "`t"
+				} else if (rowtype="STD_ISpeak"){
+					posi:=checknuminsmaple(js["STD"][column]["sample"],jres)
+					if (column=1){
+						rep:=rep . "Ana Peak/IS Peak`t"
+					} 
+					rep:=rep . jres.sample[posi][comp]["ISArea"] . "`t"
+				} else {
+					if (column=1){
+						rep:=rep . "未定義標題" . ")`t"
+					} 
+					rep:=rep . "未定義公式" . ".000`t"
+				}
+			}
+			rep:=rep . "`n"
 		}
-		rep:=rep . "`n"
-		rep:=rep . "濃度(" . jmethod[mode]["unit"] . ")`t"
-		loop, % js.STD.MaxIndex()
-		{
-			rep:=rep . js["STD"][A_Index]["conc"] . ".000`t"
-		}
-		rep:=rep . "`n"
-		rep:=rep . "Ana Peak`t"
-		loop, % js.STD.MaxIndex()
-		{
-			posi:=checknuminsmaple(js["STD"][A_Index]["sample"],jres)
-			rep:=rep . jres.sample[posi][comp]["peakarea"] . "`t"
-		}
-		rep:=rep . "`n"
-		rep:=rep . "y=ax+b`n"
-		rep:=rep . "相關系數r=`t" . js["yabr"][comp]["r"] . "`t斜率(a)=`t" . js["yabr"][comp]["a"] . "`t截距(b)=`t" . js["yabr"][comp]["b"] . "`n"
-		rep:=rep . "`ty = " . js["yabr"][comp]["a"] . " x+ " . js["yabr"][comp]["b"] . "`n"
 		rep:=rep . "`n`n`n`n`n`n`n`n`n`n"
 	}
+	;~ ICV
 	rep:=rep . "`n`n四、檢量線確認及查核：`n"
-	mgt:=jmethod["generaltitle"]
 	thisgt:=jmethod[mode]["titles"]["ICV"]
-	loop, % thisgt.MaxIndex(){
+	posi:=checknuminsmaple(js["ICV"][1]["sample"],jres)
+	loop, % thisgt.MaxIndex()
+	{
 		mgtkey:=thisgt[A_index]
 		thisit:= mgt[mgtkey]
 		if (thisit="檢量線確認標準品"){
@@ -511,30 +603,52 @@ generatefromobj(js,jres,jmethod){
 		}
 	}
 	rep:=rep . "`n"
-	posi:=checknuminsmaple(js["ICV"][1]["sample"],jres)
 	loop, % js.yabr.order.MaxIndex()
 	{
 		comp:=js.yabr.order[A_Index]
-		ii1:=comp
-		ii2:=js["ICV"][1]["conc"]
-		ii3:=jres.sample[posi][comp]["peakarea"] 
-		ii4:=countconc(ii3,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
-		ii5:=(ii4-ii2)/ii2*100
-		ii6:=jres.sample[posi][comp]["analyteRT"] 
-		ii7:=ii6*1.025
-		ii8:=ii6*0.975
-		loop, 8
+		sample_conc:=js["ICV"][1]["conc"]
+		area:=jres.sample[posi][comp]["peakarea"]
+		ISArea:=jres.sample[posi][comp]["ISArea"]
+		IAratio:=area/ISArea
+		calc_conc:=countconc(area,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_conc_IS:=countconc(IAratio,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		RR:=(calc_conc-sample_conc)/sample_conc*100
+		RR_IS:=(calc_conc_IS-sample_conc)/sample_conc*100
+		RT:=jres.sample[posi][comp]["analyteRT"] 
+		RT25_1:=RT*1.025
+		RT25_2:=RT*0.975
+		row:=A_Index
+		loop, % thisgt.MaxIndex()
 		{
-			if (A_index=2 || A_index=4){
-				temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
-			} else if (A_Index=5){
-				temptxt:= round(ii%A_index%,jmethod[mode]["percentdigit"]) . "%"
-			} else if (A_Index=7 ||A_Index=8 ){
-				temptxt:= round(ii%A_index%,jmethod[mode]["percentdigit"])
+			column:=A_index
+			columntype:=jmethod[mode]["titles"]["ICV"][column]
+			
+			if (columntype="comp_ICV"){
+				rep:=rep . comp . "`t"
+			} else if (columntype="sample_conc"){
+				rep:=rep . round(sample_conc,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="area"){
+				rep:=rep . area . "`t"
+			} else if (columntype="calc_conc"){
+				rep:=rep . round(calc_conc,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="RR"){
+				rep:=rep . round(RR,jmethod[mode]["percentdigit"]) . "%" . "`t"
+			} else if (columntype="RT"){
+				rep:=rep . RT . "`t"
+			} else if (columntype="RT25"){
+				rep:=rep . round(RT25_1,jmethod[mode]["percentdigit"]) . "`t" . round(RT25_2,jmethod[mode]["percentdigit"]) . "`t"
+			} else if (columntype="Isarea"){
+				rep:=rep . Isarea . "`t"
+			} else if (columntype="AI_ratio"){
+				rep:=rep . round(IAratio,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="calc_conc_IS"){
+				rep:=rep . round(calc_conc_IS,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="RR_IS"){
+				rep:=rep . round(RR_IS,jmethod[mode]["percentdigit"]) . "%" . "`t"
 			} else {
-				temptxt:=ii%A_index%
+				rep:=rep . "未定義公式" . "`t"
 			}
-			rep:=rep . temptxt . "`t"
+			
 		}
 		rep:=rep . "`n"
 	}
@@ -542,7 +656,6 @@ generatefromobj(js,jres,jmethod){
 	loop, % js.CCV.MaxIndex()
 	{
 		currentsample:=A_Index
-		
 		thisgt:=jmethod[mode]["titles"]["CCV"]
 		loop, % thisgt.MaxIndex(){
 			mgtkey:=thisgt[A_index]
@@ -560,30 +673,55 @@ generatefromobj(js,jres,jmethod){
 		loop, % js.yabr.order.MaxIndex()
 		{
 			comp:=js.yabr.order[A_Index]
-			ii1:=comp
-			ii2:=js["CCV"][currentsample]["conc"]
-			ii3:=jres.sample[posi][comp]["peakarea"] 
-			ii4:=countconc(ii3,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
-			ii5:=(ii4-ii2)/ii2*100
-			ii6:=jres.sample[posi][comp]["analyteRT"] 
-			ii7:=ii6*1.025
-			ii8:=ii6*0.975
-			loop, 8
+			sample_conc:=js["CCV"][currentsample]["conc"]
+			area:=jres.sample[posi][comp]["peakarea"]
+			calc_conc:=countconc(area,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+			RR:=(calc_conc-sample_conc)/sample_conc*100
+			RT:=jres.sample[posi][comp]["analyteRT"] 
+			RT25_1:=RT*1.025
+			RT25_2:=RT*0.975
+			
+			ISArea:=jres.sample[posi][comp]["ISArea"]
+			IAratio:=area/ISArea
+			calc_conc_IS:=countconc(IAratio,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+			RR_IS:=(calc_conc_IS-sample_conc)/sample_conc*100
+
+			loop, % thisgt.MaxIndex()
 			{
-				if (A_index=2 || A_index=4){
-					temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
-				} else if (A_Index=5){
-					temptxt:= round(ii%A_index%,jmethod[mode]["percentdigit"]) . "%"
-				} else if (A_Index=7 ||A_Index=8 ){
-					temptxt:= round(ii%A_index%,jmethod[mode]["percentdigit"])
+				column:=A_index
+				columntype:=jmethod[mode]["titles"]["ICV"][column]
+				
+				if (columntype="comp_ICV"){
+					rep:=rep . comp . "`t"
+				} else if (columntype="sample_conc"){
+					rep:=rep . round(sample_conc,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="area"){
+					rep:=rep . area . "`t"
+				} else if (columntype="calc_conc"){
+					rep:=rep . round(calc_conc,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="RR"){
+					rep:=rep . round(RR,jmethod[mode]["percentdigit"]) . "%" . "`t"
+				} else if (columntype="RT"){
+					rep:=rep . RT . "`t"
+				} else if (columntype="RT25"){
+					rep:=rep . round(RT25_1,jmethod[mode]["percentdigit"]) . "`t" . round(RT25_2,jmethod[mode]["percentdigit"]) . "`t"
+				} else if (columntype="Isarea"){
+					rep:=rep . Isarea . "`t"
+				} else if (columntype="AI_ratio"){
+					rep:=rep . round(IAratio,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="calc_conc_IS"){
+					rep:=rep . round(calc_conc_IS,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="RR_IS"){
+					rep:=rep . round(RR_IS,jmethod[mode]["percentdigit"]) . "%" . "`t"
 				} else {
-					temptxt:=ii%A_index%
+					rep:=rep . "未定義公式" . "`t"
 				}
-				rep:=rep . temptxt . "`t"
+				
 			}
 			rep:=rep . "`n"
 		}
 	}
+	;~ BK
 	rep:=rep . "`n"
 	rep:=rep . "五、空白樣品分析：`n"
 	thisgt:=jmethod[mode]["titles"]["BK"]
@@ -603,41 +741,94 @@ generatefromobj(js,jres,jmethod){
 	loop, % js.yabr.order.MaxIndex()
 	{
 		comp:=js.yabr.order[A_Index]
-		ii1:=comp
-		ii2:=js["BK"][1]["remark"]
-		ii3:=js["BK"][1]["weight"]
-		ii4:=js["BK"][1]["volume"]
-		ii5:=jres.sample[posi][comp]["peakarea"]
-		ii6:=countconc(ii5,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
-		ii7:=ii6*ii4/ii3**jmethod[mode]["CR_PP"]
-
-		loop, 7
+		sample_name:=js["BK"][1]["remark"]
+		weight:=js["BK"][1]["weight"]
+		volume:=js["BK"][1]["volume"]
+		area:=jres.sample[posi][comp]["peakarea"]
+		calc_conc:=countconc(area,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
+		
+		ISArea:=jres.sample[posi][comp]["ISArea"]
+		IAratio:=area/ISArea
+		calc_conc_IS:=countconc(IAratio,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp_IS:=calc_conc_IS*volume/weight*jmethod[mode]["CR_PP"]
+		
+		
+		LQ:=jmethod[mode]["STD_conc"][1]/5
+		loop, % thisgt.MaxIndex()
 		{
-			if (A_index=6){
-				LQ:=jmethod[mode]["STD_conc"][1]/5
-				if (ii6<LQ){
-					temptxt:= "<" . round(LQ,jmethod[mode]["digit"])
+			column:=A_index
+			columntype:=jmethod[mode]["titles"]["BK"][column]
+			
+			if (columntype="comp_BK"){
+				rep:=rep . comp . "`t"
+			} else if (columntype="sample_name"){
+				rep:=rep . sample_name . "`t"
+			} else if (columntype="weight"){
+				rep:=rep . weight . "`t"
+			} else if (columntype="volume"){
+				rep:=rep . volume . "`t"
+			} else if (columntype="area"){
+				rep:=rep . area . "`t"
+			} else if (columntype="calc_conc"){
+				if (calc_pp<LQ){
+					rep:=rep .  "<" . round(LQ,jmethod[mode]["digit"]) . "`t"
 				} else {
-					temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
+					rep:=rep . round(calc_conc,jmethod[mode]["digit"]) . "`t"
+				}	
+			} else if (columntype="calc_pp"){
+				if (calc_pp<LQ){
+					rep:=rep . "未檢出" . "`t"
+				} else {
+					rep:=rep . round(calc_pp,jmethod[mode]["digit"]) . "`t"
+				}	
+			} else if (columntype="Isarea"){
+				rep:=rep . Isarea . "`t"
+			} else if (columntype="AI_ratio"){
+				rep:=rep . round(IAratio,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="calc_conc_IS"){
+				if (calc_pp_IS<LQ){
+					rep:=rep .  "<" . round(LQ,jmethod[mode]["digit"]) . "`t"
+				} else {
+					rep:=rep . round(calc_conc_IS,jmethod[mode]["digit"]) . "`t"
 				}
-			} else if (A_index=7){
-				LQ:=jmethod[mode]["STD_conc"][1]/5
-				if (ii6<LQ){
-					temptxt:= "未檢出"
+			} else if (columntype="calc_pp_IS"){
+				if (calc_pp_IS<LQ){
+					rep:=rep . "未檢出" . "`t"
 				} else {
-					temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
+					rep:=rep . round(calc_pp_IS,jmethod[mode]["digit"]) . "`t"
 				}
 			} else {
-				temptxt:=ii%A_index%
+				rep:=rep . "未定義公式" . "`t"
 			}
-			rep:=rep . temptxt . "`t"
+			
 		}
 		rep:=rep . "`n"
 	}
 	rep:=rep . "`n"
+	;~ SPK
 	rep:=rep . "六、查核樣品分析：`n"
+	posi:=checknuminsmaple(js["SPK"][1]["sample"],jres)
 	loop, % js.SPKcompound["order"].MaxIndex()
 	{
+		comp:=js.SPKcompound["order"][A_Index]
+		sample_name:=js["SPK"][1]["remark"]
+		weight:=js["SPK"][1]["weight"]
+		volume:=js["SPK"][1]["volume"]
+		area:=jres.sample[posi][comp]["peakarea"]
+		calc_conc:=countconc(area,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
+		add_pp:=jmethod[mode]["SPK_conc"]
+		recy:=calc_pp/add_pp*100
+		
+		ISArea:=jres.sample[posi][comp]["ISArea"]
+		IAratio:=area/ISArea
+		calc_conc_IS:=countconc(IAratio,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp_IS:=calc_conc_IS*volume/weight*jmethod[mode]["CR_PP"]
+		recy_IS:=calc_pp_IS/add_pp*100
+		
+		
+		
 		currentcompound:=js.SPKcompound["order"][A_Index]
 		thisgt:=jmethod[mode]["titles"]["SPK"]
 		loop, % thisgt.MaxIndex(){
@@ -658,45 +849,47 @@ generatefromobj(js,jres,jmethod){
 			}
 		}
 		rep:=rep . "`n"
-		SPK_recy:=0
-		SPK_S:=[]
-		loop, % js.SPK.MaxIndex()
+		loop, % thisgt.MaxIndex()
 		{
-			templine:=""
-			ii1:="Spike" . A_index . "(" . js["SPK"][A_index]["remark"] . ")"
-			ii2:=js["SPK"][A_index]["weight"]
-			ii3:=js["SPK"][A_index]["volume"]
-			posi:=checknuminsmaple(js["SPK"][A_index]["sample"],jres)
-			ii4:=jres.sample[posi][currentcompound]["peakarea"] 
-			ii5:=countconc(ii4,js["yabr"][currentcompound]["a"],js["yabr"][currentcompound]["b"])
-			ii6:=ii5*ii3/ii2*jmethod[mode]["CR_PP"]
-			ii7:=jmethod[mode]["SPK_conc"]
-			ii8:=ii6/ii7*100
-			loop, 8
-			{
-				if (A_index=5 || A_index=6){
-					temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
-				} else if (A_Index=8){
-					temptxt:= round(ii%A_index%,jmethod[mode]["percentdigit"]) . "%"
-				} else {
-					temptxt:=ii%A_index%
-				}
-				templine:=templine . temptxt . "`t"
-			}
-			SPK_S.push(templine)
-			SPK_recy+=ii8
-		}
-		SPK_averecy:=round(SPK_recy/SPK_S.MaxIndex(),jmethod[mode]["percentdigit"]) . "%"
-		loop, % SPK_S.MaxIndex(){
-			if (A_index=1){
-				rep:=rep . SPK_S[A_index] . SPK_averecy . "`n"
+			column:=A_index
+			columntype:=jmethod[mode]["titles"]["SPK"][column]
+			if (columntype="var_compound"){
+				rep:=rep . "Spike" . "1" . "(" . sample_name . ")" . "`t"
+			} else if (columntype="weight"){
+				rep:=rep . weight . "`t"
+			} else if (columntype="volume"){
+				rep:=rep . volume . "`t"
+			} else if (columntype="area"){
+				rep:=rep . area . "`t"
+			} else if (columntype="calc_conc"){
+				rep:=rep . round(calc_conc,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="calc_pp"){
+				rep:=rep . round(calc_pp,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="add_pp"){
+				rep:=rep . add_pp . "`t"
+			} else if (columntype="recy"){
+				rep:=rep . round(recy,jmethod[mode]["percentdigit"]) . "%" . "`t"
+			} else if (columntype="Isarea"){
+				rep:=rep . Isarea . "`t"
+			} else if (columntype="AI_ratio"){
+				rep:=rep . round(IAratio,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="calc_conc_IS"){
+				rep:=rep . round(calc_conc_IS,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="calc_pp_IS"){
+				rep:=rep . round(calc_pp_IS,jmethod[mode]["digit"]) . "`t"
+			} else if (columntype="recy_IS"){
+				rep:=rep . round(recy_IS,jmethod[mode]["percentdigit"]) . "%" . "`t"
 			} else {
-				rep:=rep . SPK_S[A_index] . "`n"
+				rep:=rep . "未定義公式" . "`t"
 			}
 		}
+		rep:=rep . "`n"
 	}
 	rep:=rep . "`n"
+	;~ DUP
 	rep:=rep . "七.查核樣品重覆試驗:`n"
+	posi_1:=checknuminsmaple(js["SPK"][1]["sample"],jres)
+	posi_2:=checknuminsmaple(js["DUP"][1]["sample"],jres)
 	loop, % js.SPKcompound["order"].MaxIndex()
 	{
 		currentcompound:=js.SPKcompound["order"][A_Index]
@@ -719,47 +912,114 @@ generatefromobj(js,jres,jmethod){
 			}
 		}
 		rep:=rep . "`n"
-		SPKR_conc:=0
-		SPKR_S:=[]
-		loop, % js.SPK.MaxIndex()
+		
+		comp:=js.SPKcompound["order"][A_Index]
+		sample_name_1:=js["SPK"][1]["remark"]
+		weight_1:=js["SPK"][1]["weight"]
+		volume_1:=js["SPK"][1]["volume"]
+		area_1:=jres.sample[posi_1][comp]["peakarea"]
+		calc_conc_1:=countconc(area_1,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp_1:=calc_conc_1*volume_1/weight_1*jmethod[mode]["CR_PP"]
+		add_pp_1:=jmethod[mode]["SPK_conc"]
+		
+		ISArea_1:=jres.sample[posi_1][comp]["ISArea"]
+		IAratio_1:=area_1/ISArea_1
+		calc_conc_IS_1:=countconc(IAratio_1,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp_IS_1:=calc_conc_IS_1*volume_1/weight_1*jmethod[mode]["CR_PP"]
+
+		
+
+		
+		sample_name_2:=js["DUP"][1]["remark"]
+		weight_2:=js["DUP"][1]["weight"]
+		volume_2:=js["DUP"][1]["volume"]
+		area_2:=jres.sample[posi_2][comp]["peakarea"]
+		calc_conc_2:=countconc(area_2,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp_2:=calc_conc_2*volume_2/weight_2*jmethod[mode]["CR_PP"]
+		add_pp_2:=jmethod[mode]["DUP_conc"]
+		
+		ISArea_2:=jres.sample[posi_2][comp]["ISArea"]
+		IAratio_2:=area_2/ISArea_2
+		calc_conc_IS_2:=countconc(IAratio_2,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+		calc_pp_IS_2:=calc_conc_IS_2*volume_2/weight_2*jmethod[mode]["CR_PP"]
+
+		ave_pp:=(calc_pp_1+calc_pp_2)/2
+		RRP:=abs(calc_pp_1-calc_pp_2)/ave_pp*100
+		
+		ave_pp_IS:=(calc_pp_IS_1+calc_pp_IS_2)/2
+		RRP_IS:=abs(calc_pp_IS_1-calc_pp_IS_2)/ave_pp_IS*100
+		loop,2
 		{
-			templine:=""
-			ii1:="Spike" . A_index . "(" . js["SPK"][A_index]["remark"] . ")"
-			ii2:=js["SPK"][A_index]["weight"]
-			ii3:=js["SPK"][A_index]["volume"]
-			posi:=checknuminsmaple(js["SPK"][A_index]["sample"],jres)
-			ii4:=jres.sample[posi][currentcompound]["peakarea"] 
-			ii5:=countconc(ii4,js["yabr"][currentcompound]["a"],js["yabr"][currentcompound]["b"])
-			ii6:=ii5*ii3/ii2*jmethod[mode]["CR_PP"]
-			ii7:=jmethod[mode]["SPK_conc"]
-			loop, 7
+			cursam:=A_index
+			loop, % thisgt.MaxIndex()
 			{
-				if (A_index=5 || A_index=6){
-					temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
-				} else {
-					temptxt:=ii%A_index%
+				column:=A_index
+				columntype:=jmethod[mode]["titles"]["SPKR"][column]
+				if (columntype="var_compound"){
+					if (cursam=1){
+						rep:=rep . "Spike" . "1" . "(" . sample_name_%cursam% . ")" . "`t"
+					} else {
+						rep:=rep . "Duplicate" . "1" . "(" . sample_name_%cursam% . ")" . "`t"
+					}
+				} else if (columntype="weight"){
+					rep:=rep . weight_%cursam% . "`t"
+				} else if (columntype="volume"){
+					rep:=rep . volume_%cursam% . "`t"
+				} else if (columntype="area"){
+					rep:=rep . area_%cursam% . "`t"
+				} else if (columntype="calc_conc"){
+					rep:=rep . round(calc_conc_%cursam%,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="calc_pp"){
+					rep:=rep . round(calc_pp_%cursam%,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="add_pp"){
+					rep:=rep . add_pp_%cursam% . "`t"
+				} else if (columntype="ave_pp"){
+					if (cursam=1){
+						rep:=rep . round(ave_pp,jmethod[mode]["digit"]) . "`t"
+					} else {
+						rep:=rep . "`t"
+					}
+				} else if (columntype="RRP"){
+					if (cursam=1){
+						rep:=rep . round(RRP,jmethod[mode]["percentdigit"]) . "%" . "`t"
+					} else {
+						rep:=rep . "`t"
+					}
+				} else if (columntype="Isarea"){
+					rep:=rep . Isarea_%cursam% . "`t"
+				} else if (columntype="AI_ratio"){
+					rep:=rep . round(IAratio_%cursam%,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="calc_conc_IS"){
+					rep:=rep . round(calc_conc_IS_%cursam%,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="calc_pp_IS"){
+					rep:=rep . round(calc_pp_IS_%cursam%,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="ave_pp_IS"){
+					if (cursam=1){
+						rep:=rep . round(ave_pp_IS,jmethod[mode]["digit"]) . "`t"
+					} else {
+						rep:=rep . "`t"
+					}
+				} else if (columntype="RRP_IS"){
+					if (cursam=1){
+						rep:=rep . round(RRP_IS,jmethod[mode]["percentdigit"]) . "%" . "`t"
+					} else {
+						rep:=rep . "`t"
+					}
+				}else {
+					rep:=rep . "未定義公式" . "`t"
 				}
-				templine:=templine . temptxt . "`t"
 			}
-			SPKR_S.push(templine)
-			SPKR_conc+=ii6
-			ii6%A_index%:=ii6
+			rep:=rep . "`n"
 		}
-		SPKR_aveconc:=round(SPKR_conc/SPKR_S.MaxIndex(),jmethod[mode]["digit"])
-		SPKR_RRP:=round(abs(ii61-ii62)/(SPKR_conc/SPKR_S.MaxIndex())*100,jmethod[mode]["percentdigit"]) . "%"
-		loop, % SPKR_S.MaxIndex(){
-			if (A_index=1){
-				rep:=rep . SPKR_S[A_index] . SPKR_aveconc . "`t" . SPKR_RRP . "`n"
-			} else {
-				rep:=rep . SPKR_S[A_index] . "`n"
-			}
-		}
+		
 	}
 	rep:=rep . "`n"
+	;~ TEST
 	rep:=rep . "八、檢體檢驗結果：`n"
 	loop, % js.yabr.order.MaxIndex()
 	{
 		currentcompound:=js.yabr.order[A_Index]
+		comp:=js.yabr.order[A_Index]
 		rep:=rep . "(" . A_index . ")" . currentcompound . "`n"
 		thisgt:=jmethod[mode]["titles"]["TEST"]
 		loop, % thisgt.MaxIndex(){
@@ -778,47 +1038,104 @@ generatefromobj(js,jres,jmethod){
 			}
 		}
 		rep:=rep . "`n"
-
+		if (js.TEST.MaxIndex()=2){
+			posi_1:=checknuminsmaple(js["TEST"][1]["sample"],jres)
+			weight_1:=js["TEST"][1]["weight"]
+			volume_1:=js["TEST"][1]["volume"]
+			ISArea_1:=jres.sample[posi_1][currentcompound]["ISArea"]
+			area_1:=jres.sample[posi_1][currentcompound]["peakarea"]
+			IAratio_1:=area_1/ISArea_1
+			calc_conc_IS_1:=countconc(IAratio_1,js["yabr"][currentcompound]["a"],js["yabr"][currentcompound]["b"])
+			calc_pp_IS_1:=calc_conc_IS_1*volume_1/weight_1*jmethod[mode]["CR_PP"]
+			;~ msgbox % calc_pp_IS_1
+			posi_2:=checknuminsmaple(js["TEST"][2]["sample"],jres)
+			weight_2:=js["TEST"][2]["weight"]
+			volume_2:=js["TEST"][2]["volume"]
+			ISArea_2:=jres.sample[posi_2][currentcompound]["ISArea"]
+			area_2:=jres.sample[posi_2][currentcompound]["peakarea"]
+			IAratio_2:=area_2/ISArea_2
+			calc_conc_IS_2:=countconc(IAratio_2,js["yabr"][currentcompound]["a"],js["yabr"][currentcompound]["b"])
+			calc_pp_IS_2:=calc_conc_IS_2*volume_2/weight_2*jmethod[mode]["CR_PP"]
+			;~ msgbox % calc_pp_IS_2
+			ave_pp_IS:=(calc_pp_IS_1+calc_pp_IS_2)/2
+			RRP_IS:=abs(calc_pp_IS_1-calc_pp_IS_2)/ave_pp_IS*100
+		} else {
+			RRP_IS:="請手動計算"
+		}
 		loop, % js.TEST.MaxIndex()
 		{
-			ii1:=A_Index
-			ii2:=js["TEST"][A_index]["remark"]
-			ii3:=js["TEST"][A_index]["weight"]
-			ii4:=js["TEST"][A_index]["volume"]
+			sample_num:=A_Index
+			sample_name:=js["TEST"][A_index]["remark"]
+			weight:=js["TEST"][A_index]["weight"]
+			volume:=js["TEST"][A_index]["volume"]
 			posi:=checknuminsmaple(js["TEST"][A_index]["sample"],jres)
-			ii5:=jres.sample[posi][currentcompound]["analyteRT"] 
-			ii6:=jres.sample[posi][currentcompound]["peakarea"] 
-			ii7:=countconc(ii6,js["yabr"][currentcompound]["a"],js["yabr"][currentcompound]["b"])
-			ii8:=ii7*ii4/ii3*jmethod[mode]["CR_PP"]
+			RT:=jres.sample[posi][currentcompound]["analyteRT"] 
+			area:=jres.sample[posi][currentcompound]["peakarea"]
+			calc_conc:=countconc(area,js["yabr"][currentcompound]["a"],js["yabr"][currentcompound]["b"])
+			calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
 			LQ:=jmethod[mode]["STD_conc"][1]/5
-			loop, 8
+			
+			
+			ISArea:=jres.sample[posi][comp]["ISArea"]
+			IAratio:=area/ISArea
+			calc_conc_IS:=countconc(IAratio,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
+			calc_pp_IS:=calc_conc_IS*volume/weight*jmethod[mode]["CR_PP"]
+			
+			
+			
+			loop, % thisgt.MaxIndex()
 			{
-				if (A_index=7 ){
-					if (ii7<LQ){
-						temptxt:= "<" . round(LQ,jmethod[mode]["digit"])
+				column:=A_index
+				columntype:=jmethod[mode]["titles"]["TEST"][column]
+				if (columntype="sample_num"){
+					rep:=rep . sample_num . "`t"
+				} else if (columntype="sample_name"){
+					rep:=rep . sample_name . "`t"
+				} else if (columntype="weight"){
+					rep:=rep . weight . "`t"
+				} else if (columntype="volume"){
+					rep:=rep . volume . "`t"
+				} else if (columntype="RT"){
+					rep:=rep . RT . "`t"
+				} else if (columntype="area"){
+					rep:=rep . area . "`t"
+				} else if (columntype="calc_conc"){
+					if (calc_conc<LQ){
+						rep:=rep . "<" . round(LQ,jmethod[mode]["digit"]) . "`t"
 					} else {
-						temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
+						rep:=rep . round(calc_conc,jmethod[mode]["digit"]) . "`t"
 					}
-				} else if (A_index=8 ){
-					
-					if (ii7<LQ){
-						temptxt:= "未檢出"
+				} else if (columntype="calc_pp"){
+					if (calc_conc<LQ){
+						rep:=rep . "未檢出" . "`t"
 					} else {
-						temptxt:= round(ii%A_index%,jmethod[mode]["digit"])
+						rep:=rep . round(calc_pp,jmethod[mode]["digit"]) . "`t"
+					}
+				} else if (columntype="Remark"){
+					rep:=rep . "" . "`t"
+				} else if (columntype="Isarea"){
+					rep:=rep . Isarea . "`t"
+				} else if (columntype="AI_ratio"){
+					rep:=rep . round(IAratio,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="calc_conc_IS"){
+					rep:=rep . round(calc_conc_IS,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="calc_pp_IS"){
+					rep:=rep . round(calc_pp_IS,jmethod[mode]["digit"]) . "`t"
+				} else if (columntype="RRP_IS"){
+					if (sample_num=1){
+						if (js.TEST.MaxIndex()=2){
+							rep:=rep . round(RRP_IS,jmethod[mode]["percentdigit"]) . "%" . "`t"
+						} else {
+							rep:=rep . RRP_IS . "`t"
+						}
 					}
 				} else {
-					temptxt:=ii%A_index%
+					rep:=rep . "未定義公式" . "`t"
 				}
-				rep:=rep . temptxt . "`t"
 			}
 			rep:=rep . "`n"
 		}
-		
 	}
-	
-
-	
-
 	return rep
 }
 
@@ -958,14 +1275,46 @@ if (GSam1="STD"){
 	}
 	if (find!=0){
 		guicontrol, main:choose, GSam3, % find
-		GuiControl, main:, GSam5, % jmethod[mode]["BK_item"]["weight"]
-		GuiControl, main:, GSam6, % jmethod[mode]["BK_item"]["volume"]
+		
 	} else {
 		guicontrol, main:choose, GSam3, 1
 	}
+	GuiControl, main:, GSam5, % jmethod[mode]["BK_item"]["weight"]
+	GuiControl, main:, GSam6, % jmethod[mode]["BK_item"]["volume"]
 } else if (GSam1="SPK"){
-	guicontrol, main:choose, GSam2, 1
-	gosub, GSam2
+	guicontrol, main:choose, GSam2, 0
+	loop, % jres.sample.maxindex()
+	{
+		if (instr(jres.sample[A_index].samplename,"SPK") || instr(jres.sample[A_index].samplename,"spkie")){
+			find:=A_index
+			break
+		}
+	}
+	if (find!=0){
+		guicontrol, main:choose, GSam3, % find
+
+	} else {
+		guicontrol, main:choose, GSam3, 1
+	}
+	GuiControl, main:, GSam5, % jmethod[mode]["SPK_item"]["weight"]
+	GuiControl, main:, GSam6, % jmethod[mode]["SPK_item"]["volume"]
+} else if (GSam1="DUP"){
+	guicontrol, main:choose, GSam2, 0
+	loop, % jres.sample.maxindex()
+	{
+		if (instr(jres.sample[A_index].samplename,"DUP")){
+			find:=A_index
+			break
+		}
+	}
+	if (find!=0){
+		guicontrol, main:choose, GSam3, % find
+		
+	} else {
+		guicontrol, main:choose, GSam3, 1
+	}
+	GuiControl, main:, GSam5, % jmethod[mode]["DUP_item"]["weight"]
+	GuiControl, main:, GSam6, % jmethod[mode]["DUP_item"]["volume"]
 } else if (GSam1="TEST"){
 	guicontrol, main:choose, GSam2, 1
 	gosub, GSam2
@@ -986,7 +1335,7 @@ if (GSam1="STD"){
 	findcount:=0
 	loop, % jres.sample.maxindex()
 	{
-		if (instr(jres.sample[A_index].samplename,"matrix")){
+		if (instr(jres.sample[A_index].samplename,"matrix") || instr(jres.sample[A_index].samplename,"STD_")){
 			findcount+=1
 			if (findcount=GSam2){
 				find:=A_index
@@ -1002,18 +1351,6 @@ if (GSam1="STD"){
 		if (instr(jres.sample[A_index].samplename,"CCV")){
 			findcount+=1
 
-			if (findcount=GSam2){
-				find:=A_index
-				break
-			}
-		}
-	}
-} else if (GSam1="SPK"){
-	findcount:=0
-	loop, % jres.sample.maxindex()
-	{
-		if (instr(jres.sample[A_index].samplename,"spk") || instr(jres.sample[A_index].samplename,"spike") ){
-			findcount+=1
 			if (findcount=GSam2){
 				find:=A_index
 				break
@@ -1036,19 +1373,17 @@ if (GSam1="STD"){
 if (find!=0){
 	guicontrol, main:choose, GSam3, % find
 	guicontrolget, mode, main:, mode
-	if (GSam1="STD"){
-		GuiControl, main:, GSam4, % jmethod[mode]["STD_conc"][GSam2]
-	} else if (GSam1="CCV"){
-		GuiControl, main:, GSam4, % jmethod[mode]["CCV_conc"]
-	} else if (GSam1="SPK"){
-		GuiControl, main:, GSam5, % jmethod[mode]["SPK_item"]["weight"]
-		GuiControl, main:, GSam6, % jmethod[mode]["SPK_item"]["volume"]
-	} else if (GSam1="TEST"){
-		GuiControl, main:, GSam5, % jmethod[mode]["TEST_item"]["weight"]
-		GuiControl, main:, GSam6, % jmethod[mode]["TEST_item"]["volume"]
-	}
+	
 } else {
 	guicontrol, main:choose, GSam3, 1
+}
+if (GSam1="STD"){
+	GuiControl, main:, GSam4, % jmethod[mode]["STD_conc"][GSam2]
+} else if (GSam1="CCV"){
+	GuiControl, main:, GSam4, % jmethod[mode]["CCV_conc"]
+} else if (GSam1="TEST"){
+	GuiControl, main:, GSam5, % jmethod[mode]["TEST_item"]["weight"]
+	GuiControl, main:, GSam6, % jmethod[mode]["TEST_item"]["volume"]
 }
 return
 
@@ -1074,6 +1409,16 @@ if (jres.compound.MaxIndex()>0){
 }
 return
 
+selectpreload:
+if (jres.compound.MaxIndex()>0){
+	for key, val in jmethod[mode]["SPK_compound"]
+	{
+		LV_Modify(val, "+check")
+	}
+} else {
+	msgbox 請先轉換
+}
+return
 
 
 re:
@@ -1085,6 +1430,7 @@ GuiControlGet, input1mode, main:, file1
 if (input1mode!="不使用"){
 	GuiControlGet, filepath1, main:, filepath1
 	ExtractText(result1, filepath1)
+	;~ Clipboard:=result1
 	if (input1mode="WORD"){
 		jres:=jsonfromWORD(result1)
 	} else if (input1mode="PDF"){
@@ -1093,17 +1439,6 @@ if (input1mode!="不使用"){
 		jres:=jsonfromTXT(result1)
 	}
 } 
-;~ if (input2mode!="不使用"){
-	;~ GuiControlGet, filepath2, main:, filepath2
-	;~ ExtractText(result2, filepath2)
-	;~ if (input2mode="WORD"){
-		;~ jres2:=jsonfromWORD(result2)
-	;~ } else if (input2mode="PDF"){
-		;~ jres2:=jsonfromPDF(result2)
-	;~ } else if (input2mode="TXT"){
-		;~ jres2:=jsonfromTXT(result2)
-	;~ }
-;~ } 
 generateitem(jres)
 gui, main:default
 gui, main:listview, list_abr
@@ -1194,25 +1529,62 @@ jsonfromWORD(content){
 			samplecount+=1
 			retobj["sample"][samplecount]:={}
 			retobj["sample"][samplecount]["samplename"]:=s_name
-			
+			con_name:=false
+			con_RT:=false
+			con_Area:=false
+			con_ISArea:=false
 			currnet_row:=row+1
 			loop, 5000
 			{
 				findrow:=currnet_row+A_Index
+				
+				if (con_name=false){
+					if (instr(A_con[findrow],"Analyte Peak Name") || instr(A_con[findrow],"AnalytePeak Name")){
+						con_name_row:=findrow
+						con_name:=true
+					}
+				}
+				if (con_RT=false){
+					if (instr(A_con[findrow],"Analyte RT (min)")){
+						con_RT_row:=findrow
+						del_RT:=con_RT_row-con_name_row
+						con_RT:=true
+					}
+				}
+				if (con_Area=false){
+					if (instr(A_con[findrow],"Peak Area (counts)") || instr(A_con[findrow],"PeakArea (counts)")){
+						con_Area_row:=findrow
+						del_Area:=con_Area_row-con_name_row
+						con_Area:=true
+					}
+				}
+				if (con_ISArea=false){
+					if (instr(A_con[findrow],"IS PeakArea (counts)")){
+						con_ISArea_row:=findrow
+						del_ISArea:=con_ISArea_row-con_name_row
+						con_ISArea:=true
+					}
+				}
 				if (instr(A_con[findrow]," 1")){
 					if (match1(A_con[findrow],retobj["compound"])){
 						t_compound:=StrSplit(A_con[findrow]," 1")[1]
-						t_peakarea:=A_con[findrow+2]
+						t_peakarea:=A_con[findrow+del_Area]
 						if (instr(t_peakarea,"e+")){
 							t_peakarea:=eptonum(t_peakarea)
 						}
-						t_expectRT:=A_con[findrow+3]
-						t_analyteRT:=A_con[findrow+4]
+						t_analyteRT:=A_con[findrow+del_RT]
+						
 						
 						retobj["sample"][samplecount][t_compound]:={}
 						retobj["sample"][samplecount][t_compound]["peakarea"]:=t_peakarea
-						retobj["sample"][samplecount][t_compound]["expectRT"]:=t_expectRT
 						retobj["sample"][samplecount][t_compound]["analyteRT"]:=t_analyteRT
+						if (con_ISArea){
+							t_ISarea:=A_con[findrow+del_ISArea]
+							if (instr(t_ISarea,"e+")){
+								t_ISarea:=eptonum(t_ISarea)
+							}
+							retobj["sample"][samplecount][t_compound]["ISArea"]:=t_ISarea
+						}
 					}
 				} 
 				if (A_con[findrow]="Sample Name"){
@@ -1227,7 +1599,128 @@ jsonfromWORD(content){
 }
 
 jsonfromPDF(content){
-	return 
+	retobj:={}
+	retobj["compound"]:={}
+	retobj["yabr"]:={}
+	retobj["sample"]:={}
+	A_con:=StrSplit(content,"`r`n")
+	compoundcount:=0
+	yabrcount:=0
+	samplecount:=0
+	currentmode:="yabr"
+	for row, line in A_con
+	{
+		if (currentmode="yabr"){
+			if (trim(line)="Name"){
+				currentmode="sample"
+			}
+		}
+		if (currentmode="yabr"){
+			if (instr(line,"Compound name: ")){
+				StringRight, rt3, line,3
+				if (rt3!="-D5"){
+					compound:=trim(StrSplit(line,"Compound name: ")[2])
+					if (instr(compound,"(")){
+						compound:=trim(StrSplit(compound,"(")[1])
+					}
+					retobj["compound"].Push(compound)
+					Regression1:=A_con[row+1]
+					Regression2:=A_con[row+2]
+					thea:=trim(strsplit(StrSplit(Regression2,"Calibration curve:")[2],"* x +")[1])
+					theb:=trim(strsplit(StrSplit(Regression2,"Calibration curve:")[2],"* x +")[2])
+					ther:=trim(strsplit(StrSplit(Regression1,"r =")[2],", r^2 =")[1])
+					ther2:=trim(strsplit(StrSplit(Regression1,"r =")[2],", r^2 =")[2])
+					yabrcount+=1
+					retobj["yabr"][yabrcount]:={}
+					retobj["yabr"][yabrcount]["name"]:=compound
+					retobj["yabr"][yabrcount]["a"]:=thea
+					retobj["yabr"][yabrcount]["b"]:=theb
+					retobj["yabr"][yabrcount]["r"]:=ther
+					retobj["yabr"][yabrcount]["r2"]:=ther2
+				}
+			}
+		} else {
+			if (trim(line)="Name"){
+				loop, 50000
+				{
+					checkrow:=row-A_Index
+					if (instr(A_con[checkrow],"Name: ")){
+						s_name:=trim(StrSplit(strsplit(A_con[checkrow],"Name: ")[2],", Date:")[1])
+						samplecount+=1
+						break
+					}
+				}
+				retobj["sample"][samplecount]:={}
+				retobj["sample"][samplecount]["samplename"]:=s_name
+				currentcompound:=0
+				findRT:=false
+				findarea:=false
+				findisarea:=false
+				hadisarea:=false
+				loop, 8000
+				{
+					checkrow:=row+A_Index
+					if (findRT=false){
+						if (trim(A_con[checkrow])="RT"){
+							;~ msgbox % "RT`n" . A_con[checkrow]
+							RTROW:=checkrow
+							findRT:=true
+						}
+					}
+					if (findarea=false){
+						if (trim(A_con[checkrow])="Area"){
+							s_name:=trim(StrSplit(strsplit(A_con[checkrow],"Name: ")[2],", Date:")[1])
+							AREAROW:=checkrow
+							;~ msgbox % "Area`n" . A_con[checkrow]
+							findarea:=true
+						}
+					}
+					if (findisarea=false){
+						if (instr(A_con[checkrow]," IS Area  ")){
+							s_name:=trim(StrSplit(strsplit(A_con[checkrow],"Name: ")[2],", Date:")[1])
+							ISAREAROW:=checkrow
+							findisarea:=true
+							hadisarea:=false
+						} else if (instr(A_con[checkrow],"IS Area")){
+							s_name:=trim(StrSplit(strsplit(A_con[checkrow],"Name: ")[2],", Date:")[1])
+							ISAREAROW:=checkrow
+							findisarea:=true
+							hadisarea:=true
+						}
+					}
+					if (findRT && findarea && findisarea){
+						break
+					}
+				}
+				RTcounnt:=AREAROW-RTROW-1
+				;~ msgbox % RTcounnt
+				areacount:=ISAREAROW-AREAROW-1
+				if (RTcounnt>=yabrcount && areacount>=yabrcount){
+					loop, % yabrcount
+					{
+						t_compound:=retobj["compound"][A_index]
+						retobj["sample"][samplecount][t_compound]:={}
+						retobj["sample"][samplecount][t_compound]["peakarea"]:=A_con[AREAROW+A_Index]
+						if (hadisarea){
+							retobj["sample"][samplecount][t_compound]["ISArea"]:=A_con[ISAREAROW+A_Index]
+						} 
+						retobj["sample"][samplecount][t_compound]["analyteRT"]:=A_con[RTROW+A_Index]
+					}
+				} else {
+					loop, % yabrcount
+					{
+						t_compound:=retobj["compound"][A_index]
+						retobj["sample"][samplecount][t_compound]:={}
+						retobj["sample"][samplecount][t_compound]["peakarea"]:=0
+						retobj["sample"][samplecount][t_compound]["analyteRT"]:=0
+					}
+				}
+			}
+		}
+	}
+	jmethods:=JsonDump(retobj)
+	Clipboard:=jmethods
+	return retobj
 }
 
 jsonfromTXT(content){
@@ -1286,15 +1779,33 @@ if (jmethod[mode]["file1"]["enable"]=1){
 	guicontrol, main:, file1, 不使用
 	guicontrol, main:Disable, filepath1
 }
-;~ if (jmethod[mode]["file2"]["enable"]=1){
-	;~ guicontrol, main:enable, file2
-	;~ guicontrol, main:, file2, % jmethod[mode]["file2"]["name"]
-	;~ guicontrol, main:enable, filepath2
-;~ } else {
-	;~ guicontrol, main:Disable, file2
-	;~ guicontrol, main:, file2, 不使用
-	;~ guicontrol, main:Disable, filepath2
-;~ }
+GuiControl, main:, filepath1,
+gui, main:default
+gui, main:listview, list_abr
+LV_Delete()
+gui, main:listview, list_sample
+LV_Delete()
+loop, 9
+{
+	guicontrol, main:Disable, GSam%A_index%
+	if (A_Index=1){
+		guicontrol, main:Choose,  GSam%A_index%,0
+	} else if (A_Index=2){
+		guicontrol, main:Choose,  GSam%A_index%,0
+	} if (A_Index=3){
+		guicontrol, main:,  GSam%A_index%,|
+	} else {
+		guicontrol, main:,  GSam%A_index%,
+	}
+}
+guicontrol, main:, countSTD, 0
+guicontrol, main:, countICV,0
+guicontrol, main:, countCCV, 0
+guicontrol, main:, countBK,0
+guicontrol, main:, countSPK, 0
+guicontrol, main:, countDUP, 0
+guicontrol, main:, countTEST,0
+
 return
 
 
