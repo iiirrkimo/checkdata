@@ -26,6 +26,7 @@
 		"RRP": "相對差異百分比%",
 		"RRP_IS" : "相對差異百分比%",
 		"sample_num": "檢體編號",
+		"sample_code": "檢體編號",
 		"Remark": "備註",
 		"Isarea": "IS波峰面積",
 		"AI_ratio": "比值",
@@ -38,6 +39,7 @@
 		"STD_ANAIS":""
 	},
 	"beta_lactam_WORD": {
+		"mode": "normal",
 		"file1": {"enable": "1","name": "WORD"},
         "file2": {"enable": "0","name": ""},
         "BK": ["GSam3","GSam5","GSam6","GSam9"],
@@ -75,6 +77,7 @@
 		}
     },
 	"beta_lactam_PDF": {
+		"mode": "normal",
 		"file1": {"enable": "1","name": "PDF"},
         "file2": {"enable": "0","name": ""},
         "BK": ["GSam3","GSam5","GSam6","GSam9"],
@@ -112,6 +115,7 @@
 		}
     },
 	"malachite_green_WORD": {
+		"mode": "normal",
 		"file1": {"enable": "1","name": "WORD"},
         "file2": {"enable": "0","name": ""},
         "BK": ["GSam3","GSam5","GSam6","GSam9"],
@@ -122,7 +126,7 @@
 		"DUP": ["GSam3","GSam5","GSam6","GSam9"],
         "TEST": ["GSam2","GSam3","GSam5","GSam6","GSam9"],
 		"SPK_compound": [1,2,3,4],
-		"STD_conc":["0.2","1","2.5","4","5"],
+		"STD_conc":["0.2","1.0","2.5","4.0","5.0"],
 		"ICV_conc": "2.5",
 		"CCV_conc": "2.5",
 		"BK_item" : {"weight" : 1, "volume" : 1},
@@ -135,8 +139,8 @@
 		"unitsam": "g",
 		"unitvol": "mL",
 		"digit" : 3,
-		"SPK_conc" : "1.00",
-		"DUP_conc" : "1.00",
+		"SPK_conc" : 1.00,
+		"DUP_conc" : 1.00,
 		"percentdigit" : 2,
 		"titles": {
 			"STD": ["STD_comp","STD_conc","STD_ANAIS","STD_ana","STD_ISpeak","STD_yaxb","STD_r"],
@@ -147,5 +151,43 @@
 			"SPKR":["var_compound","weight","volume","area","Isarea","AI_ratio","calc_conc_IS","calc_pp_IS","add_pp","ave_pp_IS","RRP_IS"],
 			"TEST":["sample_num","sample_name","weight","volume","RT","area","Isarea","AI_ratio","calc_conc_IS","calc_pp_IS","RRP_IS"],
 		}
-    }
+    },
+	"pesticide_TXT": {
+		"mode": "pesticide",
+		"file1": {"enable": "1","name": "TXT"},
+        "file2": {"enable": "0","name": ""},
+        "BK": ["GSam3","GSam5","GSam6","GSam9"],
+        "STD": ["GSam2","GSam3","GSam4"],
+		"ICV": ["GSam3","GSam4"],
+		"CCV": ["GSam2","GSam3","GSam4"],
+        "SPK": ["GSam3","GSam5","GSam6","GSam9"],
+		"DUP": ["GSam3","GSam5","GSam6","GSam9"],
+        "TEST": ["GSam2","GSam3","GSam5","GSam6","GSam9"],
+		"SPK_compound": [1,2,3,4,5,6,7,8,9,10],
+		"STD_conc":["0.4","2","4","10","30","50","80"],
+		"ICV_conc": 30,
+		"CCV_conc": 30,
+		"BK_item" : {"weight" : 10, "volume" : 10},
+		"SPK_item" : {"weight" :10, "volume" : 10},
+		"DUP_item" : {"weight" : 10, "volume" : 10},
+		"TEST_item" : {"weight" : 10, "volume" : 10},
+		"unit": "ng/mL",
+		"unitPP": "ppm",
+		"CR_PP": 0.001,
+		"unitsam": "g",
+		"unitvol": "mL",
+		"digit" : 3,
+		"SPK_conc" : "0.03",
+		"DUP_conc" : "0.03",
+		"percentdigit" : 2,
+		"titles": {
+			"STD": ["STD_comp","STD_conc","STD_ana","STD_yaxb","STD_r"],
+			"ICV": ["comp_ICV","sample_conc","area","calc_conc","RR","RT","RT25"],
+			"CCV": ["comp_CCV","sample_conc","area","calc_conc","RR","RT","RT25"],
+			"BK":["comp_BK","sample_name","weight","volume","area","calc_conc","calc_pp"],
+			"SPK":["var_compound","weight","volume","area","calc_conc","calc_pp","add_pp","recy"],
+			"SPKR":["var_compound","weight","volume","area","calc_conc","calc_pp","add_pp","ave_pp","RRP"],
+			"TEST":["sample_code","sample_name","weight","volume","RT","area","calc_conc","calc_pp","Remark"],
+		}
+    },
 }

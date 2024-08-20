@@ -3,12 +3,12 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 VER:="1130814"
-;~ ExtractText(result, "BB2.pdf")
-;~ IfExist, result.txt
+;~ ExtractText(result, "20240807-2_T1_K113F00947_總檔.pdf")
+;~ IfExist, result_農.txt
 ;~ {
-	;~ FileDelete, result.txt
+	;~ FileDelete, result_農.txt
 ;~ }
-;~ FileAppend, %result%, result.txt
+;~ FileAppend, %result%, result_農.txt
 
 
 ;~ aaa:={}
@@ -400,8 +400,8 @@ if (countSTD<5){
 if (countICV!=1){
 	errmsg:=errmsg . "ICV數量需=1`n"
 } 
-if (countCCV!=2){
-	errmsg:=errmsg . "CCV數量需=2`n"
+if (countCCV<2){
+	errmsg:=errmsg . "CCV數量需>=2`n"
 } 
 if (countBK!=1){
 	errmsg:=errmsg . "Blank數量需=1`n"
@@ -546,7 +546,7 @@ generatefromobj(js,jres,jmethod){
 					if (column=1){
 						rep:=rep . "濃度(" . jmethod[mode]["unit"] . ")`t"
 					} 
-					rep:=rep . js["STD"][column]["conc"] . ".000`t"
+					rep:=rep . round(js["STD"][column]["conc"],3) . "`t"
 				} else if (rowtype="STD_ana"){
 					if (column=1){
 						rep:=rep . "Ana Peak`t"
@@ -579,7 +579,7 @@ generatefromobj(js,jres,jmethod){
 					if (column=1){
 						rep:=rep . "未定義標題" . ")`t"
 					} 
-					rep:=rep . "未定義公式" . ".000`t"
+					rep:=rep . "未定義公式" . "`t"
 				}
 			}
 			rep:=rep . "`n"
@@ -1066,6 +1066,7 @@ generatefromobj(js,jres,jmethod){
 		{
 			sample_num:=A_Index
 			sample_name:=js["TEST"][A_index]["remark"]
+			sample_code:=js["TEST"][A_index]["sample"]
 			weight:=js["TEST"][A_index]["weight"]
 			volume:=js["TEST"][A_index]["volume"]
 			posi:=checknuminsmaple(js["TEST"][A_index]["sample"],jres)
@@ -1089,6 +1090,8 @@ generatefromobj(js,jres,jmethod){
 				columntype:=jmethod[mode]["titles"]["TEST"][column]
 				if (columntype="sample_num"){
 					rep:=rep . sample_num . "`t"
+				} else if (columntype="sample_code"){
+					rep:=rep . sample_code . "`t"
 				} else if (columntype="sample_name"){
 					rep:=rep . sample_name . "`t"
 				} else if (columntype="weight"){
@@ -1724,7 +1727,76 @@ jsonfromPDF(content){
 }
 
 jsonfromTXT(content){
-	return 
+	retobj:={}
+	retobj["compound"]:={}
+	retobj["yabr"]:={}
+	retobj["sample"]:={}
+	A_con:=StrSplit(content,"`r`n")
+	compoundcount:=0
+	yabrcount:=0
+	for row, line in A_con
+	{
+		if (SubStr(line, 1, 8) = "Compound"){
+			currentrow:=row
+			compoundcount+=1
+			comp:=StrSplit(line,":  ")[2]
+			retobj["compound"][compoundcount]:=comp
+			samplecount:=0
+			yabr:={}
+			conc_a:=[]
+			area_a:=[]
+			loop, 500
+			{
+				searhrow:=currentrow+A_index
+				if (instr(A_con[searhrow],"`t")){
+					if (instr(A_con[searhrow],"Name`tType")){
+						A_line:=StrSplit(A_con[searhrow],"`t")
+						loop, % A_line.MaxIndex()
+						{
+							if (A_line[A_index]="Name"){
+								name_C:=A_Index
+							} else if (A_line[A_index]="Type"){
+								type_C:=A_Index
+							} else if (A_line[A_index]="Std. Conc"){
+								conc_C:=A_Index
+							} else if (A_line[A_index]="RT"){
+								RT_C:=A_Index
+							} else if (A_line[A_index]="Area"){
+								area_C:=A_Index
+							} else if (A_line[A_index]="IS Area"){
+								ISarea_C:=A_Index
+							}
+						}
+					} else {
+						samplecount+=1
+						if (retobj["sample"].HasKey(samplecount)){
+						} else {
+							retobj["sample"][samplecount]:={}
+						}
+						retobj["sample"][samplecount][comp]:={}
+						A_line:=StrSplit(A_con[searhrow],"`t")
+						retobj["sample"][samplecount]["samplename"]:=A_line[name_C]
+						retobj["sample"][samplecount][comp]["peakarea"]:=A_line[area_C]
+						retobj["sample"][samplecount][comp]["analyteRT"]:=A_line[RT_C]
+						retobj["sample"][samplecount][comp]["ISArea"]:=A_line[ISarea_C]
+						if (A_line[type_C]="Standard"){
+							conc_a.push(A_line[conc_C])
+							area_a.push(A_line[area_C])
+						}
+					}
+				}
+				if (SubStr(A_con[searhrow], 1, 8) = "Compound"){
+					break
+				}
+			}
+			retobj["yabr"][compoundcount]:=countyabr(conc_a,area_a)
+			retobj["yabr"][compoundcount]["name"]:=comp
+		}
+		
+	}
+	jmethods:=JsonDump(retobj)
+	Clipboard:=jmethods
+	return retobj 
 }
 
 file1:
@@ -1941,4 +2013,30 @@ xx+=490
 yy-=30
 gui, sample: add,button, x%xx% y%yy% w110 h60 vADDsample geditsample, 修改
 
+}
+countyabr(x,y){
+	n := x.MaxIndex() 
+	sum_x := 0
+	sum_y := 0
+	sum_xy := 0
+	sum_x2 := 0
+	sum_y2 := 0
+	Loop, % n
+	{
+		sum_x += x[A_Index]
+		sum_y += y[A_Index]
+		sum_xy += x[A_Index] * y[A_Index]
+		sum_x2 += x[A_Index] * x[A_Index]
+		sum_y2 += y[A_Index] * y[A_Index]
+	}
+	a := (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
+	b := (sum_y - a * sum_x) / n
+	r := (n * sum_xy - sum_x * sum_y) / Sqrt((n * sum_x2 - sum_x * sum_x) * (n * sum_y2 - sum_y * sum_y))
+	r_squared := r * r
+	result:={}
+	result["a"]:=a
+	result["b"]:=b
+	result["r"]:=r
+	result["r2"]:=r_squared
+	return result
 }
