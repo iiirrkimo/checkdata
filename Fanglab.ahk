@@ -504,13 +504,13 @@ if (errmsg=""){
 		Clipboard:=rep
 		
 		
-		;~ LAB0 := ComObjCreate("Excel.Application")
-		;~ LAB0.Visible := true
-		;~ xlspath = %A_ScriptDir%\Fanglab.xlsm
-		;~ SplitPath, xlspath, xlsFile
-		;~ LAB01:=LAB0.Workbooks.Open(xlspath)
-		;~ LAB01.sheets("檢量線").Range("A:I").clear
-		;~ LAB01.sheets("檢量線").Range("A1:A1").PasteSpecial
+		LAB0 := ComObjCreate("Excel.Application")
+		LAB0.Visible := true
+		xlspath = %A_ScriptDir%\Fanglab.xlsm
+		SplitPath, xlspath, xlsFile
+		LAB01:=LAB0.Workbooks.Open(xlspath)
+		LAB01.sheets("檢量線").Range("A:I").clear
+		LAB01.sheets("檢量線").Range("A1:A1").PasteSpecial
 		msgbox,4096, 完成,  完成
 	}
 } else {
