@@ -400,8 +400,8 @@ if (countSTD<5){
 if (countICV!=1){
 	errmsg:=errmsg . "ICV數量需=1`n"
 } 
-if (countCCV<2){
-	errmsg:=errmsg . "CCV數量需>=2`n"
+if (countCCV!=2){
+	errmsg:=errmsg . "CCV數量需=2`n"
 } 
 if (countBK!=1){
 	errmsg:=errmsg . "Blank數量需=1`n"
@@ -632,7 +632,7 @@ generatefromobj(js,jres,jmethod){
 			} else if (columntype="calc_conc"){
 				rep:=rep . round(calc_conc,jmethod[mode]["digit"]) . "`t"
 			} else if (columntype="RR"){
-				rep:=rep . round(RR,jmethod[mode]["percentdigit"]) . "%" . "`t"
+				rep:=rep . "=""" . round(RR,jmethod[mode]["percentdigit"]) . "%" . """`t"
 			} else if (columntype="RT"){
 				rep:=rep . RT . "`t"
 			} else if (columntype="RT25"){
@@ -700,7 +700,7 @@ generatefromobj(js,jres,jmethod){
 				} else if (columntype="calc_conc"){
 					rep:=rep . round(calc_conc,jmethod[mode]["digit"]) . "`t"
 				} else if (columntype="RR"){
-					rep:=rep . round(RR,jmethod[mode]["percentdigit"]) . "%" . "`t"
+					rep:=rep . "=""" . round(RR,jmethod[mode]["percentdigit"]) . "%" . """`t"
 				} else if (columntype="RT"){
 					rep:=rep . RT . "`t"
 				} else if (columntype="RT25"){
@@ -868,7 +868,7 @@ generatefromobj(js,jres,jmethod){
 			} else if (columntype="add_pp"){
 				rep:=rep . add_pp . "`t"
 			} else if (columntype="recy"){
-				rep:=rep . round(recy,jmethod[mode]["percentdigit"]) . "%" . "`t"
+				rep:=rep . "=""" . round(recy,jmethod[mode]["percentdigit"]) . "%" . """`t"
 			} else if (columntype="Isarea"){
 				rep:=rep . Isarea . "`t"
 			} else if (columntype="AI_ratio"){
@@ -981,7 +981,7 @@ generatefromobj(js,jres,jmethod){
 					}
 				} else if (columntype="RRP"){
 					if (cursam=1){
-						rep:=rep . round(RRP,jmethod[mode]["percentdigit"]) . "%" . "`t"
+						rep:=rep . "=""" . round(RRP,jmethod[mode]["percentdigit"]) . "%" . """`t"
 					} else {
 						rep:=rep . "`t"
 					}
@@ -1092,7 +1092,7 @@ generatefromobj(js,jres,jmethod){
 					rep:=rep . sample_num . "`t"
 				} else if (columntype="sample_code"){
 					rep:=rep . sample_code . "`t"
-				} else if (columntype="sample_name"){
+				}else if (columntype="sample_name"){
 					rep:=rep . sample_name . "`t"
 				} else if (columntype="weight"){
 					rep:=rep . weight . "`t"
@@ -1513,10 +1513,10 @@ jsonfromWORD(content){
 				ther:=trim(StrSplit(StrSplit(Regression,"(r =")[2],")")[1])
 				ther2:=""
 			}
-			if (instr(thea,"e+")){
+			if (instr(thea,"e")){
 				thea:=eptonum(thea)
 			}
-			if (instr(theb,"e+")){
+			if (instr(theb,"e")){
 				theb:=eptonum(theb)
 			}
 			yabrcount+=1
@@ -1572,7 +1572,7 @@ jsonfromWORD(content){
 					if (match1(A_con[findrow],retobj["compound"])){
 						t_compound:=StrSplit(A_con[findrow]," 1")[1]
 						t_peakarea:=A_con[findrow+del_Area]
-						if (instr(t_peakarea,"e+")){
+						if (instr(t_peakarea,"e")){
 							t_peakarea:=eptonum(t_peakarea)
 						}
 						t_analyteRT:=A_con[findrow+del_RT]
@@ -1583,7 +1583,7 @@ jsonfromWORD(content){
 						retobj["sample"][samplecount][t_compound]["analyteRT"]:=t_analyteRT
 						if (con_ISArea){
 							t_ISarea:=A_con[findrow+del_ISArea]
-							if (instr(t_ISarea,"e+")){
+							if (instr(t_ISarea,"e")){
 								t_ISarea:=eptonum(t_ISarea)
 							}
 							retobj["sample"][samplecount][t_compound]["ISArea"]:=t_ISarea
@@ -1727,76 +1727,7 @@ jsonfromPDF(content){
 }
 
 jsonfromTXT(content){
-	retobj:={}
-	retobj["compound"]:={}
-	retobj["yabr"]:={}
-	retobj["sample"]:={}
-	A_con:=StrSplit(content,"`r`n")
-	compoundcount:=0
-	yabrcount:=0
-	for row, line in A_con
-	{
-		if (SubStr(line, 1, 8) = "Compound"){
-			currentrow:=row
-			compoundcount+=1
-			comp:=StrSplit(line,":  ")[2]
-			retobj["compound"][compoundcount]:=comp
-			samplecount:=0
-			yabr:={}
-			conc_a:=[]
-			area_a:=[]
-			loop, 500
-			{
-				searhrow:=currentrow+A_index
-				if (instr(A_con[searhrow],"`t")){
-					if (instr(A_con[searhrow],"Name`tType")){
-						A_line:=StrSplit(A_con[searhrow],"`t")
-						loop, % A_line.MaxIndex()
-						{
-							if (A_line[A_index]="Name"){
-								name_C:=A_Index
-							} else if (A_line[A_index]="Type"){
-								type_C:=A_Index
-							} else if (A_line[A_index]="Std. Conc"){
-								conc_C:=A_Index
-							} else if (A_line[A_index]="RT"){
-								RT_C:=A_Index
-							} else if (A_line[A_index]="Area"){
-								area_C:=A_Index
-							} else if (A_line[A_index]="IS Area"){
-								ISarea_C:=A_Index
-							}
-						}
-					} else {
-						samplecount+=1
-						if (retobj["sample"].HasKey(samplecount)){
-						} else {
-							retobj["sample"][samplecount]:={}
-						}
-						retobj["sample"][samplecount][comp]:={}
-						A_line:=StrSplit(A_con[searhrow],"`t")
-						retobj["sample"][samplecount]["samplename"]:=A_line[name_C]
-						retobj["sample"][samplecount][comp]["peakarea"]:=A_line[area_C]
-						retobj["sample"][samplecount][comp]["analyteRT"]:=A_line[RT_C]
-						retobj["sample"][samplecount][comp]["ISArea"]:=A_line[ISarea_C]
-						if (A_line[type_C]="Standard"){
-							conc_a.push(A_line[conc_C])
-							area_a.push(A_line[area_C])
-						}
-					}
-				}
-				if (SubStr(A_con[searhrow], 1, 8) = "Compound"){
-					break
-				}
-			}
-			retobj["yabr"][compoundcount]:=countyabr(conc_a,area_a)
-			retobj["yabr"][compoundcount]["name"]:=comp
-		}
-		
-	}
-	jmethods:=JsonDump(retobj)
-	Clipboard:=jmethods
-	return retobj 
+	return 
 }
 
 file1:
@@ -1945,8 +1876,13 @@ ExtractText(ByRef result, fileName) {
 	result := StrGet( fileText, fileLength / 2 )
 }
 eptonum(inputvalue){
-	prenum:=StrSplit(inputvalue,"e+")[1]
-	digitnum:=StrSplit(inputvalue,"e+")[2]*1
+	if (instr(inputvalue,"e+")){
+		prenum:=StrSplit(inputvalue,"e+")[1]
+		digitnum:=StrSplit(inputvalue,"e+")[2]*1
+	} else {
+		prenum:=StrSplit(inputvalue,"e")[1]
+		digitnum:=StrSplit(inputvalue,"e")[2]*1
+	}
 	finalnum:=round(prenum*(10**digitnum),0)
 	return finalnum
 }
@@ -2013,30 +1949,4 @@ xx+=490
 yy-=30
 gui, sample: add,button, x%xx% y%yy% w110 h60 vADDsample geditsample, 修改
 
-}
-countyabr(x,y){
-	n := x.MaxIndex() 
-	sum_x := 0
-	sum_y := 0
-	sum_xy := 0
-	sum_x2 := 0
-	sum_y2 := 0
-	Loop, % n
-	{
-		sum_x += x[A_Index]
-		sum_y += y[A_Index]
-		sum_xy += x[A_Index] * y[A_Index]
-		sum_x2 += x[A_Index] * x[A_Index]
-		sum_y2 += y[A_Index] * y[A_Index]
-	}
-	a := (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
-	b := (sum_y - a * sum_x) / n
-	r := (n * sum_xy - sum_x * sum_y) / Sqrt((n * sum_x2 - sum_x * sum_x) * (n * sum_y2 - sum_y * sum_y))
-	r_squared := r * r
-	result:={}
-	result["a"]:=a
-	result["b"]:=b
-	result["r"]:=r
-	result["r2"]:=r_squared
-	return result
 }

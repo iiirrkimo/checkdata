@@ -63,8 +63,8 @@
 		"unitsam": "g",
 		"unitvol": "mL",
 		"digit" : 3,
-		"SPK_conc" : 0.020,
-		"DUP_conc" : 0.020,
+		"SPK_conc" : "0.020",
+		"DUP_conc" : "0.020",
 		"percentdigit" : 2,
 		"titles": {
 			"STD": ["STD_comp","STD_conc","STD_ana","STD_yaxb","STD_r"],
@@ -73,7 +73,7 @@
 			"BK":["comp_BK","sample_name","weight","volume","area","calc_conc","calc_pp"],
 			"SPK":["var_compound","weight","volume","area","calc_conc","calc_pp","add_pp","recy"],
 			"SPKR":["var_compound","weight","volume","area","calc_conc","calc_pp","add_pp","ave_pp","RRP"],
-			"TEST":["sample_num","sample_name","weight","volume","RT","area","calc_conc","calc_pp","Remark"],
+			"TEST":["sample_code","sample_name","weight","volume","RT","area","calc_conc","calc_pp","Remark"],
 		}
     },
 	"beta_lactam_PDF": {
@@ -101,8 +101,8 @@
 		"unitsam": "g",
 		"unitvol": "mL",
 		"digit" : 3,
-		"SPK_conc" : 0.020,
-		"DUP_conc" : 0.020,
+		"SPK_conc" : "0.020",
+		"DUP_conc" : "0.020",
 		"percentdigit" : 2,
 		"titles": {
 			"STD": ["STD_comp","STD_conc","STD_ana","STD_yaxb","STD_r"],
@@ -111,7 +111,7 @@
 			"BK":["comp_BK","sample_name","weight","volume","area","calc_conc","calc_pp"],
 			"SPK":["var_compound","weight","volume","area","calc_conc","calc_pp","add_pp","recy"],
 			"SPKR":["var_compound","weight","volume","area","calc_conc","calc_pp","add_pp","ave_pp","RRP"],
-			"TEST":["sample_num","sample_name","weight","volume","RT","area","calc_conc","calc_pp","Remark"],
+			"TEST":["sample_code","sample_name","weight","volume","RT","area","calc_conc","calc_pp","Remark"],
 		}
     },
 	"malachite_green_WORD": {
@@ -139,8 +139,8 @@
 		"unitsam": "g",
 		"unitvol": "mL",
 		"digit" : 3,
-		"SPK_conc" : 1.00,
-		"DUP_conc" : 1.00,
+		"SPK_conc" : "1.00",
+		"DUP_conc" : "1.00",
 		"percentdigit" : 2,
 		"titles": {
 			"STD": ["STD_comp","STD_conc","STD_ANAIS","STD_ana","STD_ISpeak","STD_yaxb","STD_r"],
