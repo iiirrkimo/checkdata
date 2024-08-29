@@ -528,7 +528,7 @@ if (errmsg=""){
 		
 		LAB0 := ComObjCreate("Excel.Application")
 		LAB0.Visible := true
-		xlspath = %A_ScriptDir%\resourse\Fanglab.xlsm
+		xlspath = %A_ScriptDir%\Fanglab.xlsm
 		SplitPath, xlspath, xlsFile
 		LAB01:=LAB0.Workbooks.Open(xlspath)
 		LAB01.sheets("檢量線").Range("A:I").clear
@@ -549,8 +549,10 @@ generatefromobj_pesticide(js,jres,jmethod){
 	defaultlist:=jmethod[mode]["defaultlist"]
 	for com, item in js["yabr"]
 	{
-		if (item["r"]<0.99){
-			abnormalmsg:=abnormalmsg . "品管檢量線`tr<0.99`t" . com . "`tr=" . item["r"] . "`n"
+		if (com!="TPP"){
+			if (item["r"]<0.99){
+				abnormalmsg:=abnormalmsg . "品管檢量線`tr<0.99`t" . com . "`tr=" . item["r"] . "`n"
+			}
 		}
 	}
 	loop, % defaultlist.MaxIndex()
