@@ -2912,10 +2912,10 @@ if (input1mode!="不使用"){
 		jres:=jsonfromPDF(result1)
 	} else if (input1mode="TXT"){
 		jres:=jsonfromTXT(result1)
-		checkyabr(jres)
+		
 	}
 }
-
+checkyabr(jres)
 generateitem(jres)
 gui, main:default
 gui, main:listview, list_abr
