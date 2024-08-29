@@ -2,7 +2,7 @@
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-VER:="1130829"
+VER:="1130829_2"
 ;~ ExtractText(result, "20240807-2_T1_K113F00947_總檔.pdf")
 ;~ IfExist, result_農.txt
 ;~ {
@@ -2912,8 +2912,10 @@ if (input1mode!="不使用"){
 		jres:=jsonfromPDF(result1)
 	} else if (input1mode="TXT"){
 		jres:=jsonfromTXT(result1)
+		checkyabr(jres)
 	}
-} 
+}
+
 generateitem(jres)
 gui, main:default
 gui, main:listview, list_abr
@@ -2924,6 +2926,45 @@ for key, val in jmethod[mode]["SPK_compound"]
 }
 return
 
+checkyabr(jres){
+	errmsg:=""
+	errmsg1:=""
+	errmsg2:=""
+	for key, item in jres["yabr"]
+		if (key!="TPP"){
+			if (item["r"]<0.99){
+				errmsg1:=errmsg1 . key . "`tr=" . item["r"] . "`n"
+		}
+	}
+	;~ for key, sample in jres["sample"]
+	;~ {
+		;~ for compound, item in sample
+		;~ {
+			;~ if (compound="samplename"){
+			;~ } else {
+				;~ if (compound!="TPP"){
+					;~ if (item["ratioflag"]!="NO"){
+						;~ errmsg2:=errmsg2 . sample["samplename"] . "`t" . compound . "`tratioflag=" . item["ratioflag"] . "`n"
+					;~ }
+				;~ }
+			;~ }
+		;~ }
+	;~ }
+	if (errmsg1!="" || errmsg2!=""){
+		if (errmsg1!=""){
+			errmsg:=errmsg . "R<0.99`n" . errmsg1 . "`n"
+		}
+		;~ if (errmsg2!=""){
+			;~ errmsg:=errmsg . "tratioflag!=NO`n" . errmsg2 . "`n"
+		;~ }
+		IfExist, errmsg.txt
+		{
+			FileDelete, errmsg.txt
+		}
+		FileAppend, %errmsg%, errmsg.txt
+		run, errmsg.txt
+	}
+}
 
 generateitem(jres){
 	gui, main:default
