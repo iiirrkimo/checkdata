@@ -2,7 +2,7 @@
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-VER:="1130814"
+VER:="1130829"
 ;~ ExtractText(result, "20240807-2_T1_K113F00947_總檔.pdf")
 ;~ IfExist, result_農.txt
 ;~ {
@@ -526,16 +526,13 @@ if (errmsg=""){
 			Clipboard:=rep
 		}
 		
-		
-		
-		
-		;~ LAB0 := ComObjCreate("Excel.Application")
-		;~ LAB0.Visible := true
-		;~ xlspath = %A_ScriptDir%\Fanglab.xlsm
-		;~ SplitPath, xlspath, xlsFile
-		;~ LAB01:=LAB0.Workbooks.Open(xlspath)
-		;~ LAB01.sheets("檢量線").Range("A:I").clear
-		;~ LAB01.sheets("檢量線").Range("A1:A1").PasteSpecial
+		LAB0 := ComObjCreate("Excel.Application")
+		LAB0.Visible := true
+		xlspath = %A_ScriptDir%\resourse\Fanglab.xlsm
+		SplitPath, xlspath, xlsFile
+		LAB01:=LAB0.Workbooks.Open(xlspath)
+		LAB01.sheets("檢量線").Range("A:I").clear
+		LAB01.sheets("檢量線").Range("A1:A1").PasteSpecial
 		msgbox,4096, 完成,  完成
 	}
 } else {
@@ -543,16 +540,24 @@ if (errmsg=""){
 }
 return
 generatefromobj_pesticide(js,jres,jmethod){
+	abnormalmsg:=""
 	guicontrolget, mode, main:, mode
 	mgt:=jmethod["generaltitle"]
 	rep:=""
 	rep:=rep . "一、品管檢量線製作：`n"
 	thisgt:=jmethod[mode]["titles"]["STD"]
 	defaultlist:=jmethod[mode]["defaultlist"]
+	for com, item in js["yabr"]
+	{
+		if (item["r"]<0.99){
+			abnormalmsg:=abnormalmsg . "品管檢量線`tr<0.99`t" . com . "`tr=" . item["r"] . "`n"
+		}
+	}
 	loop, % defaultlist.MaxIndex()
 	{
 		compound:=A_Index
 		comp:=defaultlist[A_Index]
+		
 		loop, % thisgt.MaxIndex()
 		{
 			row:=A_index
@@ -560,6 +565,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 			loop, % js.STD.MaxIndex()
 			{
 				column:=A_index
+				
 				if (rowtype="STD_comp"){
 					if (column=1){
 						rep:=rep . compound . "." . comp . "`t"
@@ -624,6 +630,9 @@ generatefromobj_pesticide(js,jres,jmethod){
 		RT25_1:=RT*1.025
 		RT25_2:=RT*0.975
 		row:=A_Index
+		if (RR>20 || RR<-20){
+			abnormalmsg:=abnormalmsg . "品管ICV`tRR>+-20%`t" . comp . "`tRR=" . RR . "%`n"
+		}
 		loop, % thisgt.MaxIndex()
 		{
 			column:=A_index
@@ -632,7 +641,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 			if (columntype="comp_ICV"){
 				rep:=rep . comp . "`t"
 			} else if (columntype="sample_conc"){
-				rep:=rep . stavalue(round(sample_conc,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(sample_conc) . "`t"
 			} else if (columntype="area"){
 				rep:=rep . area . "`t"
 			} else if (columntype="calc_conc"){
@@ -678,12 +687,16 @@ generatefromobj_pesticide(js,jres,jmethod){
 			RT25_1:=RT*1.025
 			RT25_2:=RT*0.975
 			
+			if (RR>20 || RR<-20){
+				abnormalmsg:=abnormalmsg . "品管CCV" . currentsample . "`tRR>+-20%`t" . comp . "`tRR=" . RR . "%`n"
+			}
+			
 			loop, % thisgt.MaxIndex()
 			{
 				column:=A_index
-				columntype:=jmethod[mode]["titles"]["ICV"][column]
+				columntype:=jmethod[mode]["titles"]["CCV"][column]
 				
-				if (columntype="comp_ICV"){
+				if (columntype="comp_CCV"){
 					rep:=rep . comp . "`t"
 				} else if (columntype="sample_conc"){
 					rep:=rep . round(sample_conc,jmethod[mode]["digit"]) . "`t"
@@ -820,6 +833,9 @@ generatefromobj_pesticide(js,jres,jmethod){
 		calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
 		add_pp:=jmethod[mode]["SPK_conc"]
 		recy:=calc_pp/add_pp*100
+		if (recy>120 || recy<60){
+			abnormalmsg:=abnormalmsg . "品管SPK`t回收>120或<60%`t" . comp . "`t回收率=" . recy . "%`n"
+		}
 		loop, % thisgt.MaxIndex()
 		{
 			column:=A_index
@@ -920,6 +936,10 @@ generatefromobj_pesticide(js,jres,jmethod){
 		ave_pp:=(calc_pp_1+calc_pp_2)/2
 		RRP:=abs(calc_pp_1-calc_pp_2)/ave_pp*100
 		
+		if (RRP>20 || RRP<-20){
+			abnormalmsg:=abnormalmsg . "品管SPKDUP`t相對差異百分比>+=20%`t" . comp . "`t相對差異百分比=" . RRP . "%`n"
+		}
+		
 		loop, % thisgt.MaxIndex()
 		{
 			column:=A_index
@@ -998,17 +1018,17 @@ generatefromobj_pesticide(js,jres,jmethod){
 					ICVRT2:=ICVRT*0.975
 					gotopos:=true
 					if (calc_PP>LQ){
-						if (r<0.999){
+						if (r<0.99){
 							posmsg:=posmsg . samplename . "的" .  comp . "的R= " . r . "`n"
-							gotopos:=false
+							;~ gotopos:=false
 						}
 						if (ratioflag!="NO"){
 							posmsg:=posmsg . samplename . "的" .  comp . "的ratioflag= " . ratioflag . "`n"
-							gotopos:=false
+							;~ gotopos:=false
 						}
 						if (analyteRT<ICVRT2 || analyteRT>ICVRT1){
 							posmsg:=posmsg . samplename . "的" .  comp . "的analyteRT= " . analyteRT . "，ICV RT為" . ICVRT . " ( " . ICVRT2 . " ~ " . ICVRT1 . " ) `n"
-							gotopos:=false
+							;~ gotopos:=false
 						}
 					} else {
 						gotopos:=false
@@ -1057,29 +1077,18 @@ generatefromobj_pesticide(js,jres,jmethod){
 	;~ msgbox % posmsg
 	
 	;~ GuiControl, main:, errmsg1, % posmsg
+	
+	
 	if (posmsg!=""){
-		IfExist, 檢出檢體異常.txt
-		{
-			FileDelete, 檢出檢體異常.txt
-		}
-		FileAppend, %posmsg%, 檢出檢體異常.txt
-		run, 檢出檢體異常.txt
+		abnormalmsg:=abnormalmsg . "檢出檢體異常`n" . posmsg . "n"
 	}
 	errmsg2:=""
 	for msg in posmsg2
 	{
 		errmsg2:=errmsg2 . msg . "`n"
 	}
-	;~ msgbox % errmsg2 . "無LOQ`n"
-	;~ GuiControl, main:, errmsg2, % errmsg2 . "無LOQ`n"
 	if (errmsg2!=""){
-		errmsg2:=errmsg2 . "以上無LOQ"
-		IfExist, LOQ異常.txt
-		{
-			FileDelete, LOQ異常.txt
-		}
-		FileAppend, %errmsg2%, LOQ異常.txt
-		run, LOQ異常.txt
+		abnormalmsg:=abnormalmsg . "無LOQ`n" . errmsg2 . "n"
 	}
 	rep:=rep . "`n"
 	rep:=rep . "一、檢出檢量線製作：`n"
@@ -1160,6 +1169,9 @@ generatefromobj_pesticide(js,jres,jmethod){
 		RT25_1:=RT*1.025
 		RT25_2:=RT*0.975
 		row:=A_Index
+		if (RR>20 || RR<-20){
+			abnormalmsg:=abnormalmsg . "檢出ICV`tRR>+-20%`t" . comp . "`tRR=" . RR . "%`n"
+		}
 		loop, % thisgt.MaxIndex()
 		{
 			column:=A_index
@@ -1214,6 +1226,9 @@ generatefromobj_pesticide(js,jres,jmethod){
 			RT25_1:=RT*1.025
 			RT25_2:=RT*0.975
 			
+			if (RR>20 || RR<-20){
+				abnormalmsg:=abnormalmsg . "檢出CCV" . currentsample . "`tRR>+-20%`t" . comp . "`tRR=" . RR . "%`n"
+			}
 			loop, % thisgt.MaxIndex()
 			{
 				column:=A_index
@@ -1356,6 +1371,9 @@ generatefromobj_pesticide(js,jres,jmethod){
 		calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
 		add_pp:=jmethod[mode]["SPK_conc"]
 		recy:=calc_pp/add_pp*100
+		if (recy>120 || recy<60){
+			abnormalmsg:=abnormalmsg . "檢出SPK1`t回收>120或<60%`t" . comp . "`t回收=" . recy . "%`n"
+		}
 		loop, % thisgt.MaxIndex()
 		{
 			column:=A_index
@@ -1445,7 +1463,9 @@ generatefromobj_pesticide(js,jres,jmethod){
 		
 		ave_pp:=(calc_pp_1+calc_pp_2)/2
 		RRP:=abs(calc_pp_1-calc_pp_2)/ave_pp*100
-		
+		if (RRP>20 || RRP<-20){
+			abnormalmsg:=abnormalmsg . "檢出SPKDUP`t相對差異>+-20%`t" . comp . "`t相對差異=" . RRP . "%`n"
+		}
 		loop, % thisgt.MaxIndex()
 		{
 			column:=A_index
@@ -1551,58 +1571,160 @@ generatefromobj_pesticide(js,jres,jmethod){
 	rep:=rep . "`t`t`t`t編號：`n"
 	rep:=rep . "檢驗員：`t驗算員：`t`t實驗室負責人：`t`n"
 	
-	;~ 稀釋
-	rep:=rep . "`n"
-	rep:=rep . "七、稀釋檢量線確認及查核：`n"
-	loop, % js.D_CCV.MaxIndex()
+	diluinfo:=""
+	for key, sample in poslist["dilsample"]
 	{
-		currentsample:=A_Index
-		currentsamplecode:=js["D_CCV"][currentsample]["sample"]
-		thisgt:=jmethod[mode]["titles"]["CCV"]
+		diluinfo:=diluinfo . "檢體" . key . "須稀釋以下項目`n"
+		for dilcomp in sample
+			diluinfo:=diluinfo . "`t" . dilcomp . "`n"
+	}
+	if (diluinfo!=""){
+		abnormalmsg:=abnormalmsg . "須稀釋檢體`n" . diluinfo . "`n"
+	}
+		
+	if (js.D_CCV.MaxIndex()>0){
+		rep:=rep . "`n"
+		rep:=rep . "七、稀釋檢量線確認及查核：`n"
+		loop, % js.D_CCV.MaxIndex()
+		{
+			currentsample:=A_Index
+			currentsamplecode:=js["D_CCV"][currentsample]["sample"]
+			thisgt:=jmethod[mode]["titles"]["CCV"]
+			loop, % thisgt.MaxIndex(){
+				mgtkey:=thisgt[A_index]
+				thisit:= mgt[mgtkey]
+				if (thisit="檢量線查核標準品"){
+					rep:=rep . thisit . " " . currentsamplecode . "`t"
+				} else if (thisit="標準品濃度" || thisit="分析濃度"){
+					rep:=rep . thisit . "(" . jmethod[mode]["unit"] . ")`t"
+				} else {
+					rep:=rep . thisit . "`t"
+				}
+			}
+			rep:=rep . "`n"
+			posi:=checknuminsmaple(currentsamplecode,jres)
+			for key, compound in poslist["dilcompoumd"]
+			{
+				comp:=key
+				sample_conc:=js["D_CCV"][currentsample]["conc"]
+				area:=jres.sample[posi][comp]["peakarea"]
+				calc_conc:=jres.sample[posi][comp]["conc"]
+				RR:=(calc_conc-sample_conc)/sample_conc*100
+				RT:=jres.sample[posi][comp]["analyteRT"] 
+				RT25_1:=RT*1.025
+				RT25_2:=RT*0.975
+				if (RR>20 || RR<-20){
+					abnormalmsg:=abnormalmsg . "稀釋" . currentsamplecode . "`tRR>+-20%`t" . comp . "`tRR=" . RR . "`n"
+				}
+				loop, % thisgt.MaxIndex()
+				{
+					column:=A_index
+					columntype:=jmethod[mode]["titles"]["CCV"][column]
+					
+					if (columntype="comp_CCV"){
+						rep:=rep . comp . "`t"
+					} else if (columntype="sample_conc"){
+						rep:=rep . stavalue(round(sample_conc,jmethod[mode]["digit"])) . "`t"
+					} else if (columntype="area"){
+						rep:=rep . area . "`t"
+					} else if (columntype="calc_conc"){
+						rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
+					} else if (columntype="RR"){
+						rep:=rep . stavalue(round(RR,jmethod[mode]["percentdigit"]) . "%") . "`t"
+					} else if (columntype="RT"){
+						rep:=rep . RT . "`t"
+					} else if (columntype="RT25"){
+						rep:=rep . stavalue(round(RT25_1,jmethod[mode]["percentdigit"])) . "`t" . stavalue(round(RT25_2,jmethod[mode]["percentdigit"])) . "`t"
+					} else {
+						rep:=rep . "未定義公式" . "`t"
+					}
+					
+				}
+				rep:=rep . "`n"
+			}
+		}
+		
+	}
+	
+	;~ 稀釋
+	posi:=checknuminsmaple(js["D_BK"][1]["sample"],jres)
+	if (posi!=""){
+		rep:=rep . "`n"
+		rep:=rep . "八、稀釋空白樣品分析：`n"
+		thisgt:=jmethod[mode]["titles"]["BK"]
 		loop, % thisgt.MaxIndex(){
 			mgtkey:=thisgt[A_index]
 			thisit:= mgt[mgtkey]
-			if (thisit="檢量線查核標準品"){
-				rep:=rep . thisit . " " . currentsamplecode . "`t"
-			} else if (thisit="標準品濃度" || thisit="分析濃度"){
-				rep:=rep . thisit . "(" . jmethod[mode]["unit"] . ")`t"
+			if (thisit="標準品濃度" || thisit="分析濃度"){
+				rep:=rep . thisit . jmethod[mode]["unit"] . "`t"
+			} else if (thisit="檢體濃度"){
+				rep:=rep . thisit . jmethod[mode]["unitPP"] . "`t"
+			} else if (thisit="LOQ"){
+				rep:=rep . thisit . jmethod[mode]["unitPP"] . "`t"
 			} else {
 				rep:=rep . thisit . "`t"
 			}
 		}
 		rep:=rep . "`n"
-		posi:=checknuminsmaple(currentsamplecode,jres)
-		
+		posi:=checknuminsmaple(js["D_BK"][1]["sample"],jres)
+
 		for key, compound in poslist["dilcompoumd"]
 		{
 			comp:=key
-			sample_conc:=js["D_CCV"][currentsample]["conc"]
+			sample_name:=js["D_BK"][1]["remark"]
+			weight:=js["D_BK"][1]["weight"]
+			volume:=js["D_BK"][1]["volume"]
 			area:=jres.sample[posi][comp]["peakarea"]
 			calc_conc:=jres.sample[posi][comp]["conc"]
-			RR:=(calc_conc-sample_conc)/sample_conc*100
-			RT:=jres.sample[posi][comp]["analyteRT"] 
-			RT25_1:=RT*1.025
-			RT25_2:=RT*0.975
-			
+			calc_PP:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
+			LQ_mode:=js["D_BK"][1]["is"]
+			LQ:=jmethod["pesticide_LOQ"][comp][LQ_mode]
+
 			loop, % thisgt.MaxIndex()
 			{
 				column:=A_index
-				columntype:=jmethod[mode]["titles"]["CCV"][column]
+				columntype:=jmethod[mode]["titles"]["BK"][column]
 				
-				if (columntype="comp_CCV"){
+				if (columntype="comp_BK"){
 					rep:=rep . comp . "`t"
-				} else if (columntype="sample_conc"){
-					rep:=rep . stavalue(round(sample_conc,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="sample_name"){
+					rep:=rep . sample_name . "`t"
+				} else if (columntype="weight"){
+					rep:=rep . weight . "`t"
+				} else if (columntype="volume"){
+					rep:=rep . volume . "`t"
 				} else if (columntype="area"){
-					rep:=rep . area . "`t"
+					if (area=""){
+						rep:=rep . "N.D." . "`t"
+					} else {
+						if (calc_pp<LQ){
+							rep:=rep . "N.D." . "`t"
+						} else {
+							rep:=rep . area . "`t"
+						}
+					}
 				} else if (columntype="calc_conc"){
-					rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-				} else if (columntype="RR"){
-					rep:=rep . stavalue(round(RR,jmethod[mode]["percentdigit"]) . "%") . "`t"
-				} else if (columntype="RT"){
-					rep:=rep . RT . "`t"
-				} else if (columntype="RT25"){
-					rep:=rep . stavalue(round(RT25_1,jmethod[mode]["percentdigit"])) . "`t" . stavalue(round(RT25_2,jmethod[mode]["percentdigit"])) . "`t"
+					if (area=""){
+						rep:=rep . "N.D." . "`t"
+					} else {
+						if (calc_pp<LQ){
+							rep:=rep . "N.D." . "`t"
+						} else {
+							rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
+						}	
+					}
+				} else if (columntype="calc_PP"){
+					if (area=""){
+						rep:=rep . "N.D." . "`t"
+					} else {
+						if (calc_pp<LQ){
+							rep:=rep . "N.D." . "`t"
+						} else {
+							rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
+						}	
+					}
+				}else if (columntype="LOQ"){
+					rep:=rep . LQ . "`t"
 				} else {
 					rep:=rep . "未定義公式" . "`t"
 				}
@@ -1610,330 +1732,275 @@ generatefromobj_pesticide(js,jres,jmethod){
 			}
 			rep:=rep . "`n"
 		}
+		rep:=rep . "備註：檢驗結果為「未檢出」時，以N.D.表示。`n`n"
 	}
-	rep:=rep . "`n"
-	rep:=rep . "八、稀釋空白樣品分析：`n"
-	thisgt:=jmethod[mode]["titles"]["BK"]
-	loop, % thisgt.MaxIndex(){
-		mgtkey:=thisgt[A_index]
-		thisit:= mgt[mgtkey]
-		if (thisit="標準品濃度" || thisit="分析濃度"){
-			rep:=rep . thisit . jmethod[mode]["unit"] . "`t"
-		} else if (thisit="檢體濃度"){
-			rep:=rep . thisit . jmethod[mode]["unitPP"] . "`t"
-		} else if (thisit="LOQ"){
-			rep:=rep . thisit . jmethod[mode]["unitPP"] . "`t"
-		} else {
-			rep:=rep . thisit . "`t"
-		}
-	}
-	rep:=rep . "`n"
-	posi:=checknuminsmaple(js["D_BK"][1]["sample"],jres)
-
-	for key, compound in poslist["dilcompoumd"]
-	{
-		comp:=key
-		sample_name:=js["D_BK"][1]["remark"]
-		weight:=js["D_BK"][1]["weight"]
-		volume:=js["D_BK"][1]["volume"]
-		area:=jres.sample[posi][comp]["peakarea"]
-		calc_conc:=jres.sample[posi][comp]["conc"]
-		calc_PP:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
-		LQ_mode:=js["D_BK"][1]["is"]
-		LQ:=jmethod["pesticide_LOQ"][comp][LQ_mode]
-
-		loop, % thisgt.MaxIndex()
-		{
-			column:=A_index
-			columntype:=jmethod[mode]["titles"]["BK"][column]
-			
-			if (columntype="comp_BK"){
-				rep:=rep . comp . "`t"
-			} else if (columntype="sample_name"){
-				rep:=rep . sample_name . "`t"
-			} else if (columntype="weight"){
-				rep:=rep . weight . "`t"
-			} else if (columntype="volume"){
-				rep:=rep . volume . "`t"
-			} else if (columntype="area"){
-				if (area=""){
-					rep:=rep . "N.D." . "`t"
-				} else {
-					if (calc_pp<LQ){
-						rep:=rep . "N.D." . "`t"
-					} else {
-						rep:=rep . area . "`t"
-					}
-				}
-			} else if (columntype="calc_conc"){
-				if (area=""){
-					rep:=rep . "N.D." . "`t"
-				} else {
-					if (calc_pp<LQ){
-						rep:=rep . "N.D." . "`t"
-					} else {
-						rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-					}	
-				}
-			} else if (columntype="calc_PP"){
-				if (area=""){
-					rep:=rep . "N.D." . "`t"
-				} else {
-					if (calc_pp<LQ){
-						rep:=rep . "N.D." . "`t"
-					} else {
-						rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
-					}	
-				}
-			}else if (columntype="LOQ"){
-				rep:=rep . LQ . "`t"
-			} else {
-				rep:=rep . "未定義公式" . "`t"
-			}
-			
-		}
-		rep:=rep . "`n"
-	}
-	rep:=rep . "備註：檢驗結果為「未檢出」時，以N.D.表示。`n`n"
-	rep:=rep . "九、稀釋查核樣品分析：`n"
-	posi:=checknuminsmaple(js["D_SPK"][1]["sample"],jres)
-
-	thisgt:=jmethod[mode]["titles"]["SPK"]
-	loop, % thisgt.MaxIndex(){
-		mgtkey:=thisgt[A_index]
-		thisit:= mgt[mgtkey]
-		if (thisit="var_compound"){
-			rep:=rep . "分析物 SPK1" . "`t"
-		} else if (thisit="取樣重量"){
-			rep:=rep . thisit . jmethod[mode]["unitsam"] . "`t"
-		} else if (thisit="定容量"){
-			rep:=rep . thisit . jmethod[mode]["unitvol"] . "`t"
-		} else if (thisit="分析濃度"){
-			rep:=rep . thisit . "(" . jmethod[mode]["unit"] . ")`t"
-		} else if (thisit="檢體濃度" || thisit="添加濃度" ){
-			rep:=rep . thisit . "(" . jmethod[mode]["unitPP"] . ")`t"
-		} else {
-			rep:=rep . thisit . "`t"
-		}
-	}
-	rep:=rep . "`n"
-	for key, compound in poslist["dilcompoumd"]
-	{
-		comp:=key
-		sample_name:=js["D_SPK"][1]["remark"]
-		weight:=js["D_SPK"][1]["weight"]
-		volume:=js["D_SPK"][1]["volume"]
-		area:=jres.sample[posi][comp]["peakarea"]
-		calc_conc:=jres.sample[posi][comp]["conc"]
-		calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
-		add_pp:=jmethod[mode]["SPK_conc"]
-		recy:=calc_pp/add_pp*100
-		loop, % thisgt.MaxIndex()
-		{
-			column:=A_index
-			columntype:=jmethod[mode]["titles"]["SPK"][column]
-			if (columntype="var_compound"){
-				rep:=rep . comp . "`t"
-			} else if (columntype="weight"){
-				rep:=rep . weight . "`t"
-			} else if (columntype="volume"){
-				rep:=rep . volume . "`t"
-			} else if (columntype="area"){
-				rep:=rep . area . "`t"
-			} else if (columntype="calc_conc"){
-				rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-			} else if (columntype="calc_pp"){
-				rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
-			} else if (columntype="add_pp"){
-				rep:=rep . add_pp . "`t"
-			} else if (columntype="recy"){
-				rep:=rep . stavalue(round(recy,jmethod[mode]["percentdigit"]) . "%") . "`t"
-			} else {
-				rep:=rep . "未定義公式" . "`t"
-			}
-		}
-		rep:=rep . "`n"
-	}
-	rep:=rep . "`n"
-	rep:=rep . "十、稀釋查核樣品重複分析：`n"
+	
 	posi_1:=checknuminsmaple(js["D_SPK"][1]["sample"],jres)
 	posi_2:=checknuminsmaple(js["D_DUP"][1]["sample"],jres)
-	thisgt:=jmethod[mode]["titles"]["SPKR"]
-	L1:=""
-	L2:=""
-	loop, % thisgt.MaxIndex(){
-		mgtkey:=thisgt[A_index]
-		thisit:= mgt[mgtkey]
-		if (mgtkey="var_compound"){
-			L1:=L1 . "標準品品項" . "`t"
-			L2:=L2 . "" . "`t"
-		} else if (mgtkey="weight"){
-			L1:=L1 . "查核樣品 SPIKE 1" . "`t"
-			L2:=L2 . thisit . jmethod[mode]["unitsam"] . "`t"
-		} else if (mgtkey="weight_D"){
-			L1:=L1 . "查核樣品重複 Duplicate 1" . "`t"
-			L2:=L2 . thisit . jmethod[mode]["unitsam"] . "`t"
-		} else if (mgtkey="volume" || mgtkey="volume_D" ){
-			L1:=L1 . "" . "`t"
-			L2:=L2 . thisit . jmethod[mode]["unitvol"] . "`t"
-		} else if (mgtkey="area" || mgtkey="area_D" ){
-			L1:=L1 . "" . "`t"
-			L2:=L2 . thisit . "`t"
-		} else if (mgtkey="calc_conc" || mgtkey="calc_conc_D" ){
-			L1:=L1 . "" . "`t"
-			L2:=L2 . thisit . "(" . jmethod[mode]["unit"] . ")`t"
-		} else if (mgtkey="calc_pp" || mgtkey="calc_pp_D" ){
-			L1:=L1 . "" . "`t"
-			L2:=L2 . thisit . "(" . jmethod[mode]["unitPP"] . ")`t"
-		} else if (mgtkey="RRP"){
-			L1:=L1 . "相對差異百分比(R)" . "`t"
-			L2:=L2 . "" . "`t"
-		}else {
-			L1:=L1 . "未定義" . "`t"
-			L2:=L2 . "未定義" . "`t"
-		}
-	}
-	rep:=rep . L1 . "`n" . L2 . "`n"
-	for key, compound in poslist["dilcompoumd"]
-	{
-		currentcompound:=key
-		comp:=currentcompound
-		weight_1:=js["D_SPK"][1]["weight"]
-		volume_1:=js["D_SPK"][1]["volume"]
-		area_1:=jres.sample[posi_1][comp]["peakarea"]
-		calc_conc_1:=jres.sample[posi_1][comp]["conc"]
-		calc_pp_1:=calc_conc_1*volume_1/weight_1*jmethod[mode]["CR_PP"]
-		add_pp_1:=jmethod[mode]["SPK_conc"]
-		
+	if (posi_1!="" && posi_2!=""){
+		rep:=rep . "九、稀釋查核樣品分析：`n"
+		posi:=checknuminsmaple(js["D_SPK"][1]["sample"],jres)
 
-		sample_name_2:=js["D_DUP"][1]["remark"]
-		weight_2:=js["D_DUP"][1]["weight"]
-		volume_2:=js["D_DUP"][1]["volume"]
-		area_2:=jres.sample[posi_2][comp]["peakarea"]
-		calc_conc_2:=jres.sample[posi_2][comp]["conc"]
-		calc_pp_2:=calc_conc_2*volume_2/weight_2*jmethod[mode]["CR_PP"]
-		add_pp_2:=jmethod[mode]["DUP_conc"]
-		
-		
-		ave_pp:=(calc_pp_1+calc_pp_2)/2
-		RRP:=abs(calc_pp_1-calc_pp_2)/ave_pp*100
-		
-		loop, % thisgt.MaxIndex()
-		{
-			column:=A_index
-			columntype:=jmethod[mode]["titles"]["SPKR"][column]
-			if (columntype="var_compound"){
-				rep:=rep . currentcompound . "`t"
-			} else if (columntype="weight"){
-				rep:=rep . weight_1 . "`t"
-			} else if (columntype="volume"){
-				rep:=rep . volume_1 . "`t"
-			} else if (columntype="area"){
-				rep:=rep . area_1 . "`t"
-			} else if (columntype="calc_conc"){
-				rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
-			} else if (columntype="calc_pp"){
-				rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
-			} else if (columntype="add_pp"){
-				rep:=rep . add_pp_1 . "`t"
-			} else if (columntype="weight_D"){
-				rep:=rep . weight_2 . "`t"
-			} else if (columntype="volume_D"){
-				rep:=rep . volume_2 . "`t"
-			} else if (columntype="area_D"){
-				rep:=rep . area_2 . "`t"
-			} else if (columntype="calc_conc_D"){
-				rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
-			} else if (columntype="calc_pp_D"){
-				rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
-			} else if (columntype="add_pp_D"){
-				rep:=rep . add_pp_2 . "`t"
-			} else if (columntype="ave_pp"){
-				rep:=rep . stavalue(round(ave_pp,jmethod[mode]["digit"])) . "`t"
-			} else if (columntype="RRP"){
-				rep:=rep . stavalue(round(RRP,jmethod[mode]["percentdigit"]) . "%") . "`t"
-			} else {
-				rep:=rep . "未定義公式" . "`t"
-			}
-		}
-		rep:=rep . "`n"
-	}
-	rep:=rep . "`n"
-	rep:=rep . "十一、稀釋檢體檢驗結果：`n"
-	loop, % js.D_TEST.MaxIndex()
-	{
-		posi:=checknuminsmaple(js["D_TEST"][A_index]["sample"],jres)
-		sample_name:=js["D_TEST"][A_index]["remark"]
-		sample_code:=js["D_TEST"][A_index]["sample"]
-		weight:=js["D_TEST"][A_index]["weight"]
-		volume:=js["D_TEST"][A_index]["volume"]
-		dilute:=js["D_TEST"][A_index]["dilute"]
-		thisgt:=jmethod[mode]["titles"]["TEST"]
+		thisgt:=jmethod[mode]["titles"]["SPK"]
 		loop, % thisgt.MaxIndex(){
 			mgtkey:=thisgt[A_index]
 			thisit:= mgt[mgtkey]
-			if (mgtkey="sample_code"){
-				rep:=rep . sample_code . "`t"
-			} else if (mgtkey="sample_name"){
-				rep:=rep . sample_name . "`t`n"
-			} else if (mgtkey="weight"){
-				rep:=rep . thisit . "`t" . weight . "`t" . jmethod[mode]["unitsam"] . "`t"
-			} else if (mgtkey="volume"){
-				rep:=rep . thisit . "`t`t" . volume . "`t" . jmethod[mode]["unitvol"] . "`t`n"
-			} else if (mgtkey="var_compound"){
-				rep:=rep . "檢出細項" . "`t" . "稀釋倍數" . "`t"
-			} else if (mgtkey="area"){
-				rep:=rep . thisit . "`t"
-			} else if (mgtkey="calc_conc"){
+			if (thisit="var_compound"){
+				rep:=rep . "分析物 SPK1" . "`t"
+			} else if (thisit="取樣重量"){
+				rep:=rep . thisit . jmethod[mode]["unitsam"] . "`t"
+			} else if (thisit="定容量"){
+				rep:=rep . thisit . jmethod[mode]["unitvol"] . "`t"
+			} else if (thisit="分析濃度"){
 				rep:=rep . thisit . "(" . jmethod[mode]["unit"] . ")`t"
-			} else if (mgtkey="calc_pp"){
+			} else if (thisit="檢體濃度" || thisit="添加濃度" ){
 				rep:=rep . thisit . "(" . jmethod[mode]["unitPP"] . ")`t"
-			} else if (mgtkey="LOQ"){
-				rep:=rep . "LOQ" . "(" . jmethod[mode]["unitPP"] . ")`t"
-			} else if (mgtkey="Accept_conc"){
-				rep:=rep . "容許量" . "(" . jmethod[mode]["unitPP"] . ")`t"
 			} else {
-				rep:=rep . "未定義" . "`t"
+				rep:=rep . thisit . "`t"
 			}
 		}
 		rep:=rep . "`n"
-		for key, item in poslist.dilsample
+		for key, compound in poslist["dilcompoumd"]
 		{
-			if (instr(sample_code,key)){
-				for dilcomp in item
-				{
-					currentcompound:=dilcomp
-					comp:=currentcompound
-					area:=jres.sample[posi][currentcompound]["peakarea"]
-					calc_conc:=jres.sample[posi][comp]["conc"]*dilute
-					calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
-					LQ:=jmethod["pesticide_LOQ"][comp][LQ_mode]
-					rep:=rep . comp . "`t" .  dilute . "`t"
-					rep:=rep . area . "`t" 
-					rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . stavalue(round(LQ,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . "" . "`t`n" 
-				}
-				
+			comp:=key
+			sample_name:=js["D_SPK"][1]["remark"]
+			weight:=js["D_SPK"][1]["weight"]
+			volume:=js["D_SPK"][1]["volume"]
+			area:=jres.sample[posi][comp]["peakarea"]
+			calc_conc:=jres.sample[posi][comp]["conc"]
+			calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
+			add_pp:=jmethod[mode]["SPK_conc"]
+			recy:=calc_pp/add_pp*100
+			if (recy>120 || recy<60){
+				abnormalmsg:=abnormalmsg . "稀釋SPK`t回收>120或<60%`t" . comp . "`t回收=" . recy . "%`n"
 			}
+			loop, % thisgt.MaxIndex()
+			{
+				column:=A_index
+				columntype:=jmethod[mode]["titles"]["SPK"][column]
+				if (columntype="var_compound"){
+					rep:=rep . comp . "`t"
+				} else if (columntype="weight"){
+					rep:=rep . weight . "`t"
+				} else if (columntype="volume"){
+					rep:=rep . volume . "`t"
+				} else if (columntype="area"){
+					rep:=rep . area . "`t"
+				} else if (columntype="calc_conc"){
+					rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="calc_pp"){
+					rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="add_pp"){
+					rep:=rep . add_pp . "`t"
+				} else if (columntype="recy"){
+					rep:=rep . stavalue(round(recy,jmethod[mode]["percentdigit"]) . "%") . "`t"
+				} else {
+					rep:=rep . "未定義公式" . "`t"
+				}
+			}
+			rep:=rep . "`n"
 		}
 		rep:=rep . "`n"
+		rep:=rep . "十、稀釋查核樣品重複分析：`n"
+		posi_1:=checknuminsmaple(js["D_SPK"][1]["sample"],jres)
+		posi_2:=checknuminsmaple(js["D_DUP"][1]["sample"],jres)
+		thisgt:=jmethod[mode]["titles"]["SPKR"]
+		L1:=""
+		L2:=""
+		loop, % thisgt.MaxIndex(){
+			mgtkey:=thisgt[A_index]
+			thisit:= mgt[mgtkey]
+			if (mgtkey="var_compound"){
+				L1:=L1 . "標準品品項" . "`t"
+				L2:=L2 . "" . "`t"
+			} else if (mgtkey="weight"){
+				L1:=L1 . "查核樣品 SPIKE 1" . "`t"
+				L2:=L2 . thisit . jmethod[mode]["unitsam"] . "`t"
+			} else if (mgtkey="weight_D"){
+				L1:=L1 . "查核樣品重複 Duplicate 1" . "`t"
+				L2:=L2 . thisit . jmethod[mode]["unitsam"] . "`t"
+			} else if (mgtkey="volume" || mgtkey="volume_D" ){
+				L1:=L1 . "" . "`t"
+				L2:=L2 . thisit . jmethod[mode]["unitvol"] . "`t"
+			} else if (mgtkey="area" || mgtkey="area_D" ){
+				L1:=L1 . "" . "`t"
+				L2:=L2 . thisit . "`t"
+			} else if (mgtkey="calc_conc" || mgtkey="calc_conc_D" ){
+				L1:=L1 . "" . "`t"
+				L2:=L2 . thisit . "(" . jmethod[mode]["unit"] . ")`t"
+			} else if (mgtkey="calc_pp" || mgtkey="calc_pp_D" ){
+				L1:=L1 . "" . "`t"
+				L2:=L2 . thisit . "(" . jmethod[mode]["unitPP"] . ")`t"
+			} else if (mgtkey="RRP"){
+				L1:=L1 . "相對差異百分比(R)" . "`t"
+				L2:=L2 . "" . "`t"
+			}else {
+				L1:=L1 . "未定義" . "`t"
+				L2:=L2 . "未定義" . "`t"
+			}
+		}
+		rep:=rep . L1 . "`n" . L2 . "`n"
+		for key, compound in poslist["dilcompoumd"]
+		{
+			currentcompound:=key
+			comp:=currentcompound
+			weight_1:=js["D_SPK"][1]["weight"]
+			volume_1:=js["D_SPK"][1]["volume"]
+			area_1:=jres.sample[posi_1][comp]["peakarea"]
+			calc_conc_1:=jres.sample[posi_1][comp]["conc"]
+			calc_pp_1:=calc_conc_1*volume_1/weight_1*jmethod[mode]["CR_PP"]
+			add_pp_1:=jmethod[mode]["SPK_conc"]
+			
+
+			sample_name_2:=js["D_DUP"][1]["remark"]
+			weight_2:=js["D_DUP"][1]["weight"]
+			volume_2:=js["D_DUP"][1]["volume"]
+			area_2:=jres.sample[posi_2][comp]["peakarea"]
+			calc_conc_2:=jres.sample[posi_2][comp]["conc"]
+			calc_pp_2:=calc_conc_2*volume_2/weight_2*jmethod[mode]["CR_PP"]
+			add_pp_2:=jmethod[mode]["DUP_conc"]
+			
+			
+			ave_pp:=(calc_pp_1+calc_pp_2)/2
+			RRP:=abs(calc_pp_1-calc_pp_2)/ave_pp*100
+			if (RRP>20 || RRP<-20){
+				abnormalmsg:=abnormalmsg . "稀釋SPKDUP`t相對差異>+=20%`t" . comp . "`相對差異=" . RRP . "%`n"
+			}
+			loop, % thisgt.MaxIndex()
+			{
+				column:=A_index
+				columntype:=jmethod[mode]["titles"]["SPKR"][column]
+				if (columntype="var_compound"){
+					rep:=rep . currentcompound . "`t"
+				} else if (columntype="weight"){
+					rep:=rep . weight_1 . "`t"
+				} else if (columntype="volume"){
+					rep:=rep . volume_1 . "`t"
+				} else if (columntype="area"){
+					rep:=rep . area_1 . "`t"
+				} else if (columntype="calc_conc"){
+					rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="calc_pp"){
+					rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="add_pp"){
+					rep:=rep . add_pp_1 . "`t"
+				} else if (columntype="weight_D"){
+					rep:=rep . weight_2 . "`t"
+				} else if (columntype="volume_D"){
+					rep:=rep . volume_2 . "`t"
+				} else if (columntype="area_D"){
+					rep:=rep . area_2 . "`t"
+				} else if (columntype="calc_conc_D"){
+					rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="calc_pp_D"){
+					rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="add_pp_D"){
+					rep:=rep . add_pp_2 . "`t"
+				} else if (columntype="ave_pp"){
+					rep:=rep . stavalue(round(ave_pp,jmethod[mode]["digit"])) . "`t"
+				} else if (columntype="RRP"){
+					rep:=rep . stavalue(round(RRP,jmethod[mode]["percentdigit"]) . "%") . "`t"
+				} else {
+					rep:=rep . "未定義公式" . "`t"
+				}
+			}
+			rep:=rep . "`n"
+		}
 	}
-	rep:=rep . "`n"
-	rep:=rep . "`t`t`t`t編號：`n"
-	rep:=rep . "檢驗員：`t驗算員：`t`t實驗室負責人：`t`n"
 	
+	if (js.D_TEST.MaxIndex()>0){
+		rep:=rep . "`n"
+		rep:=rep . "十一、稀釋檢體檢驗結果：`n"
+		loop, % js.D_TEST.MaxIndex()
+		{
+			posi:=checknuminsmaple(js["D_TEST"][A_index]["sample"],jres)
+			sample_name:=js["D_TEST"][A_index]["remark"]
+			sample_code:=js["D_TEST"][A_index]["sample"]
+			weight:=js["D_TEST"][A_index]["weight"]
+			volume:=js["D_TEST"][A_index]["volume"]
+			dilute:=js["D_TEST"][A_index]["dilute"]
+			thisgt:=jmethod[mode]["titles"]["TEST"]
+			loop, % thisgt.MaxIndex(){
+				mgtkey:=thisgt[A_index]
+				thisit:= mgt[mgtkey]
+				if (mgtkey="sample_code"){
+					rep:=rep . sample_code . "`t"
+				} else if (mgtkey="sample_name"){
+					rep:=rep . sample_name . "`t`n"
+				} else if (mgtkey="weight"){
+					rep:=rep . thisit . "`t" . weight . "`t" . jmethod[mode]["unitsam"] . "`t"
+				} else if (mgtkey="volume"){
+					rep:=rep . thisit . "`t`t" . volume . "`t" . jmethod[mode]["unitvol"] . "`t`n"
+				} else if (mgtkey="var_compound"){
+					rep:=rep . "檢出細項" . "`t" . "稀釋倍數" . "`t"
+				} else if (mgtkey="area"){
+					rep:=rep . thisit . "`t"
+				} else if (mgtkey="calc_conc"){
+					rep:=rep . thisit . "(" . jmethod[mode]["unit"] . ")`t"
+				} else if (mgtkey="calc_pp"){
+					rep:=rep . thisit . "(" . jmethod[mode]["unitPP"] . ")`t"
+				} else if (mgtkey="LOQ"){
+					rep:=rep . "LOQ" . "(" . jmethod[mode]["unitPP"] . ")`t"
+				} else if (mgtkey="Accept_conc"){
+					rep:=rep . "容許量" . "(" . jmethod[mode]["unitPP"] . ")`t"
+				} else {
+					rep:=rep . "未定義" . "`t"
+				}
+			}
+			rep:=rep . "`n"
+			for key, item in poslist.dilsample
+			{
+				if (instr(sample_code,key)){
+					for dilcomp in item
+					{
+						currentcompound:=dilcomp
+						comp:=currentcompound
+						area:=jres.sample[posi][currentcompound]["peakarea"]
+						calc_conc:=jres.sample[posi][comp]["conc"]*dilute
+						calc_pp:=calc_conc*volume/weight*jmethod[mode]["CR_PP"]
+						LQ:=jmethod["pesticide_LOQ"][comp][LQ_mode]
+						rep:=rep . comp . "`t" .  dilute . "`t"
+						rep:=rep . area . "`t" 
+						rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
+						rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+						rep:=rep . stavalue(round(LQ,jmethod[mode]["digit"])) . "`t"
+						rep:=rep . "" . "`t`n" 
+					}
+					
+				}
+			}
+			rep:=rep . "`n"
+		}
+		rep:=rep . "`n"
+		rep:=rep . "`t`t`t`t編號：`n"
+		rep:=rep . "檢驗員：`t驗算員：`t`t實驗室負責人：`t`n"
+	}
 	
-	
+	if (abnormalmsg!=""){
+		IfExist, errmsg.txt
+		{
+			FileDelete, errmsg.txt
+		}
+		FileAppend, %abnormalmsg%, errmsg.txt
+		run, errmsg.txt
+	}
 	return rep
 	
 }
 generatefromobj(js,jres,jmethod){
+	abnormalmsg:=""
 	guicontrolget, mode, main:, mode
 	mgt:=jmethod["generaltitle"]
 	rep:=""
 	;~ STD
+	
+	for com, item in js["yabr"][comp]["r"]
+	{
+		if (item["r"]<0.99){
+			abnormalmsg:=abnormalmsg . "品管檢量線`tr<0.99" . com . "`tr=" . item["r"] . "`n"
+		}
+	}
+	
 	rep:=rep . "三、檢量線製作：`n"
 	thisgt:=jmethod[mode]["titles"]["STD"]
 	loop, % js.yabr.order.MaxIndex()
@@ -2029,6 +2096,9 @@ generatefromobj(js,jres,jmethod){
 		RT25_1:=RT*1.025
 		RT25_2:=RT*0.975
 		row:=A_Index
+		if (RR>20 || RR<-20){
+			abnormalmsg:=abnormalmsg . "品管ICV`tRR>+-20%" . comp . "`tRR=" . RR . "%`n"
+		}
 		loop, % thisgt.MaxIndex()
 		{
 			column:=A_index
@@ -2096,7 +2166,9 @@ generatefromobj(js,jres,jmethod){
 			IAratio:=area/ISArea
 			calc_conc_IS:=countconc(IAratio,js["yabr"][comp]["a"],js["yabr"][comp]["b"])
 			RR_IS:=(calc_conc_IS-sample_conc)/sample_conc*100
-
+			if (RR>20 || RR<-20){
+				abnormalmsg:=abnormalmsg . "品管CCV" . currentsample . "`tRR>+-20%" . comp . "`tRR=" . RR . "%`n"
+			}
 			loop, % thisgt.MaxIndex()
 			{
 				column:=A_index
@@ -2238,7 +2310,9 @@ generatefromobj(js,jres,jmethod){
 		calc_pp_IS:=calc_conc_IS*volume/weight*jmethod[mode]["CR_PP"]
 		recy_IS:=calc_pp_IS/add_pp*100
 		
-		
+		if (recy>120 || recy<60){
+			abnormalmsg:=abnormalmsg . "品管SPK`t回收>120或<60%" . comp . "`t回收=" . recy . "%`n"
+		}
 		
 		currentcompound:=js.SPKcompound["order"][A_Index]
 		thisgt:=jmethod[mode]["titles"]["SPK"]
@@ -2359,6 +2433,10 @@ generatefromobj(js,jres,jmethod){
 		
 		ave_pp_IS:=(calc_pp_IS_1+calc_pp_IS_2)/2
 		RRP_IS:=abs(calc_pp_IS_1-calc_pp_IS_2)/ave_pp_IS*100
+		
+		if (RRP>20 || RRP<-20){
+			abnormalmsg:=abnormalmsg . "品管SPKDUP`t相對差異>+-20%" . comp . "`t相對差異=" . RRP . "%`n"
+		}
 		loop,2
 		{
 			cursam:=A_index
@@ -2553,25 +2631,6 @@ generatefromobj(js,jres,jmethod){
 	return rep
 }
 
-countconc(peakarea,a,b){
-	countconc:=(peakarea-b)/a
-	return countconc
-}
-
-checknuminsmaple(samplename,jres){
-	retnum:=""
-	loop, % jres.sample.maxindex(){
-		if (jres.sample[A_index].samplename=samplename){
-			retnum:=A_index
-			break
-		}
-	}
-	if (retnum!=""){
-		return retnum
-	} else {
-		msgbox 出錯了`,%samplename%
-	}
-}
 
 
 ADDsample:
@@ -3488,4 +3547,20 @@ countyabr(x,y){
 stavalue(value){
 	retv:="=""" . value . """"
 	return retv
+}
+
+countconc(peakarea,a,b){
+	countconc:=(peakarea-b)/a
+	return countconc
+}
+
+checknuminsmaple(samplename,jres){
+	retnum:=""
+	loop, % jres.sample.maxindex(){
+		if (jres.sample[A_index].samplename=samplename){
+			retnum:=A_index
+			break
+		}
+	}
+	return retnum
 }
