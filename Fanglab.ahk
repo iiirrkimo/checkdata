@@ -549,7 +549,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 	defaultlist:=jmethod[mode]["defaultlist"]
 	for com, item in js["yabr"]
 	{
-		if (com!="TPP"){
+		if (com!="TPP" && com!="order"){
 			if (item["r"]<0.99){
 				abnormalmsg:=abnormalmsg . "品管檢量線`tr<0.99`t" . com . "`tr=" . item["r"] . "`n"
 			}
