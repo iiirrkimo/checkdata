@@ -148,7 +148,7 @@
 				} else {
 					comment="您屬於"+typelist[typecode]+"神經病變";
 				}
-				if (notyet!=""){
+				if (notyet!="無"){
 					gonext=confirm(notyet+"\n未完成，是否仍繳交?");
 				} else {
 					gonext=true;
@@ -187,7 +187,7 @@
 
 					fetch(formUrl, {
 					  method: 'POST',
-					  body: formData,
+					  body: upformData,
 					  headers: {
 						'Content-Type': 'application/x-www-form-urlencoded' 
 					  }
