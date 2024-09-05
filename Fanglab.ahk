@@ -1090,7 +1090,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 		errmsg2:=errmsg2 . msg . "`n"
 	}
 	if (errmsg2!=""){
-		abnormalmsg:=abnormalmsg . "無LOQ`n" . errmsg2 . "n"
+		abnormalmsg:=abnormalmsg . "以下無LOQ，須更新方法`n" . errmsg2 . "以上無LOQ，須更新方法`n"
 	}
 	rep:=rep . "`n"
 	rep:=rep . "一、檢出檢量線製作：`n"
