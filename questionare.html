@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EORTC QLQ – CIPN20</title>
+    <style>
+        .question {
+           margin:5px; display: flex; font-size: 18px;
+        }
+		.submitbutton{
+			font-size: 30px;
+		}
+		.comment {
+           margin:5px; font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>EORTC QLQ – CIPN20</h1>
+	<h3>病人有時會表示他們有下列的症狀或問題，請您指出您在過去一星期內（過去七天內）經驗到這些症狀或問題的程度。請圈選最適合您的答案。</h3>
+    <div id="form-container"></div> 
+	
+    <div id="resultT" class="comment"></div>
+	<div id="resultA" class="comment"></div>
+	<div id="resultB" class="comment"></div>
+	<div id="resultC" class="comment"></div>
+	<div id="resultN" class="comment"></div>
+	<div id="resultS" class="comment"></div>
+    <script>
+		window.onload = function() {
+			formContainer = document.getElementById('form-container');
+            form = document.createElement('form');
+            form.id = 'quiz-form';
+			questionDiv = document.createElement('div');
+			questionDiv.className = 'submitbutton';
+			questionTitle = document.createElement('label');
+			questionTitle.append("基本資料:　");
+			questionDiv.appendChild(questionTitle);
+			input = document.createElement('input');
+			input.name = "patient";
+			input.className= 'submitbutton';
+			questionDiv.appendChild(input)
+			form.appendChild(questionDiv);
+			questions = [
+                {num:31,type:"A",text:"您的手指或手有針刺感嗎？　　　　　　　　　　　　　　　"},
+				{num:32,type:"A",text:"您的腳趾或腳有針刺感嗎？　　　　　　　　　　　　　　　"},
+				{num:33,type:"A",text:"您的手指或手感覺麻木嗎？　　　　　　　　　　　　　　　"},
+				{num:34,type:"A",text:"您的腳趾或腳感覺麻木嗎？　　　　　　　　　　　　　　　"},
+				{num:35,type:"A",text:"您的手指或手有劇烈或灼熱的疼痛嗎？　　　　　　　　　　"},
+				{num:36,type:"A",text:"您的腳趾或腳有劇烈或灼熱的疼痛嗎？　　　　　　　　　　"},
+				{num:37,type:"B",text:"您的手會抽筋嗎？　　　　　　　　　　　　　　　　　　　"},
+				{num:38,type:"B",text:"您的腳會抽筋嗎？　　　　　　　　　　　　　　　　　　　"},
+				{num:39,type:"A",text:"您因為感覺腳下的地面有困難，而導致站立或行走有問題嗎？"},
+				{num:40,type:"A",text:"您分辨熱水及冷水有困難嗎？　　　　　　　　　　　　　　"},
+				{num:41,type:"B",text:"您握筆有問題而寫字有困難嗎？　　　　　　　　　　　　　"},
+				{num:42,type:"B",text:"您用手指操作細小物件（如扣上小鈕扣（有困難嗎？　　　　"},
+				{num:43,type:"B",text:"您因為手部無力而難以打開罐子（廣口瓶）或瓶子嗎？　　　"},
+				{num:44,type:"B",text:"您因為腳部下垂而難以走路嗎？　　　　　　　　　　　　　"},
+				{num:45,type:"B",text:"您因為腿部無力而難以上樓梯或從椅子上站起來嗎？　　　　"},
+				{num:46,type:"C",text:"從坐著或躺著的姿勢站起來時，您會頭昏嗎？　　　　　　　"},
+				{num:47,type:"C",text:"您視力模糊嗎？　　　　　　　　　　　　　　　　　　　　"},
+				{num:48,type:"A",text:"您聽力有困難嗎？　　　　　　　　　　　　　　　　　　　"},
+				{num:49,type:"B",text:"（有開車的人）您踩踏板會有困難嗎？　　　　　　　　　　"},
+				{num:50,type:"C",text:"（僅男性）您在達到或維持陰莖勃起上會有困難嗎？　　　　"}
+            ];
+			options=["完全沒有","有一點","相當多","非常多"]
+			
+			for (let i=0;i<questions.length;i++){
+				questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+				questionTitle = document.createElement('label');
+				questionTitle.append(questions[i]["num"]+". "+questions[i]["text"]);
+				questionDiv.appendChild(questionTitle);
+				for (let j=0;j<options.length;j++){
+					label = document.createElement('label');
+					radio = document.createElement('input');
+					radio.type = 'radio';
+					radio.name = "q"+questions[i]["num"];
+					radio.value = j + 1;
+					label.appendChild(radio);
+					label.append(options[j]);
+					questionDiv.appendChild(label);
+				}
+				
+				form.appendChild(questionDiv);
+			}
+			formContainer.appendChild(form);
+			const submitButton = document.createElement('button');
+			submitButton.className = 'submitbutton';
+            submitButton.type = 'button';
+            submitButton.textContent = '提交問卷';
+            submitButton.onclick = calculateScore; // 設置提交按鈕的點擊事件
+            form.appendChild(submitButton);
+		}
+	
+	
+	
+	
+	
+        function calculateScore() {
+			form = document.getElementById('quiz-form');
+			formData = new FormData(form);
+			thename=formData.get('patient');
+			if (thename==""){
+				alert("請輸入基本資料");
+			} else {
+				let A_score = 0;
+				let B_score = 0;
+				let C_score = 0;
+				let T_score=0;
+				let notyet="";
+				
+				for (let i=0;i<questions.length;i++){
+					newscore=formData.get('q'+questions[i]["num"])*1;
+					T_score+=newscore;
+					if (newscore>0){
+						if (questions[i]["type"]=="A"){
+							A_score+=newscore;
+						} else if (questions[i]["type"]=="B"){
+							B_score+=newscore;
+						} else if (questions[i]["type"]=="C"){
+							C_score+=newscore;
+						} 
+					} else {
+						notyet+="第"+questions[i]["num"]+"題,"
+					}
+				}
+				if (notyet==""){
+					notyet="無";
+				} else {
+					notyet=notyet.substring(0,notyet.length-1);
+				}
+				let typecode=0
+				typelist=["正常","感覺型","運動型","混和型(感覺+運動)","自主神經型","混和型(感覺+自主神經)","混和型(運動+自主神經)","混和型(感覺+運動+自主神經)"]
+				if (A_score>5){
+					typecode+=1
+				} 
+				if (B_score>4){
+					typecode+=2
+				}
+				if (C_score>6){
+					typecode+=4
+				}
+				if (typecode==0){
+					comment="正常";
+				} else {
+					comment="您屬於"+typelist[typecode]+"神經病變";
+				}
+				if (notyet!=""){
+					gonext=confirm(notyet+"\n未完成，是否仍繳交?");
+				} else {
+					gonext=true;
+				}
+				if (gonext){
+					document.getElementById('resultT').textContent = "總分　　　　　: "+T_score+" 分";
+					document.getElementById('resultA').textContent = "感覺型分數　　: "+A_score+" 分";
+					document.getElementById('resultB').textContent = "運動型分數　　: "+B_score+" 分";
+					document.getElementById('resultC').textContent = "自主神經型分數: "+C_score+" 分";
+					document.getElementById('resultN').textContent = "未作答　　　　: "+notyet;
+					document.getElementById('resultS').textContent = "問卷結果　　　:"+comment;
+					
+					formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfO2p9QJNIMnlVGJoskkl8BJsq8YI9RQXiaB-YYF0oWrJGp1A/formResponse';
+					upformData = new URLSearchParams();
+					upformData.append('entry.753090537', formData.get('patient'));
+					upformData.append('entry.768913243', formData.get('q31')); 
+					upformData.append('entry.621663710', formData.get('q32')); 
+					upformData.append('entry.360861587', formData.get('q33')); 
+					upformData.append('entry.712610422', formData.get('q34')); 
+					upformData.append('entry.102844335', formData.get('q35')); 
+					upformData.append('entry.277408052', formData.get('q36')); 
+					upformData.append('entry.1488904287', formData.get('q37')); 
+					upformData.append('entry.1471679004', formData.get('q38')); 
+					upformData.append('entry.1842274174', formData.get('q39')); 
+					upformData.append('entry.1032844010', formData.get('q40')); 
+					upformData.append('entry.364354770', formData.get('q41')); 
+					upformData.append('entry.2003275283', formData.get('q42')); 
+					upformData.append('entry.2045999668', formData.get('q43')); 
+					upformData.append('entry.1398346583', formData.get('q44')); 
+					upformData.append('entry.772192406', formData.get('q45')); 
+					upformData.append('entry.1702585750', formData.get('q46')); 
+					upformData.append('entry.815322339', formData.get('q47')); 
+					upformData.append('entry.963738134', formData.get('q48')); 
+					upformData.append('entry.1588110144', formData.get('q49')); 
+					upformData.append('entry.2094721163', formData.get('q50')); 
+
+					fetch(formUrl, {
+					  method: 'POST',
+					  body: formData,
+					  headers: {
+						'Content-Type': 'application/x-www-form-urlencoded' 
+					  }
+					})
+					  .then(response => {
+						if (response.ok) {
+						  console.log('Form submitted successfully!');
+						} else {
+						  console.error('Form submission failed.');
+						}
+					  })
+					  .catch(error => {
+						console.error('Error:', error);
+					  });
+				}
+			}
+
+        }
+    </script>
+
+</body>
+</html>
