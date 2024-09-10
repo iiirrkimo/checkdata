@@ -516,9 +516,6 @@ if (errmsg=""){
 		;~ Clipboard:=jmethods
 		;~ MsgBox oupt
 		if (jmethod[mode]["mode"]="pesticide"){
-			;~ oupts:=JsonDump(oupt)
-			;~ Clipboard:=oupts
-			;~ msgbox pesticide
 			rep:=generatefromobj_pesticide(oupt,jres,jmethod)
 			Clipboard:=rep
 		} else {
@@ -1952,7 +1949,12 @@ generatefromobj_pesticide(js,jres,jmethod){
 			rep:=rep . "`n"
 			for key, item in poslist.dilsample
 			{
-				if (instr(sample_code,key)){
+				keyitem:=StrSplit(key,"_")[2]
+				keynum:=StrSplit(key,"_")[3]
+				sampleitem:=StrSplit(sample_code,"_")[2]
+				samplenum:=StrSplit(sample_code,"_")[3]
+				
+				if (keyitem=sampleitem && keynum=samplenum){
 					for dilcomp in item
 					{
 						currentcompound:=dilcomp
