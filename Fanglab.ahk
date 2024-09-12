@@ -580,7 +580,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 						rep:=rep . "Ana Peak`t"
 					} 
 					posi:=checknuminsmaple(js["STD"][column]["sample"],jres)
-					rep:=rep . stavalue(round(jres.sample[posi][comp]["peakarea"],3)) . "`t"
+					rep:=rep . jres.sample[posi][comp]["peakarea"] . "`t"
 				} else if (rowtype="STD_yaxb"){
 					if (column=1){
 						rep:=rep . "y=ax+b"
@@ -1142,8 +1142,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 						rep:=rep . "Ana Peak`t"
 					} 
 					posi:=checknuminsmaple(js["STD"][column]["sample"],jres)
-					;~ rep:=rep . jres.sample[posi][comp]["peakarea"] . "`t"
-					rep:=rep . stavalue(round(jres.sample[posi][comp]["peakarea"],3)) . "`t"
+					rep:=rep . jres.sample[posi][comp]["peakarea"] . "`t"
+					;~ rep:=rep . stavalue(round(jres.sample[posi][comp]["peakarea"],3)) . "`t"
 				} else if (rowtype="STD_yaxb"){
 					if (column=1){
 						rep:=rep . "y=ax+b"
