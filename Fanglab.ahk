@@ -646,7 +646,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(area,3)) . "`t"
 			} else if (columntype="calc_conc"){
 				;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 			} else if (columntype="RR"){
 				rep:=rep . stavalue(round(RR,jmethod[mode]["percentdigit"]) . "%" ) . "`t"
 			} else if (columntype="RT"){
@@ -707,7 +707,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 					rep:=rep . stavalue(round(area,3)) . "`t"
 				} else if (columntype="calc_conc"){
 					;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+					rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 				} else if (columntype="RR"){
 					rep:=rep . stavalue(round(RR,jmethod[mode]["percentdigit"]) . "%") . "`t"
 				} else if (columntype="RT"){
@@ -786,7 +786,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 						rep:=rep . "N.D." . "`t"
 					} else {
 						;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-						rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+						rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 					}	
 				}
 			} else if (columntype="calc_PP"){
@@ -863,7 +863,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(area,3)) . "`t"
 			} else if (columntype="calc_conc"){
 				;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 			} else if (columntype="calc_pp"){
 				;~ rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_PP,2)) . "`t"
@@ -972,7 +972,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(area_1,3)) . "`t"
 			} else if (columntype="calc_conc"){
 				;~ rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc_1,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc_1,3)) . "`t"
 			} else if (columntype="calc_pp"){
 				;~ rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_pp_1,2)) . "`t"
@@ -989,7 +989,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(area_2,3)) . "`t"
 			} else if (columntype="calc_conc_D"){
 				;~ rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc_2,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc_2,3)) . "`t"
 			} else if (columntype="calc_pp_D"){
 				;~ rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_pp_2,2)) . "`t"
@@ -1213,7 +1213,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(area,3)) . "`t"
 			} else if (columntype="calc_conc"){
 				;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 			} else if (columntype="RR"){
 				rep:=rep . stavalue(round(RR,jmethod[mode]["percentdigit"]) . "%") . "`t"
 			} else if (columntype="RT"){
@@ -1273,7 +1273,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 					rep:=rep . stavalue(round(area,3)) . "`t"
 				} else if (columntype="calc_conc"){
 					;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+					rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 				} else if (columntype="RR"){
 					rep:=rep . stavalue(round(RR,jmethod[mode]["percentdigit"]) . "%") . "`t"
 				} else if (columntype="RT"){
@@ -1352,7 +1352,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 						rep:=rep . "N.D." . "`t"
 					} else {
 						;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-						rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+						rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 					}	
 				}
 			} else if (columntype="calc_PP"){
@@ -1428,7 +1428,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(area,3)) . "`t"
 			} else if (columntype="calc_conc"){
 				;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 			} else if (columntype="calc_pp"){
 				;~ rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_pp,2)) . "`t"
@@ -1525,7 +1525,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(volume_1,3)) . "`t"
 			} else if (columntype="calc_conc"){
 				;~ rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc_1,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc_1,3)) . "`t"
 			} else if (columntype="calc_pp"){
 				;~ rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_pp_1,2)) . "`t"
@@ -1542,7 +1542,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				rep:=rep . stavalue(round(area_2,3)) . "`t"
 			} else if (columntype="calc_conc_D"){
 				;~ rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
-				rep:=rep . stavalue(round(calc_conc_2,2)) . "`t"
+				rep:=rep . stavalue(round(calc_conc_2,3)) . "`t"
 			} else if (columntype="calc_pp_D"){
 				;~ rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_pp_2,2)) . "`t"
@@ -1614,7 +1614,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
 				;~ rep:=rep . stavalue(round(LQ,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(area,3)) . "`t" 
-				rep:=rep . stavalue(round(calc_conc,2)) . "`t" 
+				rep:=rep . stavalue(round(calc_conc,3)) . "`t" 
 				rep:=rep . stavalue(round(calc_pp,2)) . "`t"
 				rep:=rep . stavalue(round(LQ,2)) . "`t" 
 				rep:=rep . "" . "`t`n" 
@@ -1689,7 +1689,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 						rep:=rep . stavalue(round(area,3)) . "`t"
 					} else if (columntype="calc_conc"){
 						;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-						rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+						rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 					} else if (columntype="RR"){
 						rep:=rep . stavalue(round(RR,jmethod[mode]["percentdigit"]) . "%") . "`t"
 					} else if (columntype="RT"){
@@ -1775,7 +1775,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 							rep:=rep . "N.D." . "`t"
 						} else {
 							;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-							rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+							rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 						}	
 					}
 				} else if (columntype="calc_PP"){
@@ -1858,7 +1858,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 					rep:=rep . stavalue(round(area,3)) . "`t"
 				} else if (columntype="calc_conc"){
 					;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+					rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 				} else if (columntype="calc_pp"){
 					;~ rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
 					rep:=rep . stavalue(round(calc_pp,2)) . "`t"
@@ -1955,7 +1955,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 					rep:=rep . stavalue(round(area_1,3)) . "`t"
 				} else if (columntype="calc_conc"){
 					;~ rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . stavalue(round(calc_conc_1,2)) . "`t"
+					rep:=rep . stavalue(round(calc_conc_1,3)) . "`t"
 				} else if (columntype="calc_pp"){
 					;~ rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
 					rep:=rep . stavalue(round(calc_pp_1,2)) . "`t"
@@ -1972,7 +1972,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 					rep:=rep . stavalue(round(area_2,3)) . "`t"
 				} else if (columntype="calc_conc_D"){
 					;~ rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
-					rep:=rep . stavalue(round(calc_conc_2,2)) . "`t"
+					rep:=rep . stavalue(round(calc_conc_2,3)) . "`t"
 				} else if (columntype="calc_pp_D"){
 					;~ rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
 					rep:=rep . stavalue(round(calc_pp_2,2)) . "`t"
@@ -2055,7 +2055,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 						;~ rep:=rep . stavalue(round(LQ,jmethod[mode]["digit"])) . "`t"
 						
 						rep:=rep . stavalue(round(area,3)) . "`t" 
-						rep:=rep . stavalue(round(calc_conc,2)) . "`t"
+						rep:=rep . stavalue(round(calc_conc,3)) . "`t"
 						rep:=rep . stavalue(round(calc_pp,2)) . "`t"
 						rep:=rep . stavalue(round(LQ,2)) . "`t"
 	
