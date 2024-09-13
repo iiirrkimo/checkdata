@@ -796,7 +796,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 					if (calc_pp<LQ){
 						rep:=rep . "N.D." . "`t"
 					} else {
-						rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
+						;~ rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
+						rep:=rep . stavalue(round(calc_PP,2)) . "`t"
 					}	
 				}
 			} else if (columntype="LOQ"){
@@ -864,7 +865,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_conc,2)) . "`t"
 			} else if (columntype="calc_pp"){
-				rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+				;~ rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(round(calc_PP,2)) . "`t"
 			} else if (columntype="add_pp"){
 				rep:=rep . add_pp . "`t"
 			} else if (columntype="recy"){
@@ -972,7 +974,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_conc_1,2)) . "`t"
 			} else if (columntype="calc_pp"){
-				rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
+				;~ rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(round(calc_pp_1,2)) . "`t"
 			} else if (columntype="add_pp"){
 				rep:=rep . add_pp_1 . "`t"
 			} else if (columntype="weight_D"){
@@ -988,7 +991,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_conc_2,2)) . "`t"
 			} else if (columntype="calc_pp_D"){
-				rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
+				;~ rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(round(calc_pp_2,2)) . "`t"
 			} else if (columntype="add_pp_D"){
 				rep:=rep . add_pp_2 . "`t"
 			} else if (columntype="ave_pp"){
@@ -1358,7 +1362,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 					if (calc_pp<LQ){
 						rep:=rep . "N.D." . "`t"
 					} else {
-						rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
+						;~ rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
+						rep:=rep . stavalue(round(calc_PP,2)) . "`t"
 					}	
 				}
 			}else if (columntype="LOQ"){
@@ -1425,7 +1430,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_conc,2)) . "`t"
 			} else if (columntype="calc_pp"){
-				rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+				;~ rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(round(calc_pp,2)) . "`t"
 			} else if (columntype="add_pp"){
 				rep:=rep . add_pp . "`t"
 			} else if (columntype="recy"){
@@ -1521,7 +1527,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_conc_1,2)) . "`t"
 			} else if (columntype="calc_pp"){
-				rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
+				;~ rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(round(calc_pp_1,2)) . "`t"
 			} else if (columntype="add_pp"){
 				rep:=rep . add_pp_1 . "`t"
 			} else if (columntype="weight_D"){
@@ -1537,7 +1544,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(calc_conc_2,2)) . "`t"
 			} else if (columntype="calc_pp_D"){
-				rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
+				;~ rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(round(calc_pp_2,2)) . "`t"
 			} else if (columntype="add_pp_D"){
 				rep:=rep . add_pp_2 . "`t"
 			} else if (columntype="ave_pp"){
@@ -1607,7 +1615,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 				;~ rep:=rep . stavalue(round(LQ,jmethod[mode]["digit"])) . "`t"
 				rep:=rep . stavalue(round(area,3)) . "`t" 
 				rep:=rep . stavalue(round(calc_conc,2)) . "`t" 
-				rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+				rep:=rep . stavalue(round(calc_pp,2)) . "`t"
 				rep:=rep . stavalue(round(LQ,2)) . "`t" 
 				rep:=rep . "" . "`t`n" 
 				
@@ -1777,7 +1785,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 						if (calc_pp<LQ){
 							rep:=rep . "N.D." . "`t"
 						} else {
-							rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
+							;~ rep:=rep . stavalue(round(calc_PP,jmethod[mode]["digit"])) . "`t"
+							rep:=rep . stavalue(round(calc_PP,2)) . "`t"
 						}	
 					}
 				}else if (columntype="LOQ"){
@@ -1851,7 +1860,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 					;~ rep:=rep . stavalue(round(calc_conc,jmethod[mode]["digit"])) . "`t"
 					rep:=rep . stavalue(round(calc_conc,2)) . "`t"
 				} else if (columntype="calc_pp"){
-					rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+					;~ rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+					rep:=rep . stavalue(round(calc_pp,2)) . "`t"
 				} else if (columntype="add_pp"){
 					rep:=rep . add_pp . "`t"
 				} else if (columntype="recy"){
@@ -1947,7 +1957,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 					;~ rep:=rep . stavalue(round(calc_conc_1,jmethod[mode]["digit"])) . "`t"
 					rep:=rep . stavalue(round(calc_conc_1,2)) . "`t"
 				} else if (columntype="calc_pp"){
-					rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
+					;~ rep:=rep . stavalue(round(calc_pp_1,jmethod[mode]["digit"])) . "`t"
+					rep:=rep . stavalue(round(calc_pp_1,2)) . "`t"
 				} else if (columntype="add_pp"){
 					rep:=rep . add_pp_1 . "`t"
 				} else if (columntype="weight_D"){
@@ -1963,7 +1974,8 @@ generatefromobj_pesticide(js,jres,jmethod){
 					;~ rep:=rep . stavalue(round(calc_conc_2,jmethod[mode]["digit"])) . "`t"
 					rep:=rep . stavalue(round(calc_conc_2,2)) . "`t"
 				} else if (columntype="calc_pp_D"){
-					rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
+					;~ rep:=rep . stavalue(round(calc_pp_2,jmethod[mode]["digit"])) . "`t"
+					rep:=rep . stavalue(round(calc_pp_2,2)) . "`t"
 				} else if (columntype="add_pp_D"){
 					rep:=rep . add_pp_2 . "`t"
 				} else if (columntype="ave_pp"){
@@ -2044,7 +2056,7 @@ generatefromobj_pesticide(js,jres,jmethod){
 						
 						rep:=rep . stavalue(round(area,3)) . "`t" 
 						rep:=rep . stavalue(round(calc_conc,2)) . "`t"
-						rep:=rep . stavalue(round(calc_pp,jmethod[mode]["digit"])) . "`t"
+						rep:=rep . stavalue(round(calc_pp,2)) . "`t"
 						rep:=rep . stavalue(round(LQ,2)) . "`t"
 	
 						rep:=rep . "" . "`t`n" 
