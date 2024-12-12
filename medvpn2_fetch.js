@@ -1,36 +1,53 @@
 (function (){
 async function queryalldata(){
-	const currentTime = getFormattedDate();
-	const querykey=currentTime+'&insert_log=true';
-	const url_list={
-		"drug" : 'https://medcloud2.nhi.gov.tw/imu/api/imue0008/imue0008s02/get-data?cli_datetime=',
-		"exam" : 'https://medcloud2.nhi.gov.tw/imu/api/imue0060/imue0060s02/get-data?cli_datetime=',
-		"HBCV" : 'https://medcloud2.nhi.gov.tw/imu/api/imue0180/imue0180s01/hbcv-data?cli_datetime=',
-		"he":'https://medcloud2.nhi.gov.tw/imu/api/imue0140/imue0140s01/hpa-data?cli_datetime=',
-		"cancer": "https://medcloud2.nhi.gov.tw/imu/api/imue0150/imue0150s01/hpa-data?cli_datetime=",
-		"residue": "https://medcloud2.nhi.gov.tw/imu/api/imue0120/imue0120s01/pres-med-day?cli_datetime=",
-		"image": "https://medcloud2.nhi.gov.tw/imu/api/imue0130/imue0130s02/get-data?cli_datetime=",
+	let ccc=document.URL.toUpperCase();
+	let ddd="https://medcloud2.nhi.gov.tw/imu/IMUE1000/IMUE".toUpperCase();
+	let ddd2="https://medcloud2.nhi.gov.tw/IMU/IMUE1000/".toUpperCase();
+	if (ccc.includes(ddd)){
+		const currentTime = getFormattedDate();
+		const querykey=currentTime+'&insert_log=true';
+		const url_list={
+			"drug" : 'https://medcloud2.nhi.gov.tw/imu/api/imue0008/imue0008s02/get-data?cli_datetime=',
+			"exam" : 'https://medcloud2.nhi.gov.tw/imu/api/imue0060/imue0060s02/get-data?cli_datetime=',
+			"HBCV" : 'https://medcloud2.nhi.gov.tw/imu/api/imue0180/imue0180s01/hbcv-data?cli_datetime=',
+			"he":'https://medcloud2.nhi.gov.tw/imu/api/imue0140/imue0140s01/hpa-data?cli_datetime=',
+			"cancer": "https://medcloud2.nhi.gov.tw/imu/api/imue0150/imue0150s01/hpa-data?cli_datetime=",
+			"residue": "https://medcloud2.nhi.gov.tw/imu/api/imue0120/imue0120s01/pres-med-day?cli_datetime=",
+			"image": "https://medcloud2.nhi.gov.tw/imu/api/imue0130/imue0130s02/get-data?cli_datetime=",
+		}
+		const headers = {
+			'Content-Type': 'application/json, text/plain, */*',
+			'Authorization': `Bearer ${sessionStorage.token}`
+		};
+		try {
+			const keys = Object.keys(url_list);
+			const promises = keys.map(key => fetch(url_list[key]+querykey, { headers })); 
+			const responses = await Promise.all(promises);
+			const results = {};
+			for (let i = 0; i < keys.length; i++) {
+				const response = responses[i];
+				if (!response.ok) {
+					throw new Error(`API ${keys[i]} error: ${response.status}`);
+				}
+				results[keys[i]] = await response.json();
+			}
+			nextStep(results);
+		} catch (error) {
+			alert('呼叫API發生錯誤:\n'+error);
+		}
+	} else if (ccc.includes(ddd2)) {
+		try {
+			if (document.getElementsByClassName('login-btn blue2').length>0){
+				document.getElementsByClassName('login-btn blue2')[0].click();
+			} else if (document.getElementsByClassName('green-btn').length>0){
+				document.getElementsByClassName('green-btn')[0].click();
+			}
+		} catch (error) {
+			alert('換卡時發生錯誤:\n'+error);
+		}
+	} else {
+		location.href=ddd2;
 	}
-	const headers = {
-        'Content-Type': 'application/json, text/plain, */*',
-        'Authorization': `Bearer ${sessionStorage.token}`
-    };
-	try {
-        const keys = Object.keys(url_list);
-        const promises = keys.map(key => fetch(url_list[key]+querykey, { headers })); 
-        const responses = await Promise.all(promises);
-        const results = {};
-        for (let i = 0; i < keys.length; i++) {
-            const response = responses[i];
-            if (!response.ok) {
-                throw new Error(`API ${keys[i]} error: ${response.status}`);
-            }
-            results[keys[i]] = await response.json();
-        }
-        nextStep(results);
-    } catch (error) {
-        alert('發生錯誤:\n'+error);
-    }
 }
 
 
@@ -685,7 +702,7 @@ function nextStep(apiResults) {
 </html>
 	`
 	console.log(htmls);
-	const newWindow = window.open("", "_blank");
+	const newWindow = window.open("", "_blank", "width=1600,height=900");
 	newWindow.document.write(htmls);
 	newWindow.document.close();
 	}
