@@ -101,17 +101,17 @@ function nextStep(apiResults) {
 				margin-left: 5px;
 				margin-top: 5px;
 				border: 2px solid black;
-				width: 20%;
+				width: 25%;
 			}
 			.HEinf {
 				margin-top: 5px;
 				border: 2px solid black;
-				width: 20%;
+				width: 25%;
 			}
 			.cancerinf {
 				margin-top: 5px;
 				border: 2px solid black;
-				width: 20%;
+				width: 25%;
 			}
 			.mainmenuitem {
 				margin-left: 3px;
