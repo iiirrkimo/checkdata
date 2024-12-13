@@ -64,7 +64,7 @@ function nextStep(apiResults) {
 	retobj['basic']['idno']=idno;
 	let retobjs=JSON.stringify(JSON.stringify(retobj));
 	htmls=String.raw`
-		
+	
 		<!-- protected/index.html -->
 		<!DOCTYPE html>
 		<html lang="en">
@@ -89,6 +89,15 @@ function nextStep(apiResults) {
 				display: flex;
 				position: relative;
 			}
+			.titletitle{
+				box-sizing: border-box; 
+				font-size: 24px;
+				text-align: center;
+				background-color: #116838;
+				border-bottom: 2px solid black;
+				color: white;
+				
+			}
 			.basicinformation {
 				box-sizing: border-box; 
 				font-size: 24px;
@@ -97,21 +106,18 @@ function nextStep(apiResults) {
 				display: flex;
 				position: relative;
 			}
-			.basicinf {
-				margin-left: 5px;
-				margin-top: 5px;
-				border: 2px solid black;
-				width: 25%;
-			}
 			.HEinf {
-				margin-top: 5px;
+				margin-left: 5px;
 				border: 2px solid black;
-				width: 25%;
+				width: 20%;
 			}
 			.cancerinf {
-				margin-top: 5px;
 				border: 2px solid black;
-				width: 25%;
+				width: 20%;
+			}
+			.residueinf {
+				border: 2px solid black;
+				width: 40%;
 			}
 			.mainmenuitem {
 				margin-left: 3px;
@@ -306,33 +312,69 @@ function nextStep(apiResults) {
 				overflow: hidden; 
 				max-width: 100px;
 			}
-
+			.residuetablecontainer{
+				margin: 3px;
+				height: 150px; 
+				overflow-y: auto; 
+			}
+			.residuetable {
+				border-collapse: collapse;
+				font-size: 16px;
+			}
+			.residuetable td{
+				white-space: nowrap;
+				overflow: hidden; 
+				border: 1px solid #6c757d; 
+				text-align: center;
+			}
+			
+			.residuetable tr:nth-of-type(1) td {
+				background-color: #99ccff; 
+				border: 1px solid #6c757d; 
+				text-align: center;    
+				overflow: hidden; 
+				max-width: 200px;
+				position: sticky; top: 0;
+			}
+			.residuetable tr:nth-of-type(n+2) td:nth-child(1) {
+				border: 1px solid #6c757d; 
+				text-align: left;    
+				max-width: 300px;
+			}
 			
 			</style>
 		</head>
 		<body>
 			<div class="titlearea">
-				<div class="basicinf">
-					<div>
-						基本資料:<span id="basic_name"></span><br>
-						個案性別:<span id="basic_genter"></span><br>
-						身分證號:<span id="basic_id"></span><br>
-						出生日期:<span id="basic_birth"></span>
-					</div>
-				</div>
+				<div style="margin-top: 5px; margin-left: 5px; margin-right:30px;">基本資料:<span id="basic_name"></span></div>
+				<div style="margin-top: 5px; margin-left: 5px; margin-right:30px;">個案性別:<span id="basic_genter"></span></div>
+				<div style="margin-top: 5px; margin-left: 5px; margin-right:30px;">身分證號:<span id="basic_id"></span></div>
+				<div style="margin-top: 5px; margin-left: 5px; margin-right:30px;">出生日期:<span id="basic_birth"></span></div>
+			</div>
+			<div class="titlearea">
 				<div class="HEinf">
+					<div class="titletitle">預防保健資格</div>
 					<div>
-						成 健:<span id="basic_adult"></span><br>
-						BC肝:<span id="basic_HBCV"></span>
+						成 健：<span id="basic_adult"></span><br>
+						BC肝：<span id="basic_HBCV"></span>
 					</div>
 				</div>
 				<div class="cancerinf">
+					<div class="titletitle">癌症篩檢資格</div>
 					<div>
-						腸篩:<span id="basic_FOBT"></span><br>
-						口篩:<span id="basic_oral"></span><br>
-						子抹:<span id="basic_PAP"></span><br>
-						乳攝:<span id="basic_Mamo"></span>
+						腸篩：<span id="basic_FOBT"></span><br>
+						口篩：<span id="basic_oral"></span><br>
+						子抹：<span id="basic_PAP"></span><br>
+						乳攝：<span id="basic_Mamo"></span>
 					</div>
+				</div>
+				<div class="residueinf">
+					<div class="titletitle">特定藥品餘藥</div>
+						<div class="residuetablecontainer">
+							<table id="residuetable" class="residuetable">						
+							</table>
+						</div>
+						
 				</div>
 			</div>
 			<div class="titlearea">
@@ -406,8 +448,8 @@ function nextStep(apiResults) {
 						fobtsug="(X)";
 					}
 					
-					document.getElementById('basic_FOBT').textContent=fobtsug+"，"+fobtr.func_date+" : "+fobtr.result;
-					document.getElementById('basic_FOBT').title=fobtr.hosp_abbr
+					document.getElementById('basic_FOBT').textContent=fobtsug+"，"+fobtr.func_date;
+					document.getElementById('basic_FOBT').title=fobtr.hosp_abbr+" : "+fobtr.result
 				} else {
 					if (age>=50){
 						fobtsug="(O)";
@@ -430,8 +472,8 @@ function nextStep(apiResults) {
 					} else {
 						fobtsug="(X)";
 					}
-					document.getElementById('basic_oral').textContent=fobtsug+"，"+fobtr.func_date+" : "+fobtr.result;
-					document.getElementById('basic_oral').title=fobtr.hosp_abbr;
+					document.getElementById('basic_oral').textContent=fobtsug+"，"+fobtr.func_date;
+					document.getElementById('basic_oral').title=fobtr.hosp_abbr+" : "+fobtr.result;
 				} else {
 					if (age>=30){
 						fobtsug="(O)";
@@ -454,8 +496,8 @@ function nextStep(apiResults) {
 					} else {
 						fobtsug="(X)";
 					}
-					document.getElementById('basic_PAP').textContent=fobtsug+"，"+fobtr.func_date+" : "+fobtr.result;
-					document.getElementById('basic_PAP').title=fobtr.hosp_abbr
+					document.getElementById('basic_PAP').textContent=fobtsug+"，"+fobtr.func_date;
+					document.getElementById('basic_PAP').title=fobtr.hosp_abbr+" : "+fobtr.result;
 				} else {
 					if (age>=30 && sex=="女"){
 						fobtsug="(O)";
@@ -478,8 +520,8 @@ function nextStep(apiResults) {
 					} else {
 						fobtsug="(X)";
 					}
-					document.getElementById('basic_Mamo').textContent=fobtsug+"，"+fobtr.func_date+" : "+fobtr.result;
-					document.getElementById('basic_Mamo').title=fobtr.hosp_abbr;
+					document.getElementById('basic_Mamo').textContent=fobtsug+"，"+fobtr.func_date;
+					document.getElementById('basic_Mamo').title=fobtr.hosp_abbr+" : "+fobtr.result;
 				} else {
 					if (age>=45 && sex=="女"){
 						fobtsug="(O)";
@@ -489,7 +531,8 @@ function nextStep(apiResults) {
 					}
 					document.getElementById('basic_Mamo').textContent=fobtsug+"，"+"無紀錄";
 				}
-		
+				gen_residuetable(vpndata);
+
 				drugobj=moddrug(vpndata);
 				examobj=modexam(vpndata);
 				gen_drug_date("div_drug_date",drugobj);
@@ -497,6 +540,41 @@ function nextStep(apiResults) {
 				gen_exam('div_exam',examobj);
 				gen_image('div_image',vpndata);
 				gen_he('div_healthexam',vpndata);
+			}
+			function gen_residuetable(vpndata){
+				let table=document.getElementById("residuetable");
+				table.innerHTML="<tr><td>成分</td><td>開立日</td><td>餘日</td><td>到期日</td></tr>";
+				let d=vpndata.residue.robject;
+				let alllist=[];
+				for (let i=0;i<d.length;i++){
+					let r=d[i];
+					if (r.pres_med_day*1>0){
+						let newdat=[];
+						let cdf=r.funcDate;
+						let mdf=cdf.substring(0,4)+"/"+cdf.substring(4,6)+"/"+cdf.substring(6,8);
+						let cde=r.edate;
+						let mde=(cde.split("/")[0]-1911)+"/"+cde.split("/")[1]+"/"+cde.split("/")[2];
+						newdat.push(r.ingredient.split(" , ")[0]);
+						newdat.push(mdf);
+						newdat.push(r.pres_med_day);
+						newdat.push(mde);
+						alllist.push(newdat);
+					}
+				}
+				if (alllist.length>0){
+					for (let i=0;i<alllist.length;i++){
+						let nr=table.insertRow();
+						let r=alllist[i];
+						for (let j=0;j<r.length;j++){
+							nr.insertCell().textContent=r[j];
+						}
+					}
+				} else {
+					let nr=table.insertRow();
+					let nc=nr.insertCell();
+					nc.colSpan=4;
+					nc.textContent="無剩餘天數>0天之特定藥品"
+				}
 			}
 			function gen_he(divid,vpndata){
 				
@@ -508,8 +586,8 @@ function nextStep(apiResults) {
 				let tablehe=additem('table','table_he','table_he',fdiv);
 				let titlerow1=tablehe.insertRow();
 				let titlerow2=tablehe.insertRow();
-				titlerow1.insertCell().textContent="日期";
-				titlerow2.insertCell().textContent="院所";
+				titlerow1.insertCell().textContent="日期"
+				titlerow2.insertCell().textContent="項目\\院所"
 				let heitems=['血壓','身高','體重','BMI','腰圍','AC','TC','TG','HDL','LDL','Cre','eGFR','GOT','GPT','UP'];
 				let reitems=["BP",'height','weight','bmi','waistline','s_09005c','cho','blod_tg','hdl','ldl','blod_creat','egfr','sgot','sgpt','urine_protein'];
 				for (let i=0;i<heitems.length;i++){
@@ -519,10 +597,20 @@ function nextStep(apiResults) {
 				let hedata=vpndata.he.robject.result_data;
 				for (let i=0;i<hedata.length;i++){
 					let r=hedata[i];
+					let fc=i+1;
 					if (r.title!=null){
 						if (r.title.includes('，')){
-							titlerow1.insertCell().textContent=r.title.split('，')[0];
-							titlerow2.insertCell().textContent=r.title.split('，')[1];
+							let ti1=titlerow1.insertCell()
+							ti1.textContent=r.title.split('，')[0];
+							ti1.addEventListener('dblclick', function () {
+								grabcol(tablehe,fc);
+							});
+
+							let ti2=titlerow2.insertCell()
+							ti2.textContent=r.title.split('，')[1];
+							ti2.addEventListener('dblclick', function () {
+								grabcol(tablehe,fc);
+							});
 							for (let j=0;j<heitems.length;j++){
 								if (j==0){
 									tablehe.rows[2+j].insertCell().textContent=r["base_sbp"]+" / "+r["base_ebp"];
@@ -964,6 +1052,8 @@ function nextStep(apiResults) {
 			
 		</script>
 		</html>
+		
+			
 	`
 	console.log(htmls);
 	const newWindow = window.open("", "_blank", "width=1600,height=900");
