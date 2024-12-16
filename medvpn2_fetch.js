@@ -420,7 +420,6 @@ function nextStep(apiResults) {
 			}
 			window.onload=function(){
 				const data=${retobjs};
-				
 				vpndata=JSON.parse(data);
 				console.log(vpndata);
 				document.getElementById('basic_name').textContent=vpndata.basic.name;
@@ -613,12 +612,14 @@ function nextStep(apiResults) {
 						if (r.title.includes('，')){
 							let ti1=titlerow1.insertCell()
 							ti1.textContent=r.title.split('，')[0];
+							ti1.title="雙擊可複製";
 							ti1.addEventListener('dblclick', function () {
 								grabcol(tablehe,fc);
 							});
 
 							let ti2=titlerow2.insertCell()
 							ti2.textContent=r.title.split('，')[1];
+							ti2.title="雙擊可複製";
 							ti2.addEventListener('dblclick', function () {
 								grabcol(tablehe,fc);
 							});
@@ -805,7 +806,9 @@ function nextStep(apiResults) {
 					ti1.addEventListener('dblclick', function () {
 						grabcol(table,fc);
 					});
+					ti1.title="雙擊可複製";
 					let ti2=table.rows[1].insertCell();
+					ti2.title="雙擊可複製";
 					ti2.addEventListener('dblclick', function () {
 						grabcol(table,fc);
 					});
@@ -825,6 +828,7 @@ function nextStep(apiResults) {
 							}
 							newrow.cells[0].textContent=iname;
 							let cr=table.rows.length-1
+							newrow.cells[0].title="雙擊可複製";
 							newrow.cells[0].addEventListener('dblclick', function () {
 								grabrow(table,cr)
 							});
@@ -924,25 +928,35 @@ function nextStep(apiResults) {
 				let maxbycodelength=0;
 				for (let i=0;i<data.drug.robject.length;i++){
 					let r=data.drug.robject[i];
-					if (!bydate.hasOwnProperty(r.drug_date)){
-						bydate[r.drug_date]={}
+					let md=""
+					if (r.cure_e_date!=null){
+						md=r.cure_e_date.split('T')[0].replaceAll("-","/");
+					} else {
+						md=r.drug_date;
 					}
-					if (!bydate[r.drug_date].hasOwnProperty(r.hosp)){
-						bydate[r.drug_date][r.hosp]={}
+
+					if (!bydate.hasOwnProperty(md)){
+						bydate[md]={}
 					}
-					if (!bydate[r.drug_date][r.hosp].hasOwnProperty(r.icd_code)){
-						bydate[r.drug_date][r.hosp][r.icd_code]=[]
+					if (!bydate[md].hasOwnProperty(r.hosp)){
+						bydate[md][r.hosp]={}
 					}
-					bydate[r.drug_date][r.hosp][r.icd_code].push(r);
-					let newmaxbydatelength=bydate[r.drug_date][r.hosp][r.icd_code].length;
+					if (!bydate[md][r.hosp].hasOwnProperty(r.icd_code)){
+						bydate[md][r.hosp][r.icd_code]=[]
+					}
+					bydate[md][r.hosp][r.icd_code].push(r);
+					let newmaxbydatelength=bydate[md][r.hosp][r.icd_code].length;
 					if (newmaxbydatelength>maxbydatelength){
 						maxbydatelength=newmaxbydatelength
 					}
 					if (!bycode.hasOwnProperty(r.drug_code)){
-						bycode[r.drug_code]=[]
+						bycode[r.drug_code]={};
 					}
-					bycode[r.drug_code].push(r);
-					let newmaxbycodelength=bycode[r.drug_code].length;
+					if (!bycode[r.drug_code].hasOwnProperty(md)){
+						bycode[r.drug_code][md]=[];
+					}
+					bycode[r.drug_code][md].push(r);
+					let newmaxbycodelength=Object.keys(bycode[r.drug_code]).length;
 					if (newmaxbycodelength>maxbycodelength){
 						maxbycodelength=newmaxbycodelength
 					}
@@ -954,6 +968,7 @@ function nextStep(apiResults) {
 				return retobj
 			}
 			function gen_drug_code(divid,data){
+				console.log(data);
 				let div=document.getElementById(divid);
 				div.innerHTML=""
 				let table=additem('table','table_drug_code','table_drug_code',div);
@@ -974,7 +989,7 @@ function nextStep(apiResults) {
 				for (let i=0;i<codelist.length;i++){
 					let code=codelist[i];
 					let dateitem=data.bycode[code];
-					let datelist=Object.keys(dateitem);
+					let datelist=Object.keys(dateitem).sort().reverse();
 					let currentrow=table.insertRow();
 					let c1=currentrow.insertCell();
 					c1.textContent="";
@@ -990,16 +1005,26 @@ function nextStep(apiResults) {
 					let c3=currentrow.insertCell();
 					c3.textContent="";
 					for (let j=0;j<data.maxbycodelength;j++){
+						console.log("1");
+						
 						if (j<datelist.length){
-							d=dateitem[j];
+							d=dateitem[datelist[j]][0];
+							
 							if (c1.textContent==""){
 								c1.innerHTML=d.drug_ename+"<br>"+d.drug_ing_name;
 								c1.title=d.drug_ename+"\n"+d.drug_ing_name;
 								c3.innerHTML=d.drug_atc3_code.replaceAll("（","<br>（").replaceAll("(","<br>(");
 							}
 							let temc=currentrow.insertCell()
-							temc.innerHTML=d.drug_date+"<br>"+d.hosp+"<br>"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#<br>餘: "+d.drug_left+" 天";
-							temc.title=d.drug_date+"\n"+d.hosp+"\n"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#\n餘: "+d.drug_left+" 天";
+							let md="";
+							if (d.cure_e_date!=null){
+								md=d.cure_e_date.split('T')[0].replaceAll("-","/");
+							} else {
+								md=d.drug_date
+							}
+
+							temc.innerHTML=md+"<br>"+d.hosp+"<br>"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#<br>餘: "+d.drug_left+" 天";
+							temc.title=md+"\n"+d.hosp+"\n"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#\n餘: "+d.drug_left+" 天";
 							if (d.drug_left>7){
 								temc.style.background="#ffc107";
 							}
@@ -1016,7 +1041,6 @@ function nextStep(apiResults) {
 				let titlerow=table.insertRow();
 				const titles=["日期","院所","診斷"];
 				for (let i=0;i<titles.length;i++){
-					
 					let newHeader = document.createElement('th');
 					newHeader.textContent = titles[i];
 					titlerow.appendChild(newHeader);
@@ -1027,7 +1051,7 @@ function nextStep(apiResults) {
 					newHeader.textContent = "藥品"+ni;
 					titlerow.appendChild(newHeader);
 				}
-				let daylist=Object.keys(data.bydate)
+				let daylist=Object.keys(data.bydate).sort().reverse();
 				for (let i=0;i<daylist.length;i++){
 					let dat=daylist[i];
 					let datitem=data.bydate[dat]
@@ -1038,11 +1062,18 @@ function nextStep(apiResults) {
 						let diaglist=Object.keys(siteitem)
 						for (k=0;k<diaglist.length;k++){
 							let diagnosis=diaglist[k];
+							let diagnosisc=siteitem[diaglist[k]][0].icd_cname;
 							let drugarray=siteitem[diagnosis];
 							let currentrow=table.insertRow();
-							currentrow.insertCell().textContent=dat;
+							let da=currentrow.insertCell()
+							da.textContent=dat;
+							let cr=table.rows.length-1;
+							da.title="雙擊可複製";
+							da.addEventListener('dblclick', function () {
+								grabdr(table,cr);
+							});
 							currentrow.insertCell().innerHTML=site.replaceAll(";","<br>");
-							currentrow.insertCell().textContent=diagnosis;
+							currentrow.insertCell().innerHTML=diagnosis+"<br>"+diagnosisc;
 							for (let l=0;l<data.maxbydatelength;l++){
 								if (l<drugarray.length){
 									let d=drugarray[l];
@@ -1081,6 +1112,26 @@ function nextStep(apiResults) {
 					}
 		
 				}
+			}
+			function grabdr(table,cr){
+				let cl=table.rows[0].cells.length;
+				let com=table.rows[cr].cells[0].innerHTML+" "+table.rows[cr].cells[1].innerHTML.split('<br>')[0]+": ";
+				let com2="";
+				for (let i=0;i<cl;i++){
+					let r=table.rows[cr].cells[i].innerHTML;
+					if (r!=""){
+						if (i>2){
+							com2=com2+r.split('br')[0].split(" ")[0].replaceAll("<span>","")+",";
+						}
+					}
+				}
+				com2=com2.substring(0,com2.length-1);
+				let res=com+com2;
+				navigator.clipboard.writeText(res).then(() => {
+					alert("複製\n"+res);
+				}).catch(err => {
+					alert('複製失敗:', err);
+				});
 			}
 			function showdrugpic(code){
 				window.open("https://script.google.com/macros/s/AKfycbzVKuBa099524WRQWkMEiwJjJnr0-dGzI6TmRI2yyI4CtXcLraDXHdlVpxSDG6G37X5/exec?code="+code, "_blank", "width=1600,height=900");
