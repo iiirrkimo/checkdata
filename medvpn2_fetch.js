@@ -64,7 +64,6 @@ function nextStep(apiResults) {
 	retobj['basic']['idno']=idno;
 	let retobjs=JSON.stringify(JSON.stringify(retobj));
 	htmls=String.raw`
-
 		<!-- protected/index.html -->
 		<!DOCTYPE html>
 		<html lang="en">
@@ -420,7 +419,6 @@ function nextStep(apiResults) {
 			}
 			window.onload=function(){
 				const data=${retobjs};
-				
 				vpndata=JSON.parse(data);
 				console.log(vpndata);
 				document.getElementById('basic_name').textContent=vpndata.basic.name;
@@ -705,16 +703,19 @@ function nextStep(apiResults) {
 				}
 			}
 			function exportHtml(){
-				const htmlContent = document.documentElement.outerHTML;
-				const blob = new Blob([htmlContent], { type: "text/html" });
-				const a = document.createElement("a");
-				const name=document.getElementById('basic_name').textContent
-				a.href = URL.createObjectURL(blob);
-				a.download = name+".html";
-				a.style.display = "none";
-				document.body.appendChild(a);
-				a.click();
-				document.body.removeChild(a);
+				const cont = confirm("是否匯出？");
+				if (cont) {
+					const htmlContent = document.documentElement.outerHTML;
+					const blob = new Blob([htmlContent], { type: "text/html" });
+					const a = document.createElement("a");
+					const name=document.getElementById('basic_name').textContent
+					a.href = URL.createObjectURL(blob);
+					a.download = name+".html";
+					a.style.display = "none";
+					document.body.appendChild(a);
+					a.click();
+					document.body.removeChild(a);
+				} 
 			}
 			function gen_image(divid,vpndata){
 				let div=document.getElementById(divid);
@@ -1093,8 +1094,6 @@ function nextStep(apiResults) {
 			
 		</script>
 		</html>
-		
-			
 	`
 	console.log(htmls);
 	const newWindow = window.open("", "_blank", "width=1600,height=900");
