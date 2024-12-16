@@ -64,7 +64,7 @@ function nextStep(apiResults) {
 	retobj['basic']['idno']=idno;
 	let retobjs=JSON.stringify(JSON.stringify(retobj));
 	htmls=String.raw`
-	
+
 		<!-- protected/index.html -->
 		<!DOCTYPE html>
 		<html lang="en">
@@ -420,6 +420,7 @@ function nextStep(apiResults) {
 			}
 			window.onload=function(){
 				const data=${retobjs};
+				
 				vpndata=JSON.parse(data);
 				console.log(vpndata);
 				document.getElementById('basic_name').textContent=vpndata.basic.name;
@@ -643,23 +644,23 @@ function nextStep(apiResults) {
 					let dab=si.split("\r\n")[0].split("B肝：")[1].split("，")[0];
 					let sib=si.split("\r\n")[0].split("B肝：")[1].split("，")[1];
 					let itb=hbcv1.health_data[0].health_type;
-					let reb=hbcv1.health_data[0].result1.split("<span>")[1].split("<")[0];
+					let reb=hbcv1.health_data[0].result1;
 					let newrow1=tableBC.insertRow();
 					newrow1.insertCell().textContent=dab;
 					newrow1.insertCell().textContent="國健署";
 					newrow1.insertCell().textContent=sib;
 					newrow1.insertCell().textContent=itb;
-					newrow1.insertCell().textContent=reb;
+					newrow1.insertCell().innerHTML=reb;
 					let dac=si.split("\r\n")[1].split("C肝：")[1].split("，")[0];
 					let sic=si.split("\r\n")[1].split("C肝：")[1].split("，")[1];
 					let itc=hbcv1.health_data[1].health_type;
-					let rec=hbcv1.health_data[1].result1.split("<span>")[1].split("<")[0];
+					let rec=hbcv1.health_data[1].result1;
 					let newrow2=tableBC.insertRow();
 					newrow2.insertCell().textContent=dac;
 					newrow2.insertCell().textContent="國健署";
 					newrow2.insertCell().textContent=sic;
 					newrow2.insertCell().textContent=itc;
-					newrow2.insertCell().textContent=rec;
+					newrow2.insertCell().innerHTML=rec;
 				}
 				for (let i=0;i<hbcv1.result_data.length;i++){
 					let r=hbcv1.result_data[i];
@@ -707,8 +708,9 @@ function nextStep(apiResults) {
 				const htmlContent = document.documentElement.outerHTML;
 				const blob = new Blob([htmlContent], { type: "text/html" });
 				const a = document.createElement("a");
+				const name=document.getElementById('basic_name').textContent
 				a.href = URL.createObjectURL(blob);
-				a.download = "page.html"; // 設定下載檔案名稱
+				a.download = name+".html";
 				a.style.display = "none";
 				document.body.appendChild(a);
 				a.click();
