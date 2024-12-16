@@ -64,6 +64,7 @@ function nextStep(apiResults) {
 	retobj['basic']['idno']=idno;
 	let retobjs=JSON.stringify(JSON.stringify(retobj));
 	htmls=String.raw`
+
 		<!-- protected/index.html -->
 		<!DOCTYPE html>
 		<html lang="en">
@@ -419,6 +420,7 @@ function nextStep(apiResults) {
 			}
 			window.onload=function(){
 				const data=${retobjs};
+				
 				vpndata=JSON.parse(data);
 				console.log(vpndata);
 				document.getElementById('basic_name').textContent=vpndata.basic.name;
@@ -746,33 +748,44 @@ function nextStep(apiResults) {
 						let imagebtn=additem("button","imagebtn","",btnc);
 						imagebtn.textContent="看片";
 						imagebtn.addEventListener('click', function () {
-							showimage(querykey);
+							showimagefetch(imagebtn,querykey);
 						});
 					}
 				}
 				
 			}
-			function showimage(querykey){
-				ClientDatastr=querykey;
-				postjson={
-					ClientData:ClientDatastr,
-					ProcID:"IMUE0130",
+			async function showimagefetch(imagebtn,querykey){
+				imagebtn.disabled=true;
+				const ClientDatastr = querykey;
+				const postjson = {
+					ClientData: ClientDatastr,
+					ProcID: "IMUE0130",
+				};
+				const theurl = "https://medcloud2.nhi.gov.tw/imu/api/imuecommon/imuecommon/get-ctmri2";
+				const authorization = "Bearer " + sessionStorage.token;
+				try {
+					const response = await fetch(theurl, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json; charset=utf-8',
+							'authorization': authorization,
+						},
+						body: JSON.stringify(postjson),
+					});
+					if (!response.ok) {
+						const errorText = await response.text();
+						throw new Error(errorText);
+					}
+					const jres = await response.json();
+					const thewebsite = jres['ctmri_url'];
+					const windowFeatures = "width=800,height=600,scrollbars=yes";
+					window.open(thewebsite, "_blank", windowFeatures);
+					imagebtn.disabled=false;
+				} catch (error) {
+					alert("出錯了\n"+error.message);
+					imagebtn.disabled=false;
 				}
-				theurl="https://medcloud2.nhi.gov.tw/imu/api/imuecommon/imuecommon/get-ctmri2";
-				xmlHttp = new XMLHttpRequest();
-				xmlHttp.open('POST', theurl, false );
-				xmlHttp.setRequestHeader('Content-Type', 'application/json, text/plain, */*');
-				authorization="Bearer "+sessionStorage.token;
-				xmlHttp.setRequestHeader('authorization', authorization);
-				xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-				xmlHttp.send(JSON.stringify(postjson));
-				res=xmlHttp.responseText;
-				jres=JSON.parse(res);
-				thewebsite=jres['ctmri_url'];
-				windowFeatures = "width=800,height=600,scrollbars=yes";
-				window.open(thewebsite, "_blank",windowFeatures);
 			}
-			
 			function gen_exam(divid,data){
 				let div=document.getElementById(divid);
 				div.innerHTML="";
@@ -1094,6 +1107,8 @@ function nextStep(apiResults) {
 			
 		</script>
 		</html>
+		
+			
 	`
 	console.log(htmls);
 	const newWindow = window.open("", "_blank", "width=1600,height=900");
