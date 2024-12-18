@@ -216,6 +216,13 @@ function nextStep(apiResults) {
 				border: 1px solid #6c757d; 
 				text-align: center;    
 			}
+			.table_exam tr:nth-of-type(n+2) td:nth-child(n+1){
+				background-color: #99ccff; 
+				border: 1px solid #6c757d; 
+				text-align: center;    
+				overflow: hidden; 
+				max-width: 150px;
+			}
 			.table_image {
 				margin-left: 3px;
 				border-collapse: collapse;
