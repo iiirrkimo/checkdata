@@ -85,7 +85,7 @@ function nextStep(apiResults) {
 				box-sizing: border-box; 
 				font-size: 24px;
 				background-color: #80d5a6;
-				width: 100%;
+				min-width: 100%;
 				display: flex;
 				position: relative;
 			}
@@ -133,6 +133,18 @@ function nextStep(apiResults) {
 			}
 			.mainmenuitem:hover {
 				background-color: #45a049;
+			}
+			.mainclose {
+				margin: 3px;
+				padding: 2px;
+				background-color: #dc3545;
+				color: white;
+				border-radius: 5px;
+				text-align: center;
+				text-decoration: none;
+			}
+			.mainclose:hover {
+				background-color: #c82333;
 			}
 			.div_data {
 				background-color: #45a049;
@@ -363,6 +375,7 @@ function nextStep(apiResults) {
 		</head>
 		<body>
 			<div class="titlearea">
+				<a href="javascript:window.close()" class="mainclose">關閉視窗</a>
 				<div style="margin-top: 5px; margin-left: 5px; margin-right:30px;">基本資料:<span id="basic_name"></span></div>
 				<div style="margin-top: 5px; margin-left: 5px; margin-right:30px;">個案性別:<span id="basic_genter"></span></div>
 				<div style="margin-top: 5px; margin-left: 5px; margin-right:30px;">身分證號:<span id="basic_id"></span></div>
@@ -975,7 +988,6 @@ function nextStep(apiResults) {
 				return retobj
 			}
 			function gen_drug_code(divid,data){
-				console.log(data);
 				let div=document.getElementById(divid);
 				div.innerHTML=""
 				let table=additem('table','table_drug_code','table_drug_code',div);
@@ -1012,8 +1024,6 @@ function nextStep(apiResults) {
 					let c3=currentrow.insertCell();
 					c3.textContent="";
 					for (let j=0;j<data.maxbycodelength;j++){
-						console.log("1");
-						
 						if (j<datelist.length){
 							d=dateitem[datelist[j]][0];
 							
@@ -1166,7 +1176,7 @@ function nextStep(apiResults) {
 		</script>
 		</html>
 		
-			
+				
 	`
 	console.log(htmls);
 	const newWindow = window.open("", "_blank", "width=1600,height=900");
