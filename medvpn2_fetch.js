@@ -64,7 +64,7 @@ function nextStep(apiResults) {
 	retobj['basic']['idno']=idno;
 	let retobjs=JSON.stringify(JSON.stringify(retobj));
 	htmls=String.raw`
-
+	
 		<!-- protected/index.html -->
 		<!DOCTYPE html>
 		<html lang="en">
@@ -336,6 +336,7 @@ function nextStep(apiResults) {
 				margin: 3px;
 				height: 150px; 
 				overflow-y: auto; 
+				width: fit-content;
 			}
 			.residuetable {
 				border-collapse: collapse;
@@ -1043,6 +1044,8 @@ function nextStep(apiResults) {
 							temc.innerHTML=md+"<br>"+d.hosp+"<br>"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#<br>餘: "+d.drug_left+" 天";
 							temc.title=md+"\n"+d.hosp+"\n"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#\n餘: "+d.drug_left+" 天";
 							if (d.drug_left>7){
+								temc.style.background="#FF5151";
+							} else if (d.drug_left>0){
 								temc.style.background="#ffc107";
 							}
 						} else {
@@ -1095,10 +1098,11 @@ function nextStep(apiResults) {
 								if (l<drugarray.length){
 									let d=drugarray[l];
 									let temc=currentrow.insertCell()
-									//<a href="javascript:showtable(0)" class="mainmenuitem">雲端藥歷_依日期</a>
 									additem('span','','',temc).textContent=d.drug_ename;
 									additem('br','','',temc);
 									additem('span','','',temc).textContent=d.drug_ing_name;
+									additem('br','','',temc);
+									additem('span','','',temc).textContent=d.drug_atc3_code;
 									additem('br','','',temc);
 									additem('span','','',temc).textContent=d.drug_code;
 									let cod=additem('span','','',temc)
@@ -1109,14 +1113,16 @@ function nextStep(apiResults) {
 									cod.addEventListener('click', function () {
 										showdrugpic(code);
 									});
+									
 									additem('br','','',temc);
 									additem('span','','',temc).textContent=d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#";
 									additem('br','','',temc);
 									additem('span','','',temc).textContent="餘: "+d.drug_left+" 天";
-									//temc.innerHTML=d.drug_ename+"<br>"+d.drug_ing_name+"<br>"+d.drug_code+"<br>"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#<br>餘: "+d.drug_left+" 天";
-									temc.title=d.drug_ename+"\n"+d.drug_ing_name+"\n"+d.drug_code+"\n"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#\n餘: "+d.drug_left+" 天";
+									temc.title=d.drug_ename+"\n"+d.drug_ing_name+"\n"+d.drug_atc3_code+"\n"+d.drug_code+"\n"+d.drug_fre+" * "+d.day+" 天，共 "+d.qty+"#\n餘: "+d.drug_left+" 天";
 									if (d.drug_left>7){
-										temc.style.background="#ffc107"
+										temc.style.background="#FF5151";
+									} else if (d.drug_left>0){
+										temc.style.background="#ffc107";
 									}
 								} else {
 									currentrow.insertCell()
@@ -1176,7 +1182,7 @@ function nextStep(apiResults) {
 		</script>
 		</html>
 		
-				
+			
 	`
 	console.log(htmls);
 	const newWindow = window.open("", "_blank", "width=1600,height=900");
