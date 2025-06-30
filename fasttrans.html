@@ -77,7 +77,7 @@
 		var inspe = params.get('spe');
 		T_specialist=['transCM','transGI','transNEP','transGYN','transCV','transORT']
 		prenumber=Object.keys(alltransferarray)[0]
-		prenumber=prenumber.substring(0,prenumber.length-3);
+		prenumber=prenumber.substring(0,prenumber.length-4);
 		document.getElementById('prenumber').textContent=prenumber;
 		if (innum!='' && innum!=null){
 			thenumber=prenumber+innum;
@@ -94,11 +94,11 @@
 		errmsg='';
 		transfernumber=document.getElementById('number').value;
 		if (transfernumber!=''){
-			transfernumber="000"+transfernumber
-			transfernumber=transfernumber.substring(transfernumber.length-3,transfernumber.length);
+			transfernumber="0000"+transfernumber
+			transfernumber=transfernumber.substring(transfernumber.length-4,transfernumber.length);
 			finalnumber=prenumber+transfernumber;
 		} else {
-			errmsg=errmsg+"請輸入整篩編號"
+			errmsg=errmsg+"請輸入整篩編號末四碼"
 		}
 		
 		specialist=document.getElementsByName('specialist');
