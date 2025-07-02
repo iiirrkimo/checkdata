@@ -4606,5 +4606,4165 @@ alltransferarray={
         "transNEP": "",
         "transORT": "",
         "transGYN": ""
+    },
+    "2025370302001": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302002": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302003": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302004": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:RLL nodular density，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302005": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302006": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302007": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302008": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302009": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:102IU/L,GPT:84IU/L，GOT:102IU/L,GPT:84IU/L，PLT:223x10^3/µL,年齡:69歲，FIB-4 Index:3.44,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302010": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302011": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302012": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:27IU/L,GPT:18IU/L，PLT:168x10^3/µL,年齡:73歲，FIB-4 Index:2.77,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302013": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，10.30ng/mL，GOT:28IU/L,GPT:24IU/L，PLT:316x10^3/µL,年齡:61歲，FIB-4 Index:1.1,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302014": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302015": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302016": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 72300.00 IU/mL，HBeAg: 0.080 S/CO(Non-Reactive)，甲型胎兒蛋白偏高，7.58ng/mL，GOT:34IU/L,GPT:29IU/L，PLT:201x10^3/µL,年齡:50歲，FIB-4 Index:1.57,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302017": {
+        "transGI": "",
+        "transCV": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 心臟及血管病變、其他:right hilar enlargement，煩請醫師診治",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 心臟及血管病變、其他:right hilar enlargement，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302018": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302019": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302020": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 34.60 IU/mL，HBeAg: 0.086 S/CO(Non-Reactive)，Anti-HDV: 0.029 S/CO(Non-Reactive)，GOT:24IU/L,GPT:23IU/L，PLT:307x10^3/µL,年齡:62歲，FIB-4 Index:1.01,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302021": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302022": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302023": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302024": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 已癒合的病灶鈣化、纖維化、肋膜肥大、其他:RUL fibrotic change，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302025": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 241000.00 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，Anti-HDV: 0.019 S/CO(Non-Reactive)，GOT:30IU/L,GPT:35IU/L，PLT:256x10^3/µL,年齡:59歲，FIB-4 Index:1.17,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302026": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": "個案於1140622參加彰化縣衛生局整合式篩檢，發現鹿基醫師執行子宮頸抹片，結果為(17)細胞異常疑高階病變，煩請醫師診治"
+    },
+    "2025370302027": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:27IU/L,GPT:13IU/L，PLT:259x10^3/µL,年齡:60歲，FIB-4 Index:1.73,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302028": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302029": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:25IU/L,GPT:14IU/L，PLT:100x10^3/µL,年齡:62歲，FIB-4 Index:4.14,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302030": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 4030.00 IU/mL，HBeAg: 0.088 S/CO(Non-Reactive)，GOT:25IU/L,GPT:22IU/L，PLT:219x10^3/µL,年齡:54歲，FIB-4 Index:1.31,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302031": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 145000.00 IU/mL，HBeAg: 0.075 S/CO(Non-Reactive)，GOT:36IU/L,GPT:39IU/L，PLT:265x10^3/µL,年齡:42歲，FIB-4 Index:0.91,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302032": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 已癒合的病灶鈣化、纖維化、肋膜肥大、其他:bil. apex pleura thickening，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302033": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302034": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302035": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302036": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302037": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:RLL mild infilrate，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302038": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": "個案於1140622參加彰化縣衛生局整合式篩檢，發現鹿基醫師執行子宮頸抹片，結果為(4)非典型扁平上皮細胞病變 (ASC-US)，煩請醫師診治"
+    },
+    "2025370302039": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302040": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302041": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302042": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 28100.00 IU/mL，HBeAg: 0.089 S/CO(Non-Reactive)，GOT:22IU/L,GPT:15IU/L，PLT:261x10^3/µL,年齡:58歲，FIB-4 Index:1.26,煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:bil. upper lung infiltrate，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302043": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302044": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302045": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302046": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302047": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 1490.00 IU/mL，HBeAg: 0.086 S/CO(Non-Reactive)，GOT:25IU/L,GPT:25IU/L，PLT:186x10^3/µL,年齡:62歲，FIB-4 Index:1.67,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302048": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302049": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:49IU/L,GPT:82IU/L，B型肝炎表面抗原陽性，HBV viral load: 8270.00 IU/mL，HBeAg: 0.757 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:49IU/L,GPT:82IU/L，PLT:255x10^3/µL,年齡:45歲，FIB-4 Index:0.95,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302050": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:right fibrotic infiltrate，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302051": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:239IU/L,GPT:78IU/L，甲型胎兒蛋白偏高，7.12ng/mL，GOT:239IU/L,GPT:78IU/L，PLT:111x10^3/µL,年齡:50歲，FIB-4 Index:12.19,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302052": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302053": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302054": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:RLL nodules with infiltrate，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302055": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302056": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302057": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:bil. perihilar infiltrate，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302058": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302059": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302060": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302061": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:20IU/L,GPT:24IU/L，PLT:330x10^3/µL,年齡:58歲，FIB-4 Index:0.72,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302062": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302063": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302064": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302065": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302066": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302067": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302068": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302069": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302070": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: <10.00 IU/mL，HBeAg: 0.080 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:27IU/L,GPT:22IU/L，PLT:196x10^3/µL,年齡:63歲，FIB-4 Index:1.85,煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:LUL nodular density or artifact，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302071": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:left apex pleura thickening with nodule，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302072": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302073": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:left lung nodule(5th and 8th rib overlap)，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302074": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302075": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302076": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302077": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302078": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302079": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302080": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:lleft nodule (3rd 5th rib overlap) r/o bone island，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302081": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302082": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302083": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302084": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302085": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302086": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302087": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302088": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302089": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302090": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，11.30ng/mL，GOT:24IU/L,GPT:20IU/L，PLT:255x10^3/µL,年齡:64歲，FIB-4 Index:1.35,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302091": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302092": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302093": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 2990.00 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:26IU/L,GPT:26IU/L，PLT:339x10^3/µL,年齡:60歲，FIB-4 Index:0.9,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302094": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302095": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302096": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302097": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:20IU/L,GPT:21IU/L，PLT:189x10^3/µL,年齡:55歲，FIB-4 Index:1.27,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302098": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302099": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302100": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302101": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302102": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302103": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:24IU/L,GPT:27IU/L，PLT:254x10^3/µL,年齡:50歲，FIB-4 Index:0.91,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302104": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302105": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302106": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302107": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: <10.00 IU/mL，HBeAg: 0.087 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:23IU/L,GPT:26IU/L，PLT:275x10^3/µL,年齡:46歲，FIB-4 Index:0.75,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302108": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302109": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302110": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:62IU/L,GPT:114IU/L，GOT:62IU/L,GPT:114IU/L，PLT:293x10^3/µL,年齡:57歲，FIB-4 Index:1.13,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302111": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302112": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302113": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302114": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302115": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.63ng/mL，GOT:27IU/L,GPT:52IU/L，PLT:338x10^3/µL,年齡:53歲，FIB-4 Index:0.59,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302116": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302117": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302118": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 218.00 IU/mL，HBeAg: 0.097 S/CO(Non-Reactive)，GOT:24IU/L,GPT:15IU/L，PLT:245x10^3/µL,年齡:52歲，FIB-4 Index:1.32,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302119": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302120": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302121": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302122": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302123": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302124": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:51IU/L,GPT:95IU/L，B型肝炎表面抗原陽性，HBV viral load: 165000.00 IU/mL，HBeAg: 0.079 S/CO(Non-Reactive)，GOT:51IU/L,GPT:95IU/L，PLT:215x10^3/µL,年齡:53歲，FIB-4 Index:1.29,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302125": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302126": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302127": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302128": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，胃蛋白酶原檢驗結果陽性，PG I:67.2ng/mL，PG I/II:3，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302129": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302130": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302131": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302132": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302133": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302134": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302135": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.74ng/mL，GOT:34IU/L,GPT:47IU/L，PLT:295x10^3/µL,年齡:51歲，FIB-4 Index:0.86,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302136": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302137": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302138": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:30IU/L,GPT:14IU/L，PLT:191x10^3/µL,年齡:57歲，FIB-4 Index:2.39,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302139": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302140": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302141": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302142": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302143": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302144": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302145": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302146": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302147": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302148": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302149": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.67ng/mL，GOT:18IU/L,GPT:20IU/L，PLT:285x10^3/µL,年齡:51歲，FIB-4 Index:0.72,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302150": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302151": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302152": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302153": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302154": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:20IU/L,GPT:23IU/L，PLT:294x10^3/µL,年齡:47歲，FIB-4 Index:0.67,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302155": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302156": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:26IU/L,GPT:32IU/L，PLT:264x10^3/µL,年齡:51歲，FIB-4 Index:0.89,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302157": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:32IU/L,GPT:20IU/L，PLT:240x10^3/µL,年齡:51歲，FIB-4 Index:1.52,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302158": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 401.00 IU/mL，HBeAg: 0.085 S/CO(Non-Reactive)，GOT:23IU/L,GPT:14IU/L，PLT:247x10^3/µL,年齡:48歲，FIB-4 Index:1.19,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302159": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302160": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302161": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302162": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:154IU/L,GPT:88IU/L，GOT:154IU/L,GPT:88IU/L，PLT:217x10^3/µL,年齡:51歲，FIB-4 Index:3.86,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302163": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302164": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302165": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302166": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302167": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 28.60 IU/mL，HBeAg: 0.090 S/CO(Non-Reactive)，Anti-HDV: 0.015 S/CO(Non-Reactive)，GOT:52IU/L,GPT:58IU/L，PLT:216x10^3/µL,年齡:55歲，FIB-4 Index:1.74,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302168": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302169": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302170": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:25IU/L,GPT:29IU/L，PLT:246x10^3/µL,年齡:61歲，FIB-4 Index:1.15,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302171": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302172": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302173": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302174": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 3700.00 IU/mL，HBeAg: 0.085 S/CO(Non-Reactive)，GOT:20IU/L,GPT:22IU/L，PLT:271x10^3/µL,年齡:45歲，FIB-4 Index:0.71,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302175": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302176": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 70.20 IU/mL，HBeAg: 0.083 S/CO(Non-Reactive)，GOT:45IU/L,GPT:23IU/L，PLT:322x10^3/µL,年齡:52歲，FIB-4 Index:1.52,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302177": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:18IU/L,GPT:5IU/L，PLT:267x10^3/µL,年齡:49歲，FIB-4 Index:1.48,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302178": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:109IU/L,GPT:103IU/L，B型肝炎表面抗原陽性，HBV viral load: 50200000.00 IU/mL，HBeAg: 0.068 S/CO(Non-Reactive)，Anti-HDV: 0.011 S/CO(Non-Reactive)，GOT:109IU/L,GPT:103IU/L，PLT:226x10^3/µL,年齡:51歲，FIB-4 Index:2.42,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302179": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302180": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302181": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302182": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302183": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302184": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302185": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302186": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 1590.00 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，GOT:20IU/L,GPT:11IU/L，PLT:220x10^3/µL,年齡:43歲，FIB-4 Index:1.18,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302187": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:nodule Lt mid lung cause ?，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302188": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302189": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 313.00 IU/mL，HBeAg: 0.086 S/CO(Non-Reactive)，GOT:35IU/L,GPT:41IU/L，PLT:328x10^3/µL,年齡:43歲，FIB-4 Index:0.72,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302190": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302191": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302192": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302193": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302194": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302195": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.29ng/mL，GOT:27IU/L,GPT:39IU/L，PLT:348x10^3/µL,年齡:44歲，FIB-4 Index:0.55,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302196": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.96ng/mL，GOT:26IU/L,GPT:19IU/L，PLT:221x10^3/µL,年齡:50歲，FIB-4 Index:1.35,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302197": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302198": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302199": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 23.90 IU/mL，HBeAg: 0.080 S/CO(Non-Reactive)，GOT:35IU/L,GPT:41IU/L，PLT:109x10^3/µL,年齡:51歲，FIB-4 Index:2.56,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302200": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:retrocardiac nodule ?，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302201": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302202": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302203": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302204": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302205": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302206": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302207": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:27IU/L,GPT:20IU/L，PLT:181x10^3/µL,年齡:67歲，FIB-4 Index:2.23,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302208": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302209": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 53100.00 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:24IU/L,GPT:24IU/L，PLT:177x10^3/µL,年齡:48歲，FIB-4 Index:1.33,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302210": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.51ng/mL，GOT:22IU/L,GPT:15IU/L，PLT:273x10^3/µL,年齡:60歲，FIB-4 Index:1.25,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302211": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302212": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302213": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302214": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 287.00 IU/mL，HBeAg: 0.082 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:27IU/L,GPT:24IU/L，PLT:183x10^3/µL,年齡:56歲，FIB-4 Index:1.69,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302215": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302216": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302217": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302218": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 1840.00 IU/mL，HBeAg: 0.094 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:21IU/L,GPT:13IU/L，PLT:232x10^3/µL,年齡:46歲，FIB-4 Index:1.15,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302219": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302220": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302221": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 936.00 IU/mL，HBeAg: 0.085 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:19IU/L,GPT:38IU/L，PLT:366x10^3/µL,年齡:47歲，FIB-4 Index:0.4,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302222": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302223": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302224": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302225": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302226": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302227": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:19IU/L,GPT:16IU/L，PLT:337x10^3/µL,年齡:59歲，FIB-4 Index:0.83,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302228": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302229": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302230": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302231": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302232": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302233": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 24.70 IU/mL，HBeAg: 12.700 S/CO(Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:26IU/L,GPT:26IU/L，PLT:304x10^3/µL,年齡:62歲，FIB-4 Index:1.04,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302234": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302235": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 2110.00 IU/mL，HBeAg: 0.082 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，甲型胎兒蛋白偏高，11.10ng/mL，GOT:18IU/L,GPT:14IU/L，PLT:206x10^3/µL,年齡:41歲，FIB-4 Index:0.96,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302236": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 尚待檢測 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:25IU/L,GPT:25IU/L，PLT:312x10^3/µL,年齡:64歲，FIB-4 Index:1.03,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302237": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302238": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302239": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，8.72ng/mL，GOT:29IU/L,GPT:33IU/L，PLT:252x10^3/µL,年齡:58歲，FIB-4 Index:1.16,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302240": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302241": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302242": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 4500.00 IU/mL，HBeAg: 0.086 S/CO(Non-Reactive)，GOT:23IU/L,GPT:20IU/L，PLT:250x10^3/µL,年齡:47歲，FIB-4 Index:0.97,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302243": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302244": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302245": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302246": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 115000000.00 IU/mL，HBeAg: 947.000 S/CO(Reactive)，GOT:26IU/L,GPT:29IU/L，PLT:309x10^3/µL,年齡:39歲，FIB-4 Index:0.61,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302247": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302248": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 2100.00 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，Anti-HDV: 0.005 S/CO(Non-Reactive)，GOT:20IU/L,GPT:16IU/L，PLT:330x10^3/µL,年齡:50歲，FIB-4 Index:0.76,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302249": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302250": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302251": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302252": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，8.55ng/mL，GOT:29IU/L,GPT:29IU/L，PLT:250x10^3/µL,年齡:58歲，FIB-4 Index:1.25,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302253": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302254": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302255": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302256": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: Target Not Detected ，HBeAg: 0.078 S/CO(Non-Reactive)，GOT:23IU/L,GPT:18IU/L，PLT:118x10^3/µL,年齡:58歲，FIB-4 Index:2.66,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302257": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302258": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302259": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302260": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，甲型胎兒蛋白偏高，13.50ng/mL，GOT:65IU/L,GPT:39IU/L，PLT:144x10^3/µL,年齡:63歲，FIB-4 Index:4.55,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302261": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302262": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302263": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302264": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302265": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302266": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:20IU/L,GPT:19IU/L，PLT:305x10^3/µL,年齡:49歲，FIB-4 Index:0.74,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302267": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302268": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302269": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302270": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302271": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 1110.00 IU/mL，HBeAg: 0.079 S/CO(Non-Reactive)，甲型胎兒蛋白偏高，8.16ng/mL，GOT:34IU/L,GPT:20IU/L，PLT:276x10^3/µL,年齡:53歲，FIB-4 Index:1.46,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302272": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302273": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302274": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302275": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302276": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 65.40 IU/mL，HBeAg: 0.083 S/CO(Non-Reactive)，GOT:25IU/L,GPT:28IU/L，PLT:175x10^3/µL,年齡:52歲，FIB-4 Index:1.4,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302277": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 396.00 IU/mL，HBeAg: 0.089 S/CO(Non-Reactive)，GOT:27IU/L,GPT:24IU/L，PLT:158x10^3/µL,年齡:51歲，FIB-4 Index:1.78,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302278": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 18200.00 IU/mL，HBeAg: 0.088 S/CO(Non-Reactive)，GOT:26IU/L,GPT:23IU/L，PLT:213x10^3/µL,年齡:49歲，FIB-4 Index:1.25,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302279": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 4260.00 IU/mL，HBeAg: 0.085 S/CO(Non-Reactive)，GOT:21IU/L,GPT:14IU/L，PLT:360x10^3/µL,年齡:57歲，FIB-4 Index:0.89,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302280": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302281": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302282": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302283": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 85000.00 IU/mL，HBeAg: 0.085 S/CO(Non-Reactive)，GOT:37IU/L,GPT:41IU/L，PLT:236x10^3/µL,年齡:51歲，FIB-4 Index:1.25,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302284": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:33IU/L,GPT:36IU/L，PLT:174x10^3/µL,年齡:48歲，FIB-4 Index:1.52,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302285": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302286": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302287": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302288": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302289": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:36IU/L,GPT:93IU/L，GOT:36IU/L,GPT:93IU/L，PLT:316x10^3/µL,年齡:56歲，FIB-4 Index:0.66,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302290": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.17ng/mL，GOT:19IU/L,GPT:21IU/L，PLT:299x10^3/µL,年齡:47歲，FIB-4 Index:0.65,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302291": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:29IU/L,GPT:20IU/L，PLT:235x10^3/µL,年齡:62歲，FIB-4 Index:1.71,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302292": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302293": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.01ng/mL，GOT:26IU/L,GPT:21IU/L，PLT:283x10^3/µL,年齡:56歲，FIB-4 Index:1.12,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302294": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302295": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302296": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，胃蛋白酶原檢驗結果陽性，PG I:50.2ng/mL，PG I/II:2.7，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302297": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302298": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:84IU/L,GPT:102IU/L，GOT:84IU/L,GPT:102IU/L，PLT:249x10^3/µL,年齡:52歲，FIB-4 Index:1.74,FOBT陽性，胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302299": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302300": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302301": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302302": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302303": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:29IU/L,GPT:24IU/L，PLT:244x10^3/µL,年齡:50歲，FIB-4 Index:1.21,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302304": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 11.80 IU/mL，HBeAg: 0.081 S/CO(Non-Reactive)，GOT:30IU/L,GPT:41IU/L，PLT:327x10^3/µL,年齡:46歲，FIB-4 Index:0.66,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302305": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 93.70 IU/mL，HBeAg: 0.086 S/CO(Non-Reactive)，GOT:45IU/L,GPT:50IU/L，PLT:221x10^3/µL,年齡:49歲，FIB-4 Index:1.41,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302306": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302307": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 2520.00 IU/mL，HBeAg: 0.081 S/CO(Non-Reactive)，GOT:20IU/L,GPT:18IU/L，PLT:281x10^3/µL,年齡:51歲，FIB-4 Index:0.86,FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302308": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302309": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，8.22ng/mL，GOT:34IU/L,GPT:35IU/L，PLT:473x10^3/µL,年齡:55歲，FIB-4 Index:0.67,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302310": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302311": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302312": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302313": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302314": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302315": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302316": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 肺浸潤、其他:RLL and RUL，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302317": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302318": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302319": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302320": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302321": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: <10.00 IU/mL，HBeAg: 0.087 S/CO(Non-Reactive)，GOT:18IU/L,GPT:13IU/L，PLT:137x10^3/µL,年齡:53歲，FIB-4 Index:1.93,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302322": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302323": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302324": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:right 5th rib, fork rib，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302325": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302326": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302327": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302328": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302329": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 1070.00 IU/mL，HBeAg: 0.091 S/CO(Non-Reactive)，GOT:22IU/L,GPT:21IU/L，PLT:334x10^3/µL,年齡:46歲，FIB-4 Index:0.66,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302330": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302331": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302332": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302333": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302334": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 210000000.00 IU/mL，HBeAg: 2062.000 S/CO(Reactive)，GOT:26IU/L,GPT:19IU/L，PLT:197x10^3/µL,年齡:50歲，FIB-4 Index:1.51,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302335": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 6950.00 IU/mL，HBeAg: 0.089 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:22IU/L,GPT:16IU/L，PLT:262x10^3/µL,年齡:45歲，FIB-4 Index:0.94,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302336": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302337": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302338": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302339": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302340": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302341": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302342": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302343": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302344": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302345": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302346": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "個案於1140622參加彰化縣衛生局整合式篩檢，發現腎功能異常，Creatinine:1.04mg/dL,eGFR:77.9ml/min/1.73m^2，UPCR:4744.00mg/g，煩請醫師診治",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302347": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302348": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:30IU/L,GPT:40IU/L，PLT:344x10^3/µL,年齡:54歲，FIB-4 Index:0.74,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302349": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302350": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302351": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302352": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302353": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302354": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302355": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:suspect bone island, right 9th rib，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302356": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302357": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 7340.00 IU/mL，HBeAg: 0.086 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:32IU/L,GPT:26IU/L，PLT:156x10^3/µL,年齡:62歲，FIB-4 Index:2.49,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302358": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302359": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，9.01ng/mL，GOT:21IU/L,GPT:18IU/L，PLT:384x10^3/µL,年齡:31歲，FIB-4 Index:0.4,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302360": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302361": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:LLL nodules，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302362": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302363": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302364": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302365": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302366": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:left diaphragm elevation，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302367": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302368": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302369": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，9.83ng/mL，GOT:21IU/L,GPT:25IU/L，PLT:176x10^3/µL,年齡:55歲，FIB-4 Index:1.31,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302370": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302371": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302372": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302373": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:37IU/L,GPT:52IU/L，PLT:326x10^3/µL,年齡:61歲，FIB-4 Index:0.96,煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 中度有空洞肺結核，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302374": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302375": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302376": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302377": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 135.00 IU/mL，HBeAg: 0.085 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:28IU/L,GPT:39IU/L，PLT:210x10^3/µL,年齡:50歲，FIB-4 Index:1.07,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302378": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302379": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302380": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302381": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302382": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302383": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302384": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302385": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:27IU/L,GPT:18IU/L，PLT:191x10^3/µL,年齡:44歲，FIB-4 Index:1.47,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302386": {
+        "transGI": "",
+        "transCV": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 心臟及血管病變、其他:tourous thoracic aorta，煩請醫師診治",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302387": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 已癒合的病灶鈣化、纖維化、肋膜肥大、其他:RUL focal fibrosis，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302388": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302389": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 7740.00 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:20IU/L,GPT:16IU/L，PLT:155x10^3/µL,年齡:45歲，FIB-4 Index:1.45,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302390": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302391": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302392": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 肺浸潤、其他:rigth C-P angle blunting，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302393": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:26IU/L,GPT:26IU/L，PLT:197x10^3/µL,年齡:57歲，FIB-4 Index:1.48,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302394": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:146IU/L,GPT:111IU/L，GOT:146IU/L,GPT:111IU/L，PLT:188x10^3/µL,年齡:47歲，FIB-4 Index:3.46,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302395": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302396": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302397": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，14.50ng/mL，GOT:33IU/L,GPT:23IU/L，PLT:210x10^3/µL,年齡:60歲，FIB-4 Index:1.97,FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302398": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302399": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302400": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302401": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302402": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:left 7th rib calcified lesion，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302403": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302404": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302405": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302406": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，8.45ng/mL，GOT:20IU/L,GPT:14IU/L，PLT:231x10^3/µL,年齡:50歲，FIB-4 Index:1.16,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302407": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302408": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302409": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 2180.00 IU/mL，HBeAg: 0.085 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:33IU/L,GPT:37IU/L，PLT:225x10^3/µL,年齡:47歲，FIB-4 Index:1.13,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302410": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302411": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302412": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302413": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:31IU/L,GPT:43IU/L，PLT:237x10^3/µL,年齡:48歲，FIB-4 Index:0.96,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302414": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302415": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302416": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302417": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302418": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302419": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，甲型胎兒蛋白偏高，8.48ng/mL，GOT:26IU/L,GPT:35IU/L，PLT:225x10^3/µL,年齡:50歲，FIB-4 Index:0.98,煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 肺浸潤、其他:RLL infiltration，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302420": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302421": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302422": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302423": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 1340.00 IU/mL，HBeAg: 0.083 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:33IU/L,GPT:30IU/L，PLT:233x10^3/µL,年齡:52歲，FIB-4 Index:1.34,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302424": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302425": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 148.00 IU/mL，HBeAg: 0.092 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:22IU/L,GPT:22IU/L，PLT:250x10^3/µL,年齡:55歲，FIB-4 Index:1.03,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302426": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:right abdomen calcified leions，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302427": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 578.00 IU/mL，HBeAg: 0.083 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:20IU/L,GPT:21IU/L，PLT:302x10^3/µL,年齡:50歲，FIB-4 Index:0.72,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302428": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 20.30 IU/mL，HBeAg: 0.083 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:25IU/L,GPT:30IU/L，PLT:260x10^3/µL,年齡:58歲，FIB-4 Index:1.02,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302429": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302430": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302431": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302432": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:80IU/L,GPT:135IU/L，GOT:80IU/L,GPT:135IU/L，PLT:157x10^3/µL,年齡:54歲，FIB-4 Index:2.37,煩請醫師診治",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 已癒合的病灶鈣化、纖維化、肋膜肥大、其他:驗痰，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302433": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302434": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 2990.00 IU/mL，HBeAg: 0.090 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:20IU/L,GPT:14IU/L，PLT:232x10^3/µL,年齡:50歲，FIB-4 Index:1.15,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302435": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302436": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302437": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302438": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302439": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302440": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302441": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302442": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302443": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302444": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302445": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302446": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302447": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現FOBT陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302448": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302449": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302450": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302451": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302452": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302453": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302454": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302455": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302456": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302457": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302458": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302459": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:68IU/L,GPT:91IU/L，B型肝炎表面抗原陽性，HBV viral load: 4630000.00 IU/mL，HBeAg: 0.073 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:68IU/L,GPT:91IU/L，PLT:286x10^3/µL,年齡:51歲，FIB-4 Index:1.27,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302460": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302461": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原先前驗過為陽性，此次未再檢驗，GOT:24IU/L,GPT:17IU/L，PLT:234x10^3/µL,年齡:52歲，FIB-4 Index:1.29,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302462": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302463": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302464": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302465": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: <10.00 IU/mL，HBeAg: 0.084 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:31IU/L,GPT:40IU/L，PLT:323x10^3/µL,年齡:54歲，FIB-4 Index:0.82,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302466": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302467": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302468": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302469": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302470": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302471": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，8.68ng/mL，GOT:19IU/L,GPT:13IU/L，PLT:460x10^3/µL,年齡:49歲，FIB-4 Index:0.56,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302472": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302473": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:68IU/L,GPT:85IU/L，GOT:68IU/L,GPT:85IU/L，PLT:275x10^3/µL,年齡:43歲，FIB-4 Index:1.15,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302474": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302475": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302476": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302477": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302478": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，13.30ng/mL，GOT:19IU/L,GPT:17IU/L，PLT:164x10^3/µL,年齡:43歲，FIB-4 Index:1.21,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302479": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302480": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302481": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302482": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302483": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302484": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302485": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302486": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: 48.80 IU/mL，HBeAg: 0.082 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:24IU/L,GPT:17IU/L，PLT:178x10^3/µL,年齡:50歲，FIB-4 Index:1.64,胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302487": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302488": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現B型肝炎表面抗原陽性，HBV viral load: <10.00 IU/mL，HBeAg: 0.081 S/CO(Non-Reactive)，Anti-HDV: 尚待檢測 S/CO(Non-Reactive)，GOT:32IU/L,GPT:45IU/L，PLT:203x10^3/µL,年齡:45歲，FIB-4 Index:1.06,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302489": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302490": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302491": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302492": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現甲型胎兒蛋白偏高，7.86ng/mL，GOT:21IU/L,GPT:25IU/L，PLT:384x10^3/µL,年齡:32歲，FIB-4 Index:0.35,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302493": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302494": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302495": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302496": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302497": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302498": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": "個案於1140622參加彰化縣衛生局整合式篩檢，發現彰秀醫師執行子宮頸抹片，結果為(4)非典型扁平上皮細胞病變 (ASC-US)，煩請醫師診治"
+    },
+    "2025370302499": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302500": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302501": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302502": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302503": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302504": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302505": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 肺浸潤、其他:LLL infiltration，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302506": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302507": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現肝功能異常，GOT:58IU/L,GPT:104IU/L，GOT:58IU/L,GPT:104IU/L，PLT:276x10^3/µL,年齡:44歲，FIB-4 Index:0.91,煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302508": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃幽門桿菌陽性，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302509": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302510": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302511": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302512": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302513": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302514": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302515": {
+        "transGI": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胃蛋白酶原檢驗結果陽性，PG I:68ng/mL，PG I/II:2.5，煩請醫師診治",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302516": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302517": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302518": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302519": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "個案於1140622參加彰化縣衛生局整合式篩檢，發現胸部X光檢查報告: 其他:LUL hilar nodule, suspect vascular shadow，煩請醫師診治",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
+    },
+    "2025370302520": {
+        "transGI": "",
+        "transCV": "",
+        "transCM": "",
+        "transNEP": "",
+        "transORT": "",
+        "transGYN": ""
     }
 }
