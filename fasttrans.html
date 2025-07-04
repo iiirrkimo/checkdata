@@ -30,8 +30,14 @@
         <label>
             <input type="radio" name="specialist" value="心臟內科"> 心臟內科
         </label><br>
-		<label>
+	<label>
             <input type="radio" name="specialist" value="骨科"> 骨科
+        </label><br>
+	<label>
+            <input type="radio" name="specialist" value="耳鼻喉科"> 耳鼻喉科
+        </label><br>
+	<label>
+            <input type="radio" name="specialist" value="神經內科"> 神經內科
         </label><br>
 		<span>轉診醫院:</span><br>
 		<label>
@@ -75,7 +81,7 @@
 		var params = new URLSearchParams(queryString);
 		var innum = params.get('num');
 		var inspe = params.get('spe');
-		T_specialist=['transCM','transGI','transNEP','transGYN','transCV','transORT']
+		T_specialist=['transCM','transGI','transNEP','transGYN','transCV','transORT','transENT','transNEURO']
 		prenumber=Object.keys(alltransferarray)[0]
 		prenumber=prenumber.substring(0,prenumber.length-4);
 		document.getElementById('prenumber').textContent=prenumber;
