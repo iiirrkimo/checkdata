@@ -3061,7 +3061,9 @@ alltransferarray={
         "transCM": "",
         "transNEP": "",
         "transORT": "",
-        "transGYN": ""
+        "transGYN": "",
+        "transENT": "個案於1140621參加彰化縣衛生局整合式篩檢，口腔檢查發現 紅白斑 ，位於 硬腭(左),頰黏膜(左) ，煩請醫師診治",
+        "transNEURO": ""
     },
     "2025370301384": {
         "transGI": "",
