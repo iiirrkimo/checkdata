@@ -1,4 +1,4 @@
-(function (){
+
 async function queryalldata(){
 	let ccc=document.URL.toUpperCase();
 	let ddd="https://medcloud2.nhi.gov.tw/imu/IMUE1000/IMUE".toUpperCase();
@@ -1289,4 +1289,3 @@ function getFormattedDate() {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 queryalldata();
-})();
