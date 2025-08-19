@@ -1295,3 +1295,5 @@ function getFormattedDate() {
     const seconds = String(now.getSeconds()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
+
+(async function (){await queryalldata();})();
