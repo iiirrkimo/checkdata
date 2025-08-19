@@ -32,18 +32,25 @@ async function queryalldata(){
 				}
 				results[keys[i]] = await response.json();
 			}
-			let msgobj={};
+
 			results.admissionxml={};
-			for (let i=0;i<results.admission.robject.length;i++){
-				let mk=results.admission.robject[i].mds_file;
-				let payload={
-					"FileName": mk
+			const promises2 = results.admission.robject.map(async (item) => {
+				const mk = item.mds_file;
+				const payload = { FileName: mk };
+				const tempadmission = await postData(
+					"https://medcloud2.nhi.gov.tw/imu/api/imue0070/imue0070s01/show-xml",
+					payload
+				);
+				return { mk, tempadmission };
+			});
+
+			const resultsArray = await Promise.all(promises2);
+
+			resultsArray.forEach(({ mk, tempadmission }) => {
+				if (tempadmission) {
+					results.admissionxml[mk] = tempadmission;
 				}
-				let tempadmission=await postData("https://medcloud2.nhi.gov.tw/imu/api/imue0070/imue0070s01/show-xml",payload);
-				if (tempadmission){
-					results.admissionxml[mk]=tempadmission;
-				}
-			}
+			});
 			
 			nextStep(results);
 		} catch (error) {
@@ -1288,4 +1295,3 @@ function getFormattedDate() {
     const seconds = String(now.getSeconds()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
-queryalldata();
