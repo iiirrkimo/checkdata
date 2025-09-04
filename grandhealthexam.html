@@ -136,7 +136,7 @@
 					</div>
 					<div>
 						<span style="display: inline-block; width: 120px;">08. 口篩清單:</span>
-						<input class="execinput" type="file" id="excel8" accept=".xlsx, .xls"/>
+						<input class="execinput" type="file" id="excel8" accept=".txt"/>
 					</div>
 				</div>
 				<div class="H-container" style="padding-left:40px;">
@@ -147,6 +147,16 @@
 					<div>
 						<span style="display: inline-block; width: 120px;">10. HBV DNA:</span>
 						<input class="execinput" type="file" id="excel10" accept=".xlsx, .xls"/>
+					</div>
+				</div>
+				<div class="H-container" style="padding-left:40px;">
+					<div>
+						<span style="display: inline-block; width: 120px;">11. 風險計算:</span>
+						<input class="execinput" type="file" id="excel11" accept=".xlsx, .xls"/>
+					</div>
+					<div>
+						<span style="display: inline-block; width: 120px;">12. 頭痛問卷:</span>
+						<input class="execinput" type="file" id="excel12" accept=".xlsx, .xls"/>
 					</div>
 				</div>
 				<div class="H-container" style="padding-left:40px;">
@@ -184,6 +194,8 @@
 				<input id="checkall" style="width: 20px;" type="checkbox">
 				<label for="checkall" style="height: 25px; text-align: center; vertical-align:middle; display:inline-block">全選</label>
 				<button class="execbutton" id="exportToPDFbutton">匯出報告</button>
+				
+				<button class="execbutton" id="exportriskbutton">匯出計算風險檔</button>
 			</div>
 			<div  id="downloadarea" style="padding-left:40px;">
 			</div>
@@ -261,6 +273,14 @@
 						<th>HBV DNA</th>
 						<th>HBeAg</th>
 						<th>Anti-HDV</th>
+						<th>HCV RNA</th>
+						<th>冠心病</th>
+						<th>高血壓</th>
+						<th>心血管不良事件</th>
+						<th>糖尿病</th>
+						<th>腦中風</th>
+						<th>頭痛分組</th>
+						<th>頭痛轉診</th>
 					</tr>
 				</thead>
 				<tbody>
