@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>NIIS 轉換工具</title>
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+    }
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+    .left {
+        width: 40%;
+        border-right: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+    }
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid #ccc;
+    }
+    .tab-btn {
+        flex: 1;
+        padding: 8px;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+        border: none;
+        background: #f5f5f5;
+    }
+    .tab-btn.active {
+        background: #ffffff;
+        border-bottom: 2px solid #007bff;
+        font-weight: bold;
+    }
+    .tab-content {
+        flex: 1;
+        padding: 8px;
+        display: none;
+        box-sizing: border-box;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    textarea {
+        width: 100%;
+        height: calc(100vh - 160px);
+        box-sizing: border-box;
+        font-family: Consolas, monospace;
+        font-size: 13px;
+    }
+    .right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .right-tabs {
+        display: flex;
+        border-bottom: 1px solid #ccc;
+    }
+    .right-tab-btn {
+        flex: 1;
+        padding: 8px;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+        border: none;
+        background: #f5f5f5;
+    }
+    .right-tab-btn.active {
+        background: #ffffff;
+        border-bottom: 2px solid #28a745;
+        font-weight: bold;
+    }
+    .right-tab-content {
+        flex: 1;
+        display: none;
+    }
+    .right-tab-content.active {
+        display: block;
+    }
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    .controls {
+        margin-bottom: 8px;
+    }
+    .controls label {
+        display: inline-block;
+        margin-right: 4px;
+    }
+    .controls input {
+        width: 120px;
+    }
+    /* --- B 分頁表格美化 --- */
+#tab-convert {
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+}
+
+/* 讓表格有獨立捲動區域，不會撐爆左側高度 */
+#tab-convert #converttable {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 13px;
+    box-shadow:
+        0 0 0 1px #e2e8f0,
+        0 6px 18px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#tab-convert table thead {
+    background: linear-gradient(90deg, #eff6ff, #e0f2fe);
+}
+
+#tab-convert table thead th {
+    padding: 8px 10px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1e293b;
+    border-bottom: 1px solid #cbd5f5;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#tab-convert table tbody td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+    color: #334155;
+}
+
+/* 斑馬線條紋 */
+#tab-convert table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+/* hover 高亮 */
+#tab-convert table tbody tr:hover {
+    background: #e0f2fe;
+}
+
+/* 最後一列不要邊框太重 */
+#tab-convert table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 表格裡的按鈕樣式 */
+#tab-convert table td button {
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid #0f766e;
+    background: #0d9488;
+    color: #ffffff;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+}
+
+#tab-convert table td button:hover {
+    background: #14b8a6;
+    box-shadow: 0 2px 6px rgba(15, 118, 110, 0.4);
+    transform: translateY(-1px);
+}
+
+#tab-convert table td button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+/* 第六欄「最後紀錄」固定寬度＆自動換行 */
+#converttable th:nth-child(6),
+#converttable td:nth-child(6) {
+    width: 160px;          /* 想要多寬自己調整 */
+    max-width: 160px;
+    white-space: normal;   /* 允許換行 */
+    word-break: break-all; /* 長字也強制斷行 */
+    overflow-wrap: break-word;
+}
+
+/* ===== 全畫面 loading 遮罩 ===== */
+#loadingOverlay {
+    position: fixed;
+    inset: 0; /* top:0; right:0; bottom:0; left:0; */
+    background: rgba(15, 23, 42, 0.35);
+    display: none;              /* 預設隱藏 */
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;              /* 蓋在 iframe 之上 */
+    backdrop-filter: blur(2px); /* 可選，看你喜不喜歡 */
+}
+
+.loading-box {
+    min-width: 180px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #0d9488; /* 主色 */
+    animation: loading-spin 0.8s linear infinite;
+}
+
+#loadingText {
+    font-size: 14px;
+    color: #1f2933;
+}
+
+/* 轉圈動畫 */
+@keyframes loading-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+</style>
+</head>
+<body>
+    <!-- 全畫面 loading -->
+<div id="loadingOverlay">
+    <div class="loading-box">
+        <div class="loading-spinner"></div>
+        <div id="loadingText">處理中，請稍候...</div>
+    </div>
+</div>
+<div class="container">
+    <!-- 左邊 -->
+    <div class="left">
+        <!-- Tab 標籤 -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab-raw">A: 原始資料</button>
+            <button class="tab-btn" data-tab="tab-convert">B: 轉換</button>
+        </div>
+
+        <!-- A: 原始資料 -->
+        <div id="tab-raw" class="tab-content active">
+            <div class="controls"><button type="button" onclick="doConvert()">請在下方貼上生日、ID及姓名後點我</button></div>
+            <textarea id="rawText"></textarea>
+            
+        </div>
+
+        <!-- B: 轉換 -->
+        <div id="tab-convert" class="tab-content">
+            <table id="converttable">
+                <thead>
+                    <tr>
+                        <th>編號</th>
+                        <th>身份證字號</th>
+                        <th>出日</th>
+                        <th>姓名</th>
+                        <th>查詢</th>
+                        <th>最後紀錄</th>
+                        <th>開始登打</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 右邊：3 個 Tab + 各自的 iframe -->
+    <div class="right">
+        <div class="right-tabs">
+            <button class="right-tab-btn active" data-rtab="rtab1" data-frame="frame1">接種紀錄</button>
+            <button class="right-tab-btn" data-rtab="rtab2" data-frame="frame2">訪視紀錄</button>
+            <button class="right-tab-btn" data-rtab="rtab3" data-frame="frame3">新增紀錄</button>
+        </div>
+        <div id="rtab1" class="right-tab-content active">
+            <iframe id="myframe1" name="myframe1"></iframe>
+        </div>
+        <div id="rtab2" class="right-tab-content">
+            <iframe id="myframe2" name="myframe2"></iframe>
+        </div>
+        <div id="rtab3" class="right-tab-content">
+            <iframe id="myframe3" name="myframe3"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tab 切換
+    (function () {
+        var tabButtons = document.querySelectorAll(".tab-btn");
+        var tabs = document.querySelectorAll(".tab-content");
+
+        for (var i = 0; i < tabButtons.length; i++) {
+            tabButtons[i].addEventListener("click", function () {
+                var targetId = this.getAttribute("data-tab");
+
+                // 清掉所有 active
+                for (var j = 0; j < tabButtons.length; j++) {
+                    tabButtons[j].classList.remove("active");
+                }
+                for (var k = 0; k < tabs.length; k++) {
+                    tabs[k].classList.remove("active");
+                }
+
+                // 啟用選到的
+                this.classList.add("active");
+                var targetTab = document.getElementById(targetId);
+                if (targetTab) {
+                    targetTab.classList.add("active");
+                }
+            });
+        }
+    })();
+    // ===== 右側 Tab 切換（獨立）=====
+    (function () {
+        var rightButtons = document.querySelectorAll(".right-tab-btn");
+        var rightTabs = document.querySelectorAll(".right-tab-content");
+
+        for (var i = 0; i < rightButtons.length; i++) {
+            rightButtons[i].addEventListener("click", function () {
+                var targetId = this.getAttribute("data-rtab");
+
+                for (var j = 0; j < rightButtons.length; j++) {
+                    rightButtons[j].classList.remove("active");
+                }
+                for (var k = 0; k < rightTabs.length; k++) {
+                    rightTabs[k].classList.remove("active");
+                }
+
+                this.classList.add("active");
+                var target = document.getElementById(targetId);
+                if (target) {
+                    target.classList.add("active");
+                }
+            });
+        }
+    })();
+
+
+    // ====== A: 原始資料 → B: 轉換 ======
+    function doConvert() {
+        const raw = document.getElementById("rawText").value;
+        const tb=document.getElementById("converttable").children[1];
+        tb.innerHTML="";
+        const araw=raw.split("\n")
+        let newhtml="";
+        let count=0
+        for (let i=0;i<araw.length;i++){
+            try{
+                let line=araw[i];
+                let aline=line.split("\t");
+                if (aline[1].length==10){
+                    count+=1
+                    let rowid="therow_"+count
+                    newhtml+="<tr id='"+rowid+"'>"
+                    newhtml+="<td>"+count+"</td>";
+                    newhtml+="<td>"+aline[1].trim().toUpperCase()+"</td>";
+                    newhtml+="<td>"+aline[0].trim().toUpperCase()+"</td>";
+                    newhtml+="<td>"+aline[2].trim().toUpperCase()+"</td>";
+                    newhtml+=`<td><button type="button" onclick="checkremark('${aline[1].trim().toUpperCase()}','${aline[0].trim().toUpperCase()}','${rowid}')">查詢</button></td>`;
+                    //newhtml+="<td>"+'<button type="button" onclick="checkremark("'+aline[1].trim().toUpperCase()+'","'+aline[0].trim().toUpperCase()+'")">查詢</button>'+"</td>";
+                    newhtml+="<td>"+"未查詢"+"</td>";
+                    newhtml+="<td>"+"未查詢"+"</td>";
+                    newhtml+="</tr>"
+                }
+            } catch (e){
+
+            }
+            
+        }
+        console.log(newhtml)
+        tb.innerHTML=newhtml;
+        
+
+        // 自動切換到 B 分頁
+        switchToTab("tab-convert");
+    }
+
+
+    function switchToTab(tabId) {
+        var tabButtons = document.querySelectorAll(".tab-btn");
+        var tabs = document.querySelectorAll(".tab-content");
+
+        for (var i = 0; i < tabButtons.length; i++) {
+            var btn = tabButtons[i];
+            if (btn.getAttribute("data-tab") === tabId) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        }
+
+        for (var j = 0; j < tabs.length; j++) {
+            var tab = tabs[j];
+            if (tab.id === tabId) {
+                tab.classList.add("active");
+            } else {
+                tab.classList.remove("active");
+            }
+        }
+    }
+
+    async function checkremark(id, birth, rowid) {
+        showLoading("查詢中，請稍候...");
+    
+        try {
+            const caseid = await getcasemsg(id, birth);
+            if (caseid) {
+                const row = document.getElementById(rowid);
+                row.cells[6].remove();
+                row.cells[5].remove();
+    
+                const remark = await getremark(caseid);
+                let cells5 = document.createElement("td");
+    
+                if (remark.length == 0) {
+                    cells5.textContent = "無紀錄";
+                } else {
+                    let lastmsg = `${remark[0].VD} ${remark[0].VAN.split("/")[1]} ${remark[0].RN}`;
+                    cells5.textContent = lastmsg;
+    
+                    let allmsg = "";
+                    for (let i = 0; i < remark.length; i++) {
+                        let msg = `${remark[i].VD} ${remark[i].VAN.split("/")[1]} ${remark[i].RN}\n`;
+                        allmsg += msg;
+                    }
+                    cells5.title = allmsg;
+                    cells5.addEventListener("click", () => {
+                        navigator.clipboard.writeText(lastmsg);
+                        alert(`複製到剪貼簿：${lastmsg}`);
+                    });
+                }
+                row.appendChild(cells5);
+    
+                let cells6 = document.createElement("td");
+                let niisbutton = document.createElement("button");
+                niisbutton.textContent = "跳轉NIIS";
+                niisbutton.addEventListener("click", () => {
+                    postToSpecific("myframe1", "https://niis.cdc.gov.tw/Vaccination/RecordM/RegisterData_Detail.aspx", caseid, "i");
+                    postToSpecific("myframe2", "https://niis.cdc.gov.tw/CaseVisit/VisitCaseList.aspx", caseid, "CaseID");
+                    postToSpecific("myframe3", "https://niis.cdc.gov.tw/CaseVisit/VisitCaseContent.aspx", caseid, "CaseID");
+                    
+                });
+                cells6.appendChild(niisbutton);
+                row.appendChild(cells6);
+    
+            } else {
+                alert("查詢錯誤");
+            }
+        } catch (e) {
+            console.error(e);
+            alert("查詢過程發生錯誤");
+        } finally {
+            hideLoading();
+        }
+    }
+    
+    async function getcasemsg(id, birth="") {
+        try {
+            const res = await fetch("https://niis.cdc.gov.tw/CaseMaintain/UserProfileListOP.aspx", {
+                "headers": {
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                "referrer": "https://niis.cdc.gov.tw/Vaccination/RecordM/RegisterData.aspx",
+                "body": `BirthDateS=${birth}&BirthDateE=${birth}&CaseName=&CaseIdNo=${id}&NumberType=0&HouseNo=&ContactName=&ContactIdNo=&ContactBirthDate=&CountyID=0&TownID=0&AddrKind=0&OrderCol=0&OrderAsc=1&ContactType=2&IsDead=false&CaseListNowPage=1&UseModule=2&pgNow=1&pgSize=10`,
+                "method": "POST"
+            });
+    
+            if (!res.ok) {
+                throw new Error("HTTP error " + res.status);
+            }
+    
+            const data = await res.json();
+            return data.message[0].C;
+        } catch (e){
+            return false;
+        }
+    }
+
+    async function getremark(caseid){
+        const res = await fetch("https://niis.cdc.gov.tw/CaseVisit/VisitCaseListOP.aspx", {
+          "headers": {
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+          },
+          "referrer": "https://niis.cdc.gov.tw/CaseVisit/VisitCaseList.aspx",
+          "body": `CaseID=${caseid}&pgNow=1&pgSize=10`,
+          "method": "POST"
+        });
+        if (!res.ok) {
+            throw new Error("HTTP error " + res.status);
+        }
+        const data = await res.json();
+        return data.message;
+    }
+
+
+    
+    function postToSpecific(frameName, url, iValue) {
+        // 如果沒傳 iValue，就用畫面上 input 裡的值
+        var val;
+        if (typeof iValue === "undefined" || iValue === null || String(iValue).trim() === "") {
+            val = document.getElementById("iValue").value.trim();
+        } else {
+            val = String(iValue).trim();
+        }
+    
+        if (val === "") {
+            alert("i 值是空的，請先在左側貼資料並轉換。");
+            return;
+        }
+    
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = url;
+        form.target = frameName; // 指定要送到哪個 iframe
+    
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "i";
+        input.value = val;
+        form.appendChild(input);
+    
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }
+    
+    function showLoading(text) {
+        var overlay = document.getElementById("loadingOverlay");
+        var t = document.getElementById("loadingText");
+        if (t && text) {
+            t.textContent = text;
+        } else if (t && !text) {
+            t.textContent = "處理中，請稍候...";
+        }
+        overlay.style.display = "flex";
+    }
+    
+    function hideLoading() {
+        var overlay = document.getElementById("loadingOverlay");
+        overlay.style.display = "none";
+    }
+    
+
+
+
+</script>
+</body>
+</html>
