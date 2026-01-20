@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>帶狀皰疹疫苗轉檔器</title>
+  <style>
+:root{
+  --bg: #f4f7f5;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+
+  --border: #d6e2db;
+  --border-2: #c9d8d0;
+
+  --green: #2f6f4e;
+  --green-2: #245a3f;
+  --green-soft: #e7f3ec;
+
+  --danger: #b42318;
+  --danger-soft: #fdecec;
+
+  --radius: 12px;
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  font-family: "Microsoft JhengHei", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  padding: 22px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* 讓整體寬度一致、對齊 */
+body > h1,
+body > .row,
+body > .hint,
+body > .status{
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1{
+  margin: 0 0 14px 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--green-2);
+}
+
+.row{
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* 第一排（選檔案那排）跟其他排稍微不同 */
+.row{
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+}
+
+
+.row label{
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: .2px;
+}
+
+input[type="text"]{
+  width: 100%;
+  height: 38px;
+  padding: 6px 10px;
+  font-size: 14px;
+
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  background: #fff;
+
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+input[type="text"]::placeholder{
+  color: #9aa3ad;
+}
+
+input[type="text"]:focus{
+  outline: none;
+  border-color: rgba(47,111,78,.55);
+  box-shadow: 0 0 0 3px rgba(47,111,78,.14);
+}
+
+input[readonly]{
+  background: #f7faf8;
+}
+
+button{
+  height: 38px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+
+  transition: background .15s ease, border-color .15s ease;
+}
+
+button:hover{
+  background: #f3f7f4;
+  border-color: #b8cbbf;
+}
+
+/* 主按鈕：轉檔 */
+#btnConvert{
+  border-color: rgba(47,111,78,.40);
+  background: var(--green);
+  color: #fff;
+}
+
+#btnConvert:hover{
+  background: var(--green-2);
+  border-color: rgba(36,90,63,.55);
+}
+
+/* 提示說明區塊 */
+.hint{
+  max-width: 780px;
+  margin: 12px auto 10px auto;
+  padding: 12px 14px;
+
+  background: #fff;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.status{
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 12px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+/* 成功/錯誤的顏色做得淡一點（樸素） */
+.ok{
+  border-color: rgba(47,111,78,.35);
+  background: var(--green-soft);
+}
+
+.bad{
+  border-color: rgba(180,35,24,.35);
+  background: var(--danger-soft);
+}
+
+/* 小螢幕 */
+@media (max-width: 560px){
+  body{ padding: 14px; }
+
+  .row{
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .row:first-of-type{
+    grid-template-columns: 1fr;
+  }
+
+  button{
+    width: 100%;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <h1>帶狀皰疹疫苗轉檔器</h1>
+   <div class="hint">
+    1. 從<span style="color:red">「帶狀疱疹疫苗預約系統」</span>匯出 Excel（依接種日期區間篩選)<br>
+    2. <span style="color:red">去除XLSX密碼</span>後存檔<br>
+	3. 選擇去除密碼後的xlsx檔案，自動判斷格式是否符合<br>
+	4. 輸入醫事機構代碼<br>
+    5. 輸入疫苗批號<br>
+    6. 按「轉檔」下載CSV，自動跑出統計<br>
+	7. 上傳至NIIS
+  </div>
+
+  <div class="row">
+	  <label>XLSX檔案</label>
+	  <input id="filePath" type="text" readonly placeholder="尚未選擇檔案" />
+	  
+	  <input id="fileInput" type="file" accept=".xlsx" hidden />
+	</div>
+
+
+  <div class="row">
+    <label>機構代碼</label>
+    <input id="sitecode" type="text" placeholder="例如：2337030012" />
+  </div>
+
+  <div class="row">
+    <label>疫苗批號</label>
+    <input id="vaclot" type="text" placeholder="例如：5TR4B-CHH-hb" />
+    <button id="btnConvert">轉檔</button>
+  </div>
+
+ 
+  <div id="statusBox" class="status">尚未載入檔案</div>
+
+
+
+  <!-- SheetJS (xlsx) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <script>
+    // ====== AHK 同款：西元 yyyy-mm-dd → 民國 yyyMMdd ======
+    function cytomky(cy) {
+      if (!cy) {
+        return "";
+      }
+      // 允許 "YYYY-MM-DD" 或 Excel Date 或 "YYYY/MM/DD"
+      let s = String(cy).trim();
+
+      // 如果是純數字且像 Excel 的 date serial
+      if (/^\d+(\.\d+)?$/.test(s)) {
+        let n = Number(s);
+        if (!Number.isNaN(n) && n > 20000 && n < 60000) {
+          // 以 Excel 1900 system 轉 Date
+          // Excel day 1 = 1899-12-31 (含 bug)，這裡用常見換算
+          let epoch = new Date(Date.UTC(1899, 11, 30));
+          let d = new Date(epoch.getTime() + n * 86400000);
+          let yyyy = d.getUTCFullYear();
+          let mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+          let dd = String(d.getUTCDate()).padStart(2, "0");
+          let my = String(yyyy - 1911).padStart(3, "0");
+          return my + mm + dd;
+        }
+      }
+
+      s = s.replace(/\//g, "-");
+      let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if (!m) {
+        return "";
+      }
+      let yyyy = Number(m[1]);
+      let mm = String(Number(m[2])).padStart(2, "0");
+      let dd = String(Number(m[3])).padStart(2, "0");
+      let my = String(yyyy - 1911).padStart(3, "0");
+      return my + mm + dd;
+    }
+
+    function nowStamp() {
+      // AHK A_Now 類似：YYYYMMDDHHmmss
+      let d = new Date();
+      let yyyy = d.getFullYear();
+      let mm = String(d.getMonth() + 1).padStart(2, "0");
+      let dd = String(d.getDate()).padStart(2, "0");
+      let HH = String(d.getHours()).padStart(2, "0");
+      let MM = String(d.getMinutes()).padStart(2, "0");
+      let SS = String(d.getSeconds()).padStart(2, "0");
+      return `${yyyy}${mm}${dd}${HH}${MM}${SS}`;
+    }
+
+    function setStatus(text, ok) {
+      let box = document.getElementById("statusBox");
+      box.textContent = text;
+      box.classList.remove("ok", "bad");
+      if (ok === true) {
+        box.classList.add("ok");
+      }
+      if (ok === false) {
+        box.classList.add("bad");
+      }
+    }
+
+    function downloadTextFile(filename, content) {
+      const BOM = "\uFEFF";
+		const csvCRLF = content.replace(/\r?\n/g, "\r\n");
+		let blob = new Blob([BOM + csvCRLF], { type: "text/csv;charset=utf-8" });
+
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // ====== UI 狀態 ======
+    let currentFile = null;
+    let workbookDataRows = null; // 2D array of cell values
+
+    // localStorage 記住設定（等同 setting.ini）
+    const LS_SITE = "rzv_sitecode";
+    const LS_VAC = "rzv_vaclot";
+
+    function loadSettings() {
+      let sc = localStorage.getItem(LS_SITE) || "";
+      let vl = localStorage.getItem(LS_VAC) || "";
+      document.getElementById("sitecode").value = sc;
+      document.getElementById("vaclot").value = vl;
+    }
+
+    function saveSettings() {
+      let sc = document.getElementById("sitecode").value.trim();
+      let vl = document.getElementById("vaclot").value.trim();
+      localStorage.setItem(LS_SITE, sc);
+      localStorage.setItem(LS_VAC, vl);
+    }
+
+    // ====== 讀 Excel ======
+    async function readXlsxToRows(file) {
+      let buf = await file.arrayBuffer();
+      let wb = XLSX.read(buf, { type: "array" });
+
+      // 預設用第一張
+      let sheetName = wb.SheetNames[0];
+      let ws = wb.Sheets[sheetName];
+
+      // 轉成 2D array (AOA)
+      let rows = XLSX.utils.sheet_to_json(ws, {
+        header: 1,
+        raw: true,
+        defval: ""
+      });
+
+      return rows;
+    }
+
+    // 找到「是否為中低收入戶」那一列 index
+    function findMarkerRowIndex(rows) {
+      for (let r = 0; r < rows.length; r++) {
+        let row = rows[r];
+        if (!row) {
+          continue;
+        }
+        for (let c = 0; c < row.length; c++) {
+          let cell = String(row[c] ?? "").trim();
+          if (cell.indexOf("是否為中低收入戶") !== -1) {
+            return r;
+          }
+        }
+      }
+      return -1;
+    }
+
+    // ====== 轉 CSV（對齊 AHK 的欄位位置邏輯） ======
+    function convertRowsToNiisCsv(rows, sitecode, vaclot) {
+      // AHK 的規則：遇到 "是否為中低收入戶" 開始輸出（下一列開始是資料）
+      let markerIndex = findMarkerRowIndex(rows);
+      if (markerIndex === -1) {
+        return { ok: false, error: "檔案錯誤或未去除密碼：找不到「是否為中低收入戶」", csv: "" };
+      }
+
+      // AHK：csv header 固定
+      let header =
+        "身分證號,姓名,性別,出生日期,同胎次序,通訊地址,電話,父或母身分證號,接種機構,接種日期,疫苗種類,劑次,疫苗批號,疫苗廠商,疫苗型別,曾接種流感,身分別,接種站識別碼,期別,時段,醫師,接種位址,接種站名稱\n";
+
+      let out = header;
+
+      let count_t = 0;
+      let count_n = 0;
+      let count_l = 0;
+
+      // AHK：從 marker 下一列開始，直到欄位不足 10 就 break
+      for (let r = markerIndex + 1; r < rows.length; r++) {
+        let row = rows[r];
+        if (!row) {
+          break;
+        }
+
+        // AHK 用 tab 切後檢查 <10 就 break
+        // 這裡用 row 的 length 檢查（Excel AOA）
+        if (row.length < 10) {
+          break;
+        }
+
+        // AHK 欄位位置（1-based）
+        // 1 姓名, 2 身分證號, 3 出生, 4 低收, 10 接種日期, 12 劑次
+        // JS 0-based
+        let pname = String(row[0] ?? "").trim();
+        let pidnum = String(row[1] ?? "").trim();
+        let pbirth = String(row[2] ?? "").trim();
+        let pislow = String(row[3] ?? "").trim();
+
+        // AHK 取第10欄
+        let pinject = String(row[9] ?? "").trim();
+        // AHK 取第12欄（若 row 不夠長會拿到空）
+        let pdose = "";
+        if (row.length >= 12) {
+          pdose = String(row[11] ?? "").trim();
+        }
+
+        // 防呆：身分證號或姓名空就略過
+        if (pidnum === "" || pname === "") {
+          continue;
+        }
+
+        count_t += 1;
+
+        if (pislow === "否") {
+          count_n += 1;
+        } else {
+          count_l += 1;
+        }
+
+        // AHK：pidnum,pname,,birth,,,,,sitecode,inject,RZV,pdose,vaclot,,3,,,,,,,,
+        // 總共 23 欄 (跟 header 一樣)
+        let line =
+          pidnum + "," +
+          pname + "," +
+          "" + "," + // 性別
+          cytomky(pbirth) + "," +
+          "" + "," + // 同胎次序
+          "" + "," + // 通訊地址
+          "" + "," + // 電話
+          "" + "," + // 父或母身分證號
+          sitecode + "," +
+          cytomky(pinject) + "," +
+          "RZV" + "," +
+          pdose + "," +
+          vaclot + "," +
+          "" + "," + // 疫苗廠商
+          "3" + "," + // 疫苗型別（AHK 固定 3）
+          "" + "," + // 曾接種流感
+          "" + "," + // 身分別
+          "" + "," + // 接種站識別碼
+          "" + "," + // 期別
+          "" + "," + // 時段
+          "" + "," + // 醫師
+          "" + "," + // 接種位址
+          "" + "\n"; // 接種站名稱
+
+        out += line;
+      }
+
+      if (count_t === 0) {
+        return { ok: false, error: "檔案有找到表頭，但沒有讀到任何資料列", csv: "" };
+      }
+
+      let filename = `RZV_${nowStamp()}_低收${count_l}_一般${count_n}_總計${count_t}.csv`;
+      return {
+        ok: true,
+        csv: out,
+        filename,
+        counts: { total: count_t, low: count_l, normal: count_n }
+      };
+    }
+
+    // ====== 綁定事件 ======
+    document.getElementById("filePath").addEventListener("click", function () {
+      document.getElementById("fileInput").click();
+    });
+
+    document.getElementById("fileInput").addEventListener("change", async function (e) {
+      let files = e.target.files;
+      if (!files || files.length === 0) {
+        return;
+      }
+      currentFile = files[0];
+      document.getElementById("filePath").value = currentFile.name;
+
+      setStatus("讀取 Excel 中...", null);
+
+      try {
+        workbookDataRows = await readXlsxToRows(currentFile);
+
+        let markerIndex = findMarkerRowIndex(workbookDataRows);
+        if (markerIndex !== -1) {
+          setStatus("✅ 正確檔案", true);
+        } else {
+          setStatus("❌ 檔案錯誤或未去除密碼：找不到「是否為中低收入戶」", false);
+        }
+      } catch (err) {
+        setStatus("❌ 讀取失敗：" + (err && err.message ? err.message : String(err)), false);
+      }
+    });
+
+    document.getElementById("sitecode").addEventListener("input", function () {
+      saveSettings();
+    });
+    document.getElementById("vaclot").addEventListener("input", function () {
+      saveSettings();
+    });
+
+    document.getElementById("btnConvert").addEventListener("click", function () {
+      let sitecode = document.getElementById("sitecode").value.trim();
+      let vaclot = document.getElementById("vaclot").value.trim();
+
+      if (sitecode === "") {
+        alert("未輸入接種機構代碼");
+        return;
+      }
+      if (vaclot === "") {
+        alert("未輸入批號");
+        return;
+      }
+      if (!workbookDataRows) {
+        alert("請先選擇正確檔案");
+        return;
+      }
+
+      let result = convertRowsToNiisCsv(workbookDataRows, sitecode, vaclot);
+
+      if (!result.ok) {
+        setStatus("❌ 轉檔失敗：\n" + result.error, false);
+        return;
+      }
+
+      setStatus(
+        "✅ 轉檔完成\n" +
+        `總計：${result.counts.total}\n` +
+        `低收：${result.counts.low}\n` +
+        `一般：${result.counts.normal}\n` +
+        `檔名：${result.filename}`,
+        true
+      );
+
+      downloadTextFile(result.filename, result.csv);
+    });
+
+
+    document.getElementById("btnCloseHelp").addEventListener("click", function () {
+      document.getElementById("helpDialog").close();
+    });
+
+    loadSettings();
+  </script>
+</body>
+</html>
