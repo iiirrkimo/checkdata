@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150303';
+chestversion='1150310';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -885,7 +885,7 @@ function createchest(){
 			let item_36=Math.round(dr.SGOT);
 			let item_37=Math.round(dr.SGPT);
 			let item_38=Math.round(dr.CRE_S*10)/10;
-			let item_39=Math.round(dr.eGFR*10)/10;
+			let item_39=Math.round(dr.eGFR*100)/100;
 			let item_40=dr.HBsAG;
 			let item_41=dr.HCV;
 			let item_42="1";
@@ -3066,7 +3066,7 @@ function createchest(){
 									showrow.Cre=Math.round(testResult*10)/10;
 								}
 								if (clist.eGFR.includes(testcode)){
-									showrow.eGFR=Math.round(testResult*10)/10;
+									showrow.eGFR=Math.round(testResult*100)/100;
 								}
 								if (clist.UPCR.includes(testcode)){
 									showrow.UPCR=Math.round(testResult*10)/10;
@@ -3141,32 +3141,32 @@ function createchest(){
 						newrow.appendChild(temp);
 						temp=document.createElement('td');
 						if (!("eGFR" in showrow)) {
-						if ("Cre" in showrow) {
+							if ("Cre" in showrow) {
 
-							const scr = Number(showrow.Cre);  // Scr = serum creatinine
-							if (!showrow.Cre || Number.isNaN(scr) || scr <= 0) {
-							showrow.eGFR = "";
-							} else {
+								const scr = Number(showrow.Cre);  // Scr = serum creatinine
+								if (!showrow.Cre || Number.isNaN(scr) || scr <= 0) {
+								showrow.eGFR = "";
+								} else {
 
-							const isFemale = (gend === "女");
+								const isFemale = (gend === "女");
 
-							const K = isFemale ? 0.7 : 0.9;
-							const alpha = isFemale ? -0.241 : -0.302;
+								const K = isFemale ? 0.7 : 0.9;
+								const alpha = isFemale ? -0.241 : -0.302;
 
-							const ratio = scr / K;
+								const ratio = scr / K;
 
-							const minPart = Math.pow(Math.min(ratio, 1), alpha);
-							const maxPart = Math.pow(Math.max(ratio, 1), -1.200);
+								const minPart = Math.pow(Math.min(ratio, 1), alpha);
+								const maxPart = Math.pow(Math.max(ratio, 1), -1.200);
 
-							let egfr = 142 * minPart * maxPart * Math.pow(0.9938, age);
+								let egfr = 142 * minPart * maxPart * Math.pow(0.9938, age);
 
-							if (isFemale) {
-								egfr = egfr * 1.012;
+								if (isFemale) {
+									egfr = egfr * 1.012;
+								}
+
+								showrow.eGFR = Math.round(egfr * 100) / 100;
+								}
 							}
-
-							showrow.eGFR = Math.round(egfr * 10) / 10;
-							}
-						}
 						}
 						if (Number.isNaN(showrow.eGFR)){
 							showrow.eGFR="";
