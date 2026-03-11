@@ -1927,7 +1927,8 @@ function createchest(){
 		if (cc.includes(d1)){
 			var ppp = document.querySelector('body > div.fade.modal.show > div > div');
 			if (ppp!==null){
-				if (ppp.children[0].textContent=='新增預防保健資料' && ppp.textContent.includes('成人預防保健')){
+				if (ppp!==null && document.getElementsByName('visitTypeId')[1].value==6){   	// 成健
+					//mapping
 					let m_gen=document.getElementsByClassName('consultationMainPage__value')[10];
 					let m_bir=document.getElementsByClassName('consultationMainPage__value')[6];
 					let m_vd=document.getElementsByClassName('consultationMainPage__value')[27];
@@ -2134,6 +2135,7 @@ function createchest(){
 					L_CREs=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(13) > input[type=number]")
 					L_CRE=L_CREs.value;
 					L_GFR=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(14) > input[type=number]").value;
+		
 					function reactInput(element, value) {
 						element.focus();
 						const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
@@ -2343,31 +2345,7 @@ function createchest(){
 					m_S_riskassay.click();
 					document.querySelector("#uncontrolled-tab-example-tab-tab4").click();
 					addprintbutton();
-				} else if (ppp.children[0].textContent=='新增預防保健資料' && ppp.textContent.includes('兒童預防保健')){
-					document.querySelector("#uncontrolled-tab-example-tab-tab3").click();
-					let extab=document.querySelector("#uncontrolled-tab-example-tabpane-tab3");
-					for (let i=0;i<extab.children.length;i++){
-						let item=extab.children[i];
-						if (item.textContent.includes('家長紀錄事項')){
-							let keyitem=extab.children[i+1];
-							for (let j=0;j<keyitem.children.length;j++){
-								let line=keyitem.children[j];
-								if (line.textContent.includes('黑眼球部分')){
-									if (!line.querySelectorAll('input')[1].checked){
-										line.querySelectorAll('input')[1].click();
-									}
-								} else {
-									if (!line.querySelectorAll('input')[0].checked){
-										line.querySelectorAll('input')[0].click();
-									}
-								}
-							}
-							break;
-						}
-					}
-				} else {
-					alert('非預防保健');
-				}
+				} 
 			} else {
 				document.getElementById('ConsultationMainPage_consultationDropDown').click();
 				document.getElementsByClassName('alignRight')[0].click();
