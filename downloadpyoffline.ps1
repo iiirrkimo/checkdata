@@ -4,9 +4,9 @@ do {
 	$choice = Read-Host "是否開始下載離線版? (Y/N)"
 	if ($choice -eq "Y" -or $choice -eq "y") {
 		$webClient = New-Object System.Net.WebClient
-		$onedriveUrl1 = "https://1drv.ms/p/c/8614c09cca60d67b/IQB71mDKnMAUIICGwgUAAAAAAQ-oERyL2MJ_PfkauR0RG_k?e=UwwWI8&download=1"
-		$onedriveUrl2 = "https://1drv.ms/u/c/8614c09cca60d67b/IQB71mDKnMAUIICGwQUAAAAAARgwzEoTimKP7CVKjRYuC5w?e=uxa2MQ&download=1"
-		$onedriveUrl3 = "https://1drv.ms/u/c/8614c09cca60d67b/IQB71mDKnMAUIICGvAUAAAAAAdFtF4IEtwS2Nu2yXiWMQcI?e=VRFSzS&download=1"
+		$onedriveUrl1 = "https://nextcloud.fbbhome.com/s/2poQMi6ExwxWxBF/download"
+		$onedriveUrl2 = "https://nextcloud.fbbhome.com/s/4etfj95KB9zHsr4/download"
+		$onedriveUrl3 = "https://nextcloud.fbbhome.com/s/StA9tE69Z8zEmmt/download"
 		$downloadPath1 = "C:\pyoffline\PHPCIIS離線版說明.pptx"
 		$downloadPath2 = "C:\pyoffline\py_offline_autoupdate.zip"
 		$downloadPath3 = "C:\pyoffline\PY_Offline.zip"
@@ -116,3 +116,4 @@ do {
 Write-Host "即將關閉"
 
 Pause
+
