@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150310';
+chestversion='1150311';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -2131,7 +2131,24 @@ function createchest(){
 					L_LDL=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(9) > input[type=number]").value;
 					L_GOT=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(11) > input[type=number]").value;
 					L_GPT=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(12) > input[type=number]").value;
-					L_CRE=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(13) > input[type=number]").value;
+					L_CREs=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(13) > input[type=number]")
+					L_CRE=L_CREs.value;
+					L_GFR=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(14) > input[type=number]").value;
+					function reactInput(element, value) {
+						element.focus();
+						const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+						  Object.getPrototypeOf(element), 'value'
+						).set;
+						nativeInputValueSetter.call(element, value);
+				  
+						const event = new Event('input', { bubbles: true });
+						element.dispatchEvent(event);
+					  }
+		
+					if (L_GFR*1==0){
+						reactInput(L_CREs, 0);
+						reactInput(L_CREs, L_CRE);
+					}
 					L_GFR=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(14) > input[type=number]").value;
 					L_UA=document.querySelector("#uricAcid").value;
 					L_BN=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(16) > input[type=checkbox]:nth-child(2)").checked;
@@ -2322,24 +2339,7 @@ function createchest(){
 					} else {
 						CKD_stage="5";
 					}
-					let ckdspan=m_S_CKD_span;
-					ckdspan.className='blink';
-					ckdspan.style.background='red';
-					ckdspan.style.color='yellow';
-					ckdspan.textContent='請填入期數 '+CKD_stage
-					let ckdspant=document.getElementById('ckdspant');
-					if (ckdspant==null){
-						ckdspant=document.createElement('span');
-						ckdspant.id='ckdspant';
-						let ti=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(4)");
-						ti.appendChild(ckdspant);
-					}
 					
-					ckdspant.className='blink';
-					ckdspant.style.background='red';
-					ckdspant.style.color='yellow';
-					ckdspant.textContent='　CKD期數請填入 '+CKD_stage+" 　";
-
 					m_S_riskassay.click();
 					document.querySelector("#uncontrolled-tab-example-tab-tab4").click();
 					addprintbutton();
