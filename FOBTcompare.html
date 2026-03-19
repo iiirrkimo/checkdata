@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>檢體回收篩檢名冊比對工具</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Microsoft JhengHei", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #f6f7fb;
+      color: #222;
+    }
+
+    .wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      margin-bottom: 18px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d0d6e0;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .note {
+      line-height: 1.8;
+      color: #4b5563;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #eef4ff;
+      color: #1e40af;
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+
+    .preview {
+      overflow: auto;
+      max-height: 520px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #f3f4f6;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .muted {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>檢體回收篩檢名冊比對工具</h1>
+
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label for="fileA">上傳篩檢名冊</label>
+          <input type="file" id="fileA" accept=".xlsx,.xls" />
+          <div class="muted">Excel標題至少需有「id」及「地段歸屬」。</div>
+        </div>
+
+        <div class="field">
+          <label for="fileB">上傳檢體回收報表</label>
+          <input type="file" id="fileB" accept=".xlsx,.xls" />
+          <div class="muted">檔名開頭為Report(sieve)，內容不需修改。</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="processBtn">開始處理</button>
+        <button class="secondary" id="downloadBtn" disabled>下載結果 Excel</button>
+      </div>
+
+      <div id="status" class="status">請先選擇 篩檢名冊、檢體回收報表 兩個 Excel 檔案。</div>
+    </div>
+
+    <div class="card">
+      <div class="note">
+        處理規則：<br>
+        1. 讀取 篩檢名冊 中欄位名稱為 id 與 地段歸屬 的資料，作為對照。<br>
+        2. 修改 檢體回收報表 標題：A2 = 地段歸屬、B2 = 是否回收。<br>
+        3. 以 檢體回收報表 C 欄（身分證字號）比對 篩檢名冊。找到則填入對應地段歸屬，否則填入未分配。<br>
+        4. 以 檢體回收報表 K 欄（回收日期）判斷是否有值，有值填入已繳管，否則填入未繳管。<br>
+      </div>
+
+      <div class="preview" id="preview"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <script>
+    const fileAInput = document.getElementById('fileA');
+    const big5Decoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('big5', { fatal: false }) : null;
+    const fileBInput = document.getElementById('fileB');
+    const processBtn = document.getElementById('processBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const statusBox = document.getElementById('status');
+    const previewBox = document.getElementById('preview');
+
+    let resultWorkbook = null;
+    let resultFilename = '處理結果.xlsx';
+
+    function setStatus(message, isError) {
+      statusBox.textContent = message;
+      statusBox.style.background = isError ? '#fef2f2' : '#eef4ff';
+      statusBox.style.color = isError ? '#b91c1c' : '#1e40af';
+    }
+
+    function isEmptyValue(value) {
+      if (value === undefined || value === null) {
+        return true;
+      }
+
+      if (typeof value === 'string' && value.trim() === '') {
+        return true;
+      }
+
+      return false;
+    }
+
+    function normalizeKey(value) {
+      if (value === undefined || value === null) {
+        return '';
+      }
+
+      return String(value).trim().toUpperCase();
+    }
+
+    function readFileAsArrayBuffer(file) {
+      return new Promise(function(resolve, reject) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          resolve(e.target.result);
+        };
+
+        reader.onerror = function() {
+          reject(new Error('檔案讀取失敗：' + file.name));
+        };
+
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    function getFileExtension(fileName) {
+      const match = fileName.toLowerCase().match(/\.([^.]+)$/);
+      if (!match) {
+        return '';
+      }
+
+      return match[1];
+    }
+
+    function looksLikeBig5Mojibake(text) {
+      if (typeof text !== 'string') {
+        return false;
+      }
+
+      if (text.trim() === '') {
+        return false;
+      }
+
+      return /[À-ÿ¦¨¬°³øªí]/.test(text);
+    }
+
+    function tryFixBig5Mojibake(text) {
+      if (!big5Decoder) {
+        return text;
+      }
+
+      if (typeof text !== 'string') {
+        return text;
+      }
+
+      if (!looksLikeBig5Mojibake(text)) {
+        return text;
+      }
+
+      try {
+        const bytes = new Uint8Array(text.length);
+
+        for (let i = 0; i < text.length; i++) {
+          const code = text.charCodeAt(i);
+
+          if (code > 255) {
+            return text;
+          }
+
+          bytes[i] = code;
+        }
+
+        const decoded = big5Decoder.decode(bytes).trim();
+
+        if (decoded !== '') {
+          return decoded;
+        }
+
+        return text;
+      } catch (error) {
+        return text;
+      }
+    }
+
+    function normalizeCellValue(value) {
+      if (value === undefined || value === null) {
+        return '';
+      }
+
+      if (typeof value === 'string') {
+        return tryFixBig5Mojibake(value).trim();
+      }
+
+      return value;
+    }
+
+    function repairRowsEncoding(rows) {
+      const repairedRows = [];
+
+      for (let r = 0; r < rows.length; r++) {
+        const sourceRow = rows[r] || [];
+        const newRow = [];
+
+        for (let c = 0; c < sourceRow.length; c++) {
+          newRow[c] = normalizeCellValue(sourceRow[c]);
+        }
+
+        repairedRows.push(newRow);
+      }
+
+      return repairedRows;
+    }
+
+    function readWorkbookFromBuffer(file, buffer) {
+      const extension = getFileExtension(file.name);
+
+      if (extension === 'xls') {
+        try {
+          return XLSX.read(buffer, {
+            type: 'array',
+            codepage: 950,
+            cellText: true,
+            cellDates: true
+          });
+        } catch (error) {
+          return XLSX.read(buffer, {
+            type: 'array',
+            cellText: true,
+            cellDates: true
+          });
+        }
+      }
+
+      return XLSX.read(buffer, {
+        type: 'array',
+        cellText: true,
+        cellDates: true
+      });
+    }
+
+    function getFirstSheet(workbook) {
+      const firstSheetName = workbook.SheetNames[0];
+      return workbook.Sheets[firstSheetName];
+    }
+
+    function findHeaderIndex(headerRow, targetName) {
+      if (!headerRow || !Array.isArray(headerRow)) {
+        return -1;
+      }
+
+      const normalizedTarget = String(targetName).trim().toLowerCase();
+
+      for (let i = 0; i < headerRow.length; i++) {
+        const headerText = headerRow[i] === undefined || headerRow[i] === null
+          ? ''
+          : String(headerRow[i]).trim().toLowerCase();
+
+        if (headerText === normalizedTarget) {
+          return i;
+        }
+      }
+
+      return -1;
+    }
+
+    function renderPreview(rows) {
+      if (!rows || rows.length === 0) {
+        previewBox.innerHTML = '<div style="padding:16px;">沒有可預覽的資料</div>';
+        return;
+      }
+
+      const limitedRows = rows.slice(0, 30);
+      let html = '<table>';
+
+      for (let r = 0; r < limitedRows.length; r++) {
+        html += '<tr>';
+
+        for (let c = 0; c < limitedRows[r].length; c++) {
+          const cellValue = limitedRows[r][c] === undefined ? '' : String(limitedRows[r][c]);
+
+          if (r === 1) {
+            html += '<th>' + escapeHtml(cellValue) + '</th>';
+          } else {
+            html += '<td>' + escapeHtml(cellValue) + '</td>';
+          }
+        }
+
+        html += '</tr>';
+      }
+
+      html += '</table>';
+      previewBox.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    async function processFiles() {
+      try {
+        const fileA = fileAInput.files[0];
+        const fileB = fileBInput.files[0];
+
+        if (!fileA || !fileB) {
+          setStatus('請先選擇 篩檢名冊、檢體回收報表 兩個 Excel 檔案。', true);
+          return;
+        }
+
+        setStatus('正在讀取 Excel 檔案...');
+        downloadBtn.disabled = true;
+        resultWorkbook = null;
+
+        const [bufferA, bufferB] = await Promise.all([
+          readFileAsArrayBuffer(fileA),
+          readFileAsArrayBuffer(fileB)
+        ]);
+
+        const workbookA = readWorkbookFromBuffer(fileA, bufferA);
+        const workbookB = readWorkbookFromBuffer(fileB, bufferB);
+
+        const sheetA = getFirstSheet(workbookA);
+        const sheetB = getFirstSheet(workbookB);
+
+        let rowsA = XLSX.utils.sheet_to_json(sheetA, {
+          header: 1,
+          raw: false,
+          defval: ''
+        });
+
+        let rowsB = XLSX.utils.sheet_to_json(sheetB, {
+          header: 1,
+          raw: false,
+          defval: ''
+        });
+
+        rowsA = repairRowsEncoding(rowsA);
+        rowsB = repairRowsEncoding(rowsB);
+
+        if (rowsA.length === 0) {
+          throw new Error('篩檢名冊 沒有資料。');
+        }
+
+        if (rowsB.length < 2) {
+          throw new Error('檢體回收報表 格式不正確，至少需要第 1 列標題與第 2 列欄位名稱。');
+        }
+
+        const mapA = new Map();
+        let matchedCount = 0;
+        let unmatchedCount = 0;
+        let recoveredCount = 0;
+        let unrecoveredCount = 0;
+
+        const headerRowA = rowsA[0] || [];
+        const idIndexA = findHeaderIndex(headerRowA, 'id');
+        const areaIndexA = findHeaderIndex(headerRowA, '地段歸屬');
+
+        if (idIndexA === -1) {
+          throw new Error('篩檢名冊 找不到欄位名稱「id」。');
+        }
+
+        if (areaIndexA === -1) {
+          throw new Error('篩檢名冊 找不到欄位名稱「地段歸屬」。');
+        }
+
+        for (let i = 1; i < rowsA.length; i++) {
+          const row = rowsA[i] || [];
+          const key = normalizeKey(row[idIndexA]);
+          const value = row[areaIndexA] !== undefined && row[areaIndexA] !== null
+            ? String(row[areaIndexA]).trim()
+            : '';
+
+          if (key !== '') {
+            mapA.set(key, value);
+          }
+        }
+
+        if (!rowsB[1]) {
+          rowsB[1] = [];
+        }
+
+        rowsB[1][0] = '地段歸屬';
+        rowsB[1][1] = '是否回收';
+
+        for (let i = 2; i < rowsB.length; i++) {
+          if (!rowsB[i]) {
+            rowsB[i] = [];
+          }
+
+          rowsB[i][0] = '';
+          rowsB[i][1] = '';
+        }
+
+        for (let i = 2; i < rowsB.length; i++) {
+          const row = rowsB[i] || [];
+          const idNo = normalizeKey(row[2]);
+          const recycleDate = row[10];
+
+          if (idNo !== '' && mapA.has(idNo)) {
+            row[0] = mapA.get(idNo) || '';
+            matchedCount += 1;
+          } else {
+            row[0] = '未分配';
+            unmatchedCount += 1;
+          }
+
+          if (isEmptyValue(recycleDate)) {
+            row[1] = '未繳管';
+            unrecoveredCount += 1;
+          } else {
+            row[1] = '已繳管';
+            recoveredCount += 1;
+          }
+
+          rowsB[i] = row;
+        }
+
+        const newSheet = XLSX.utils.aoa_to_sheet(rowsB);
+        const newWorkbook = XLSX.utils.book_new();
+        const sheetName = workbookB.SheetNames[0] || 'Sheet1';
+        XLSX.utils.book_append_sheet(newWorkbook, newSheet, sheetName);
+
+        if (!newWorkbook.Workbook) {
+          newWorkbook.Workbook = {};
+        }
+
+        if (!newWorkbook.Props) {
+          newWorkbook.Props = {};
+        }
+
+        newWorkbook.Props.Title = '檢體回收報表處理結果';
+        newWorkbook.Props.Subject = 'Excel 比對結果';
+
+        resultWorkbook = newWorkbook;
+        resultFilename = fileB.name.replace(/\.(xlsx|xls)$/i, '') + '_處理結果.xlsx';
+        downloadBtn.disabled = false;
+
+        renderPreview(rowsB);
+
+        setStatus(
+          '處理完成。\n' +
+          '篩檢名冊筆數：' + mapA.size + '\n' +
+          '比對成功：' + matchedCount + ' 筆\n' +
+          '未分配：' + unmatchedCount + ' 筆\n' +
+          '已繳管：' + recoveredCount + ' 筆\n' +
+          '未繳管：' + unrecoveredCount + ' 筆'
+        );
+      } catch (error) {
+        console.error(error);
+        setStatus('處理失敗：' + error.message, true);
+      }
+    }
+
+    function downloadResult() {
+      if (!resultWorkbook) {
+        setStatus('目前沒有可下載的結果。', true);
+        return;
+      }
+
+      const workbookBinary = XLSX.write(resultWorkbook, {
+        bookType: 'xlsx',
+        type: 'array',
+        compression: true
+      });
+
+      const blob = new Blob([
+        workbookBinary
+      ], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = resultFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(function() {
+        URL.revokeObjectURL(url);
+      }, 1000);
+    }
+
+    processBtn.addEventListener('click', function() {
+      processFiles();
+    });
+
+    downloadBtn.addEventListener('click', function() {
+      downloadResult();
+    });
+  </script>
+</body>
+</html>
