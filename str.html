@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON 特定欄位編輯器</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft JhengHei", sans-serif;
+      background: #f5f7fb;
+      color: #1e293b;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .panel {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .top-toolbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 2000;
+      background: #f5f7fb;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+
+    .top-toolbar {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      padding: 14px 18px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+    }
+
+    button:hover {
+      opacity: 0.92;
+    }
+
+    button.secondary {
+      background: #475569;
+    }
+
+    button.success {
+      background: #059669;
+    }
+
+    button.warn {
+      background: #dc2626;
+    }
+
+    button.small {
+      padding: 7px 12px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
+      font-family: Consolas, Monaco, monospace;
+      line-height: 1.5;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      min-height: 22px;
+    }
+
+    .status.error {
+      color: #dc2626;
+    }
+
+    .status.ok {
+      color: #059669;
+    }
+
+    .editor-area,
+    .output-box {
+      display: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .field label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #334155;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .list-block {
+      border: 1px solid #dbe3ef;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+      background: #fafcff;
+    }
+
+    .list-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .item-card {
+      border: 1px solid #dbe3ef;
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .item-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #1e3a8a;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .relic-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .grid,
+      .card-grid,
+      .relic-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>JSON 特定欄位編輯器</h1>
+
+    <div class="top-toolbar-wrap">
+      <div class="top-toolbar">
+        <div class="toolbar">
+          <button id="parseBtn">讀取 JSON</button>
+          <button id="formatBtn" class="secondary">格式化輸入</button>
+          <button id="exportBtn" class="success">匯出 JSON 純文字</button>
+          <button id="downloadBtn" class="secondary">下載 txt</button>
+          <button id="clearBtn" class="warn">清空</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <label for="jsonInput">貼上 JSON 文字：</label>
+      <textarea id="jsonInput" placeholder="請貼上 JSON"></textarea>
+      <div id="status" class="status"></div>
+      <div class="hint">
+        這版只編輯指定欄位：current_health、max_health、max_orbs、gold、hand_size、cards、relics / relic_counters。<br>
+        其他欄位會保留原樣，不會消失。
+      </div>
+    </div>
+
+    <div class="panel editor-area" id="editorArea">
+      <h2>指定欄位編輯區</h2>
+
+      <div class="grid">
+        <div class="field">
+          <label for="current_health">current_health</label>
+          <input id="current_health" type="number" />
+        </div>
+        <div class="field">
+          <label for="max_health">max_health</label>
+          <input id="max_health" type="number" />
+        </div>
+        <div class="field">
+          <label for="max_orbs">max_orbs</label>
+          <input id="max_orbs" type="number" />
+        </div>
+        <div class="field">
+          <label for="gold">gold</label>
+          <input id="gold" type="number" />
+        </div>
+        <div class="field">
+          <label for="hand_size">hand_size</label>
+          <input id="hand_size" type="number" />
+        </div>
+      </div>
+
+      <div class="list-block">
+        <div class="list-head">
+          <h2 style="margin:0;font-size:20px;">cards</h2>
+          <button id="addCardBtn" class="small success">新增 card</button>
+        </div>
+        <div id="cardsContainer"></div>
+      </div>
+
+      <div class="list-block">
+        <div class="list-head">
+          <h2 style="margin:0;font-size:20px;">relics / relic_counters</h2>
+          <button id="addRelicBtn" class="small success">新增 relic</button>
+        </div>
+        <div id="relicsContainer"></div>
+        <div class="hint">relic_counters 會依照 relics 的 index 同步。新增時預設為 -1。</div>
+      </div>
+    </div>
+
+    <div class="panel output-box" id="outputBox">
+      <div class="list-head">
+        <h2 style="margin:0;">匯出結果</h2>
+        <button id="copyBtn" class="small secondary">複製</button>
+      </div>
+      <textarea id="jsonOutput" readonly></textarea>
+    </div>
+  </div>
+
+  <script>
+    let currentData = null;
+
+    const CARD_REFERENCE = {
+      "Body Slam": { "NAME": "泰山壓頂", "DESCRIPTION": "造成你當前 格擋 值的傷害" },
+      "Entrench": { "NAME": "鞏固", "DESCRIPTION": "將當前的 格擋 變為2倍" },
+      "Impervious": { "NAME": "巋然不動", "DESCRIPTION": "獲得格擋 消耗" },
+      "Offering": { "NAME": "祭品", "DESCRIPTION": "失去6點生命 獲得能量 抽牌 消耗 " },
+      "Second Wind": { "NAME": "重振精神", "DESCRIPTION": "消耗手牌，獲得格擋 " },
+      "Shrug It Off": { "NAME": "聳肩無視", "DESCRIPTION": "獲得格擋，抽1張牌" },
+      "Adrenaline": { "NAME": "腎上腺素", "DESCRIPTION": "獲得能量 抽2張牌 消耗 " },
+      "Corpse Explosion": { "NAME": "屍爆術", "DESCRIPTION": "給予中毒 當該名敵人死亡時，對所有敵人造成等於其最大生命值的傷害" },
+      "Catalyst": { "NAME": "催化劑", "DESCRIPTION": "中毒 層數變為2倍 消耗 " },
+      "Deadly Poison": { "NAME": "致命毒藥", "DESCRIPTION": "給予中毒 " },
+      "Core Surge": { "NAME": "核心衝擊", "DESCRIPTION": "人工製品" },
+      "Double Energy": { "NAME": "雙倍能量", "DESCRIPTION": "雙倍能量" },
+      "Glacier": { "NAME": "冰川", "DESCRIPTION": "格檔 冰霜球" },
+      "Reboot": { "NAME": "重啟", "DESCRIPTION": "抽6" },
+      "Biased Cognition": { "NAME": "偏差認知", "DESCRIPTION": "集中5" },
+      "Electrodynamics": { "NAME": "電動力學", "DESCRIPTION": "閃電2" },
+      "Consume": { "NAME": "耗盡", "DESCRIPTION": "集中+3球-1" },
+      "Chaos": { "NAME": "渾沌", "DESCRIPTION": "隨機產球" }
+    };
+
+    const RELIC_REFERENCE = {
+      "Anchor": { "NAME": "錨" },
+      "Calipers": { "NAME": "外卡鉗" },
+      "Unceasing Top": { "NAME": "不休陀螺" },
+      "Art of War": { "NAME": "孫子兵法" },
+      "Astrolabe": { "NAME": "星盤" },
+      "Bag of Marbles": { "NAME": "彈珠袋" },
+      "Bag of Preparation": { "NAME": "準備背包" },
+      "Bird Faced Urn": { "NAME": "鳥面甕" },
+      "Black Blood": { "NAME": "黑暗之血" },
+      "Black Star": { "NAME": "黑星" },
+      "Blood Vial": { "NAME": "小血瓶" },
+      "Bloody Idol": { "NAME": "鮮血神像" },
+      "Blue Candle": { "NAME": "藍蠟燭" },
+      "Bottled Flame": { "NAME": "瓶裝火焰" },
+      "Bottled Lightning": { "NAME": "瓶裝閃電" },
+      "Bottled Tornado": { "NAME": "瓶裝旋風" },
+      "Bronze Scales": { "NAME": "銅製鱗片" },
+      "Burning Blood": { "NAME": "燃燒之血" },
+      "Calling Bell": { "NAME": "召喚鈴鐺" },
+      "Cauldron": { "NAME": "大鍋" },
+      "Centennial Puzzle": { "NAME": "百年積木" },
+      "Chameleon Ring": { "NAME": "變色龍戒指" },
+      "Champion Belt": { "NAME": "冠軍腰帶" },
+      "Charon's Ashes": { "NAME": "凱倫之灰" },
+      "Chemical X": { "NAME": "化學物X" },
+      "Circlet": { "NAME": "頭環" },
+      "The Courier": { "NAME": "送貨員" },
+      "Cursed Key": { "NAME": "詛咒鑰匙" },
+      "Dead Branch": { "NAME": "枯木樹枝" },
+      "Discerning Monocle": { "NAME": "鑑識單片眼鏡" },
+      "Dodecahedron": { "NAME": "DEPRECATED符文十二面體" },
+      "Dream Catcher": { "NAME": "捕夢網" },
+      "Du-Vu Doll": { "NAME": "毒巫娃娃" },
+      "Ectoplasm": { "NAME": "靈體外質" },
+      "Frozen Egg 2": { "NAME": "凍結之蛋" },
+      "Molten Egg 2": { "NAME": "熔火之蛋" },
+      "Toxic Egg 2": { "NAME": "毒素之蛋" },
+      "Enchiridion": { "NAME": "英雄寶典" },
+      "Eternal Feather": { "NAME": "永恆羽毛" },
+      "Frozen Egg": { "NAME": "凍結之蛋" },
+      "Gambling Chip": { "NAME": "賭博籌碼" },
+      "Ginger": { "NAME": "生薑" },
+      "Girya": { "NAME": "壺鈴" },
+      "Golden Idol": { "NAME": "金神像" },
+      "Gremlin Horn": { "NAME": "地精之角" },
+      "Happy Flower": { "NAME": "開心小花" },
+      "Ice Cream": { "NAME": "冰淇淋" },
+      "Juzu Bracelet": { "NAME": "佛珠手鏈" },
+      "Kunai": { "NAME": "苦無" },
+      "Lantern": { "NAME": "燈籠" },
+      "Letter Opener": { "NAME": "開信刀" },
+      "Living Blade": { "NAME": "活刀刃" },
+      "Lizard Tail": { "NAME": "蜥蜴尾巴" },
+      "Magic Flower": { "NAME": "魔法花" },
+      "Mango": { "NAME": "芒果" },
+      "Mark of Pain": { "NAME": "痛楚印記" },
+      "Matryoshka": { "NAME": "套娃" },
+      "Meat on the Bone": { "NAME": "帶骨大肉" },
+      "Medical Kit": { "NAME": "醫藥箱" },
+      "Membership Card": { "NAME": "會員卡" },
+      "Mercury Hourglass": { "NAME": "水銀沙漏" },
+      "Molten Egg": { "NAME": "熔火之蛋" },
+      "Mummified Hand": { "NAME": "乾癟之手" },
+      "Necronomicon": { "NAME": "死靈之書" },
+      "Nilry's Codex": { "NAME": "尼利的寶典" },
+      "Nine Lives": { "NAME": "九命" },
+      "Ninja Scroll": { "NAME": "忍術卷軸" },
+      "Nloth's Gift": { "NAME": "恩洛斯的禮物" },
+      "Nullstone Periapt": { "NAME": "Nullstone Periapt" },
+      "Oddly Smooth Stone": { "NAME": "意外光滑的石頭" },
+      "Odd Mushroom": { "NAME": "奇怪蘑菇" },
+      "Old Coin": { "NAME": "古錢幣" },
+      "Omamori": { "NAME": "御守" },
+      "Orichalcum": { "NAME": "奧利哈鋼" },
+      "Ornamental Fan": { "NAME": "精緻摺扇" },
+      "Orrery": { "NAME": "星系儀" },
+      "Pandora's Box": { "NAME": "潘朵拉的魔盒" },
+      "Pantograph": { "NAME": "縮放儀" },
+      "Paper Crane": { "NAME": "紙鶴" },
+      "Paper Frog": { "NAME": "紙蛙" },
+      "Peace Pipe": { "NAME": "寧靜煙斗" },
+      "Pear": { "NAME": "梨子" },
+      "Pen Nib": { "NAME": "鋼筆尖" },
+      "Philosopher's Stone": { "NAME": "賢者之石" },
+      "Prayer Wheel": { "NAME": "轉經輪" },
+      "Question Card": { "NAME": "問號牌" },
+      "Red Circlet": { "NAME": "紅頭環" },
+      "Red Mask": { "NAME": "紅面具" },
+      "Red Skull": { "NAME": "紅頭骨" },
+      "Regal Pillow": { "NAME": "皇家枕頭" },
+      "Ring of the Serpent": { "NAME": "長蛇戒指" },
+      "Runic Cube": { "NAME": "符文立方體" },
+      "Runic Dome": { "NAME": "符文圓頂" },
+      "Runic Pyramid": { "NAME": "符文金字塔" },
+      "Self Forming Clay": { "NAME": "自成型黏土" },
+      "Shovel": { "NAME": "鏟子" },
+      "Shuriken": { "NAME": "手裏劍" },
+      "Singing Bowl": { "NAME": "頌缽" },
+      "Smiling Mask": { "NAME": "微笑面具" },
+      "Ring of the Snake": { "NAME": "蛇之戒指" },
+      "Snecko Eye": { "NAME": "異蛇之眼" },
+      "Snake Skull": { "NAME": "異蛇頭骨" },
+      "Sozu": { "NAME": "添水" },
+      "Spirit Poop": { "NAME": "精靈便便" },
+      "Strange Spoon": { "NAME": "奇怪的勺子" },
+      "Strawberry": { "NAME": "草莓" },
+      "Sundial": { "NAME": "日晷" },
+      "Ancient Tea Set": { "NAME": "古茶具套裝" },
+      "War Paint": { "NAME": "戰紋塗料" },
+      "Darkstone Periapt": { "NAME": "黑石護符" },
+      "Test 1": { "NAME": "測試遺物 1" },
+      "Frozen Eye": { "NAME": "凍結之眼" },
+      "Test 2": { "NAME": "測試遺物 2" },
+      "Test 3": { "NAME": "測試遺物 3" },
+      "Test 4": { "NAME": "測試遺物 4" },
+      "Test 5": { "NAME": "測試遺物 5" },
+      "Test 6": { "NAME": "測試遺物 6" },
+      "Test 7": { "NAME": "測試遺物 7" },
+      "Test 8": { "NAME": "測試遺物 8" },
+      "The Specimen": { "NAME": "生物樣本" },
+      "Thread and Needle": { "NAME": "針線" },
+      "Tingsha": { "NAME": "銅鈸" },
+      "Tiny Chest": { "NAME": "小寶箱" },
+      "Tiny House": { "NAME": "小屋子" },
+      "Toolbox": { "NAME": "工具箱" },
+      "Torii": { "NAME": "鳥居" },
+      "Tough Bandages": { "NAME": "結實繃帶" },
+      "Toxic Egg": { "NAME": "毒素之蛋" },
+      "Toy Ornithopter": { "NAME": "玩具撲翼飛機" },
+      "Vajra": { "NAME": "金剛杵" },
+      "Velvet Choker": { "NAME": "天鵝絨頸圈" },
+      "Lee's Waffle": { "NAME": "李家華夫餅" },
+      "Whetstone": { "NAME": "磨刀石" },
+      "Derp Rock": { "NAME": "Derp Rock" },
+      "NeowsBlessing": { "NAME": "涅奧的悲慟" },
+      "White Beast Statue": { "NAME": "白獸雕像" }
+    };
+
+    const CARD_KEYS = Object.keys(CARD_REFERENCE).sort();
+    const RELIC_KEYS = Object.keys(RELIC_REFERENCE).sort();
+
+    const jsonInput = document.getElementById('jsonInput');
+    const parseBtn = document.getElementById('parseBtn');
+    const formatBtn = document.getElementById('formatBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const status = document.getElementById('status');
+    const editorArea = document.getElementById('editorArea');
+    const outputBox = document.getElementById('outputBox');
+    const jsonOutput = document.getElementById('jsonOutput');
+    const copyBtn = document.getElementById('copyBtn');
+    const cardsContainer = document.getElementById('cardsContainer');
+    const relicsContainer = document.getElementById('relicsContainer');
+    const addCardBtn = document.getElementById('addCardBtn');
+    const addRelicBtn = document.getElementById('addRelicBtn');
+
+    const simpleFields = ['current_health', 'max_health', 'max_orbs', 'gold', 'hand_size'];
+
+    function setStatus(message, type) {
+      status.textContent = message;
+      status.className = 'status';
+      if (type) {
+        status.classList.add(type);
+      }
+    }
+
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function safeNumber(value, fallback) {
+      if (value === '') {
+        return fallback;
+      }
+      const num = Number(value);
+      if (Number.isNaN(num)) {
+        return fallback;
+      }
+      return num;
+    }
+
+    function ensureEditableStructure(data) {
+      if (!Array.isArray(data.cards)) {
+        data.cards = [];
+      }
+
+      if (!Array.isArray(data.relics)) {
+        data.relics = [];
+      }
+
+      if (!Array.isArray(data.relic_counters)) {
+        data.relic_counters = [];
+      }
+
+      while (data.relic_counters.length < data.relics.length) {
+        data.relic_counters.push(-1);
+      }
+
+      if (data.relic_counters.length > data.relics.length) {
+        data.relic_counters = data.relic_counters.slice(0, data.relics.length);
+      }
+
+      for (let i = 0; i < simpleFields.length; i++) {
+        const key = simpleFields[i];
+        if (typeof data[key] !== 'number') {
+          data[key] = 0;
+        }
+      }
+    }
+
+    function bindSimpleFields() {
+      for (let i = 0; i < simpleFields.length; i++) {
+        const key = simpleFields[i];
+        const input = document.getElementById(key);
+        input.value = currentData[key];
+        input.oninput = function () {
+          currentData[key] = safeNumber(input.value, currentData[key]);
+        };
+      }
+    }
+
+    function createReferenceSelectField(labelText, value, onChange, options, refMap, typeName) {
+      const field = document.createElement('div');
+      field.className = 'field';
+
+      const label = document.createElement('label');
+      label.textContent = labelText;
+
+      const select = document.createElement('select');
+      select.style.width = '100%';
+      select.style.padding = '10px 12px';
+      select.style.border = '1px solid #cbd5e1';
+      select.style.borderRadius = '10px';
+      select.style.fontSize = '14px';
+
+      const usedOptions = options.slice();
+      if (value && usedOptions.indexOf(value) === -1) {
+        usedOptions.unshift(value);
+      }
+
+      const emptyOption = document.createElement('option');
+      emptyOption.value = '';
+      emptyOption.textContent = '請選擇';
+      select.appendChild(emptyOption);
+
+      for (let i = 0; i < usedOptions.length; i++) {
+        const key = usedOptions[i];
+        const option = document.createElement('option');
+        option.value = key;
+
+        if (refMap[key] && refMap[key].NAME) {
+          option.textContent = key + '｜' + refMap[key].NAME;
+        } else {
+          option.textContent = key + '｜(不在 ' + typeName + ' reference)';
+        }
+
+        select.appendChild(option);
+      }
+
+      select.value = value || '';
+      select.onchange = function () {
+        onChange(select.value);
+      };
+
+      const hint = document.createElement('div');
+      hint.className = 'hint';
+      hint.style.marginTop = '0';
+
+      if (typeName === 'cards') {
+        hint.textContent = getCardDisplay(value);
+      }
+      if (typeName === 'relics') {
+        hint.textContent = getRelicDisplay(value);
+      }
+
+      field.appendChild(label);
+      field.appendChild(select);
+      field.appendChild(hint);
+      return field;
+    }
+
+    function createInputField(labelText, type, value, onChange) {
+      const field = document.createElement('div');
+      field.className = 'field';
+
+      const label = document.createElement('label');
+      label.textContent = labelText;
+
+      const input = document.createElement('input');
+      input.type = type;
+      input.value = value;
+      input.oninput = function () {
+        onChange(input.value);
+      };
+
+      field.appendChild(label);
+      field.appendChild(input);
+      return field;
+    }
+
+    function createCheckboxField(labelText, checked, onChange) {
+      const field = document.createElement('div');
+      field.className = 'field';
+
+      const label = document.createElement('label');
+      label.textContent = labelText;
+
+      const wrap = document.createElement('label');
+      wrap.style.display = 'flex';
+      wrap.style.alignItems = 'center';
+      wrap.style.gap = '8px';
+      wrap.style.padding = '10px 12px';
+      wrap.style.border = '1px solid #cbd5e1';
+      wrap.style.borderRadius = '10px';
+      wrap.style.minHeight = '42px';
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = checked;
+      input.onchange = function () {
+        onChange(input.checked);
+        text.textContent = input.checked ? '已升級' : '未升級';
+      };
+
+      const text = document.createElement('span');
+      text.textContent = checked ? '已升級' : '未升級';
+
+      wrap.appendChild(input);
+      wrap.appendChild(text);
+
+      field.appendChild(label);
+      field.appendChild(wrap);
+      return field;
+    }
+
+    
+    function getCardDisplay(cardId) {
+      if (CARD_REFERENCE[cardId]) {
+        const name = CARD_REFERENCE[cardId].NAME || '';
+        const desc = CARD_REFERENCE[cardId].DESCRIPTION || '';
+        return name + (desc ? '｜' + desc : '');
+      }
+      return '未在 cards reference 中找到';
+    }
+
+    function getRelicDisplay(relicId) {
+      if (RELIC_REFERENCE[relicId]) {
+        return RELIC_REFERENCE[relicId].NAME || relicId;
+      }
+      return '未在 relics reference 中找到';
+    }
+
+    function renderCards() {
+      cardsContainer.innerHTML = '';
+
+      for (let i = 0; i < currentData.cards.length; i++) {
+        const card = currentData.cards[i];
+
+        if (typeof card !== 'object' || card === null) {
+          currentData.cards[i] = { id: '', upgrades: 0, misc: 0 };
+        }
+
+        if (typeof currentData.cards[i].id !== 'string') {
+          currentData.cards[i].id = '';
+        }
+        if (typeof currentData.cards[i].upgrades !== 'number') {
+          currentData.cards[i].upgrades = 0;
+        }
+        if (currentData.cards[i].upgrades !== 0 && currentData.cards[i].upgrades !== 1) {
+          currentData.cards[i].upgrades = currentData.cards[i].upgrades > 0 ? 1 : 0;
+        }
+        if (typeof currentData.cards[i].misc !== 'number') {
+          currentData.cards[i].misc = 0;
+        }
+
+        const item = document.createElement('div');
+        item.className = 'item-card';
+
+        const title = document.createElement('div');
+        title.className = 'item-title';
+        title.textContent = 'Card #' + (i + 1);
+        item.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'card-grid';
+
+        const idField = createReferenceSelectField('id', currentData.cards[i].id, function (value) {
+          currentData.cards[i].id = value;
+          renderCards();
+        }, CARD_KEYS, CARD_REFERENCE, 'cards');
+
+        const upgradesField = createCheckboxField('upgrades', currentData.cards[i].upgrades === 1, function (checked) {
+          currentData.cards[i].upgrades = checked ? 1 : 0;
+        });
+
+        const miscField = createInputField('misc', 'number', currentData.cards[i].misc, function (value) {
+          currentData.cards[i].misc = safeNumber(value, currentData.cards[i].misc);
+        });
+
+        const removeWrap = document.createElement('div');
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'small warn';
+        removeBtn.textContent = '移除';
+        removeBtn.onclick = function () {
+          currentData.cards.splice(i, 1);
+          renderCards();
+        };
+        removeWrap.appendChild(removeBtn);
+
+        grid.appendChild(idField);
+        grid.appendChild(upgradesField);
+        grid.appendChild(miscField);
+        grid.appendChild(removeWrap);
+        item.appendChild(grid);
+        cardsContainer.appendChild(item);
+      }
+    }
+
+    function renderRelics() {
+      relicsContainer.innerHTML = '';
+
+      while (currentData.relic_counters.length < currentData.relics.length) {
+        currentData.relic_counters.push(-1);
+      }
+      if (currentData.relic_counters.length > currentData.relics.length) {
+        currentData.relic_counters = currentData.relic_counters.slice(0, currentData.relics.length);
+      }
+
+      for (let i = 0; i < currentData.relics.length; i++) {
+        if (typeof currentData.relics[i] !== 'string') {
+          currentData.relics[i] = '';
+        }
+        if (typeof currentData.relic_counters[i] !== 'number') {
+          currentData.relic_counters[i] = -1;
+        }
+
+        const item = document.createElement('div');
+        item.className = 'item-card';
+
+        const title = document.createElement('div');
+        title.className = 'item-title';
+        title.textContent = 'Relic #' + (i + 1);
+        item.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'relic-grid';
+
+        const relicField = createReferenceSelectField('relic', currentData.relics[i], function (value) {
+          currentData.relics[i] = value;
+          renderRelics();
+        }, RELIC_KEYS, RELIC_REFERENCE, 'relics');
+
+        const counterField = createInputField('counter', 'number', currentData.relic_counters[i], function (value) {
+          currentData.relic_counters[i] = safeNumber(value, currentData.relic_counters[i]);
+        });
+
+        const removeWrap = document.createElement('div');
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'small warn';
+        removeBtn.textContent = '移除';
+        removeBtn.onclick = function () {
+          currentData.relics.splice(i, 1);
+          currentData.relic_counters.splice(i, 1);
+          renderRelics();
+        };
+        removeWrap.appendChild(removeBtn);
+
+        grid.appendChild(relicField);
+        grid.appendChild(counterField);
+        grid.appendChild(removeWrap);
+        item.appendChild(grid);
+        relicsContainer.appendChild(item);
+      }
+    }
+
+    function renderEditor() {
+      bindSimpleFields();
+      renderCards();
+      renderRelics();
+      editorArea.style.display = 'block';
+    }
+
+    function parseJson() {
+      const text = jsonInput.value.trim();
+
+      if (!text) {
+        setStatus('請先貼上 JSON 內容', 'error');
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(text);
+        currentData = deepClone(parsed);
+        ensureEditableStructure(currentData);
+        renderEditor();
+        outputBox.style.display = 'none';
+        setStatus('JSON 讀取成功，可依 reference 編輯 cards 與 relics', 'ok');
+      } catch (error) {
+        editorArea.style.display = 'none';
+        outputBox.style.display = 'none';
+        setStatus('JSON 格式錯誤：' + error.message, 'error');
+      }
+    }
+
+    function formatInputJson() {
+      const text = jsonInput.value.trim();
+
+      if (!text) {
+        setStatus('沒有可格式化的內容', 'error');
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(text);
+        jsonInput.value = JSON.stringify(parsed, null, 2);
+        setStatus('已格式化輸入 JSON', 'ok');
+      } catch (error) {
+        setStatus('無法格式化，JSON 格式錯誤：' + error.message, 'error');
+      }
+    }
+
+    function exportJsonText() {
+      if (currentData === null) {
+        setStatus('請先讀取 JSON', 'error');
+        return;
+      }
+
+      ensureEditableStructure(currentData);
+      const result = JSON.stringify(currentData);
+      jsonOutput.value = result;
+      outputBox.style.display = 'block';
+      setStatus('已匯出 JSON 純文字', 'ok');
+    }
+
+    function downloadTxt() {
+      if (currentData === null) {
+        setStatus('請先讀取 JSON', 'error');
+        return;
+      }
+
+      ensureEditableStructure(currentData);
+      const result = JSON.stringify(currentData);
+      const blob = new Blob([result], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'edited_json.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setStatus('已下載 txt 檔', 'ok');
+    }
+
+    function clearAll() {
+      jsonInput.value = '';
+      jsonOutput.value = '';
+      currentData = null;
+      cardsContainer.innerHTML = '';
+      relicsContainer.innerHTML = '';
+      editorArea.style.display = 'none';
+      outputBox.style.display = 'none';
+      setStatus('已清空內容', 'ok');
+    }
+
+    addCardBtn.addEventListener('click', function () {
+      if (currentData === null) {
+        setStatus('請先讀取 JSON', 'error');
+        return;
+      }
+
+      currentData.cards.push({
+        upgrades: 1,
+        misc: 0,
+        id: ''
+      });
+      renderCards();
+    });
+
+    addRelicBtn.addEventListener('click', function () {
+      if (currentData === null) {
+        setStatus('請先讀取 JSON', 'error');
+        return;
+      }
+
+      currentData.relics.push('');
+      currentData.relic_counters.push(-1);
+      renderRelics();
+    });
+
+    parseBtn.addEventListener('click', parseJson);
+    formatBtn.addEventListener('click', formatInputJson);
+    exportBtn.addEventListener('click', exportJsonText);
+    downloadBtn.addEventListener('click', downloadTxt);
+    clearBtn.addEventListener('click', clearAll);
+
+    copyBtn.addEventListener('click', async function () {
+      const text = jsonOutput.value;
+
+      if (!text) {
+        setStatus('目前沒有可複製的匯出結果', 'error');
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('已複製匯出結果', 'ok');
+      } catch (error) {
+        jsonOutput.focus();
+        jsonOutput.select();
+        try {
+          document.execCommand('copy');
+          setStatus('已複製匯出結果', 'ok');
+        } catch (copyError) {
+          setStatus('複製失敗，請手動選取文字複製', 'error');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
