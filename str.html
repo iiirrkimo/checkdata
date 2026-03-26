@@ -5,213 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JSON 特定欄位編輯器</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, "Microsoft JhengHei", sans-serif;
-      background: #f5f7fb;
-      color: #1e293b;
-    }
-
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    h1 {
-      margin: 0 0 16px;
-      font-size: 28px;
-    }
-
-    h2 {
-      margin: 0 0 12px;
-      font-size: 22px;
-    }
-
-    .panel {
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .top-toolbar-wrap {
-      position: sticky;
-      top: 0;
-      z-index: 2000;
-      background: #f5f7fb;
-      padding-bottom: 10px;
-      margin-bottom: 16px;
-    }
-
-    .top-toolbar {
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-      padding: 14px 18px;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 14px;
-      cursor: pointer;
-      background: #2563eb;
-      color: #fff;
-    }
-
-    button:hover {
-      opacity: 0.92;
-    }
-
-    button.secondary {
-      background: #475569;
-    }
-
-    button.success {
-      background: #059669;
-    }
-
-    button.warn {
-      background: #dc2626;
-    }
-
-    button.small {
-      padding: 7px 12px;
-      font-size: 13px;
-      border-radius: 8px;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 220px;
-      resize: vertical;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 14px;
-      font-family: Consolas, Monaco, monospace;
-      line-height: 1.5;
-    }
-
-    .status {
-      margin-top: 10px;
-      font-size: 14px;
-      min-height: 22px;
-    }
-
-    .status.error {
-      color: #dc2626;
-    }
-
-    .status.ok {
-      color: #059669;
-    }
-
-    .editor-area,
-    .output-box {
-      display: none;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .field label {
-      font-size: 14px;
-      font-weight: bold;
-      color: #334155;
-    }
-
-    .field input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      font-size: 14px;
-    }
-
-    .list-block {
-      border: 1px solid #dbe3ef;
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 12px;
-      background: #fafcff;
-    }
-
-    .list-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .item-card {
-      border: 1px solid #dbe3ef;
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 10px;
-    }
-
-    .item-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #1e3a8a;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr auto;
-      gap: 10px;
-      align-items: end;
-    }
-
-    .relic-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr auto;
-      gap: 10px;
-      align-items: end;
-    }
-
-    .hint {
-      font-size: 13px;
-      color: #64748b;
-      margin-top: 6px;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 768px) {
-      .grid,
-      .card-grid,
-      .relic-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, "Microsoft JhengHei", sans-serif; background: #f5f7fb; color: #1e293b; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    h1 { margin: 0 0 16px; font-size: 28px; }
+    h2 { margin: 0 0 12px; font-size: 22px; }
+    .panel { background: #fff; border-radius: 14px; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); padding: 18px; margin-bottom: 16px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; }
+    .top-toolbar-wrap { position: sticky; top: 0; z-index: 2000; background: #f5f7fb; padding-bottom: 10px; margin-bottom: 16px; }
+    .top-toolbar { background: #fff; border-radius: 14px; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); padding: 14px 18px; border-bottom: 1px solid #e2e8f0; }
+    button { border: none; border-radius: 10px; padding: 10px 16px; font-size: 14px; cursor: pointer; background: #2563eb; color: #fff; }
+    button:hover { opacity: 0.92; }
+    button.secondary { background: #475569; }
+    button.success { background: #059669; }
+    button.warn { background: #dc2626; }
+    button.small { padding: 7px 12px; font-size: 13px; border-radius: 8px; }
+    textarea { width: 100%; min-height: 220px; resize: vertical; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px; font-size: 14px; font-family: Consolas, Monaco, monospace; line-height: 1.5; }
+    .status { margin-top: 10px; font-size: 14px; min-height: 22px; }
+    .status.error { color: #dc2626; }
+    .status.ok { color: #059669; }
+    .editor-area, .output-box { display: none; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .field label { font-size: 14px; font-weight: bold; color: #334155; }
+    .field input, .field select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; }
+    .list-block { border: 1px solid #dbe3ef; border-radius: 12px; padding: 14px; margin-top: 12px; background: #fafcff; }
+    .list-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .item-card { border: 1px solid #dbe3ef; background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .item-title { font-weight: bold; margin-bottom: 10px; color: #1e3a8a; }
+    .card-grid { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; align-items: end; }
+    .relic-grid { display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; align-items: end; }
+    .hint { font-size: 13px; color: #64748b; margin-top: 6px; line-height: 1.6; }
+    @media (max-width: 768px) { .grid, .card-grid, .relic-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -236,51 +61,40 @@
       <div id="status" class="status"></div>
       <div class="hint">
         這版只編輯指定欄位：current_health、max_health、max_orbs、gold、hand_size、cards、relics / relic_counters。<br>
-        其他欄位會保留原樣，不會消失。
+        cards 參考官方正體中文 cards.json 並依 wiki 卡牌總覽分成紅／綠／藍／紫／無色／詛咒／特殊未分類。<br>
+        relics 參考官方正體中文 relics.json；其他欄位會保留原樣，不會消失。
       </div>
     </div>
 
     <div class="panel editor-area" id="editorArea">
       <h2>指定欄位編輯區</h2>
-
       <div class="grid">
-        <div class="field">
-          <label for="current_health">current_health</label>
-          <input id="current_health" type="number" />
-        </div>
-        <div class="field">
-          <label for="max_health">max_health</label>
-          <input id="max_health" type="number" />
-        </div>
-        <div class="field">
-          <label for="max_orbs">max_orbs</label>
-          <input id="max_orbs" type="number" />
-        </div>
-        <div class="field">
-          <label for="gold">gold</label>
-          <input id="gold" type="number" />
-        </div>
-        <div class="field">
-          <label for="hand_size">hand_size</label>
-          <input id="hand_size" type="number" />
-        </div>
+        <div class="field"><label for="current_health">current_health</label><input id="current_health" type="number" /></div>
+        <div class="field"><label for="max_health">max_health</label><input id="max_health" type="number" /></div>
+        <div class="field"><label for="max_orbs">max_orbs</label><input id="max_orbs" type="number" /></div>
+        <div class="field"><label for="gold">gold</label><input id="gold" type="number" /></div>
+        <div class="field"><label for="hand_size">hand_size</label><input id="hand_size" type="number" /></div>
       </div>
 
       <div class="list-block">
         <div class="list-head">
           <h2 style="margin:0;font-size:20px;">cards</h2>
-          <button id="addCardBtn" class="small success">新增 card</button>
         </div>
         <div id="cardsContainer"></div>
+        <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+          <button id="addCardBtn" class="small success">新增 card</button>
+        </div>
       </div>
 
       <div class="list-block">
         <div class="list-head">
           <h2 style="margin:0;font-size:20px;">relics / relic_counters</h2>
-          <button id="addRelicBtn" class="small success">新增 relic</button>
         </div>
         <div id="relicsContainer"></div>
         <div class="hint">relic_counters 會依照 relics 的 index 同步。新增時預設為 -1。</div>
+        <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+          <button id="addRelicBtn" class="small success">新增 relic</button>
+        </div>
       </div>
     </div>
 
@@ -293,171 +107,1857 @@
     </div>
   </div>
 
-  <script>
+<script>
     let currentData = null;
 
-    const CARD_REFERENCE = {
-      "Body Slam": { "NAME": "泰山壓頂", "DESCRIPTION": "造成你當前 格擋 值的傷害" },
-      "Entrench": { "NAME": "鞏固", "DESCRIPTION": "將當前的 格擋 變為2倍" },
-      "Impervious": { "NAME": "巋然不動", "DESCRIPTION": "獲得格擋 消耗" },
-      "Offering": { "NAME": "祭品", "DESCRIPTION": "失去6點生命 獲得能量 抽牌 消耗 " },
-      "Second Wind": { "NAME": "重振精神", "DESCRIPTION": "消耗手牌，獲得格擋 " },
-      "Shrug It Off": { "NAME": "聳肩無視", "DESCRIPTION": "獲得格擋，抽1張牌" },
-      "Adrenaline": { "NAME": "腎上腺素", "DESCRIPTION": "獲得能量 抽2張牌 消耗 " },
-      "Corpse Explosion": { "NAME": "屍爆術", "DESCRIPTION": "給予中毒 當該名敵人死亡時，對所有敵人造成等於其最大生命值的傷害" },
-      "Catalyst": { "NAME": "催化劑", "DESCRIPTION": "中毒 層數變為2倍 消耗 " },
-      "Deadly Poison": { "NAME": "致命毒藥", "DESCRIPTION": "給予中毒 " },
-      "Core Surge": { "NAME": "核心衝擊", "DESCRIPTION": "人工製品" },
-      "Double Energy": { "NAME": "雙倍能量", "DESCRIPTION": "雙倍能量" },
-      "Glacier": { "NAME": "冰川", "DESCRIPTION": "格檔 冰霜球" },
-      "Reboot": { "NAME": "重啟", "DESCRIPTION": "抽6" },
-      "Biased Cognition": { "NAME": "偏差認知", "DESCRIPTION": "集中5" },
-      "Electrodynamics": { "NAME": "電動力學", "DESCRIPTION": "閃電2" },
-      "Consume": { "NAME": "耗盡", "DESCRIPTION": "集中+3球-1" },
-      "Chaos": { "NAME": "渾沌", "DESCRIPTION": "隨機產球" }
-    };
+    const CARD_REFERENCE = {"A Thousand Cuts":{"NAME":"淩遲","DESCRIPTION":"你每打出一張牌，就對所有敵人造成1點傷害。","COLOR":"綠色","RARITY":"稀有","TYPE":"能力","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"你每打出一張牌，就對所有敵人造成2點傷害。"},"Accuracy":{"NAME":"精准","DESCRIPTION":"小刀造成的傷害增加4。","COLOR":"綠色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"小刀造成的傷害增加6。"},"Acrobatics":{"NAME":"雜技","DESCRIPTION":"抽3張牌。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"抽4張牌。"},"Adrenaline":{"NAME":"腎上腺素","DESCRIPTION":"獲得[G]。","UPGRADE_DESCRIPTION":"獲得[G][G]。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0},"After Image":{"NAME":"餘像","DESCRIPTION":"你每打出一張牌，都獲得1點格擋。","UPGRADE_DESCRIPTION":"固有。","COLOR":"綠色","RARITY":"稀有","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Aggregate":{"NAME":"彙集","DESCRIPTION":"你的抽牌堆中每有4張牌，獲得一點[B]。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"你的抽牌堆中每有3張牌，獲得一點[B]。"},"All For One":{"NAME":"萬物一心","DESCRIPTION":"造成10點傷害。","COLOR":"藍色","RARITY":"稀有","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成14點傷害。"},"All Out Attack":{"NAME":"全力攻擊","DESCRIPTION":"對所有敵人造成10點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"對所有敵人造成14點傷害。"},"Allocate":{"NAME":"分配","DESCRIPTION":"獲得 !M! 點 集中 NL 失去1點 力量 NL 失去1點 敏捷 "},"Amplify":{"NAME":"增幅","DESCRIPTION":"在這個回合，你的下一張能力牌會打出兩次。","UPGRADE_DESCRIPTION":"在這個回合，你的下2張能力牌會打出兩次。","COLOR":"藍色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Anger":{"NAME":"憤怒","DESCRIPTION":"造成6點傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成8點傷害。"},"Apotheosis":{"NAME":"神化","DESCRIPTION":"在本場戰鬥中升級你的所有牌。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在本場戰鬥中升級你的所有牌。"},"Armaments":{"NAME":"武裝","DESCRIPTION":"獲得5點格擋。","UPGRADE_DESCRIPTION":"獲得5點格擋。","COLOR":"紅色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"AscendersBane":{"NAME":"進階之災","DESCRIPTION":" 無法打出 NL 虛無 NL 不能從牌組中移除"},"Auto Shields":{"NAME":"自動護盾","DESCRIPTION":"如果你沒有格擋，獲得 11 點格擋。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"如果你沒有格擋，獲得15點格擋。"},"Axe Kick":{"NAME":"下壓踢","DESCRIPTION":"造成 !D! 點傷害 NL 激發 最右側的充能球"},"Backflip":{"NAME":"後空翻","DESCRIPTION":"獲得5點格擋。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Backstab":{"NAME":"背刺","DESCRIPTION":"造成11點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成15點傷害。"},"Ball Lightning":{"NAME":"球狀閃電","DESCRIPTION":"造成7點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成10點傷害。"},"Bandage Up":{"NAME":"包紮","DESCRIPTION":"回復4生命。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"恢復6生命。"},"Bane":{"NAME":"災禍","DESCRIPTION":"造成7點傷害。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成10點傷害。"},"Barrage":{"NAME":"彈幕齊射","DESCRIPTION":"你每擁有一個充能球，造成4點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"你每擁有一個充能球，造成6點傷害。"},"Barricade":{"NAME":"壁壘","DESCRIPTION":"格擋不再在你的回合開始時消失。","COLOR":"紅色","RARITY":"稀有","TYPE":"能力","COST":3,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"格擋不再在你的回合開始時消失。"},"Bash":{"NAME":"痛擊","DESCRIPTION":"造成8點傷害。","COLOR":"紅色","RARITY":"初始","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成10點傷害。"},"Battle Trance":{"NAME":"戰鬥專注","DESCRIPTION":"抽3張牌。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"抽4張牌。"},"Beam Cell":{"NAME":"光束射線","DESCRIPTION":"造成3點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成4點傷害。"},"Berserk":{"NAME":"狂暴","DESCRIPTION":"獲得2層易傷。","COLOR":"紅色","RARITY":"稀有","TYPE":"能力","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得1層易傷。"},"Biased Cognition":{"NAME":"偏差認知","DESCRIPTION":"獲得4點集中。","COLOR":"藍色","RARITY":"稀有","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得5點集中。"},"Bite":{"NAME":"噬咬","DESCRIPTION":"造成7點傷害。","COLOR":"無色","RARITY":"特殊","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成8點傷害。"},"Blade Dance":{"NAME":"刀刃之舞","DESCRIPTION":"增加3張小刀到你的手牌。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"增加4張小刀到你的手牌。"},"Blaster":{"NAME":"爆破射線","DESCRIPTION":"對所有敵人造成 !D! 點傷害 NL 每擁有1個充能球，獲得 [B] NL 消耗 "},"Blind":{"NAME":"致盲","DESCRIPTION":"給予2層虛弱。","UPGRADE_DESCRIPTION":"給予所有敵人2層虛弱。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Blizzard":{"NAME":"暴雪","DESCRIPTION":"對所有敵人造成你在本場戰鬥中生成過的冰霜充能球總數2倍的傷害。","UPGRADE_DESCRIPTION":"對所有敵人造成你在本場戰鬥中生成過的冰霜充能球總數3倍的傷害。","EXTENDED_DESCRIPTION":[" NL （造成 !D! 點傷害）",""],"COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"Blood for Blood":{"NAME":"以血還血","DESCRIPTION":"你每在戰鬥中失去生命一次，這張牌的耗能就減少1[R]。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":4,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"你每在戰鬥中失去生命一次，這張牌的耗能就減少1[R]。"},"Bloodletting":{"NAME":"放血","DESCRIPTION":"獲得[R][R]。","UPGRADE_DESCRIPTION":"獲得[R][R][R]。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Bludgeon":{"NAME":"重錘","DESCRIPTION":"造成32點傷害。","COLOR":"紅色","RARITY":"稀有","TYPE":"攻擊","COST":3,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"造成42點傷害。"},"Blur":{"NAME":"殘影","DESCRIPTION":"獲得5點格擋。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Body Slam":{"NAME":"全身撞擊","DESCRIPTION":"造成你當前格擋值的傷害。","UPGRADE_DESCRIPTION":"造成你當前格擋值的傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":0},"BootSequence":{"NAME":"啟動流程","DESCRIPTION":" 固有 NL 獲得 !B! 點 格擋 NL 消耗 "},"Bouncing Flask":{"NAME":"彈跳藥瓶","DESCRIPTION":"隨機給予敵人3層中毒3次。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"隨機給予敵人3層中毒4次。"},"Brutality":{"NAME":"殘暴","DESCRIPTION":"在你的回合開始時，你失去1點生命，抽1張牌。","UPGRADE_DESCRIPTION":"固有。","COLOR":"紅色","RARITY":"稀有","TYPE":"能力","COST":0,"UPGRADE_COST":0},"Buffer":{"NAME":"緩衝","DESCRIPTION":"阻止下一次你受到的生命值損傷。","UPGRADE_DESCRIPTION":"阻止下2次你受到的生命值損傷。","COLOR":"藍色","RARITY":"稀有","TYPE":"能力","COST":2,"UPGRADE_COST":2},"Bullet Time":{"NAME":"子彈時間","DESCRIPTION":"你在本回合內不能再抽牌。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":3,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"你在本回合內不能再抽牌。"},"Burn":{"NAME":"灼傷","DESCRIPTION":"不能被打出。","UPGRADE_DESCRIPTION":"不能被打出。","COLOR":"無色","RARITY":"特殊","TYPE":"狀態","COST":-2,"UPGRADE_COST":-2},"Burning Pact":{"NAME":"燃燒契約","DESCRIPTION":"消耗1張牌。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"消耗1張牌。"},"Burst":{"NAME":"爆發","DESCRIPTION":"在這個回合，你打出的下一張技能牌會打出兩次。","UPGRADE_DESCRIPTION":"在這個回合，你打出的下2張技能牌會打出兩次。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Calculated Gamble":{"NAME":"計算下注","DESCRIPTION":"丟棄所有手牌。","UPGRADE_DESCRIPTION":"丟棄所有手牌。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Caltrops":{"NAME":"鐵蒺藜","DESCRIPTION":"每當你被攻擊時，對攻擊者造成3點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"每當你被攻擊時，對攻擊者造成5點傷害。"},"Capacitor":{"NAME":"擴容","DESCRIPTION":"獲得2個充能球欄位。","UPGRADE_DESCRIPTION":"獲得3個充能球欄位。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Carnage":{"NAME":"殘殺","DESCRIPTION":"虛無。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"虛無。"},"Catalyst":{"NAME":"催化劑","DESCRIPTION":"將一名敵人的中毒層數翻倍。","UPGRADE_DESCRIPTION":"將一名敵人的中毒層數變為三倍。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Chaos":{"NAME":"混沌","DESCRIPTION":"生成1個隨機充能球。","UPGRADE_DESCRIPTION":"生成2個隨機充能球。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Chill":{"NAME":"冰寒","DESCRIPTION":"當前每有一名敵人，生成1個冰霜充能球。","UPGRADE_DESCRIPTION":"固有。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Choke":{"NAME":"勒脖","DESCRIPTION":"造成12點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成12點傷害。"},"Clash":{"NAME":"交鋒","DESCRIPTION":"只有在手牌每一張牌都是攻擊牌時才能被打出。","EXTENDED_DESCRIPTION":["手牌中還有非攻擊牌"],"COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"只有在手牌每一張牌都是攻擊牌時才能被打出。"},"Cleave":{"NAME":"順劈斬","DESCRIPTION":"對所有敵人造成8點傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"對所有敵人造成11點傷害。"},"Cloak And Dagger":{"NAME":"斗篷與匕首","DESCRIPTION":"獲得6點格擋。","UPGRADE_DESCRIPTION":"獲得6點格擋。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Clothesline":{"NAME":"金剛臂","DESCRIPTION":"造成12點傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成14點傷害。"},"Clumsy":{"NAME":"笨拙","DESCRIPTION":" 無法打出 NL 虛無 "},"Cold Snap":{"NAME":"寒流","DESCRIPTION":"造成6點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成9點傷害。"},"Combust":{"NAME":"自燃","DESCRIPTION":"在你的回合結束時，你失去1點生命，對所有敵人造成5點傷害。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在你的回合結束時，你失去1點生命，對所有敵人造成7點傷害。"},"Concentrate":{"NAME":"全神貫注","DESCRIPTION":"丟棄3張牌。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"丟棄2張牌。"},"Conserve Battery":{"NAME":"充電","DESCRIPTION":"獲得 !B! 點 格擋 NL 下回合獲得 [B]"},"Consume":{"NAME":"耗盡","DESCRIPTION":"獲得2點集中。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"獲得3點集中。"},"Coolheaded":{"NAME":"冷靜頭腦","DESCRIPTION":"生成1個冰霜充能球。","UPGRADE_DESCRIPTION":"生成1個冰霜充能球。","COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Corpse Explosion":{"NAME":"屍爆術","DESCRIPTION":"給予6層中毒。","UPGRADE_DESCRIPTION":"給予9層中毒。","EXTENDED_DESCRIPTION":["deprecated"],"COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":2},"Corruption":{"NAME":"腐化","DESCRIPTION":"所有技能牌耗能變為0。","COLOR":"紅色","RARITY":"稀有","TYPE":"能力","COST":3,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"所有技能牌耗能變為0。"},"Creative AI":{"NAME":"創造性AI","DESCRIPTION":"在每回合開始時，增加一張隨機能力牌到你的手牌。","COLOR":"藍色","RARITY":"稀有","TYPE":"能力","COST":3,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"在每回合開始時，增加一張隨機能力牌到你的手牌。"},"Crippling Poison":{"NAME":"致殘毒雲","DESCRIPTION":"給予所有敵人4層中毒和2層虛弱。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"給予所有敵人7層中毒和2層虛弱。"},"Dagger Spray":{"NAME":"匕首雨","DESCRIPTION":"對所有敵人造成4點傷害兩次。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"對所有敵人造成6點傷害兩次。"},"Dagger Throw":{"NAME":"投擲匕首","DESCRIPTION":"造成9點傷害。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成12點傷害。"},"Dark Embrace":{"NAME":"黑暗之擁","DESCRIPTION":"每當有一張牌被消耗時，抽1張牌。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"每當有一張牌被消耗時，抽1張牌。"},"Dark Shackles":{"NAME":"黑暗鐐銬","DESCRIPTION":"讓一名敵人在本回合內失去9點力量。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"讓一名敵人在本回合內失去15點力量。"},"Darkness":{"NAME":"漆黑","DESCRIPTION":"生成1個黑暗充能球。","UPGRADE_DESCRIPTION":"生成1個黑暗充能球。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Dash":{"NAME":"衝刺","DESCRIPTION":"獲得10點格擋。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"獲得13點格擋。"},"Dazed":{"NAME":"暈眩","DESCRIPTION":"不能被打出。","COLOR":"無色","RARITY":"特殊","TYPE":"狀態","COST":-2,"UPGRADE_COST":-2,"UPGRADE_DESCRIPTION":"nil"},"Deadly Poison":{"NAME":"致命毒藥","DESCRIPTION":"給予5層中毒。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"給予7層中毒。"},"Decay":{"NAME":"腐朽","DESCRIPTION":" 無法打出 NL 在你的回合結束時，受到2點傷害"},"Deep Breath":{"NAME":"深呼吸","DESCRIPTION":"將你的棄牌堆洗牌後放入你的抽牌堆。","UPGRADE_DESCRIPTION":"將你的棄牌堆洗牌後放入你的抽牌堆。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Defend_B":{"NAME":"防禦","DESCRIPTION":"獲得 !B! 點 格擋 ","COLOR":"藍色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Defend_G":{"NAME":"防禦","DESCRIPTION":"獲得 !B! 點 格擋 ","COLOR":"綠色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Defend_R":{"NAME":"防禦","DESCRIPTION":"獲得 !B! 點 格擋 ","COLOR":"紅色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Deflect":{"NAME":"偏折","DESCRIPTION":"獲得4點格擋。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得7點格擋。"},"Defragment":{"NAME":"磁碟重組","DESCRIPTION":"獲得1點集中。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得2點集中。"},"Demon Form":{"NAME":"惡魔形態","DESCRIPTION":"在每回合開始時獲得2點力量。","COLOR":"紅色","RARITY":"稀有","TYPE":"能力","COST":3,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"在每回合開始時獲得3點力量。"},"Die Die Die":{"NAME":"死吧死吧死吧","DESCRIPTION":"對所有敵人造成13點傷害。","COLOR":"綠色","RARITY":"稀有","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"對所有敵人造成17點傷害。"},"Disarm":{"NAME":"繳械","DESCRIPTION":"使敵人失去2點力量。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"使敵人失去3點力量。"},"Distraction":{"NAME":"聲東擊西","DESCRIPTION":"增加一張隨機技能牌到你的手牌。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"增加一張隨機技能牌到你的手牌。"},"Dodge and Roll":{"NAME":"閃躲翻滾","DESCRIPTION":"獲得4點格擋。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得6點格擋。"},"Doom and Gloom":{"NAME":"愁雲慘澹","DESCRIPTION":"對所有敵人造成10點傷害。","COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"對所有敵人造成14點傷害。"},"Doppelganger":{"NAME":"雙重存在","DESCRIPTION":"下一回合，抽X張牌，獲得X[G]。","UPGRADE_DESCRIPTION":"下一回合，抽X+1張牌，獲得X+1 [G] 。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":-1,"UPGRADE_COST":-1},"Double Energy":{"NAME":"雙倍能量","DESCRIPTION":"將你的能量翻倍。","UPGRADE_DESCRIPTION":"將你的能量翻倍。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0},"Double Tap":{"NAME":"雙發","DESCRIPTION":"在這個回合，你打出的下一張攻擊牌會打出兩次。","UPGRADE_DESCRIPTION":"在這個回合，你打出的下2張攻擊牌會打出兩次。","COLOR":"紅色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Doubt":{"NAME":"疑慮","DESCRIPTION":" 無法打出 NL 在你的回合結束時，獲得1層 虛弱 "},"Dramatic Entrance":{"NAME":"閃亮登場","DESCRIPTION":"固有。","COLOR":"無色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"固有。"},"Dropkick":{"NAME":"飛身踢","DESCRIPTION":"造成5點傷害。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成8點傷害。"},"Dual Wield":{"NAME":"雙持","DESCRIPTION":"將你手牌中的一張攻擊或能力牌複製一張。","UPGRADE_DESCRIPTION":"將你手牌中的一張攻擊或能力牌複製兩張。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Dualcast":{"NAME":"雙重釋放","DESCRIPTION":"激發你最右側的充能球2次。","COLOR":"藍色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"激發你最右側的充能球2次。"},"Echo Form":{"NAME":"迴響形態","DESCRIPTION":"你每回合打出的第一張牌會打出兩次。","UPGRADE_DESCRIPTION":"你每回合打出的第一張牌會打出兩次。","COLOR":"藍色","RARITY":"稀有","TYPE":"能力","COST":3,"UPGRADE_COST":3},"Electrodynamics":{"NAME":"電動力學","DESCRIPTION":"閃電充能球現在會擊中所有敵人。生成2個閃電充能球。","UPGRADE_DESCRIPTION":"閃電充能球現在會擊中所有敵人。生成3個閃電充能球。","COLOR":"藍色","RARITY":"稀有","TYPE":"能力","COST":2,"UPGRADE_COST":2},"Endless Agony":{"NAME":"無盡苦痛","DESCRIPTION":"造成4點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成6點傷害。"},"Energy Pulse":{"NAME":"能量波動","DESCRIPTION":"獲得當前 能量 的 格擋 值","UPGRADE_DESCRIPTION":"獲得當前 能量 2倍的 格擋 值"},"Enlightenment":{"NAME":"開悟","DESCRIPTION":"在這個回合，你當前手牌中所有牌的耗能降低到1。","UPGRADE_DESCRIPTION":"在本場戰鬥，你當前手牌中所有牌的耗能降低到1.","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Entrench":{"NAME":"鞏固","DESCRIPTION":"將你當前的格擋翻倍。","UPGRADE_DESCRIPTION":"將你當前的格擋翻倍。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":1},"Envenom":{"NAME":"塗毒","DESCRIPTION":"每有一次攻擊造成未被格擋的傷害，就給予1層中毒。","COLOR":"綠色","RARITY":"稀有","TYPE":"能力","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"每有一次攻擊造成未被格擋的傷害，就給予1層中毒。"},"Escape Plan":{"NAME":"逃脫計畫","DESCRIPTION":"抽1張牌。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"抽1張牌。"},"Eviscerate":{"NAME":"內臟切除","DESCRIPTION":"你在這個回合內每丟棄一張牌，耗能就減少1[G]。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":3,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"你在這個回合內每丟棄一張牌，耗能就減少1[G]。"},"Evolve":{"NAME":"進化","DESCRIPTION":"每當你抽到一張狀態牌時，抽1張牌。","UPGRADE_DESCRIPTION":"每當你抽到一張狀態牌時，抽2張牌。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Exhume":{"NAME":"發掘","DESCRIPTION":"選擇一張已消耗的牌，將其放入你的手牌。","COLOR":"紅色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"選擇一張已消耗的牌，將其放入你的手牌。"},"Expertise":{"NAME":"獨門技術","DESCRIPTION":"抽牌直到你的手牌有6張牌。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"抽牌直到你的手牌有7張牌。"},"FTL":{"NAME":"超越光速","DESCRIPTION":"造成5點傷害。","EXTENDED_DESCRIPTION":[" NL （已打出"," 張牌）"," 張牌）"],"COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成6點傷害。"},"Feed":{"NAME":"狂宴","DESCRIPTION":"造成10點傷害。","COLOR":"紅色","RARITY":"稀有","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成12點傷害。"},"Feel No Pain":{"NAME":"無懼疼痛","DESCRIPTION":"每當有一張牌被消耗，獲得3點格擋。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"每當有一張牌被消耗，獲得4點格擋。"},"Fiend Fire":{"NAME":"惡魔之焰","DESCRIPTION":"消耗所有手牌。","COLOR":"紅色","RARITY":"稀有","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"消耗所有手牌。"},"Finesse":{"NAME":"妙計","DESCRIPTION":"獲得2點格擋。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得4點格擋。"},"Finisher":{"NAME":"終結技","DESCRIPTION":"你在這個回合內每打出過一張攻擊牌，就造成一次6點傷害。","EXTENDED_DESCRIPTION":[" NL （已打出"," 張攻擊牌）"," 張攻擊牌）"],"COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"你在這個回合內每打出過一張攻擊牌，就造成一次8點傷害。"},"Fire Breathing":{"NAME":"火焰吐息","DESCRIPTION":"當你抽到一張狀態牌或詛咒牌時，對所有敵人造成6點傷害。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"當你抽到一張狀態牌或詛咒牌時，對所有敵人造成10點傷害。"},"Fission":{"NAME":"裂變","DESCRIPTION":"移除所有充能球，每移除一個充能球獲得[B]並抽1張牌。","UPGRADE_DESCRIPTION":"激發所有充能球，每激發一個充能球獲得[B]並抽1張牌。","COLOR":"藍色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Flame Barrier":{"NAME":"火焰屏障","DESCRIPTION":"獲得12點格擋。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"獲得16點格擋。"},"Flash of Steel":{"NAME":"亮劍","DESCRIPTION":"造成3點傷害。","COLOR":"無色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成6點傷害。"},"Flechettes":{"NAME":"飛鏢","DESCRIPTION":"手牌中每有一張技能牌，造成4點傷害。","EXTENDED_DESCRIPTION":[" NL （你有"," 張技能牌）"," 張技能牌）"],"COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"手牌中每有一張技能牌，造成6點傷害。"},"Flex":{"NAME":"活動肌肉","DESCRIPTION":"獲得2點力量。","COLOR":"紅色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得4點力量。"},"Flux Capacitor":{"NAME":"通量電容器","DESCRIPTION":"將所有充能球替換為 電漿 充能球 NL 消耗 "},"Flying Knee":{"NAME":"飛膝","DESCRIPTION":"造成8點傷害。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成11點傷害。"},"Footwork":{"NAME":"靈動步法","DESCRIPTION":"獲得2點敏捷。","COLOR":"綠色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得3點敏捷。"},"Force Field":{"NAME":"力場","DESCRIPTION":"你在本場戰鬥中每打出一張能力牌，耗能就減少1[B]。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":4,"UPGRADE_COST":4,"UPGRADE_DESCRIPTION":"你在本場戰鬥中每打出一張能力牌，耗能就減少1[B]。"},"Fusion":{"NAME":"聚變","DESCRIPTION":"生成1個等離子充能球。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"生成1個等離子充能球。"},"Gash":{"NAME":"爪擊","DESCRIPTION":"造成3點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成5點傷害。"},"Genetic Algorithm":{"NAME":"遺傳演算法","DESCRIPTION":"獲得1點格擋。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得1點格擋。"},"Ghostly":{"NAME":"靈體","DESCRIPTION":"獲得1層無實體。","UPGRADE_DESCRIPTION":"獲得1層無實體。","COLOR":"無色","RARITY":"特殊","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Ghostly Armor":{"NAME":"幽靈鎧甲","DESCRIPTION":"虛無。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"虛無。"},"Glacier":{"NAME":"冰川","DESCRIPTION":"獲得7點格擋。","UPGRADE_DESCRIPTION":"獲得10點格擋。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2},"Glass Knife":{"NAME":"玻璃刀刃","DESCRIPTION":"造成8點傷害兩次。","COLOR":"綠色","RARITY":"稀有","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成12點傷害兩次。"},"Go for the Eyes":{"NAME":"眼部攻擊","DESCRIPTION":"造成3點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成4點傷害。"},"Good Instincts":{"NAME":"優秀直覺","DESCRIPTION":"獲得6點格擋。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得9點格擋。"},"Grand Finale":{"NAME":"華麗收場","DESCRIPTION":"只有當抽牌堆中沒有牌時才能打出。","UPGRADE_DESCRIPTION":"只有當抽牌堆中沒有牌時才能打出。","COLOR":"綠色","RARITY":"稀有","TYPE":"攻擊","COST":0,"UPGRADE_COST":0},"Havoc":{"NAME":"破滅","DESCRIPTION":"打出抽牌堆頂部的牌，將其消耗。","COLOR":"紅色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"打出抽牌堆頂部的牌，將其消耗。"},"Headbutt":{"NAME":"頭槌","DESCRIPTION":"造成 !D! 點傷害 NL 將棄牌堆中的1張牌放到抽牌堆頂部"},"Heatsinks":{"NAME":"散熱片","DESCRIPTION":"你每打出一張能力牌，抽1張牌。","UPGRADE_DESCRIPTION":"你每打出一張能力牌，抽2張牌。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Heavy Blade":{"NAME":"重刃","DESCRIPTION":"造成14點傷害。","UPGRADE_DESCRIPTION":"造成14點傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":2,"UPGRADE_COST":2},"Heel Hook":{"NAME":"足跟勾","DESCRIPTION":"造成5點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成8點傷害。"},"Hello World":{"NAME":"你好，世界","DESCRIPTION":"在你的回合開始時，增加一張隨機普通牌到你的手牌。","UPGRADE_DESCRIPTION":"固有。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Hemokinesis":{"NAME":"禦血術","DESCRIPTION":"失去2點生命。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"失去2點生命。"},"Hide":{"NAME":"躲藏","DESCRIPTION":"在下回合開始之前你不會損失生命 NL 消耗 "},"Hologram":{"NAME":"全息影像","DESCRIPTION":"獲得3點格擋。","UPGRADE_DESCRIPTION":"獲得5點格擋。","COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Hyperbeam":{"NAME":"超能光束","DESCRIPTION":"對所有敵人造成26點傷害。","COLOR":"藍色","RARITY":"稀有","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"對所有敵人造成34點傷害。"},"Immolate":{"NAME":"燔祭","DESCRIPTION":"對所有敵人造成21點傷害。","COLOR":"紅色","RARITY":"稀有","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"對所有敵人造成28點傷害。"},"Impervious":{"NAME":"巋然不動","DESCRIPTION":"獲得30點格擋。","COLOR":"紅色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"獲得40點格擋。"},"Infernal Blade":{"NAME":"地獄之刃","DESCRIPTION":"增加一張隨機攻擊牌到你的手牌。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"增加一張隨機攻擊牌到你的手牌。"},"Infinite Blades":{"NAME":"無限刀刃","DESCRIPTION":"在你的回合開始時，增加一張小刀到你的手牌。","UPGRADE_DESCRIPTION":"固有。","COLOR":"綠色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Inflame":{"NAME":"燃燒","DESCRIPTION":"獲得2點力量。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得3點力量。"},"Injury":{"NAME":"受傷","DESCRIPTION":" 無法打出 "},"Intimidate":{"NAME":"威嚇","DESCRIPTION":"給予所有敵人1層虛弱。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"給予所有敵人2層虛弱。"},"Iron Wave":{"NAME":"鐵斬波","DESCRIPTION":"獲得5點格擋。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得7點格擋。"},"J.A.X.":{"NAME":"J.A.X.","DESCRIPTION":"失去3點生命。","COLOR":"無色","RARITY":"特殊","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"失去3點生命。"},"Jack Of All Trades":{"NAME":"花樣百出","DESCRIPTION":"增加1張隨機無色牌到你的手牌。","UPGRADE_DESCRIPTION":"增加2張隨機無色牌到你的手牌。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Juggernaut":{"NAME":"勢不可當","DESCRIPTION":"每當你獲得格擋時，對隨機一名敵人造成5點傷害。","COLOR":"紅色","RARITY":"稀有","TYPE":"能力","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"每當你獲得格擋時，對隨機一名敵人造成7點傷害。"},"Leap":{"NAME":"飛躍","DESCRIPTION":"獲得9點格擋。","COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得12點格擋。"},"Leg Sweep":{"NAME":"掃腿","DESCRIPTION":"給予2層虛弱。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"給予3層虛弱。"},"Limit Break":{"NAME":"突破極限","DESCRIPTION":"將你的力量翻倍。","UPGRADE_DESCRIPTION":"將你的力量翻倍。","COLOR":"紅色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Lockon":{"NAME":"瞄準靶心","DESCRIPTION":"造成 !D! 點傷害 NL 給予敵人 !M! 回合 跟蹤鎖定 效果"},"Loop":{"NAME":"迴圈","DESCRIPTION":"在你的回合開始時，使用你最右側的1個充能球的被動能力。","UPGRADE_DESCRIPTION":"在你的回合開始時，使用你最右側的1個充能球的被動能力 2 次。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Machine Learning":{"NAME":"機器學習","DESCRIPTION":"在每回合開始時額外抽1張牌。","UPGRADE_DESCRIPTION":"固有。","COLOR":"藍色","RARITY":"稀有","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Madness":{"NAME":"瘋狂","DESCRIPTION":"你手牌中一張隨機牌在本場戰鬥中耗能變為0。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"你手牌中一張隨機牌在本場戰鬥中耗能變為0。"},"Magnetism":{"NAME":"磁力","DESCRIPTION":"在每回合開始時，增加一張隨機無色牌到你的手牌。","COLOR":"無色","RARITY":"稀有","TYPE":"能力","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在每回合開始時，增加一張隨機無色牌到你的手牌。"},"Malaise":{"NAME":"萎靡","DESCRIPTION":"敵人失去X點力量，給予X層虛弱。","UPGRADE_DESCRIPTION":"敵人失去X+1點力量，給予X+1層虛弱。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":-1,"UPGRADE_COST":-1},"Master of Strategy":{"NAME":"戰略大師","DESCRIPTION":"抽3張牌。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"抽4張牌。"},"Masterful Stab":{"NAME":"精巧刺擊","DESCRIPTION":"造成12點傷害。","UPGRADE_DESCRIPTION":"造成16點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0},"Melter":{"NAME":"熔化","DESCRIPTION":"去除一名敵人的所有格擋值。","COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"去除一名敵人的所有格擋值。"},"Metallicize":{"NAME":"金屬化","DESCRIPTION":"在你的回合結束時，獲得3點格擋。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在你的回合結束時，獲得4點格擋。"},"Meteor Strike":{"NAME":"隕石打擊","DESCRIPTION":"造成24點傷害。","COLOR":"藍色","RARITY":"稀有","TYPE":"攻擊","COST":5,"UPGRADE_COST":5,"UPGRADE_DESCRIPTION":"造成30點傷害。"},"Mind Blast":{"NAME":"心靈震懾","DESCRIPTION":"固有。","UPGRADE_DESCRIPTION":"固有。","EXTENDED_DESCRIPTION":[" NL （造成 !D! 點傷害）"],"COLOR":"無色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":1},"Multi-Cast":{"NAME":"多重釋放","DESCRIPTION":"激發你最右側的充能球X次。","UPGRADE_DESCRIPTION":"激發你最右側的充能球X+1次。","COLOR":"藍色","RARITY":"稀有","TYPE":"技能","COST":-1,"UPGRADE_COST":-1},"Necronomicurse":{"NAME":"死靈詛咒","DESCRIPTION":" 無法打出 NL 這個 詛咒 無法逃脫"},"Neutralize":{"NAME":"中和","DESCRIPTION":"造成3點傷害。","COLOR":"綠色","RARITY":"初始","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成4點傷害。"},"Night Terror":{"NAME":"夜魘","DESCRIPTION":"選擇一張牌， 在下一回合，將 3 份這張牌的複製品放入你的手牌中。","EXTENDED_DESCRIPTION":["我每回合只能使用 NL "," NL 1次"],"COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":3,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"選擇一張牌， 在下一回合，將 3 份這張牌的複製品放入你的手牌中。"},"Normality":{"NAME":"凡庸","DESCRIPTION":" 無法打出 NL 在手牌中時，該回合只能打出3張牌","EXTENDED_DESCRIPTION":["我這回合最多 NL 只能打出 #r3 張牌"," 無法打出 NL 在手牌中時，該回合無法打出超過 "," 張牌"," 張牌 NL 已打出 "," 張牌"," 張牌"]},"Noxious Fumes":{"NAME":"毒霧","DESCRIPTION":"在你的回合開始時，給予所有敵人2層中毒。","COLOR":"綠色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在你的回合開始時，給予所有敵人3層中毒。"},"Offering":{"NAME":"祭品","DESCRIPTION":"失去6點生命。","UPGRADE_DESCRIPTION":"失去6點生命。","COLOR":"紅色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Outmaneuver":{"NAME":"搶佔先機","DESCRIPTION":"下一回合","UPGRADE_DESCRIPTION":"下一回合","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Pain":{"NAME":"疼痛","DESCRIPTION":" 無法打出 NL 當在手牌中時，每打出1張其他牌，失去1生命"},"Panacea":{"NAME":"萬能藥","DESCRIPTION":"獲得1層人工製品。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得2層人工製品。"},"Panache":{"NAME":"神氣制勝","DESCRIPTION":"你每在同個回合內打出5張牌，就對所有敵人造成10點傷害。","COLOR":"無色","RARITY":"稀有","TYPE":"能力","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"你每在同個回合內打出5張牌，就對所有敵人造成14點傷害。"},"Parasite":{"NAME":"寄生","DESCRIPTION":" 無法打出 NL 若這張牌在牌組中被轉化或移除，你失去3點最大生命"},"Perfected Strike":{"NAME":"完美打擊","DESCRIPTION":"造成6點傷害。","UPGRADE_DESCRIPTION":"造成6點傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":2,"UPGRADE_COST":2},"Phantasmal Killer":{"NAME":"幻影殺手","DESCRIPTION":"在你的下個回合，你所有的攻擊傷害翻倍。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"在你的下個回合，你所有的攻擊傷害翻倍。"},"PiercingWail":{"NAME":"尖嘯","DESCRIPTION":"所有敵人失去 !M! 點力量 1回合 NL 消耗 "},"Poisoned Stab":{"NAME":"帶毒刺擊","DESCRIPTION":"造成6點傷害。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成8點傷害。"},"Pommel Strike":{"NAME":"劍柄打擊","DESCRIPTION":"造成9點傷害。","UPGRADE_DESCRIPTION":"造成10點傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"Power Through":{"NAME":"硬撐","DESCRIPTION":"增加2張傷口到你的手牌。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"增加2張傷口到你的手牌。"},"Predator":{"NAME":"獵殺者","DESCRIPTION":"造成15點傷害。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成20點傷害。"},"Prepared":{"NAME":"早有準備","DESCRIPTION":"抽1張牌。","UPGRADE_DESCRIPTION":"抽2張牌。","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Pummel":{"NAME":"連續拳","DESCRIPTION":"造成2點傷害4次。","UPGRADE_DESCRIPTION":"造成2點傷害5次。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"Purity":{"NAME":"淨化","DESCRIPTION":"從手牌中選擇最多3張牌消耗。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"從手牌中選擇最多5張牌消耗。"},"Quick Slash":{"NAME":"快斬","DESCRIPTION":"造成8點傷害。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成12點傷害。"},"Rage":{"NAME":"狂怒","DESCRIPTION":"打出此牌後，你在這個回合內每打出一張攻擊牌，獲得3格擋。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"打出此牌後，你在這個回合內每打出一張攻擊牌，獲得5格擋。"},"Rainbow":{"NAME":"彩虹","DESCRIPTION":"生成閃電、冰霜、黑暗充能球各一個。","UPGRADE_DESCRIPTION":"生成閃電、冰霜、黑暗充能球各一個。","COLOR":"藍色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":2},"Rampage":{"NAME":"暴走","DESCRIPTION":"造成8點傷害。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成8點傷害。"},"Reaper":{"NAME":"死亡收割","DESCRIPTION":"對所有敵人造成4點傷害。","COLOR":"紅色","RARITY":"稀有","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"對所有敵人造成5點傷害。"},"Reboot":{"NAME":"重啟","DESCRIPTION":"將你所有未消耗的牌重新洗牌放入抽牌堆。","COLOR":"藍色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"將你所有未消耗的牌重新洗牌放入抽牌堆。"},"Rebound":{"NAME":"彈回","DESCRIPTION":"造成9點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成12點傷害。"},"Reckless Charge":{"NAME":"無謀衝鋒","DESCRIPTION":"造成7點傷害。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成10點傷害。"},"Recycle":{"NAME":"回收","DESCRIPTION":"消耗一張牌。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"消耗一張牌。"},"Redo":{"NAME":"遞迴","DESCRIPTION":"激發 最右側的充能球 NL 然後 生成 1個剛才被 激發 的充能球"},"Reflex":{"NAME":"本能反應","DESCRIPTION":"不能被打出。","UPGRADE_DESCRIPTION":"不能被打出。","EXTENDED_DESCRIPTION":["不能打出這張牌"],"COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Regret":{"NAME":"悔恨","DESCRIPTION":" 無法打出 NL 在你的回合結束時，失去相當於手牌數量的生命"},"Reinforced Body":{"NAME":"硬化機體","DESCRIPTION":"獲得7點格擋X次。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":-1,"UPGRADE_COST":-1,"UPGRADE_DESCRIPTION":"獲得9點格擋X次。"},"Reprogram":{"NAME":"重程式設計","DESCRIPTION":"失去1點集中。","UPGRADE_DESCRIPTION":"失去2點集中。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Riddle With Holes":{"NAME":"千穿百刺","DESCRIPTION":"造成 !D! 點傷害5次"},"Rip and Tear":{"NAME":"狂亂撕扯","DESCRIPTION":"隨機對敵人造成7點傷害2次。","COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"隨機對敵人造成9點傷害2次。"},"Rupture":{"NAME":"撕裂","DESCRIPTION":"每當你從一張牌中失去生命時，獲得1點力量。","COLOR":"紅色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"每當你從一張牌中失去生命時，獲得2點力量。"},"Sadistic Nature":{"NAME":"殘虐天性","DESCRIPTION":"每當你對一名敵人造成負面狀態，使對方受到5點傷害。","COLOR":"無色","RARITY":"稀有","TYPE":"能力","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"每當你對一名敵人造成負面狀態，使對方受到7點傷害。"},"Scrape":{"NAME":"刮削","DESCRIPTION":"造成7點傷害。","COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成10點傷害。"},"Searing Blow":{"NAME":"灼熱攻擊","DESCRIPTION":"造成12點傷害。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成16點傷害。"},"Second Wind":{"NAME":"重振精神","DESCRIPTION":"消耗手牌中所有非攻擊牌，每張獲得5點格擋。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"消耗手牌中所有非攻擊牌，每張獲得7點格擋。"},"Secret Technique":{"NAME":"秘密技法","DESCRIPTION":"從抽牌堆中選擇一張技能牌放入你的手牌。","UPGRADE_DESCRIPTION":"從抽牌堆中選擇一張技能牌放入你的手牌。","EXTENDED_DESCRIPTION":["抽牌堆 NL 沒有技能牌"],"COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Secret Weapon":{"NAME":"秘密武器","DESCRIPTION":"從抽牌堆中選擇一張攻擊牌放入你的手牌。","UPGRADE_DESCRIPTION":"從抽牌堆中選擇一張攻擊牌放入你的手牌。","EXTENDED_DESCRIPTION":["抽牌堆 NL 沒有攻擊牌"],"COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Seeing Red":{"NAME":"盛怒","DESCRIPTION":"獲得[R][R]。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得[R][R]。"},"Seek":{"NAME":"搜尋","DESCRIPTION":"從抽牌堆中選擇1張牌放入你的手牌。","UPGRADE_DESCRIPTION":"從抽牌堆中選擇2張牌放入你的手牌。","COLOR":"藍色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Self Repair":{"NAME":"自我修復","DESCRIPTION":"在戰鬥結束時，回復 7 點生命。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在戰鬥結束時，回復 10 點生命。"},"Sentinel":{"NAME":"哨衛","DESCRIPTION":"獲得5點格擋。","UPGRADE_DESCRIPTION":"獲得8點格擋。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Setup":{"NAME":"部署","DESCRIPTION":"將手牌中的一張牌放到抽牌堆的頂部。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"將手牌中的一張牌放到抽牌堆的頂部。"},"Sever Soul":{"NAME":"斷魂斬","DESCRIPTION":"消耗手牌中所有非攻擊牌。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"消耗手牌中所有非攻擊牌。"},"Shiv":{"NAME":"小刀","DESCRIPTION":"造成4點傷害。","COLOR":"無色","RARITY":"特殊","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成6點傷害。"},"Shockwave":{"NAME":"震盪波","DESCRIPTION":"給予所有敵人3層虛弱和易傷。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"給予所有敵人5層虛弱和易傷。"},"Shrug It Off":{"NAME":"聳肩無視","DESCRIPTION":"獲得8點格擋。","COLOR":"紅色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得11點格擋。"},"Skewer":{"NAME":"串刺","DESCRIPTION":"造成7點傷害X次。","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":-1,"UPGRADE_COST":-1,"UPGRADE_DESCRIPTION":"造成10點傷害X次。"},"Skim":{"NAME":"快速檢索","DESCRIPTION":"抽3張牌。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"抽4張牌。"},"Slice":{"NAME":"切割","DESCRIPTION":"造成6點傷害。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成9點傷害。"},"Slimed":{"NAME":"黏液","DESCRIPTION":"消耗。","COLOR":"無色","RARITY":"特殊","TYPE":"狀態","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"nil"},"Spot Weakness":{"NAME":"觀察弱點","DESCRIPTION":"如果一名敵人的意圖是攻擊，你獲得3點力量。","COLOR":"紅色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"如果一名敵人的意圖是攻擊，你獲得4點力量。"},"Stack":{"NAME":"堆疊","DESCRIPTION":"獲得與你當前棄牌堆中牌數相等的格擋值。","UPGRADE_DESCRIPTION":"獲得你當前棄牌堆中牌數+3的格擋值。","EXTENDED_DESCRIPTION":[" NL （獲得 !B! 點格擋）"],"COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Static Discharge":{"NAME":"靜電釋放","DESCRIPTION":"每當你受到攻擊傷害時，生成1個閃電充能球。","UPGRADE_DESCRIPTION":"每當你受到攻擊傷害時，生成2個閃電充能球。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Steam":{"NAME":"蒸汽護壁","DESCRIPTION":"獲得6點格擋。","COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Steam Power":{"NAME":"超頻","DESCRIPTION":"抽2張牌。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"抽3張牌。"},"Storm":{"NAME":"雷暴","DESCRIPTION":"你每打出一張能力牌，生成1個閃電充能球。","UPGRADE_DESCRIPTION":"固有。","COLOR":"藍色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Storm of Steel":{"NAME":"鋼鐵風暴","DESCRIPTION":"丟棄所有手牌。","UPGRADE_DESCRIPTION":"丟棄所有手牌。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Streamline":{"NAME":"精簡改良","DESCRIPTION":"造成15點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成20點傷害。"},"Strike_B":{"NAME":"打擊","DESCRIPTION":"造成 !D! 點傷害","COLOR":"藍色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"Strike_G":{"NAME":"打擊","DESCRIPTION":"造成 !D! 點傷害","COLOR":"綠色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"Strike_R":{"NAME":"打擊","DESCRIPTION":"造成 !D! 點傷害","COLOR":"紅色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"Sucker Punch":{"NAME":"突然一拳","DESCRIPTION":"造成7點傷害。","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成9點傷害。"},"Sunder":{"NAME":"分離","DESCRIPTION":"造成24點傷害。","COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":3,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"造成32點傷害。"},"Survivor":{"NAME":"生存者","DESCRIPTION":"獲得8點格擋。","COLOR":"綠色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得11點格擋。"},"Sweeping Beam":{"NAME":"掃蕩射線","DESCRIPTION":"對所有敵人造成6點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"對所有敵人造成9點傷害。"},"Swift Strike":{"NAME":"迅捷打擊","DESCRIPTION":"造成7點傷害。","COLOR":"無色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成10點傷害。"},"Sword Boomerang":{"NAME":"飛劍迴旋鏢","DESCRIPTION":"隨機對敵人造成3點傷害3次。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"隨機對敵人造成3點傷害4次。"},"Tactician":{"NAME":"戰術大師","DESCRIPTION":"不能被打出。","UPGRADE_DESCRIPTION":"不能被打出。","EXTENDED_DESCRIPTION":["不能打出這張牌"],"COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Tempest":{"NAME":"暴風雨","DESCRIPTION":"生成X個閃電充能球。","UPGRADE_DESCRIPTION":"生成X+1個閃電充能球。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":-1,"UPGRADE_COST":-1},"Terror":{"NAME":"恐怖","DESCRIPTION":"給予99層易傷。","COLOR":"綠色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"給予99層易傷。"},"The Bomb":{"NAME":"炸彈","DESCRIPTION":"在3回合結束後，對所有敵人造成40點傷害。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"在3回合結束後，對所有敵人造成50點傷害。"},"Thinking Ahead":{"NAME":"深謀遠慮","DESCRIPTION":"抽2張牌，然後將手牌中的一張牌放到你抽牌堆的頂端。","UPGRADE_DESCRIPTION":"抽2張牌，然後將手牌中的一張牌放到你抽牌堆的頂端。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Thunder Strike":{"NAME":"雷霆打擊","DESCRIPTION":"你在本場戰鬥中每生成過一個閃電充能球，隨機造成一次7點傷害。","EXTENDED_DESCRIPTION":["（共 !M! 次）"],"COLOR":"藍色","RARITY":"稀有","TYPE":"攻擊","COST":3,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"你在本場戰鬥中每生成過一個閃電充能球，隨機造成一次9點傷害。"},"Thunderclap":{"NAME":"閃電霹靂","DESCRIPTION":"對所有敵人造成4點傷害，給予1層易傷。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"對所有敵人造成7點傷害，給予1層易傷。"},"Tools of the Trade":{"NAME":"必備工具","DESCRIPTION":"在你的回合開始時，抽1張牌，丟棄1張牌。","COLOR":"綠色","RARITY":"稀有","TYPE":"能力","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"在你的回合開始時，抽1張牌，丟棄1張牌。"},"Transmutation":{"NAME":"轉化","DESCRIPTION":"在你的手牌中加入X張隨機無色牌。","UPGRADE_DESCRIPTION":"在你的手牌中放入X張升級過的隨機無色牌。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":-1,"UPGRADE_COST":-1},"Trip":{"NAME":"絆倒","DESCRIPTION":"給予2層易傷 。","UPGRADE_DESCRIPTION":"給予所有敵人2層易傷。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"True Grit":{"NAME":"堅毅","DESCRIPTION":"獲得7點格擋。","UPGRADE_DESCRIPTION":"獲得9點格擋。","COLOR":"紅色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Turbo":{"NAME":"內核加速","DESCRIPTION":"獲得[B][B]。","UPGRADE_DESCRIPTION":"獲得[B][B][B]。","COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Twin Strike":{"NAME":"雙重打擊","DESCRIPTION":"造成5點傷害兩次。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成7點傷害兩次。"},"Underhanded Strike":{"NAME":"隱秘打擊","DESCRIPTION":" 造成 !D! 點傷害 NL 若本回合丟棄過牌，獲得 [G] [G] ","EXTENDED_DESCRIPTION":["不能打出這張牌"]},"Undo":{"NAME":"均衡","DESCRIPTION":"獲得13點格擋。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"獲得16點格擋。"},"Unload":{"NAME":"乾坤一擲","DESCRIPTION":"造成14點傷害。","COLOR":"綠色","RARITY":"稀有","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成18點傷害。"},"Uppercut":{"NAME":"上勾拳","DESCRIPTION":"造成13點傷害。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成13點傷害。"},"Venomology":{"NAME":"煉製藥水","DESCRIPTION":"獲得一瓶隨機藥水。","COLOR":"綠色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得一瓶隨機藥水。"},"Void":{"NAME":"虛空","DESCRIPTION":"不能被打出。","COLOR":"無色","RARITY":"特殊","TYPE":"狀態","COST":-2,"UPGRADE_COST":-2,"UPGRADE_DESCRIPTION":"nil"},"Warcry":{"NAME":"戰吼","DESCRIPTION":"抽1張牌。","UPGRADE_DESCRIPTION":"抽2張牌。","COLOR":"紅色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Well Laid Plans":{"NAME":"計畫妥當","DESCRIPTION":"在你的回合結束時，保留最多1張牌。","UPGRADE_DESCRIPTION":"在你的回合結束時，保留最多2張牌。","COLOR":"綠色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Whirlwind":{"NAME":"旋風斬","DESCRIPTION":"對所有敵人造成5點傷害X次。","COLOR":"紅色","RARITY":"罕見","TYPE":"攻擊","COST":-1,"UPGRADE_COST":-1,"UPGRADE_DESCRIPTION":"對所有敵人造成8點傷害X次。"},"White Noise":{"NAME":"白色雜訊","DESCRIPTION":"增加一張隨機能力牌到你的手牌。","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"增加一張隨機能力牌到你的手牌。"},"Wild Strike":{"NAME":"狂野打擊","DESCRIPTION":"造成12點傷害。","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成17點傷害。"},"Wound":{"NAME":"傷口","DESCRIPTION":"不能被打出。","COLOR":"無色","RARITY":"特殊","TYPE":"狀態","COST":-2,"UPGRADE_COST":-2,"UPGRADE_DESCRIPTION":"nil"},"Wraith Form v2":{"NAME":"幽魂形態","DESCRIPTION":"獲得 !M! 層 無實體 NL 在每回合結束時失去1點 敏捷 "},"Writhe":{"NAME":"苦惱","DESCRIPTION":" 無法打出 NL 固有 "},"Zap":{"NAME":"電擊","DESCRIPTION":"生成1個閃電充能球。","COLOR":"藍色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"生成1個閃電充能球。"},"Core Surge":{"NAME":"核心電湧","DESCRIPTION":"造成11點傷害。","COLOR":"藍色","RARITY":"稀有","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成15點傷害。"},"Compile Driver":{"NAME":"編譯衝擊","DESCRIPTION":"造成7點傷害。","COLOR":"藍色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成10點傷害。"},"RitualDagger":{"NAME":"儀式匕首","DESCRIPTION":"造成 !D! 點傷害 NL 斬殺 時，這張牌的傷害永久增加 !M! 點 NL 消耗 "},"Pride":{"NAME":"傲慢","DESCRIPTION":" 固有 NL 你的回合結束時，複製1張該牌到抽牌堆頂部 NL 消耗 "},"PanicButton":{"NAME":"應急按鈕","DESCRIPTION":"獲得 !B! 點 格擋 NL 在接下來 !M! 回合內無法再從卡牌中獲得格擋 NL 消耗 "},"Chrysalis":{"NAME":"結繭","DESCRIPTION":"在你的抽牌堆中加入3張隨機技能牌。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"在你的抽牌堆中加入5張隨機技能牌。"},"Metamorphosis":{"NAME":"羽化","DESCRIPTION":"在你的抽牌堆中加入3張隨機攻擊牌。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"在你的抽牌堆中加入5張隨機攻擊牌。"},"Mayhem":{"NAME":"亂戰","DESCRIPTION":"在你的回合開始時，打出你抽牌堆頂部的牌。","COLOR":"無色","RARITY":"稀有","TYPE":"能力","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在你的回合開始時，打出你抽牌堆頂部的牌。"},"Shame":{"NAME":"羞恥","DESCRIPTION":" 無法打出 NL 在你的回合結束時，獲得1層 脆弱 "},"HandOfGreed":{"NAME":"貪婪之手","DESCRIPTION":"造成 !D! 點傷害 NL 斬殺 時，獲得 !M! 金幣"},"Violence":{"NAME":"暴力","DESCRIPTION":"隨機將你抽牌堆中3張攻擊牌加入你的手牌。","COLOR":"無色","RARITY":"稀有","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"隨機將你抽牌堆中4張攻擊牌加入你的手牌。"},"Impatience":{"NAME":"急躁","DESCRIPTION":"如果你的手牌中沒有攻擊牌，抽2張牌。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"如果你的手牌中沒有攻擊牌，抽3張牌。"},"Forethought":{"NAME":"預謀","DESCRIPTION":"將手牌中的一張牌放到抽牌堆的底部。","UPGRADE_DESCRIPTION":"將手牌中的任意張牌放到抽牌堆的底部。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Discovery":{"NAME":"發現","DESCRIPTION":"從3張隨機牌中選擇1張加入你的手牌。","UPGRADE_DESCRIPTION":"從3張隨機牌中選擇1張加入你的手牌。","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"SpiritShield":{"NAME":"精神護盾","DESCRIPTION":"你每有一張手牌，獲得 !M! 點 格擋","EXTENDED_DESCRIPTION":[" NL （獲得 !B! 點 格擋 ）"]},"BrillianceAura":{"NAME":"DEPRECATED Brilliance Aura","DESCRIPTION":"Exhaust. NL At the start of your turn, draw 1 card. NL Retains."},"Wrath":{"NAME":"憤怒","DESCRIPTION":"造成和受到雙倍攻擊傷害"},"Polymath":{"NAME":"DEPRECATED Polymath","DESCRIPTION":"Enter Calm or Wrath. NL 消耗 "},"Tantrum":{"NAME":"發洩","DESCRIPTION":"造成3點傷害3次。","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成3點傷害4次。"},"Adaptation":{"NAME":"猛虎下山","DESCRIPTION":"每當你進入 憤怒 時，抽 !M! 張牌","UPGRADE_DESCRIPTION":"DEPRECATED."},"Causality":{"NAME":"因果始終","DESCRIPTION":"抽牌直到將手牌抽滿 NL 消耗","UPGRADE_DESCRIPTION":" 保留 NL 抽牌直到將手牌抽滿 NL 消耗 "},"Devotion":{"NAME":"虔信","DESCRIPTION":"在你的回合開始時，獲得2層真言。","COLOR":"紫色","RARITY":"稀有","TYPE":"能力","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在你的回合開始時，獲得3層真言。"},"EmptyFist":{"NAME":"化拳為空","DESCRIPTION":"造成 !D! 點傷害 NL 退出當前 姿態 "},"Wisdom":{"NAME":"睿智","DESCRIPTION":" 保留 NL 抽 !M! 張牌 NL 消耗 "},"Retribution":{"NAME":"DEPRECATED Retribution","DESCRIPTION":"Whenever you lose HP, gain !M! Vigor."},"FlowState":{"NAME":"DEPRECATED  流轉","DESCRIPTION":"憤怒：進入 平靜 NL 平靜：進入 憤怒 NL 消耗","UPGRADE_DESCRIPTION":"憤怒：進入 平靜 NL 平靜：進入 憤怒 "},"Swivel":{"NAME":"旋身","DESCRIPTION":"獲得8點格擋。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"獲得11點格擋。"},"Wish":{"NAME":"許願","DESCRIPTION":"選擇：獲得6層多層護甲，3點力量或25金幣。","UPGRADE_DESCRIPTION":"選擇：獲得8層多層護甲，4點力量或30金幣。","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":3,"UPGRADE_COST":3},"FuryAura":{"NAME":"DEPRECATED Fury Aura","DESCRIPTION":"Gain !M! temporary Strength. NL At the start of your turn, gain 1 temporary Strength. Retains."},"DeusExMachina":{"NAME":"機械降神","DESCRIPTION":" 無法打出 NL 當你抽到這張牌時，在手牌中加入 !M! 張 *奇蹟 ，然後 消耗 "},"ThroughViolence":{"NAME":"以暴易暴","DESCRIPTION":" 保留 NL 造成 !D! 點傷害 NL 消耗 "},"Metaphysics":{"NAME":"DEPRECATED","DESCRIPTION":"DEPRECATED","UPGRADE_DESCRIPTION":"DEPRECATED"},"Clarity":{"NAME":"明晰","DESCRIPTION":"檢視抽牌堆頂部的 !M! 張牌，將1張加入手牌 NL 消耗 另1張","UPGRADE_DESCRIPTION":"檢視抽牌堆頂部的 !M! 張牌，將1張加入手牌 NL 消耗 其他牌"},"WreathOfFlame":{"NAME":"火焰紋","DESCRIPTION":"你的下一張攻擊牌造成 !M! 點額外傷害"},"Flicker":{"NAME":"DEPRECATED Flicker","DESCRIPTION":"造成 !D! 點傷害 If this kills the enemy, return this card to your hand."},"Alpha":{"NAME":"阿爾法","DESCRIPTION":"將一張貝塔放入你的抽牌堆中。","UPGRADE_DESCRIPTION":"固有。","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1},"FollowUp":{"NAME":"追擊","DESCRIPTION":"造成 !D! 點傷害 NL 若本場戰鬥中打出的上1張牌是攻擊牌，獲得 [W]"},"Vault":{"NAME":"騰躍","DESCRIPTION":"在本回合結束後，額外獲得一回合。","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":3,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"在本回合結束後，額外獲得一回合。"},"Windup":{"NAME":"DEPRECATED Windup","DESCRIPTION":"造成 !D! 點傷害 NL Gain !M! Vigor."},"Wallop":{"NAME":"當頭棒喝","DESCRIPTION":"造成9點傷害。","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"造成12點傷害。"},"Consecrate":{"NAME":"供奉","DESCRIPTION":"對所有敵人造成5點傷害。","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"對所有敵人造成8點傷害。"},"Conclude":{"NAME":"結末","DESCRIPTION":"對所有敵人造成12點傷害。","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"對所有敵人造成16點傷害。"},"MasterReality":{"NAME":"操控現實","DESCRIPTION":"所有在戰鬥中臨時增加的牌將被 升級 "},"CleanseEvil":{"NAME":"掃除邪惡","DESCRIPTION":"在手牌中加入 X 張 *懲惡 ","UPGRADE_DESCRIPTION":"在手牌中加入 X 張 *懲惡+ "},"WindmillStrike":{"NAME":"旋轉打擊","DESCRIPTION":" 保留 NL 造成 !D! 點傷害 NL 每當這張牌被 保留 時，在本場戰鬥中將其傷害增加 !M! 點"},"Shield":{"NAME":"DEPRECATED Shield","DESCRIPTION":"獲得 !B! 點 格擋 NL 保留 NL 消耗 "},"LessonLearned":{"NAME":"勤學精進","DESCRIPTION":"造成 !D! 點傷害 NL 斬殺 時，隨機 升級 牌組中的1張卡牌 NL 消耗 "},"Calm":{"NAME":"平靜","DESCRIPTION":"離開 平靜 時，獲得 [W] [W] "},"ThirdEye":{"NAME":"天眼","DESCRIPTION":"獲得 !B! 點 格擋 NL 預見 !M! "},"Survey":{"NAME":"DEPRECATED Survey","DESCRIPTION":"獲得 !B! 點 格擋 NL Gain !M! Vigor."},"FlyingSleeves":{"NAME":"流雲飛袖","DESCRIPTION":" 保留 NL 造成 !D! 點傷害兩次"},"Wireheading":{"NAME":"先見之明","DESCRIPTION":"在你的回合開始時， 預見 !M! ","UPGRADE_DESCRIPTION":""},"Sanctity":{"NAME":"聖潔","DESCRIPTION":"獲得6點格擋。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"獲得9點格擋。"},"WardAura":{"NAME":"DEPRECATED Ward Aura","DESCRIPTION":"獲得 !B! 點 格擋 NL At the start of your turn, gain !M! Block. NL 保留"},"Mastery":{"NAME":"精通","DESCRIPTION":"每當你試圖將 姿態 轉換為你當前的 姿態 時，獲得 [B]"},"Beta":{"NAME":"貝塔","DESCRIPTION":"將一張歐米伽放入你的抽牌堆中。","UPGRADE_DESCRIPTION":"將一張歐米伽放入你的抽牌堆中。","COLOR":"無色","RARITY":"特殊","TYPE":"技能","COST":2,"UPGRADE_COST":1},"FearNoEvil":{"NAME":"不懼妖邪","DESCRIPTION":"造成 !D! 點傷害 NL 若目標敵人的意圖是攻擊，則進入 平靜 "},"Perseverance":{"NAME":"堅韌","DESCRIPTION":"保留。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"保留。"},"Ragnarok":{"NAME":"諸神之黃昏","DESCRIPTION":"隨機對敵人造成5點傷害5次。","COLOR":"紫色","RARITY":"稀有","TYPE":"攻擊","COST":3,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"隨機對敵人造成6點傷害6次。"},"AwakenedStrike":{"NAME":"DEPRECATED Awakened Strike","DESCRIPTION":"造成 !D! 點傷害"},"Blessed":{"NAME":"DEPRECATED Blessed","DESCRIPTION":"Shuffle !M! *Miracles into your draw pile. NL 消耗 ","UPGRADE_DESCRIPTION":"Shuffle !M! Upgraded *Miracles into your draw pile. NL 消耗 "},"Eruption":{"NAME":"暴怒","DESCRIPTION":"造成9點傷害。","COLOR":"紫色","RARITY":"初始","TYPE":"攻擊","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成9點傷害。"},"LetFateDecide":{"NAME":"DEPRECATED Let Fate Decide","DESCRIPTION":"Play the top X cards of your draw pile. If X is 3 or more, Retain X cards."},"CutThroughFate":{"NAME":"斬破命運","DESCRIPTION":"造成 !D! 點傷害 NL 預見 !M! NL 抽1張牌"},"WaveOfTheHand":{"NAME":"擺手","DESCRIPTION":"本回合你每次獲得 格擋 時，給予所有敵人 !M! 層 虛弱 "},"Vigilance":{"NAME":"警惕","DESCRIPTION":"獲得8點格擋。","UPGRADE_DESCRIPTION":"獲得12點格擋。","COLOR":"紫色","RARITY":"初始","TYPE":"技能","COST":2,"UPGRADE_COST":2},"PathToVictory":{"NAME":"點穴","DESCRIPTION":"給予 !M! *印記 NL 所有擁有 *印記 的敵人，失去與層數相等的生命","UPGRADE_DESCRIPTION":""},"Evaluate":{"NAME":"評估","DESCRIPTION":"獲得6點格擋。","UPGRADE_DESCRIPTION":"獲得10點格擋。","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Establishment":{"NAME":"確立基礎","DESCRIPTION":"每當有卡牌被保留時，將其在本場戰鬥的耗能減少1。","UPGRADE_DESCRIPTION":"固有。","COLOR":"紫色","RARITY":"稀有","TYPE":"能力","COST":1,"UPGRADE_COST":1},"Collect":{"NAME":"收集","DESCRIPTION":"在你的下X個回合開始時，增加一張奇跡+到你的手牌。","UPGRADE_DESCRIPTION":"在你的下X+1個回合開始時，增加一張奇跡+到你的手牌。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":-1,"UPGRADE_COST":-1},"Experienced":{"NAME":"DEPRECATED Experienced","DESCRIPTION":"Gain !B! Block for each Upgraded card in your hand."},"PerfectedForm":{"NAME":"DEPRECATED Perfected Form","DESCRIPTION":"If you have entered all basic Stances this turn, enter Divinity. NL 消耗 ","UPGRADE_DESCRIPTION":"If you have entered all basic Stances this turn, enter Divinity."},"JustLucky":{"NAME":"幸運一擊","DESCRIPTION":"預見 !M! NL 獲得 !B! 點 格擋 NL 造成 !D! 點傷害"},"Torrent":{"NAME":"DEPRECATED Torrent","DESCRIPTION":"Deal !D! damage to ALL enemies !M! times. NL 消耗 "},"Peace":{"NAME":"和睦","DESCRIPTION":" 保留 NL 所有敵人失去 !M! 力量 1回合 NL 消耗 "},"PalmThatRestrains":{"NAME":"DEPRECATED Restraining Palm","DESCRIPTION":"造成 !D! 點傷害 NL Apply !M! Weak."},"Protect":{"NAME":"護身","DESCRIPTION":"保留。","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"保留。"},"Worship":{"NAME":"敬拜","DESCRIPTION":"獲得5層真言。","UPGRADE_DESCRIPTION":"保留。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":2,"UPGRADE_COST":2},"EmptyMind":{"NAME":"化智為空","DESCRIPTION":"抽 !M! 張牌 NL 退出當前 姿態 ","UPGRADE_DESCRIPTION":"抽 !M! 張牌 NL 退出當前 姿態 "},"Miracle":{"NAME":"奇跡","DESCRIPTION":"保留。","UPGRADE_DESCRIPTION":"保留。","COLOR":"無色","RARITY":"特殊","TYPE":"技能","COST":0,"UPGRADE_COST":0},"DevaForm":{"NAME":"天人形態","DESCRIPTION":" 虛無 NL 在你的回合開始時獲得 [W] ，每回合多增加 !M! 點","UPGRADE_DESCRIPTION":"在你的回合開始時獲得 [W] ，每回合多增加 !M! 點"},"TalkToTheHand":{"NAME":"以手拒之","DESCRIPTION":"造成 !D! 點傷害 NL 每當目標敵人受到攻擊時，你獲得 !M! 點格擋 NL 消耗 "},"Strike_P":{"NAME":"打擊","DESCRIPTION":"造成 !D! 點傷害","COLOR":"紫色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"Meditate":{"NAME":"冥想","DESCRIPTION":"將棄牌堆中的1張牌放入你的手牌，並將其保留。","UPGRADE_DESCRIPTION":"將棄牌堆中的2張牌放入你的手牌，並將它們保留。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Nirvana":{"NAME":"涅槃","DESCRIPTION":"你每次預見時，獲得3點格擋。","UPGRADE_DESCRIPTION":"你每次預見時，獲得4點格擋。","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1},"DeceiveReality":{"NAME":"欺瞞現實","DESCRIPTION":"獲得 !B! 點 格擋 NL 將一張 *平安 加入手牌","UPGRADE_DESCRIPTION":"獲得 !B! 點 格擋 NL 將一張 *平安+ 加入手牌"},"RetreatingHand":{"NAME":"DEPRECATED Retreating Hand","DESCRIPTION":"Ethereal. NL 獲得 !B! 點 格擋 If the previous card played was an Attack, return this card to your hand.","UPGRADE_DESCRIPTION":"獲得 !B! 點 格擋 If the previous card played was an Attack, return this card to your hand."},"Halt":{"NAME":"停頓","DESCRIPTION":"獲得3點格擋。","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"獲得4點格擋。"},"CurseOfTheBell":{"NAME":"鈴鐺的詛咒","DESCRIPTION":" 無法打出 NL 不能從牌組中移除"},"Brilliance":{"NAME":"光輝","DESCRIPTION":"造成12點傷害。","EXTENDED_DESCRIPTION":[" NL （共獲得過 !M! 層 真言 ）",""],"COLOR":"紫色","RARITY":"稀有","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"造成16點傷害。"},"ClearTheMind":{"NAME":"安寧","DESCRIPTION":"保留 NL 進入 平靜 NL 消耗 "},"Safety":{"NAME":"平安","DESCRIPTION":"保留。","COLOR":"無色","RARITY":"特殊","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"保留。"},"Scrawl":{"NAME":"潦草急就","DESCRIPTION":"抽牌直到將手牌抽滿。","UPGRADE_DESCRIPTION":"抽牌直到將手牌抽滿。","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":0},"Prostrate":{"NAME":"五體投地","DESCRIPTION":"獲得2層真言。","UPGRADE_DESCRIPTION":"獲得3層真言。","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":0,"UPGRADE_COST":0},"Pray":{"NAME":"祈禱","DESCRIPTION":"獲得3層真言。","UPGRADE_DESCRIPTION":"獲得4層真言。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1},"BigBrain":{"NAME":"DEPRECATED Big Brain","DESCRIPTION":"Draw 1 card. NL 保留 NL 消耗 ","UPGRADE_DESCRIPTION":"Draw 1 card. NL 保留 "},"ForeignInfluence":{"NAME":"他山之石","DESCRIPTION":"從3張任意顏色的攻擊牌中選擇1張加入手牌 NL 消耗 ","UPGRADE_DESCRIPTION":"從3張任意顏色的攻擊牌中選擇1張加入手牌，該牌在本回合耗能變為0 NL 消耗 "},"SignatureMove":{"NAME":"招牌技","DESCRIPTION":"只有當這張牌是手牌中唯一的一張攻擊牌時才可以被打出 NL 造成 !D! 點傷害"},"SublimeSlice":{"NAME":"DEPRECATED Sublime Slice","DESCRIPTION":"造成 !D! 點傷害 NL Enter a random Stance."},"ReachHeaven":{"NAME":"立地升天","DESCRIPTION":"造成 !D! 點傷害 NL 在抽牌堆中加入1張 NL *以暴易暴 ","UPGRADE_DESCRIPTION":"造成 !D! 點傷害 NL 在抽牌堆中加入1張 *以暴易暴+ "},"Insight":{"NAME":"洞見","DESCRIPTION":"保留。","UPGRADE_DESCRIPTION":"保留。","COLOR":"無色","RARITY":"特殊","TYPE":"技能","COST":0,"UPGRADE_COST":0},"BattleHymn":{"NAME":"戰歌","DESCRIPTION":"在每回合開始時，將1張 *懲惡 加入手牌","UPGRADE_DESCRIPTION":"固有 NL 在每回合開始時，將1張 *懲惡 加入手牌"},"SoothingAura":{"NAME":"DEPRECATED Soothing Aura","DESCRIPTION":"Apply !M! Weak. NL At the start of your turn, apply 1 Weak to a random enemy. NL 保留 "},"BowlingBash":{"NAME":"碰撞連擊","DESCRIPTION":"當前每有一名敵人，造成 !D! 點傷害"},"Truth":{"NAME":"真知","DESCRIPTION":" 保留 NL 造成 !D! 點傷害 NL 抽 !M! 張牌 NL 消耗 ","UPGRADE_DESCRIPTION":" 保留 NL 造成 !D! 點傷害 NL 抽 !M! 張牌 NL 消耗 "},"Punishment":{"NAME":"DEPRECATED Punishment","DESCRIPTION":"Enter Punishment Stance."},"Smite":{"NAME":"懲惡","DESCRIPTION":"保留。","COLOR":"無色","RARITY":"特殊","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"保留。"},"Omniscience":{"NAME":"通曉萬物","DESCRIPTION":"選擇你抽牌堆中的一張牌。將這張牌打出兩次然後將其消耗。","UPGRADE_DESCRIPTION":"選擇你抽牌堆中的一張牌。將這張牌打出兩次然後將其消耗。","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":4,"UPGRADE_COST":3},"Omega":{"NAME":"歐米伽","DESCRIPTION":"在你的回合結束時，對所有敵人造成50點傷害。","COLOR":"無色","RARITY":"特殊","TYPE":"能力","COST":3,"UPGRADE_COST":3,"UPGRADE_DESCRIPTION":"在你的回合結束時，對所有敵人造成60點傷害。"},"Serenity":{"NAME":"寧靜","DESCRIPTION":"在 平靜 中時，所有生命值損失減少 !M! 點"},"Judgement":{"NAME":"審判","DESCRIPTION":"若目標敵人的生命值小於等於 !M! 點， NL 則將其生命值變為0點","EXTENDED_DESCRIPTION":["審判"]},"MentalFortress":{"NAME":"心靈堡壘","DESCRIPTION":"每當轉換 姿態 時，獲得 !M! 點 格擋 "},"EmptyBody":{"NAME":"化體為空","DESCRIPTION":"獲得 !B! 點 格擋 NL 退出當前 姿態 "},"Crescendo":{"NAME":"漸強","DESCRIPTION":"保留。","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"保留。"},"SandsOfTime":{"NAME":"時之沙","DESCRIPTION":" 保留 NL 造成 !D! 點傷害 NL 每當這張牌被 保留 時，將其在本場戰鬥的耗能減少1"},"Blasphemy":{"NAME":"瀆神","DESCRIPTION":"進入神格。","UPGRADE_DESCRIPTION":"保留。","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1},"Transcendence":{"NAME":"超凡脫俗","DESCRIPTION":" 升級 手牌中所有 保留 牌"},"Flare":{"NAME":"DEPRECATED Flare","DESCRIPTION":"Deal !D! damage to ALL enemies. NL Wrath: Gain [W] [W] ."},"Unraveling":{"NAME":"徹悟","DESCRIPTION":"從左至右打出所有手牌，需要選擇目標的牌將隨機選擇目標 NL 消耗 "},"Weave":{"NAME":"迂回","DESCRIPTION":"造成4點傷害。","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"UPGRADE_DESCRIPTION":"造成6點傷害。"},"CrushJoints":{"NAME":"粉碎關節","DESCRIPTION":"造成 !D! 點傷害 NL 若本場戰鬥中打出的上1張牌是技能牌，給予 !M! 層 易傷 "},"Vengeance":{"NAME":"怒火中燒","DESCRIPTION":"在你的下個回合開始時，進入 憤怒 並抽 !M! 張牌"},"CarveReality":{"NAME":"改造現實","DESCRIPTION":"造成 !D! 點傷害 NL 將一張 *懲惡 加入手牌","UPGRADE_DESCRIPTION":"造成 !D! 點傷害 NL 將一張 *懲惡+ 加入手牌"},"Defend_P":{"NAME":"防禦","DESCRIPTION":"獲得 !B! 點 格擋 ","COLOR":"紫色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1},"CrescentKick":{"NAME":"DEPRECATED Crescent Kick","DESCRIPTION":"造成 !D! 點傷害 NL If you have Vigor, NL gain [W] and NL draw 1 card."},"Thwack":{"NAME":"DEPRECATED Thwack","DESCRIPTION":"造成 !D! 點傷害"},"Fasting":{"NAME":"齋戒","DESCRIPTION":"獲得3點力量。","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":2,"UPGRADE_COST":2,"UPGRADE_DESCRIPTION":"獲得4點力量。"},"Swipe":{"NAME":"DEPRECATED Swipe","DESCRIPTION":"造成 !D! 點傷害 Deal half this damage to all other enemies."},"InnerPeace":{"NAME":"內心寧靜","DESCRIPTION":"平靜 ： 抽 !M! 張牌 NL 否則，進入 平靜 "},"StepAndStrike":{"NAME":"跨步打擊","DESCRIPTION":"本回合每轉換一次 姿態 ，這張牌在本回合的耗能減少1 NL 獲得 !B! 點 格擋 NL 造成 !D! 點傷害"},"Prediction":{"NAME":"DEPRECATED Prediction","DESCRIPTION":"Gain !B! Block at the start of your next turn."},"Flow":{"NAME":"DEPRECATED Flow","DESCRIPTION":"When you play an Attack, gain 1 temporary Dexterity. When you play a Skill, gain 1 temporary Strength."},"FlameMastery":{"NAME":"DEPRECATED Flame Mastery","DESCRIPTION":"Gain !M! Strength."},"FlurryOfBlows":{"NAME":"疾風連擊","DESCRIPTION":"造成 !D! 點傷害 NL 每當轉換 姿態 時，將這張牌從棄牌堆中放入手牌"},"SashWhip":{"NAME":"腰帶抽打","DESCRIPTION":"造成 !D! 點傷害 NL 若本場戰鬥中打出的上1張牌是攻擊牌，給予 !M! 層 虛弱 "},"WheelKick":{"NAME":"迴環踢","DESCRIPTION":"造成 !D! 點傷害 NL 抽 !M! 張牌","UPGRADE_DESCRIPTION":"造成 !D! 點傷害 NL 抽 !M! 張牌"},"Indignation":{"NAME":"義憤填膺","DESCRIPTION":"憤怒：給予所有敵人3層易傷。","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"憤怒：給予所有敵人5層易傷。"},"BecomeAlmighty":{"NAME":"力大無窮","DESCRIPTION":"獲得 !M! 點 力量 "},"FameAndFortune":{"NAME":"名利雙收","DESCRIPTION":"獲得 !M! 金幣"},"LiveForever":{"NAME":"永生不死","DESCRIPTION":"獲得 !M! 層 *多層護甲 "},"Expunger":{"NAME":"滅除之刃","DESCRIPTION":"造成9點傷害X次。","UPGRADE_DESCRIPTION":"造成15點傷害X次。","EXTENDED_DESCRIPTION":["造成 !D! 點傷害 !M! 次","造成 !D! 點傷害 !M! 次"],"COLOR":"無色","RARITY":"特殊","TYPE":"攻擊","COST":1,"UPGRADE_COST":1},"ConjureBlade":{"NAME":"聚能成刃","DESCRIPTION":"將1張 *滅除之刃 放入抽牌堆中 NL 消耗 ","UPGRADE_DESCRIPTION":"將1張次數為X+1的 *滅除之刃 放入抽牌堆中 NL 消耗 "},"WaveOfTheHand2":{"NAME":"DEPRECATED","DESCRIPTION":"DEPRECATED"},"Fasting2":{"NAME":"齋戒","DESCRIPTION":"獲得 !M! 點 力量 NL 獲得 !M! 敏捷 NL 每回合開始時少獲得1 [W] "},"Discipline":{"NAME":"DEPRECATED 戒律","DESCRIPTION":"若你在回合結束時有未使用的 [W] ，則在下一回合額外抽相應張數的牌"},"Flick":{"NAME":"DEPRECATED 輕彈","DESCRIPTION":"造成 !D! 點傷害 NL 當一名敵人被 *輕彈 3 次時，將額外受到 !M! 點傷害"},"LikeWater":{"NAME":"如水","DESCRIPTION":"在你的回合結束時，若你處於 平靜 ，則獲得 !M! 點 格擋 "},"Study":{"NAME":"研習","DESCRIPTION":"在你的回合結束時，在你的抽牌堆中加入一張洞見。","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":2,"UPGRADE_COST":1,"UPGRADE_DESCRIPTION":"在你的回合結束時，在你的抽牌堆中加入一張洞見。"},"Defend":{"NAME":"防禦（紫）","COLOR":"紫色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得5點格擋。","UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Defend_R":{"NAME":"防禦","COLOR":"紅色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得5點格擋。","UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Defend_G":{"NAME":"防禦","COLOR":"綠色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得5點格擋。","UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Defend_B":{"NAME":"防禦","COLOR":"藍色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得5點格擋。","UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Defend_P":{"NAME":"防禦","COLOR":"紫色","RARITY":"初始","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得5點格擋。","UPGRADE_DESCRIPTION":"獲得8點格擋。"},"Head butt":{"NAME":"頭槌","COLOR":"紅色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成9點傷害。","UPGRADE_DESCRIPTION":"造成12點傷害。"},"Strike":{"NAME":"打擊（紫）","COLOR":"紫色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成6點傷害。","UPGRADE_DESCRIPTION":"造成9點傷害。"},"Strike_R":{"NAME":"打擊","COLOR":"紅色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成6點傷害。","UPGRADE_DESCRIPTION":"造成9點傷害。"},"Strike_G":{"NAME":"打擊","COLOR":"綠色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成6點傷害。","UPGRADE_DESCRIPTION":"造成9點傷害。"},"Strike_B":{"NAME":"打擊","COLOR":"藍色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成6點傷害。","UPGRADE_DESCRIPTION":"造成9點傷害。"},"Strike_P":{"NAME":"打擊","COLOR":"紫色","RARITY":"初始","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成6點傷害。","UPGRADE_DESCRIPTION":"造成9點傷害。"},"Piercing Wail":{"NAME":"尖嘯","COLOR":"綠色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"所有敵人失去6力量1回合。","UPGRADE_DESCRIPTION":"所有敵人失去8力量1回合。"},"Riddle with Holes":{"NAME":"千穿百刺","COLOR":"綠色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"造成3點傷害5次。","UPGRADE_DESCRIPTION":"造成4點傷害5次。"},"Sneaky Strike":{"NAME":"隱秘打擊","COLOR":"綠色","RARITY":"普通","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"造成12點傷害。","UPGRADE_DESCRIPTION":"造成16點傷害。"},"Wraith Form":{"NAME":"幽魂形態","COLOR":"綠色","RARITY":"稀有","TYPE":"能力","COST":3,"UPGRADE_COST":3,"DESCRIPTION":"獲得2層無實體。","UPGRADE_DESCRIPTION":"獲得3層無實體。"},"Boot Sequence":{"NAME":"啟動流程","COLOR":"藍色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"DESCRIPTION":"獲得10點格擋。","UPGRADE_DESCRIPTION":"獲得13點格擋。"},"Charge Battery":{"NAME":"充電","COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得7點格擋。","UPGRADE_DESCRIPTION":"獲得10點格擋。"},"Bullseye":{"NAME":"瞄準靶心","COLOR":"藍色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成8點傷害。","UPGRADE_DESCRIPTION":"造成11點傷害。"},"Recursion":{"NAME":"遞迴","COLOR":"藍色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":0,"DESCRIPTION":"激發你最右側的充能球。","UPGRADE_DESCRIPTION":"激發你最右側的充能球。"},"Battle Hymn":{"NAME":"戰歌","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"在每回合開始時，將一張懲惡加入你的手牌。","UPGRADE_DESCRIPTION":"固有。"},"Bowling Bash":{"NAME":"碰撞連擊","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"當前每有一名敵人，造成7點傷害。","UPGRADE_DESCRIPTION":"當前每有一名敵人，造成10點傷害。"},"Carve Reality":{"NAME":"改造現實","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成6點傷害。","UPGRADE_DESCRIPTION":"造成10點傷害。"},"Conjure Blade":{"NAME":"聚能成刃","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":-1,"UPGRADE_COST":-1,"DESCRIPTION":"將1張 滅除之刃放入你的抽牌堆中。","UPGRADE_DESCRIPTION":"將1張X數值+1的滅除之刃放入你的抽牌堆中。"},"Cut Through Fate":{"NAME":"斬破命運","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成7點傷害。","UPGRADE_DESCRIPTION":"造成9點傷害。"},"Crush Joints":{"NAME":"粉碎關節","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成8點傷害。","UPGRADE_DESCRIPTION":"造成10點傷害。"},"Deva Form":{"NAME":"天人形態","COLOR":"紫色","RARITY":"稀有","TYPE":"能力","COST":3,"UPGRADE_COST":3,"DESCRIPTION":"虛無。","UPGRADE_DESCRIPTION":"在你的回合開始時獲得[P]，每回合增加1。"},"Deus Ex Machina":{"NAME":"機械降神","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":-2,"UPGRADE_COST":-2,"DESCRIPTION":"不能被打出。","UPGRADE_DESCRIPTION":"不能被打出。"},"Empty Body":{"NAME":"化體為空","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得7點格擋。","UPGRADE_DESCRIPTION":"獲得10點格擋。"},"Empty Fist":{"NAME":"化拳為空","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成9點傷害。","UPGRADE_DESCRIPTION":"造成14點傷害。"},"Empty Mind":{"NAME":"化智為空","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"抽2張牌。","UPGRADE_DESCRIPTION":"抽3張牌。"},"Fear No Evil":{"NAME":"不懼妖邪","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成8點傷害。","UPGRADE_DESCRIPTION":"造成11點傷害。"},"Flurry of Blows":{"NAME":"疾風連擊","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"DESCRIPTION":"造成4點傷害。","UPGRADE_DESCRIPTION":"造成6點傷害。"},"Flying Sleeves":{"NAME":"流雲飛袖","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"保留。","UPGRADE_DESCRIPTION":"保留。"},"Follow-Up":{"NAME":"追擊","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成7點傷害。","UPGRADE_DESCRIPTION":"造成11點傷害。"},"Foreign Influence":{"NAME":"他山之石","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"DESCRIPTION":"從3張任意顏色的攻擊牌中選擇1張加入你的手牌。","UPGRADE_DESCRIPTION":"從3張任意顏色的攻擊牌中選擇1張加入你的手牌。"},"Foresight":{"NAME":"先見之明","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"在你的回合開始時，預見3。","UPGRADE_DESCRIPTION":"在你的回合開始時，預見4。"},"Judgment":{"NAME":"審判","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"如果目標敵人的生命值小於等於30點，則將其生命值變為0。","UPGRADE_DESCRIPTION":"如果目標敵人的生命值小於等於40點，則將其生命值變為0。"},"Inner Peace":{"NAME":"內心寧靜","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"平靜：抽3張牌。","UPGRADE_DESCRIPTION":"平靜：抽4張牌。"},"Like Water":{"NAME":"如水","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"在你的回合結束時，如果你處於平靜，則獲得5點格擋。","UPGRADE_DESCRIPTION":"在你的回合結束時，如果你處於平靜，則獲得7點格擋。"},"Just Luck":{"NAME":"幸運一擊","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"DESCRIPTION":"預見1。","UPGRADE_DESCRIPTION":"預見2。"},"Lesson Learned":{"NAME":"勤學精進","COLOR":"紫色","RARITY":"稀有","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"造成10點傷害。","UPGRADE_DESCRIPTION":"造成13點傷害。"},"Mental Fortress":{"NAME":"心靈堡壘","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"每當你轉換姿態時，獲得4點格擋。","UPGRADE_DESCRIPTION":"每當你轉換姿態時，獲得6點格擋。"},"Master Reality":{"NAME":"操控現實","COLOR":"紫色","RARITY":"稀有","TYPE":"能力","COST":1,"UPGRADE_COST":0,"DESCRIPTION":"所有在戰鬥中臨時增加的牌將被升級。","UPGRADE_DESCRIPTION":"所有在戰鬥中臨時增加的牌將被升級。"},"Pressure Points":{"NAME":"點穴","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"給予8層印記。","UPGRADE_DESCRIPTION":"給予11層印記。"},"Reach Heaven":{"NAME":"立地升天","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"造成10點傷害。","UPGRADE_DESCRIPTION":"造成15點傷害。"},"Rushdown":{"NAME":"猛虎下山","COLOR":"紫色","RARITY":"罕見","TYPE":"能力","COST":1,"UPGRADE_COST":0,"DESCRIPTION":"每當你進入憤怒時，抽2張牌。","UPGRADE_DESCRIPTION":"每當你進入憤怒時，抽2張牌。"},"Sands of Time":{"NAME":"時之沙","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":4,"UPGRADE_COST":4,"DESCRIPTION":"保留。","UPGRADE_DESCRIPTION":"保留。"},"Sash Whip":{"NAME":"腰帶抽打","COLOR":"紫色","RARITY":"普通","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成8點傷害。","UPGRADE_DESCRIPTION":"造成10點傷害。"},"Deceive Reality":{"NAME":"欺瞞現實","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得4點格擋。","UPGRADE_DESCRIPTION":"獲得7點格擋。"},"Signature Move":{"NAME":"招牌技","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"只有當這張牌是你手中唯一的一張攻擊牌時才可以被打出。","UPGRADE_DESCRIPTION":"只有當這張牌是你手中唯一的一張攻擊牌時才可以被打出。"},"Simmering Fury":{"NAME":"怒火中燒","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"在你的下一回合開始時，進入憤怒並抽2張牌。","UPGRADE_DESCRIPTION":"在你的下一回合開始時，進入憤怒並抽3張牌。"},"Spirit Shield":{"NAME":"精神護盾","COLOR":"紫色","RARITY":"稀有","TYPE":"技能","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"你每有一張手牌，獲得3點格擋。","UPGRADE_DESCRIPTION":"你每有一張手牌，獲得4點格擋。"},"Third Eye":{"NAME":"天眼","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"獲得7點格擋。","UPGRADE_DESCRIPTION":"獲得9點格擋。"},"Talk to the Hand":{"NAME":"以手拒之","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成5點傷害。","UPGRADE_DESCRIPTION":"造成7點傷害。"},"Tranquility":{"NAME":"安寧","COLOR":"紫色","RARITY":"普通","TYPE":"技能","COST":1,"UPGRADE_COST":0,"DESCRIPTION":"保留。","UPGRADE_DESCRIPTION":"保留。"},"Wave of the Hand":{"NAME":"擺手","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"在本回合，你每次獲得格擋時，給予所有敵人1層虛弱。","UPGRADE_DESCRIPTION":"在本回合，你每次獲得格擋時，給予所有敵人2層虛弱。"},"Wheel Kick":{"NAME":"回環踢","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"造成15點傷害。","UPGRADE_DESCRIPTION":"造成20點傷害。"},"Windmill Strike":{"NAME":"旋轉打擊","COLOR":"紫色","RARITY":"罕見","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"保留。","UPGRADE_DESCRIPTION":"保留。"},"Wreath of Flame":{"NAME":"火焰紋","COLOR":"紫色","RARITY":"罕見","TYPE":"技能","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"你的下一張攻擊牌造成5點額外傷害。","UPGRADE_DESCRIPTION":"你的下一張攻擊牌造成8點額外傷害。"},"Hand Of Greed":{"NAME":"貪婪之手","COLOR":"無色","RARITY":"稀有","TYPE":"攻擊","COST":2,"UPGRADE_COST":2,"DESCRIPTION":"造成20點傷害。","UPGRADE_DESCRIPTION":"造成25點傷害。"},"Panic Button":{"NAME":"應急按鈕","COLOR":"無色","RARITY":"罕見","TYPE":"技能","COST":0,"UPGRADE_COST":0,"DESCRIPTION":"獲得30點格擋。","UPGRADE_DESCRIPTION":"獲得40點格擋。"},"Ritual Dagger":{"NAME":"儀式匕首","COLOR":"無色","RARITY":"特殊","TYPE":"攻擊","COST":1,"UPGRADE_COST":1,"DESCRIPTION":"造成15點傷害。","UPGRADE_DESCRIPTION":"造成15點傷害。"},"Through Violence":{"NAME":"以暴易暴","COLOR":"無色","RARITY":"特殊","TYPE":"攻擊","COST":0,"UPGRADE_COST":0,"DESCRIPTION":"保留。","UPGRADE_DESCRIPTION":"保留。"}};
 
     const RELIC_REFERENCE = {
-      "Anchor": { "NAME": "錨" },
-      "Calipers": { "NAME": "外卡鉗" },
-      "Unceasing Top": { "NAME": "不休陀螺" },
-      "Art of War": { "NAME": "孫子兵法" },
-      "Astrolabe": { "NAME": "星盤" },
-      "Bag of Marbles": { "NAME": "彈珠袋" },
-      "Bag of Preparation": { "NAME": "準備背包" },
-      "Bird Faced Urn": { "NAME": "鳥面甕" },
-      "Black Blood": { "NAME": "黑暗之血" },
-      "Black Star": { "NAME": "黑星" },
-      "Blood Vial": { "NAME": "小血瓶" },
-      "Bloody Idol": { "NAME": "鮮血神像" },
-      "Blue Candle": { "NAME": "藍蠟燭" },
-      "Bottled Flame": { "NAME": "瓶裝火焰" },
-      "Bottled Lightning": { "NAME": "瓶裝閃電" },
-      "Bottled Tornado": { "NAME": "瓶裝旋風" },
-      "Bronze Scales": { "NAME": "銅製鱗片" },
-      "Burning Blood": { "NAME": "燃燒之血" },
-      "Calling Bell": { "NAME": "召喚鈴鐺" },
-      "Cauldron": { "NAME": "大鍋" },
-      "Centennial Puzzle": { "NAME": "百年積木" },
-      "Chameleon Ring": { "NAME": "變色龍戒指" },
-      "Champion Belt": { "NAME": "冠軍腰帶" },
-      "Charon's Ashes": { "NAME": "凱倫之灰" },
-      "Chemical X": { "NAME": "化學物X" },
-      "Circlet": { "NAME": "頭環" },
-      "The Courier": { "NAME": "送貨員" },
-      "Cursed Key": { "NAME": "詛咒鑰匙" },
-      "Dead Branch": { "NAME": "枯木樹枝" },
-      "Discerning Monocle": { "NAME": "鑑識單片眼鏡" },
-      "Dodecahedron": { "NAME": "DEPRECATED符文十二面體" },
-      "Dream Catcher": { "NAME": "捕夢網" },
-      "Du-Vu Doll": { "NAME": "毒巫娃娃" },
-      "Ectoplasm": { "NAME": "靈體外質" },
-      "Frozen Egg 2": { "NAME": "凍結之蛋" },
-      "Molten Egg 2": { "NAME": "熔火之蛋" },
-      "Toxic Egg 2": { "NAME": "毒素之蛋" },
-      "Enchiridion": { "NAME": "英雄寶典" },
-      "Eternal Feather": { "NAME": "永恆羽毛" },
-      "Frozen Egg": { "NAME": "凍結之蛋" },
-      "Gambling Chip": { "NAME": "賭博籌碼" },
-      "Ginger": { "NAME": "生薑" },
-      "Girya": { "NAME": "壺鈴" },
-      "Golden Idol": { "NAME": "金神像" },
-      "Gremlin Horn": { "NAME": "地精之角" },
-      "Happy Flower": { "NAME": "開心小花" },
-      "Ice Cream": { "NAME": "冰淇淋" },
-      "Juzu Bracelet": { "NAME": "佛珠手鏈" },
-      "Kunai": { "NAME": "苦無" },
-      "Lantern": { "NAME": "燈籠" },
-      "Letter Opener": { "NAME": "開信刀" },
-      "Living Blade": { "NAME": "活刀刃" },
-      "Lizard Tail": { "NAME": "蜥蜴尾巴" },
-      "Magic Flower": { "NAME": "魔法花" },
-      "Mango": { "NAME": "芒果" },
-      "Mark of Pain": { "NAME": "痛楚印記" },
-      "Matryoshka": { "NAME": "套娃" },
-      "Meat on the Bone": { "NAME": "帶骨大肉" },
-      "Medical Kit": { "NAME": "醫藥箱" },
-      "Membership Card": { "NAME": "會員卡" },
-      "Mercury Hourglass": { "NAME": "水銀沙漏" },
-      "Molten Egg": { "NAME": "熔火之蛋" },
-      "Mummified Hand": { "NAME": "乾癟之手" },
-      "Necronomicon": { "NAME": "死靈之書" },
-      "Nilry's Codex": { "NAME": "尼利的寶典" },
-      "Nine Lives": { "NAME": "九命" },
-      "Ninja Scroll": { "NAME": "忍術卷軸" },
-      "Nloth's Gift": { "NAME": "恩洛斯的禮物" },
-      "Nullstone Periapt": { "NAME": "Nullstone Periapt" },
-      "Oddly Smooth Stone": { "NAME": "意外光滑的石頭" },
-      "Odd Mushroom": { "NAME": "奇怪蘑菇" },
-      "Old Coin": { "NAME": "古錢幣" },
-      "Omamori": { "NAME": "御守" },
-      "Orichalcum": { "NAME": "奧利哈鋼" },
-      "Ornamental Fan": { "NAME": "精緻摺扇" },
-      "Orrery": { "NAME": "星系儀" },
-      "Pandora's Box": { "NAME": "潘朵拉的魔盒" },
-      "Pantograph": { "NAME": "縮放儀" },
-      "Paper Crane": { "NAME": "紙鶴" },
-      "Paper Frog": { "NAME": "紙蛙" },
-      "Peace Pipe": { "NAME": "寧靜煙斗" },
-      "Pear": { "NAME": "梨子" },
-      "Pen Nib": { "NAME": "鋼筆尖" },
-      "Philosopher's Stone": { "NAME": "賢者之石" },
-      "Prayer Wheel": { "NAME": "轉經輪" },
-      "Question Card": { "NAME": "問號牌" },
-      "Red Circlet": { "NAME": "紅頭環" },
-      "Red Mask": { "NAME": "紅面具" },
-      "Red Skull": { "NAME": "紅頭骨" },
-      "Regal Pillow": { "NAME": "皇家枕頭" },
-      "Ring of the Serpent": { "NAME": "長蛇戒指" },
-      "Runic Cube": { "NAME": "符文立方體" },
-      "Runic Dome": { "NAME": "符文圓頂" },
-      "Runic Pyramid": { "NAME": "符文金字塔" },
-      "Self Forming Clay": { "NAME": "自成型黏土" },
-      "Shovel": { "NAME": "鏟子" },
-      "Shuriken": { "NAME": "手裏劍" },
-      "Singing Bowl": { "NAME": "頌缽" },
-      "Smiling Mask": { "NAME": "微笑面具" },
-      "Ring of the Snake": { "NAME": "蛇之戒指" },
-      "Snecko Eye": { "NAME": "異蛇之眼" },
-      "Snake Skull": { "NAME": "異蛇頭骨" },
-      "Sozu": { "NAME": "添水" },
-      "Spirit Poop": { "NAME": "精靈便便" },
-      "Strange Spoon": { "NAME": "奇怪的勺子" },
-      "Strawberry": { "NAME": "草莓" },
-      "Sundial": { "NAME": "日晷" },
-      "Ancient Tea Set": { "NAME": "古茶具套裝" },
-      "War Paint": { "NAME": "戰紋塗料" },
-      "Darkstone Periapt": { "NAME": "黑石護符" },
-      "Test 1": { "NAME": "測試遺物 1" },
-      "Frozen Eye": { "NAME": "凍結之眼" },
-      "Test 2": { "NAME": "測試遺物 2" },
-      "Test 3": { "NAME": "測試遺物 3" },
-      "Test 4": { "NAME": "測試遺物 4" },
-      "Test 5": { "NAME": "測試遺物 5" },
-      "Test 6": { "NAME": "測試遺物 6" },
-      "Test 7": { "NAME": "測試遺物 7" },
-      "Test 8": { "NAME": "測試遺物 8" },
-      "The Specimen": { "NAME": "生物樣本" },
-      "Thread and Needle": { "NAME": "針線" },
-      "Tingsha": { "NAME": "銅鈸" },
-      "Tiny Chest": { "NAME": "小寶箱" },
-      "Tiny House": { "NAME": "小屋子" },
-      "Toolbox": { "NAME": "工具箱" },
-      "Torii": { "NAME": "鳥居" },
-      "Tough Bandages": { "NAME": "結實繃帶" },
-      "Toxic Egg": { "NAME": "毒素之蛋" },
-      "Toy Ornithopter": { "NAME": "玩具撲翼飛機" },
-      "Vajra": { "NAME": "金剛杵" },
-      "Velvet Choker": { "NAME": "天鵝絨頸圈" },
-      "Lee's Waffle": { "NAME": "李家華夫餅" },
-      "Whetstone": { "NAME": "磨刀石" },
-      "Derp Rock": { "NAME": "Derp Rock" },
-      "NeowsBlessing": { "NAME": "涅奧的悲慟" },
-      "White Beast Statue": { "NAME": "白獸雕像" }
-    };
+      "Anchor": {
+          "NAME": "錨",
+          "FLAVOR": "拿著這個小小的裝飾，你覺得自己更穩也更重了。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時獲得 #b",
+              " 點 #y格擋 "
+          ],
+          "RARITY": "普通"
+      },
+      "Ancient Tea Set": {
+          "NAME": "古茶具套裝",
+          "FLAVOR": "能讓你神清氣爽睡得香。",
+          "DESCRIPTIONS": [
+              "到達休息處後的下一場戰鬥開始時獲得 [E] [E] "
+          ],
+          "RARITY": "普通"
+      },
+      "Art of War": {
+          "NAME": "孫子兵法",
+          "FLAVOR": "這本古兵書記載著遠古時代的智慧。",
+          "DESCRIPTIONS": [
+              "若回合內沒有打出 #y攻擊牌 ，在下回合獲得 ",
+              "[E] "
+          ],
+          "RARITY": "普通"
+      },
+      "Astrolabe": {
+          "NAME": "星盤",
+          "FLAVOR": "可以從星星中探知寶貴知識的工具。",
+          "DESCRIPTIONS": [
+              "拾起時，選擇 #b3 張牌進行 #y變化 ，然後將這些牌 #y升級",
+              "選擇3張牌 "
+          ],
+          "RARITY": "首領"
+      },
+      "Bag of Marbles": {
+          "NAME": "彈珠袋",
+          "FLAVOR": "曾經這在城市區是流行的玩具，現在你可以用它讓敵人們失去平衡。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，給予所有敵人 #b",
+              " 層 #y易傷 "
+          ],
+          "RARITY": "普通"
+      },
+      "Bag of Preparation": {
+          "NAME": "準備背包",
+          "FLAVOR": "冒險者專用的超大號背包，有很多口袋和皮帶。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，額外抽 #b",
+              " 張牌"
+          ],
+          "RARITY": "普通"
+      },
+      "Bird Faced Urn": {
+          "NAME": "鳥面甕",
+          "FLAVOR": "這個甕上雕著烏鴉之神Mazaleth嘲弄的樣貌。",
+          "DESCRIPTIONS": [
+              "每打出1張 #y能力牌 ，回復 #b",
+              " 點生命"
+          ]
+      },
+      "Black Blood": {
+          "NAME": "黑暗之血",
+          "FLAVOR": "你的憤怒變得更加黑暗。",
+          "DESCRIPTIONS": [
+              "取代 #r燃燒之血 NL 在戰鬥結束時，回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "首領"
+      },
+      "Black Star": {
+          "NAME": "黑星",
+          "FLAVOR": "最初在蛇鎮上發現的遺物，當時被放在一根蠟燭旁邊。",
+          "DESCRIPTIONS": [
+              "#y精英 被打敗時多掉落1件 #y遺物"
+          ],
+          "RARITY": "首領"
+      },
+      "Blood Vial": {
+          "NAME": "小血瓶",
+          "FLAVOR": "裝著純種年長吸血鬼血液的一個小瓶。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "普通"
+      },
+      "Bloody Idol": {
+          "NAME": "鮮血神像",
+          "FLAVOR": "這個神像現在一直在流著血淚。",
+          "DESCRIPTIONS": [
+              "獲得 #y金幣 時，回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "事件"
+      },
+      "Blue Candle": {
+          "NAME": "藍蠟燭",
+          "FLAVOR": "當處於黑暗中時，這支蠟燭會自動點燃。",
+          "DESCRIPTIONS": [
+              "可以打出原本 無法打出 的 #y詛咒 牌 NL NL 打出 #y詛咒 牌會使你失去 #b",
+              " 點生命並將其 #y消耗 "
+          ],
+          "RARITY": "罕見"
+      },
+      "Boot": {
+          "NAME": "發條靴",
+          "FLAVOR": "擰動發條會讓這只靴子變得更大。",
+          "DESCRIPTIONS": [
+              "每當你造成小於等於 #b",
+              " 點未被格擋的 #y攻擊 傷害時，將傷害提升為 #b5 "
+          ]
+      },
+      "Bottled Flame": {
+          "NAME": "瓶裝火焰",
+          "FLAVOR": "在這個瓶子裡，有著一團永遠燃燒的火焰。",
+          "DESCRIPTIONS": [
+              "拾起時，選擇1張 #y攻擊牌 。每場戰鬥開始時，這張牌會出現在手牌中",
+              "選擇1張牌 ",
+              "每場戰鬥開始時，將 ",
+              " 放入手牌"
+          ],
+          "RARITY": "罕見"
+      },
+      "Bottled Lightning": {
+          "NAME": "瓶裝閃電",
+          "FLAVOR": "細看這團旋轉的雷雲，你彷彿能看見自己的一部分在回望著你。",
+          "DESCRIPTIONS": [
+              "拾起時，選擇1張 #y技能牌 。每場戰鬥開始時，這張牌會出現在手牌中",
+              "選擇1張牌 ",
+              "每場戰鬥開始時，將 ",
+              " 放入手牌"
+          ],
+          "RARITY": "罕見"
+      },
+      "Bottled Tornado": {
+          "NAME": "瓶裝旋風",
+          "FLAVOR": "這個瓶子中傳來輕輕的嗡嗡聲與呼呼聲。",
+          "DESCRIPTIONS": [
+              "拾起時，選擇1張 #y能力牌 。每場戰鬥開始時，這張牌會出現在手牌中",
+              "選擇1張牌 ",
+              "每場戰鬥開始時，將 ",
+              " 放入手牌"
+          ],
+          "RARITY": "罕見"
+      },
+      "Bronze Scales": {
+          "NAME": "銅製鱗片",
+          "FLAVOR": "守護者身上的銳利鱗片，會自動變形來保護使用者。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，獲得 #b",
+              " 點 荊棘 "
+          ],
+          "RARITY": "普通"
+      },
+      "Burning Blood": {
+          "NAME": "燃燒之血",
+          "FLAVOR": "你自身的血液因為無盡的憤怒而燃燒沸騰。",
+          "DESCRIPTIONS": [
+              "在戰鬥結束時，回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "初始"
+      },
+      "Cables": {
+          "NAME": "鍍金纜線",
+          "FLAVOR": "「有意思！看來就連自動機器人也會有安慰劑效應。」──蘭偉德",
+          "DESCRIPTIONS": [
+              "最右側的充能球會額外觸發1次被動效果"
+          ]
+      },
+      "Calipers": {
+          "NAME": "外卡鉗",
+          "FLAVOR": "「機械精度正是通向崇高之路。」──建築師",
+          "DESCRIPTIONS": [
+              "在你的回合開始時，不再失去所有 #y格擋 ，而是失去 #b",
+              " 點 #y格擋 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Calling Bell": {
+          "NAME": "召喚鈴鐺",
+          "FLAVOR": "這個黑鐵鈴鐺在你找到它時作響了3次，但現在它已經不再響了。",
+          "DESCRIPTIONS": [
+              "拾起時，獲得1個獨特的 #r詛咒 和 #b3 件 #y遺物  ",
+              "鈴鐺鳴響……",
+              "略過獎勵",
+              "關閉"
+          ],
+          "RARITY": "首領"
+      },
+      "Cauldron": {
+          "NAME": "大鍋",
+          "FLAVOR": "商人其實是位技術相當不錯的藥劑師。買四送一。",
+          "DESCRIPTIONS": [
+              "拾起時，製作 #b5 瓶隨機藥水",
+              "咕嘟咕嘟咕嚕……！"
+          ],
+          "RARITY": "商店"
+      },
+      "Centennial Puzzle": {
+          "NAME": "百年積木",
+          "FLAVOR": "解開積木的謎題時，你感到心中有一股強大的暖意。",
+          "DESCRIPTIONS": [
+              "你在每場戰鬥中第1次失去生命時，抽 #b",
+              " 張牌"
+          ],
+          "RARITY": "普通"
+      },
+      "Chameleon Ring": {
+          "NAME": "變色龍戒指",
+          "FLAVOR": "棄用",
+          "DESCRIPTIONS": [
+              "可以在休息處 #y製作藥水"
+          ]
+      },
+      "Champion Belt": {
+          "NAME": "冠軍腰帶",
+          "FLAVOR": "只有最強者才配佩戴這條腰帶。",
+          "DESCRIPTIONS": [
+              "每當你給予 #y易傷 時，同時給予 #b",
+              " 層 #y虛弱 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Charon's Ashes": {
+          "NAME": "凱倫之灰",
+          "FLAVOR": "傳說中凱倫是重生的神祇，永遠都在烈焰之中反覆地死亡和重生。",
+          "DESCRIPTIONS": [
+              "每 #y消耗 1張牌，對所有敵人造成 #b",
+              " 點傷害"
+          ]
+      },
+      "Chemical X": {
+          "NAME": "化學物X",
+          "FLAVOR": "警告：嚴禁與糖、香料還有一切美好的味道混合在一起。",
+          "DESCRIPTIONS": [
+              "耗能為 #bX 的牌的效果數值增加 #b",
+              " 點"
+          ],
+          "RARITY": "商店"
+      },
+      "Circlet": {
+          "NAME": "頭環",
+          "FLAVOR": "你已經沒有更多遺物可以拿了。厲害！",
+          "DESCRIPTIONS": [
+              "多多益善"
+          ]
+      },
+      "Cracked Core": {
+          "NAME": "破損核心",
+          "FLAVOR": "高塔中所有自動機器人體內都有的神秘生命力之源，這個似乎已經有一點破損了。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時， #y生成 #b1 個 #y閃電 充能球"
+          ],
+          "RARITY": "初始"
+      },
+      "Cursed Key": {
+          "NAME": "詛咒鑰匙",
+          "FLAVOR": "你能感到這把鑰匙上散發出邪惡的能量。力量總是需要付出代價的。",
+          "DESCRIPTIONS": [
+              " NL 每次打開非首領寶箱，都會獲得1張 #r詛咒 ",
+              "每回合開始時獲得 [E] "
+          ],
+          "RARITY": "首領"
+      },
+      "Darkstone Periapt": {
+          "NAME": "黑石護符",
+          "FLAVOR": "這塊黑石能吸取黑暗的能量，將其轉化為佩戴者的生命力。",
+          "DESCRIPTIONS": [
+              "每當獲得1張 #y詛咒 ，最大生命值提升 #b"
+          ],
+          "RARITY": "罕見"
+      },
+      "DataDisk": {
+          "NAME": "資料磁碟",
+          "FLAVOR": "這張磁碟裡記錄了關於鳥類和蛇類的珍貴資料。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，獲得 #b",
+              " 點 #y集中 "
+          ]
+      },
+      "Dead Branch": {
+          "NAME": "枯木樹枝",
+          "FLAVOR": "從失落遠古時代遺留下來的樹枝。",
+          "DESCRIPTIONS": [
+              "每 #y消耗 1張牌，增加1張隨機卡牌到手牌"
+          ],
+          "RARITY": "稀有"
+      },
+      "Derp Rock": {
+          "NAME": "呆石",
+          "FLAVOR": "Placeholder",
+          "DESCRIPTIONS": [
+              "在每回合開始時，獲得 #b",
+              " 層充能。 NL （無法被移除或變化。）"
+          ],
+          "RARITY": "特殊／未分類"
+      },
+      "Discerning Monocle": {
+          "NAME": "鑑識單片眼鏡",
+          "FLAVOR": "看起來很有紳士的感覺。",
+          "DESCRIPTIONS": [
+              "商人所有商品的賣價降低 #b20%"
+          ]
+      },
+      "Dodecahedron": {
+          "NAME": "符文十二面體",
+          "FLAVOR": "上面的符文無法辨識。",
+          "DESCRIPTIONS": [
+              "生命值為滿時，每回合開始時獲得 ",
+              "[E] "
+          ],
+          "RARITY": "特殊／未分類"
+      },
+      "Dream Catcher": {
+          "NAME": "捕夢網",
+          "FLAVOR": "北方部落會在入睡時掛上這種網，相信這樣做能夠實現自我提升。",
+          "DESCRIPTIONS": [
+              "每次 #y休息 時，可以增加1張牌到牌組"
+          ],
+          "RARITY": "普通"
+      },
+      "Du-Vu Doll": {
+          "NAME": "毒巫娃娃",
+          "FLAVOR": "一個設計為能從邪惡能量中獲得力量的娃娃。",
+          "DESCRIPTIONS": [
+              "牌組中每有1張 #y詛咒 牌，你在戰鬥開始時就額外獲得 #b",
+              " 點 #y力量 ",
+              " （你沒有 #y詛咒 牌）",
+              " （你有 #b",
+              " 張 #y詛咒 牌）"
+          ],
+          "RARITY": "稀有"
+      },
+      "Ectoplasm": {
+          "NAME": "靈體外質",
+          "FLAVOR": "這團黏液與能量的混合物微微脈動，彷彿有著生命。",
+          "DESCRIPTIONS": [
+              " NL 無法再獲得 #y金幣 ",
+              "每回合開始時獲得 [E] "
+          ],
+          "RARITY": "首領"
+      },
+      "Emotion Chip": {
+          "NAME": "情感晶片",
+          "FLAVOR": "...<3...?",
+          "DESCRIPTIONS": [
+              "每回合開始時，若你在上回合受到過傷害，則觸發所有充能球的被動效果"
+          ],
+          "RARITY": "稀有"
+      },
+      "Enchiridion": {
+          "NAME": "英雄寶典",
+          "FLAVOR": "一名古老巫妖的傳奇日誌。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時增加1張隨機 #y能力牌 到手牌，這張牌在第一回合的耗能變為 #b0 "
+          ],
+          "RARITY": "事件"
+      },
+      "Eternal Feather": {
+          "NAME": "永恆羽毛",
+          "FLAVOR": "這片羽毛似乎完全無法摧毀，會是從什麼鳥身上來的呢？",
+          "DESCRIPTIONS": [
+              "牌組中每有 #b",
+              " 張牌，進入休息處時就會回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "罕見"
+      },
+      "Frozen Egg 2": {
+          "NAME": "凍結之蛋",
+          "FLAVOR": "這個蛋凍結著，沒有絲毫生氣，永遠也不會孵化。",
+          "DESCRIPTIONS": [
+              "隨後獲得的 #y能力牌 都已經 #y升級"
+          ]
+      },
+      "Frozen Eye": {
+          "NAME": "凍結之眼",
+          "FLAVOR": "凝視這隻眼睛時，你能隱約捕捉到你自己的未來。",
+          "DESCRIPTIONS": [
+              "現在觀看 #y抽牌堆 時，卡牌將按順序排列"
+          ],
+          "RARITY": "商店"
+      },
+      "Gambling Chip": {
+          "NAME": "賭博籌碼",
+          "FLAVOR": "你能看見籌碼的一面上刻著一行小字：「熊的幸運籌碼！」",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，丟棄任意張牌，然後抽相同數量張牌"
+          ],
+          "RARITY": "稀有"
+      },
+      "Ginger": {
+          "NAME": "生薑",
+          "FLAVOR": "在許多補品中都能用上的好東西。",
+          "DESCRIPTIONS": [
+              "你不會再被 #y虛弱 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Girya": {
+          "NAME": "壺鈴",
+          "FLAVOR": "這個壺鈴重到難以想像，用這個鍛鍊一定能變得更強。",
+          "DESCRIPTIONS": [
+              "現在能在休息處獲得 #y力量  （最多3次）"
+          ],
+          "RARITY": "稀有"
+      },
+      "Golden Idol": {
+          "NAME": "金神像",
+          "FLAVOR": "用純金製成，只是拿在手裡就讓你覺得自己有錢了。",
+          "DESCRIPTIONS": [
+              "敵人掉落的 #y金幣 增加 #b25% "
+          ],
+          "RARITY": "事件"
+      },
+      "Gremlin Horn": {
+          "NAME": "地精之角",
+          "FLAVOR": "「地精大塊頭到死都能一直長得更大，真是厲害。」──蘭偉德",
+          "DESCRIPTIONS": [
+              "每當有一名敵人死亡，",
+              "獲得 [E] 並抽 #b1 張牌"
+          ],
+          "RARITY": "罕見"
+      },
+      "Happy Flower": {
+          "NAME": "開心小花",
+          "FLAVOR": "這朵一直面帶笑容的花是貴族間流行的小禮物。",
+          "DESCRIPTIONS": [
+              "每 #b",
+              " 個回合，獲得 [E] "
+          ],
+          "RARITY": "普通"
+      },
+      "Ice Cream": {
+          "NAME": "冰淇淋",
+          "FLAVOR": "「好吃！」",
+          "DESCRIPTIONS": [
+              "剩餘的能量會留到下回合"
+          ],
+          "RARITY": "稀有"
+      },
+      "Inserter": {
+          "NAME": "機械臂",
+          "FLAVOR": "抓取。放置。堆疊。重複。",
+          "DESCRIPTIONS": [
+              "每 #b2 回合，獲得 #b1 個充能球欄位"
+          ],
+          "RARITY": "首領"
+      },
+      "Juzu Bracelet": {
+          "NAME": "佛珠手鏈",
+          "FLAVOR": "抵禦未知危險的護身道具。",
+          "DESCRIPTIONS": [
+              "在 #y？ 房間中不會再遇見普通敵人"
+          ],
+          "RARITY": "普通"
+      },
+      "Kunai": {
+          "NAME": "苦無",
+          "FLAVOR": "受到刺客喜愛的遠距離利刃。",
+          "DESCRIPTIONS": [
+              "一回合內每打出 #b",
+              " 張 #y攻擊牌 ，獲得 #b",
+              " 點 #y敏捷 "
+          ],
+          "RARITY": "罕見"
+      },
+      "Lantern": {
+          "NAME": "燈籠",
+          "FLAVOR": "一盞詭異的燈籠，只為提燈者照明。",
+          "DESCRIPTIONS": [
+              "在每場戰鬥的第一回合獲得 ",
+              "[E] ",
+              ""
+          ],
+          "RARITY": "普通"
+      },
+      "Lee's Waffle": {
+          "NAME": "李家華夫餅",
+          "FLAVOR": "「全高塔你能找到的最好吃的東西！今天特地為你烤的。」",
+          "DESCRIPTIONS": [
+              "拾起時，最大生命值提升 #b",
+              " 點，並回復所有生命"
+          ]
+      },
+      "Letter Opener": {
+          "NAME": "開信刀",
+          "FLAVOR": "鋒利到不自然。",
+          "DESCRIPTIONS": [
+              "一回合內每打出 #b3 張技能牌，對所有敵人造成 #b",
+              " 點傷害"
+          ],
+          "RARITY": "罕見"
+      },
+      "Living Blade": {
+          "NAME": "活刀刃",
+          "FLAVOR": "棄用",
+          "DESCRIPTIONS": [
+              "你可以取得任意數量的任意卡牌。"
+          ],
+          "RARITY": "特殊／未分類"
+      },
+      "Lizard Tail": {
+          "NAME": "蜥蜴尾巴",
+          "FLAVOR": "在戰鬥中可以用來騙過敵人的假尾巴。",
+          "DESCRIPTIONS": [
+              "當你要被殺死時，免死並回復到最大生命值的 #b50% （僅能生效1次）"
+          ],
+          "RARITY": "稀有"
+      },
+      "Magic Flower": {
+          "NAME": "魔法花",
+          "FLAVOR": "被認為是早已絕種的一朵花，竟被完美地保存了下來。",
+          "DESCRIPTIONS": [
+              "戰鬥中的回復效果提升 #b50% "
+          ],
+          "RARITY": "稀有"
+      },
+      "Mango": {
+          "NAME": "芒果",
+          "FLAVOR": "在眾多被遺忘的水果中最令人垂涎的一種。被完美地保存了下來，沒有任何受到高塔荒疫影響的跡象。",
+          "DESCRIPTIONS": [
+              "拾起時，最大生命值提升 #b"
+          ],
+          "RARITY": "稀有"
+      },
+      "Mark of Pain": {
+          "NAME": "痛楚印記",
+          "FLAVOR": "北方部落中使用這個工具來給那些在戰鬥中掌握痛楚的戰士們打上烙印。",
+          "DESCRIPTIONS": [
+              "每回合開始時獲得 [R] NL 在戰鬥開始時，將 #b2 張 #r傷口 放入抽牌堆"
+          ],
+          "RARITY": "首領"
+      },
+      "Matryoshka": {
+          "NAME": "套娃",
+          "FLAVOR": "一套環環相套的娃娃，上面的圖案是一隻白眼藍羽毛的鳥，你不知道這是隻什麼鳥。",
+          "DESCRIPTIONS": [
+              "下 #b2 個打開的寶箱會有 #b2 件 #y遺物 （首領寶箱除外）",
+              "下 #b1 個打開的寶箱會有 #b2 件 #y遺物 （首領寶箱除外）",
+              "這件遺物的效果已經用完"
+          ],
+          "RARITY": "罕見"
+      },
+      "Meat on the Bone": {
+          "NAME": "帶骨大肉",
+          "FLAVOR": "這塊肉會不斷恢復，似乎永遠也不會徹底吃光。",
+          "DESCRIPTIONS": [
+              "若你在戰鬥結束時生命值等於或低於 #b50% ，回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "罕見"
+      },
+      "Medical Kit": {
+          "NAME": "醫藥箱",
+          "FLAVOR": "「什麼都有！治癢癢、治燒傷、治中毒，應有盡有！」",
+          "DESCRIPTIONS": [
+              "可以打出原本 無法打出 的 #y狀態牌 。 打出 #y狀態牌 會將其 #y消耗 "
+          ],
+          "RARITY": "商店"
+      },
+      "Membership Card": {
+          "NAME": "會員卡",
+          "FLAVOR": "「如你高高在上的貴客才配得上的會員卡！」",
+          "DESCRIPTIONS": [
+              "所有商品打折 #b50% ！"
+          ],
+          "RARITY": "商店"
+      },
+      "Mercury Hourglass": {
+          "NAME": "水銀沙漏",
+          "FLAVOR": "一個附加魔力的沙漏，一直都在不斷滴下水銀。",
+          "DESCRIPTIONS": [
+              "在你的回合開始時，對所有敵人造成 #b",
+              " 點傷害"
+          ],
+          "RARITY": "罕見"
+      },
+      "Molten Egg 2": {
+          "NAME": "熔火之蛋",
+          "FLAVOR": "鳳凰的蛋，可以看到有岩漿在滋滋發熱，紅得發燙。",
+          "DESCRIPTIONS": [
+              "隨後獲得的 #y攻擊牌 都已經 #y升級"
+          ]
+      },
+      "Mummified Hand": {
+          "NAME": "乾癟之手",
+          "FLAVOR": "這隻手經常都在抽動，尤其是在你心跳很快的時候。",
+          "DESCRIPTIONS": [
+              "每打出1張 #y能力牌 ，隨機1張手牌在該回合耗能變為 #b0 "
+          ],
+          "RARITY": "罕見"
+      },
+      "Necronomicon": {
+          "NAME": "死靈之書",
+          "FLAVOR": "只有傻瓜才會想要去掌控這種邪惡的力量。你每晚的夢境中都充斥著這本書將你的心智逐漸吞噬的噩夢。",
+          "DESCRIPTIONS": [
+              "每回合打出的第1張耗能大於等於 #b",
+              " 的  #y攻擊牌 將被打出兩次。當拾起這件遺物時，被 #r詛咒 ",
+              " 的  #y攻擊牌 將被打出兩次"
+          ],
+          "RARITY": "事件"
+      },
+      "NeowsBlessing": {
+          "NAME": "涅奧的悲慟",
+          "FLAVOR": "涅奧賜予你的祝福，有著悲慟之力。",
+          "DESCRIPTIONS": [
+              "接下來 #b3 場戰鬥中的敵人將只有 #b1 點生命",
+              "這個祝福的效果已經用完"
+          ]
+      },
+      "Nilry's Codex": {
+          "NAME": "尼利的寶典",
+          "FLAVOR": "由臭名昭著的遊戲大師本人編制，據說能拓寬人的心智。",
+          "DESCRIPTIONS": [
+              "每回合結束時，可從 #b3 張隨機卡牌中選擇 #b1 張洗入抽牌堆"
+          ],
+          "RARITY": "事件"
+      },
+      "Ninja Scroll": {
+          "NAME": "忍術卷軸",
+          "FLAVOR": "暗殺秘術盡在其中。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，手牌中增加 #b",
+              " 張 #y小刀 "
+          ],
+          "RARITY": "罕見"
+      },
+      "Nloth's Gift": {
+          "NAME": "恩洛斯的禮物",
+          "FLAVOR": "恩洛斯給你的奇怪禮物，每次你試著拆開包裝時，都會從裡面找到另一個相同大小且包裝完好的盒子。",
+          "DESCRIPTIONS": [
+              "在怪物獎勵中遇見稀有牌的機率變為 #b三倍 "
+          ]
+      },
+      "Nuclear Battery": {
+          "NAME": "核能電池",
+          "FLAVOR": "哇噢……",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時， #y生成 #b1 個 #y電漿 充能球"
+          ],
+          "RARITY": "首領"
+      },
+      "Nullstone Periapt": {
+          "NAME": "虛無石護符",
+          "FLAVOR": "棄用",
+          "DESCRIPTIONS": [
+              "無效化你下一次受到的 #y負面效果 。 NL 於 #b10 回合後重新充能。"
+          ],
+          "RARITY": "特殊／未分類"
+      },
+      "Odd Mushroom": {
+          "NAME": "奇怪蘑菇",
+          "FLAVOR": "「吃了寄生毛菇之後，我覺得自己更高大了，也更……不容易受傷了。」──蘭偉德 ",
+          "DESCRIPTIONS": [
+              "當你有 #y易傷 狀態時，受到的額外傷害從 #b50% 下降為 #b25% "
+          ],
+          "RARITY": "事件"
+      },
+      "Oddly Smooth Stone": {
+          "NAME": "意外光滑的石頭",
+          "FLAVOR": "你從沒有見過這麼光滑完好的東西，這一定是出自先古之民的手藝。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，獲得 #b",
+              " 點 #y敏捷 "
+          ],
+          "RARITY": "普通"
+      },
+      "Old Coin": {
+          "NAME": "古錢幣",
+          "FLAVOR": "因為其歷史價值和稀有金屬成分而被商人出以高價的獨特錢幣。",
+          "DESCRIPTIONS": [
+              "拾起時，獲得 #b300 #y金幣 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Omamori": {
+          "NAME": "御守",
+          "FLAVOR": "常見的用來抵禦邪靈的護身符，這個護符裡似乎有一股神聖的能量。",
+          "DESCRIPTIONS": [
+              "抵消你下 #b2 次獲得的 #r詛咒 ",
+              "抵消你下1次獲得的 #r詛咒 ",
+              "這件遺物的效果已經用完"
+          ],
+          "RARITY": "普通"
+      },
+      "Orichalcum": {
+          "NAME": "奧利哈鋼",
+          "FLAVOR": "一塊出處不明、帶著些綠色的金屬。似乎完全不會毀壞。",
+          "DESCRIPTIONS": [
+              "若你在回合結束時沒有任何 #y格擋 ，獲得 #b",
+              " 點 #y格擋 "
+          ],
+          "RARITY": "普通"
+      },
+      "Ornamental Fan": {
+          "NAME": "精緻摺扇",
+          "FLAVOR": "這把摺扇似乎會在灑到血時自動伸展並且變硬。",
+          "DESCRIPTIONS": [
+              "一回合內每打出 #b3 張 #y攻擊牌 ，獲得 #b",
+              " 點 #y格擋 "
+          ],
+          "RARITY": "罕見"
+      },
+      "Orrery": {
+          "NAME": "星系儀",
+          "FLAVOR": "「一旦你理解了宇宙……」──佐羅斯",
+          "DESCRIPTIONS": [
+              "選擇 #b5 張牌加入牌組",
+              "知識！"
+          ],
+          "RARITY": "商店"
+      },
+      "Pandora's Box": {
+          "NAME": "潘朵拉的魔盒",
+          "FLAVOR": "你覺得打開這個盒子會很不吉利。",
+          "DESCRIPTIONS": [
+              "#b變化 所有「打擊」和「防禦」牌",
+              "潘朵拉的魔盒已經打開了……"
+          ],
+          "RARITY": "首領"
+      },
+      "Pantograph": {
+          "NAME": "縮放儀",
+          "FLAVOR": "「堅實的地基從不是出自偶然，規劃工具是重中之重。」──建築師",
+          "DESCRIPTIONS": [
+              "在首領戰開始時，回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "罕見"
+      },
+      "Paper Crane": {
+          "NAME": "紙鶴",
+          "FLAVOR": "某種過去時代生物的摺紙。",
+          "DESCRIPTIONS": [
+              "有 #y虛弱 狀態的敵人造成的傷害降低 #b40% 而非 #b25% "
+          ]
+      },
+      "Paper Frog": {
+          "NAME": "紙蛙",
+          "FLAVOR": "這張紙似乎會不斷自己翻折，變成某種小動物的形狀。",
+          "DESCRIPTIONS": [
+              "有 #y易傷 狀態的敵人受到的傷害增加 #b75% 而非 #b50%"
+          ]
+      },
+      "Peace Pipe": {
+          "NAME": "寧靜煙斗",
+          "FLAVOR": "放空心智，潔淨靈魂。",
+          "DESCRIPTIONS": [
+              "現在可以在休息處移除牌組中的牌"
+          ],
+          "RARITY": "稀有"
+      },
+      "Pear": {
+          "NAME": "梨子",
+          "FLAVOR": "在高塔荒疫發生之前十分常見的水果。",
+          "DESCRIPTIONS": [
+              "拾起時，最大生命值提升 #b"
+          ],
+          "RARITY": "罕見"
+      },
+      "Pen Nib": {
+          "NAME": "鋼筆尖",
+          "FLAVOR": "拿著這支筆尖時，你可以看見所有被筆尖前主人殺死過的人。真是血腥的歷史。",
+          "DESCRIPTIONS": [
+              "每打出的第 #b10 張 #y攻擊牌 將會造成雙倍傷害"
+          ],
+          "RARITY": "普通"
+      },
+      "Philosopher's Stone": {
+          "NAME": "賢者之石",
+          "FLAVOR": "這塊石頭中散發出純粹的能量，所有周圍的人與物都會因此而變強。",
+          "DESCRIPTIONS": [
+              "每回合開始時獲得 [E] NL 所有敵人初始擁有 #b",
+              " 點 #y力量"
+          ]
+      },
+      "Potion Belt": {
+          "NAME": "藥水腰帶",
+          "FLAVOR": "穿上這條腰帶，我就能攜帶更多藥水！",
+          "DESCRIPTIONS": [
+              "拾起時，獲得 #b2 個藥水欄位"
+          ],
+          "RARITY": "普通"
+      },
+      "Prayer Wheel": {
+          "NAME": "轉經輪",
+          "FLAVOR": "經輪一直轉動，永遠不停。",
+          "DESCRIPTIONS": [
+              "普通敵人多掉落1次卡牌獎勵"
+          ],
+          "RARITY": "稀有"
+      },
+      "Question Card": {
+          "NAME": "問號牌",
+          "FLAVOR": "「選擇多，則不受其亂。」──忽必烈大帝",
+          "DESCRIPTIONS": [
+              "在選獎勵牌時，可供選擇的牌數增加 #b1 張（拾起時同一視窗中的獎勵牌不受影響）"
+          ],
+          "RARITY": "罕見"
+      },
+      "Red Circlet": {
+          "NAME": "紅頭環",
+          "FLAVOR": "你居然拿光了所有遺物。厲害！",
+          "DESCRIPTIONS": [
+              "看起來非常漂亮"
+          ]
+      },
+      "Red Mask": {
+          "NAME": "紅面具",
+          "FLAVOR": "這副看起來十分帥氣的面具屬於紅面具強盜團的頭子，這麼說來，現在你應該是他們的老大了？",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，給予所有敵人 #b",
+              " 層 #y虛弱 "
+          ],
+          "RARITY": "事件"
+      },
+      "Red Skull": {
+          "NAME": "紅頭骨",
+          "FLAVOR": "一個用裝飾性顏料塗紅的小小頭骨。",
+          "DESCRIPTIONS": [
+              "當你的生命值等於或低於 #b50% 時，你獲得額外 #b",
+              " 點 #y力量 "
+          ],
+          "RARITY": "普通"
+      },
+      "Regal Pillow": {
+          "NAME": "皇家枕頭",
+          "FLAVOR": "這下能好好睡一覺了。",
+          "DESCRIPTIONS": [
+              "在 #y休息 時額外回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "普通"
+      },
+      "Ring of the Serpent": {
+          "NAME": "長蛇戒指",
+          "DESCRIPTIONS": [
+              "取代 #g蛇之戒指 ",
+              " NL 每回合多抽 #b1 張牌"
+          ],
+          "FLAVOR": "你的戒指改變了形態，煥然一新。",
+          "RARITY": "首領"
+      },
+      "Ring of the Snake": {
+          "NAME": "蛇之戒指",
+          "FLAVOR": "用蛇的化石製成的戒指，優秀女獵手的象徵。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，多抽 #b",
+              " 張牌"
+          ],
+          "RARITY": "初始"
+      },
+      "Runic Capacitor": {
+          "NAME": "符文電容器",
+          "FLAVOR": "多多益善。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，獲得 #b3 個額外充能球欄位"
+          ],
+          "RARITY": "商店"
+      },
+      "Runic Cube": {
+          "NAME": "符文立方體",
+          "FLAVOR": "上面的符文無法辨識。",
+          "DESCRIPTIONS": [
+              "每當你失去生命時，抽 #b",
+              " 張牌",
+              ""
+          ],
+          "RARITY": "首領"
+      },
+      "Runic Dome": {
+          "NAME": "符文圓頂",
+          "FLAVOR": "上面的符文無法辨識。",
+          "DESCRIPTIONS": [
+              " NL 無法再看見敵人的 #b意圖 ",
+              "每回合開始時獲得 [E] "
+          ],
+          "RARITY": "首領"
+      },
+      "Runic Pyramid": {
+          "NAME": "符文金字塔",
+          "FLAVOR": "上面的符文無法辨識。",
+          "DESCRIPTIONS": [
+              "在回合結束時不再自動丟棄所有手牌",
+              ""
+          ],
+          "RARITY": "首領"
+      },
+      "Self Forming Clay": {
+          "NAME": "自成型黏土",
+          "FLAVOR": "「真是有意思！這東西看起來可以按照我的想法自己成型！讀心的黏土嗎？」──蘭偉德",
+          "DESCRIPTIONS": [
+              "每當你在戰鬥中失去生命，在下回合獲得 #b",
+              " 點 #y格擋 "
+          ]
+      },
+      "Shovel": {
+          "NAME": "鏟子",
+          "FLAVOR": "高塔中有著無數過去文明遺留下的遺物和強大的冒險者們遺失的寶物，現在你可以把它們挖出來了！",
+          "DESCRIPTIONS": [
+              "現在可以在休息處 #y挖掘 遺物"
+          ],
+          "RARITY": "稀有"
+      },
+      "Shuriken": {
+          "NAME": "手裏劍",
+          "FLAVOR": "輕型的投擲武器，尤其推薦對著眼睛扔。",
+          "DESCRIPTIONS": [
+              "一回合內每打出 #b",
+              " 張 #y攻擊牌 ，獲得 #b",
+              " 點 #y力量 "
+          ],
+          "RARITY": "罕見"
+      },
+      "Singing Bowl": {
+          "NAME": "頌缽",
+          "FLAVOR": "這件被使用過無數次的法器在被敲打時會發出不絕於耳的悠揚旋律。",
+          "DESCRIPTIONS": [
+              "可以將卡牌獎勵轉變為 #b+2 最大生命值"
+          ],
+          "RARITY": "罕見"
+      },
+      "Smiling Mask": {
+          "NAME": "微笑面具",
+          "FLAVOR": "商人戴著的面具，看來他有很多備用的……",
+          "DESCRIPTIONS": [
+              "商人的卡牌移除服務現在價格永遠是 #b",
+              "  #y金幣 "
+          ],
+          "RARITY": "普通"
+      },
+      "Snake Skull": {
+          "NAME": "異蛇頭骨",
+          "FLAVOR": "保存完好的異蛇頭骨，十分離奇地非常幹淨和光滑，任何灰塵和污垢都無法沾上它，這是為什麼呢。",
+          "DESCRIPTIONS": [
+              "每當你給予敵人 #y中毒 狀態時，額外給予 #b",
+              " 層 #y中毒 "
+          ]
+      },
+      "Snecko Eye": {
+          "NAME": "異蛇之眼",
+          "FLAVOR": "一條死去異蛇的眼珠，比你想像中的要大上不少。",
+          "DESCRIPTIONS": [
+              "每回合多抽 #b2 張牌。每場戰鬥開始時獲得 #y混亂 效果"
+          ],
+          "RARITY": "首領"
+      },
+      "Sozu": {
+          "NAME": "添水",
+          "FLAVOR": "你注意到所有帶魔力的液體在接近這件遺物時都會失去效力。",
+          "DESCRIPTIONS": [
+              " NL 無法再獲得藥水",
+              "每回合開始時獲得 [E] "
+          ],
+          "RARITY": "首領"
+      },
+      "Spirit Poop": {
+          "NAME": "精靈便便",
+          "FLAVOR": "你向精靈獻上的祭品被燒焦後的遺留物。",
+          "DESCRIPTIONS": [
+              "不管怎麼看都很不舒服"
+          ],
+          "RARITY": "事件"
+      },
+      "Strange Spoon": {
+          "NAME": "奇怪的勺子",
+          "FLAVOR": "如果你盯著這把勺子看，它似乎就會在你眼前彎曲變形。",
+          "DESCRIPTIONS": [
+              "應該 #y消耗 的牌在被打出時會有 #b50% 機率只被丟棄"
+          ],
+          "RARITY": "商店"
+      },
+      "Strawberry": {
+          "NAME": "草莓",
+          "FLAVOR": "「太好吃了！荒疫之後就沒見過這東西了啊。」──蘭偉德",
+          "DESCRIPTIONS": [
+              "拾起時，最大生命值提升 #b"
+          ],
+          "RARITY": "普通"
+      },
+      "Sundial": {
+          "NAME": "日晷",
+          "FLAVOR": "「古代人類愚昧地執著於時間，他們抬頭望向天空，希望能得到永恆的引導。」──佐羅斯",
+          "DESCRIPTIONS": [
+              "每洗牌 #b",
+              " 次，獲得 [E] [E] "
+          ],
+          "RARITY": "罕見"
+      },
+      "Symbiotic Virus": {
+          "NAME": "共生病毒",
+          "FLAVOR": "小小的麻煩 ，卻可以帶來大大的益處……",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時， #y生成 #b1 個 #y黑暗 充能球"
+          ],
+          "RARITY": "罕見"
+      },
+      "Test 1": {
+          "NAME": "測試遺物 1",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              "",
+              "",
+              "",
+              ""
+          ]
+      },
+      "Test 2": {
+          "NAME": "測試遺物 2",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              "現在觀看 #y棄牌堆 時，卡牌將按順序排列"
+          ]
+      },
+      "Test 3": {
+          "NAME": "測試遺物 3",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              "拾起時， #y升級 所有 #y防禦 牌"
+          ]
+      },
+      "Test 4": {
+          "NAME": "測試遺物 4",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              "在戰鬥開始時，將所有 #y打擊 牌的耗能變為 #b0"
+          ]
+      },
+      "Test 5": {
+          "NAME": "測試遺物 5",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              "拾起時，隨機 #y升級 #b",
+              " 張 #y技能牌 "
+          ]
+      },
+      "Test 6": {
+          "NAME": "測試遺物 6",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              "每回合結束時，你獲得額外 #y格擋 。每 #b",
+              " 點 #y格擋 需要你擁有 #b",
+              " #y金幣 "
+          ]
+      },
+      "Test 7": {
+          "NAME": "測試遺物 7",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              " #y精英 被打敗時多掉落1件 #y遺物 "
+          ]
+      },
+      "Test 8": {
+          "NAME": "測試遺物 8",
+          "FLAVOR": "Beta版的測試遺物。如果你喜歡它，請告訴開發組。",
+          "DESCRIPTIONS": [
+              "每回合多抽 #b2 張牌。每場戰鬥開始時獲得 #y混亂 效果"
+          ]
+      },
+      "The Courier": {
+          "NAME": "送貨員",
+          "FLAVOR": "這是商人的寵物！",
+          "DESCRIPTIONS": [
+              "商人的卡牌、遺物和藥水再也不會賣光，並且所有商品打折 #b20% "
+          ],
+          "RARITY": "罕見"
+      },
+      "The Specimen": {
+          "NAME": "生物樣本",
+          "FLAVOR": "「有意思！我發現了一個有著驚人毒性的變異生物，先採集份樣本以後再仔細研究吧。」──蘭偉德",
+          "DESCRIPTIONS": [
+              "每當有敵人死去時，將其身上的 #y中毒 層數移到一名隨機敵人身上"
+          ],
+          "RARITY": "稀有"
+      },
+      "Thread and Needle": {
+          "NAME": "針線",
+          "FLAVOR": "將這些魔法線纏繞在你的周圍時，你覺得自己變得更堅硬了。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，獲得 #b",
+              " 層 #y多層護甲 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Tingsha": {
+          "NAME": "銅鈸",
+          "FLAVOR": "這件樂器發出的響聲似乎能迴蕩到讓人耳朵發痛。",
+          "DESCRIPTIONS": [
+              "每丟棄1張牌，對一名隨機敵人造成 #b",
+              " 點傷害"
+          ],
+          "RARITY": "稀有"
+      },
+      "Tiny Chest": {
+          "NAME": "小寶箱",
+          "FLAVOR": "「作為原型而言相當不錯。」──建築師",
+          "DESCRIPTIONS": [
+              "每第 #b",
+              " 個 #y？ 房間必是 #y寶箱房 ",
+              ""
+          ],
+          "RARITY": "普通"
+      },
+      "Tiny House": {
+          "NAME": "小屋子",
+          "FLAVOR": "「一項近乎完美的微縮化工程。這是我至今最優秀的作品，但仍然遠遠不夠。」──建築師",
+          "DESCRIPTIONS": [
+              "拾起時，獲得 #b1 瓶藥水 NL 獲得 #b",
+              "  #y金幣 NL 最大生命值提升 #b",
+              " NL 獲得 #b1 張牌 NL 隨機升級 #b1 張牌",
+              "小小的屋子！"
+          ],
+          "RARITY": "首領"
+      },
+      "Toolbox": {
+          "NAME": "工具箱",
+          "FLAVOR": "不管面對什麼工作，都能找到相應的工具。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，從 #b3 張隨機無色牌中選擇 #b1 張加入手牌"
+          ],
+          "RARITY": "商店"
+      },
+      "Torii": {
+          "NAME": "鳥居",
+          "FLAVOR": "你拿著這個小小的鳥居，感覺心中有一股寧靜與安全的感覺。",
+          "DESCRIPTIONS": [
+              "每當你受到小於等於 #b",
+              " 點未被格擋的 #y攻擊 傷害時，將傷害降低為 #b1 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Tough Bandages": {
+          "NAME": "結實繃帶",
+          "FLAVOR": "失去給人帶來力量。",
+          "DESCRIPTIONS": [
+              "每丟棄1張牌，獲得 #b",
+              " 點 #y格擋 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Toxic Egg 2": {
+          "NAME": "毒素之蛋",
+          "FLAVOR": "「真是了不起的發現！這似乎是某種魔法生物已經不起作用了的蛋，究竟是誰或什麼製造了這東西呢？」──蘭偉德",
+          "DESCRIPTIONS": [
+              "隨後獲得的 #y技能牌 都已經 #y升級"
+          ]
+      },
+      "Toy Ornithopter": {
+          "NAME": "玩具撲翼飛機",
+          "FLAVOR": "「這個小玩具最適合陪伴孤獨一人的冒險者啦！」",
+          "DESCRIPTIONS": [
+              "每使用1瓶藥水，回復 #b",
+              " 點生命"
+          ],
+          "RARITY": "普通"
+      },
+      "Turnip": {
+          "NAME": "蘿蔔",
+          "FLAVOR": "與生薑搭配尤為適合。",
+          "DESCRIPTIONS": [
+              "你不會再被 #y脆弱 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Unceasing Top": {
+          "NAME": "不休陀螺",
+          "FLAVOR": "這個陀螺始終輕鬆地旋轉著，讓你覺得自己彷彿是在夢中。",
+          "DESCRIPTIONS": [
+              "在你的回合沒有手牌時，抽1張牌"
+          ],
+          "RARITY": "稀有"
+      },
+      "Vajra": {
+          "NAME": "金剛杵",
+          "FLAVOR": "一件交給在戰鬥中展示了榮耀的戰士們的裝飾性遺物。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，獲得 #b",
+              " 點 #y力量 "
+          ],
+          "RARITY": "普通"
+      },
+      "Velvet Choker": {
+          "NAME": "天鵝絨頸圈",
+          "FLAVOR": "「力量巨大，但過於侷限。」──忽必烈大帝",
+          "DESCRIPTIONS": [
+              " NL 每回合不能打出超過 #b",
+              " 張牌",
+              "每回合開始時獲得 [E] ",
+              "我只能打出最多 NL #r"
+          ],
+          "RARITY": "首領"
+      },
+      "War Paint": {
+          "NAME": "戰紋塗料",
+          "FLAVOR": "在過去，鐵衛軍團的士兵們會在戰鬥前使用帶有魔力的塗料來繪製保護性的戰紋。",
+          "DESCRIPTIONS": [
+              "拾起時，隨機 #y升級 #b",
+              " 張 #y技能牌 "
+          ],
+          "RARITY": "普通"
+      },
+      "Whetstone": {
+          "NAME": "磨刀石",
+          "FLAVOR": "「肉體永遠無法打敗鋼鐵。」──忽必烈大帝",
+          "DESCRIPTIONS": [
+              "拾起時，隨機 #y升級 #b",
+              " 張 #y攻擊牌 "
+          ],
+          "RARITY": "普通"
+      },
+      "White Beast Statue": {
+          "NAME": "白獸雕像",
+          "FLAVOR": "一個小小的白色雕像，這種動物你從來沒有見過。",
+          "DESCRIPTIONS": [
+              "戰鬥結束後必定掉落藥水"
+          ],
+          "RARITY": "罕見"
+      },
+      "Mark of the Bloom": {
+          "NAME": "綻放印記",
+          "FLAVOR": "在高塔的深處，思維與現實成為了一體。",
+          "DESCRIPTIONS": [
+              "你無法再回復生命"
+          ],
+          "RARITY": "事件"
+      },
+      "Busted Crown": {
+          "NAME": "破碎金冠",
+          "FLAVOR": "第一勇士的金冠……或者只是一個拙劣的仿製品？",
+          "DESCRIPTIONS": [
+              " NL 在卡牌獎勵畫面，可供選擇的牌數減少 #b2 張",
+              "每回合開始時獲得 [E] "
+          ],
+          "RARITY": "首領"
+      },
+      "Empty Cage": {
+          "NAME": "空鳥籠",
+          "FLAVOR": "「將崇拜之物關進籠子，這是多麼奇異的行為啊。」──蘭偉德",
+          "DESCRIPTIONS": [
+              "拾起時，選擇移除牌組中的 #b2 張牌",
+              "選擇2張牌移除"
+          ],
+          "RARITY": "首領"
+      },
+      "Incense Burner": {
+          "NAME": "香爐",
+          "FLAVOR": "香爐中的煙讓擁有者獲得被焚燒者的靈力。",
+          "DESCRIPTIONS": [
+              "每 #b6 回合，獲得 #b1 層 #y無實體 "
+          ],
+          "RARITY": "稀有"
+      },
+      "Fusion Hammer": {
+          "NAME": "融合之錘",
+          "FLAVOR": "一旦握住，就永遠無法放下。",
+          "DESCRIPTIONS": [
+              " NL 無法在休息處升級卡牌",
+              "每回合開始時獲得 [E] "
+          ],
+          "RARITY": "首領"
+      },
+      "Coffee Dripper": {
+          "NAME": "咖啡濾杯",
+          "FLAVOR": "「好的，請再來一杯。繼續工作，繼續工作！」──建築師",
+          "DESCRIPTIONS": [
+              " NL 無法在休息處 #y休息 ",
+              "每回合開始時獲得 [E] "
+          ],
+          "RARITY": "首領"
+      },
+      "SsserpentHead": {
+          "NAME": "蛇的頭",
+          "FLAVOR": "最幸福的人生當然就是什麼東西都能買得起的土豪生活了！",
+          "DESCRIPTIONS": [
+              "每次進入 #y？ 房間時獲得 #b",
+              " #y金幣"
+          ]
+      },
+      "NlothsMask": {
+          "NAME": "恩洛斯的饑餓的臉",
+          "FLAVOR": "你覺得好餓。",
+          "DESCRIPTIONS": [
+              "下一個打開的非首領寶箱將是空的",
+              ""
+          ]
+      },
+      "FaceOfCleric": {
+          "NAME": "牧師的臉",
+          "FLAVOR": "人人都愛牧師。",
+          "DESCRIPTIONS": [
+              "每場戰鬥後，最大生命值提升 #b1 "
+          ]
+      },
+      "CultistMask": {
+          "NAME": "邪教徒頭套",
+          "FLAVOR": "自己人！自己人！",
+          "DESCRIPTIONS": [
+              "你覺得自己有開腔的欲望",
+              "@啞！@ NL @啞啞@"
+          ]
+      },
+      "GremlinMask": {
+          "NAME": "地精容貌",
+          "FLAVOR": "嗚哇，好想逃跑。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，你擁有 #b1 層 #y虛弱 "
+          ]
+      },
+      "TheAbacus": {
+          "NAME": "算盤",
+          "FLAVOR": "「一……二……三……」",
+          "DESCRIPTIONS": [
+              "每次抽牌堆洗牌時，獲得 #b",
+              " 點 #y格擋"
+          ]
+      },
+      "DollysMirror": {
+          "NAME": "多利之鏡",
+          "FLAVOR": "「照出來我的樣子怪怪的。」",
+          "DESCRIPTIONS": [
+              "拾起時，從牌組中選擇1張牌進行複製",
+              "選擇1張牌複製"
+          ]
+      },
+      "ClockworkSouvenir": {
+          "NAME": "齒輪工藝品",
+          "FLAVOR": "「你看裡面齒輪這麼多，是不是很精巧。」",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，獲得 #b1 層 #y人工製品 "
+          ]
+      },
+      "MealTicket": {
+          "NAME": "餐券",
+          "FLAVOR": "「這裡的肉丸子可是有名的！以後每次來都可以嘗嘗哦！」",
+          "DESCRIPTIONS": [
+              "每當進入商店房間時，回復 #b",
+              " 點生命"
+          ]
+      },
+      "TwistedFunnel": {
+          "NAME": "扭曲漏斗",
+          "FLAVOR": "「個人建議不要用這個來喝東西。」",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時，給予所有敵人 #b4 層 #y中毒 "
+          ]
+      },
+      "HandDrill": {
+          "NAME": "手鑽",
+          "FLAVOR": "「螺旋超危險的啊。」",
+          "DESCRIPTIONS": [
+              "每當突破敵人的 #y格擋 時，給予其 #b2 層 #y易傷 "
+          ]
+      },
+      "HoveringKite": {
+          "NAME": "懸浮風箏",
+          "FLAVOR": "風箏在戰鬥中飄浮在你的身旁，不知是何種神秘的力量讓它能浮在空中。",
+          "DESCRIPTIONS": [
+              "每回合第一次棄牌時，獲得 [E]"
+          ]
+      },
+      "Sling": {
+          "NAME": "勇氣投石索",
+          "FLAVOR": "「對格外強大的對手非常好用的工具。」",
+          "DESCRIPTIONS": [
+              "與精英戰鬥時，獲得 #b",
+              " 點 #y力量 "
+          ]
+      },
+      "FrozenCore": {
+          "NAME": "凍結核心",
+          "FLAVOR": "某種脈動的冰冷能量充滿了你核心中的破損處。",
+          "DESCRIPTIONS": [
+              "取代 #b破損核心 NL 若在你的回合結束時還有空餘的充能球欄位， #y生成 #b1 個 #y冰霜 充能球"
+          ]
+      },
+      "OrangePellets": {
+          "NAME": "橙色藥丸",
+          "FLAVOR": "「用塔裡各處真菌做出來的藥，包治百病！」",
+          "DESCRIPTIONS": [
+              "每在同一回合內打出 #y能力牌 、 #y攻擊牌 和 #y技能牌 各1張，移除你身上的所有負面效果"
+          ]
+      },
+      "WristBlade": {
+          "NAME": "袖劍",
+          "FLAVOR": "實用的暗殺工具。",
+          "DESCRIPTIONS": [
+              "耗能為0的 #y攻擊牌 額外造成 #b3 點傷害"
+          ]
+      },
+      "StoneCalendar": {
+          "NAME": "歷石",
+          "FLAVOR": "在高塔中幾乎感覺不到時間的流逝。",
+          "DESCRIPTIONS": [
+              "在第 #b",
+              " 回合結束時，對所有敵人造成 #b",
+              " 點傷害"
+          ]
+      },
+      "Nunchaku": {
+          "NAME": "雙節棍",
+          "FLAVOR": "優良的練武器具，能改善使用者的姿勢、提升靈活度。",
+          "DESCRIPTIONS": [
+              "每打出 #b",
+              " 張 #y攻擊牌 ，獲得 [E] "
+          ],
+          "RARITY": "普通"
+      },
+      "MawBank": {
+          "NAME": "巨口儲蓄罐",
+          "FLAVOR": "儘管巨口襲擊頻繁發生，這個造型的儲蓄罐卻意外相當流行。",
+          "DESCRIPTIONS": [
+              "每攀爬一層樓層獲得 #b",
+              " #y金幣 。 一旦在商店中花費 #y金幣 就會失效",
+              "這件遺物已經失效"
+          ]
+      },
+      "MutagenicStrength": {
+          "NAME": "突變之力",
+          "FLAVOR": "「效果似乎稍縱即逝，只在危險時才會觸發。」──佚名",
+          "DESCRIPTIONS": [
+              "在每場戰鬥開始時獲得 #b",
+              " 點 #y力量 ，在你的第一個回合結束時失去 #b",
+              " 點 #y力量"
+          ]
+      },
+      "Brimstone": {
+          "NAME": "硫磺",
+          "FLAVOR": "散發出地獄般的高熱。",
+          "DESCRIPTIONS": [
+              "在你的每個回合開始時，你獲得 #b",
+              " 點 #y力量 ，所有敵人也獲得 #b",
+              " 點 #y力量"
+          ],
+          "RARITY": "商店"
+      },
+      "Pocketwatch": {
+          "NAME": "懷錶",
+          "FLAVOR": "指針似乎永遠卡在3點的位置。",
+          "DESCRIPTIONS": [
+              "若在一回合內打出的牌數量小於等於 #b3 張，在下回合開始時額外抽 #b3 張牌"
+          ],
+          "RARITY": "稀有"
+      },
+      "PreservedInsect": {
+          "NAME": "昆蟲標本",
+          "FLAVOR": "這隻昆蟲似乎會對尤其巨大的敵人們散發出虛弱的光環。",
+          "DESCRIPTIONS": [
+              "精英戰中的敵人生命減少 #b",
+              "% "
+          ]
+      },
+      "FossilizedHelix": {
+          "NAME": "螺類化石",
+          "FLAVOR": "似乎堅不可摧，你很好奇究竟是何種生物曾擁有這樣的部分。",
+          "DESCRIPTIONS": [
+              "阻止你在每場戰鬥中第一次受到的生命值損傷"
+          ]
+      },
+      "PrismaticShard": {
+          "NAME": "稜鏡碎片",
+          "FLAVOR": "通過碎片，你能以全新的視角觀察這個世界。",
+          "DESCRIPTIONS": [
+              "戰鬥獎勵掉落的卡牌現在會包括無色牌和其他顏色的牌"
+          ]
+      },
+      "WarpedTongs": {
+          "NAME": "彎曲鐵鉗",
+          "FLAVOR": "這對被偷來的詛咒鐵鉗上散發著強烈的怨念，它似乎十分想要回到原本的地方。",
+          "DESCRIPTIONS": [
+              "在你的每個回合開始時，隨機 #y升級 一張手牌（只影響本場戰鬥）"
+          ]
+      },
+      "WingedGreaves": {
+          "NAME": "羽翼之靴",
+          "FLAVOR": "很帥氣。",
+          "DESCRIPTIONS": [
+              "在選擇下一層的房間時有3次機會可以無視當前的路線"
+          ]
+      },
+      "CeramicFish": {
+          "NAME": "陶瓷小魚",
+          "FLAVOR": "這些被精心上色的魚兒被認為可以帶來滾滾財源。",
+          "DESCRIPTIONS": [
+              "每次往牌組中加入一張卡牌時，獲得 #b",
+              " #y金幣 "
+          ]
+      },
+      "StrikeDummy": {
+          "NAME": "打擊木偶",
+          "FLAVOR": "被打得破破爛爛的。",
+          "DESCRIPTIONS": [
+              "名字中有「打擊」的卡牌額外造成 #b",
+              " 點傷害"
+          ]
+      },
+      "VioletLotus": {
+          "NAME": "紫色蓮花",
+          "FLAVOR": "遠古的經書上記載著，「法力池」的水面上總是有許多這些花朵。",
+          "DESCRIPTIONS": [
+              "每次離開 #y平靜 時，獲得一點額外 [E] "
+          ]
+      },
+      "SacredBark": {
+          "NAME": "神聖樹皮",
+          "FLAVOR": "傳說中來自於世界樹上的一塊樹皮。",
+          "DESCRIPTIONS": [
+              "藥水的效果翻倍"
+          ]
+      },
+      "TeardropLocket": {
+          "NAME": "淚滴吊墜盒",
+          "FLAVOR": "盒子的主人雙目失明，其中的東西無人知曉。",
+          "DESCRIPTIONS": [
+              "每場戰鬥開始時處於 #y平靜 "
+          ]
+      },
+      "SlaversCollar": {
+          "NAME": "奴隸販子頸環",
+          "FLAVOR": "鏽蝕可憎的鐵鏈。",
+          "DESCRIPTIONS": [
+              "在首領戰與精英戰中，每回合開始時獲得 [E] "
+          ]
+      },
+      "Akabeko": {
+          "NAME": "赤牛",
+          "FLAVOR": "「哞～」",
+          "DESCRIPTIONS": [
+              "每場戰鬥中的第一次攻擊額外造成 #b",
+              " 點傷害"
+          ],
+          "RARITY": "普通"
+      },
+      "Yang": {
+          "NAME": "兩儀",
+          "FLAVOR": "「於是太陽永遠熄滅了，如同天幕在其之前墜下。」——佐羅斯",
+          "DESCRIPTIONS": [
+              "每打出1張 #y攻擊牌 ，獲得 #b1 點臨時 #y敏捷 "
+          ]
+      },
+      "CloakClasp": {
+          "NAME": "斗篷扣",
+          "FLAVOR": "設計簡約但牢固。",
+          "DESCRIPTIONS": [
+              "在你的回合結束時，每有1張手牌獲得 #b",
+              " 點 #y格擋 "
+          ]
+      },
+      "Melange": {
+          "NAME": "美琅脂",
+          "FLAVOR": "來源不明的神秘沙子，氣味有點像肉桂。",
+          "DESCRIPTIONS": [
+              "每次將抽牌堆洗牌時， #y預見 #b",
+              ""
+          ],
+          "RARITY": "商店"
+      },
+      "Yin": {
+          "NAME": "陰",
+          "FLAVOR": "無光則無暗，真的是這樣嗎？",
+          "DESCRIPTIONS": [
+              "W每打出1張 #y技能牌 ，獲得 #b1 點臨時 #y力量 "
+          ]
+      },
+      "InkBottle": {
+          "NAME": "墨水瓶",
+          "FLAVOR": "每次用光，都會自動裝滿一種顏色不同的墨水。",
+          "DESCRIPTIONS": [
+              "每打出 #b10 張牌，抽 #b1 張牌"
+          ]
+      },
+      "TungstenRod": {
+          "NAME": "鎢合金棍",
+          "FLAVOR": "非常非常重。",
+          "DESCRIPTIONS": [
+              "每次失去生命時，減少失去的生命值 #b",
+              " 點"
+          ]
+      },
+      "HolyWater": {
+          "NAME": "聖水",
+          "FLAVOR": "從高塔出現的時代前收集來的水。",
+          "DESCRIPTIONS": [
+              "取代 #p至純之水 NL 在每場戰鬥開始時，將 #b3 張 #y奇蹟 放入手牌"
+          ]
+      },
+      "PureWater": {
+          "NAME": "至純之水",
+          "FLAVOR": "用極細的沙粒過濾的水，去除了一切雜質。",
+          "DESCRIPTIONS": [
+              "在每場戰鬥開始時，將1張 #y奇蹟 放入手牌"
+          ]
+      },
+      "HornCleat": {
+          "NAME": "船夾板",
+          "FLAVOR": "拿在手裡有一種莫名的愉悅感，這是什麼東西呢？",
+          "DESCRIPTIONS": [
+              "在你的第二回合開始時，獲得 #b",
+              " 點 #y格擋 "
+          ]
+      },
+      "CaptainsWheel": {
+          "NAME": "舵盤",
+          "FLAVOR": "精雕細琢的木質物件，上面用陌生的語言刻著一個名字。",
+          "DESCRIPTIONS": [
+              "在你的第三回合開始時，獲得 #b",
+              " 點 #y格擋 "
+          ]
+      },
+      "GoldenEye": {
+          "NAME": "黃金眼",
+          "FLAVOR": "能夠看見近處生靈的心智，讓你可以預判他們將來的動作。",
+          "DESCRIPTIONS": [
+              "每次 #y預見 時，額外 #y預見 #b",
+              " 張牌"
+          ]
+      },
+      "Damaru": {
+          "NAME": "手搖鼓",
+          "FLAVOR": "這面小鼓的聲音讓你時刻保持神志清醒，彷彿能看見前方何處才有道路。",
+          "DESCRIPTIONS": [
+              "在你的回合開始時，獲得 #b",
+              " 層 #y真言 "
+          ],
+          "RARITY": "普通"
+      },
+      "Philosopher’s Stone": {
+          "RARITY": "首領"
+      },
+      "Sacred Bark": {},
+      "Slaver's Collar": {
+          "RARITY": "首領"
+      },
+      "Frozen Core": {},
+      "Hovering Kite": {},
+      "Wrist Blade": {},
+      "Holy Water": {},
+      "Violet Lotus": {},
+      "Ceramic Fish": {},
+      "Maw Bank": {},
+      "Meal Ticket": {},
+      "Preserved Insect": {},
+      "The Boot": {
+          "RARITY": "普通"
+      },
+      "Data Disk": {},
+      "Snecko Skull": {
+          "RARITY": "普通"
+      },
+      "Neow's Lament": {
+          "RARITY": "事件"
+      },
+      "Cultist Headpiece": {
+          "RARITY": "事件"
+      },
+      "Face of Cleric": {
+          "RARITY": "事件"
+      },
+      "Gremlin Visage": {
+          "RARITY": "事件"
+      },
+      "Mutagenic Strength": {},
+      "N'loth's Gift": {
+          "RARITY": "事件"
+      },
+      "N'loth's Hungry Face": {
+          "RARITY": "事件"
+      },
+      "Ssserpent Head": {},
+      "Warped Tongs": {},
+      "Bird-Faced Urn": {
+          "RARITY": "稀有"
+      },
+      "Captain's Wheel": {
+          "RARITY": "稀有"
+      },
+      "Fossilized Helix": {},
+      "Stone Calendar": {},
+      "Tungsten Rod": {},
+      "Wing Boots": {
+          "RARITY": "稀有"
+      },
+      "Charon’s Ashes": {
+          "RARITY": "稀有"
+      },
+      "Cloak Clasp": {},
+      "Golden Eye": {},
+      "Clockwork Souvenir": {},
+      "Dolly's Mirror": {
+          "RARITY": "商店"
+      },
+      "Hand Drill": {},
+      "Lee’s Waffle": {
+          "RARITY": "商店"
+      },
+      "Orange Pellets": {},
+      "Prismatic Shard": {},
+      "Sling of Courage": {
+          "RARITY": "商店"
+      },
+      "The Abacus": {},
+      "Twisted Funnel": {},
+      "Pure Water": {},
+      "Frozen Egg": {
+          "RARITY": "罕見"
+      },
+      "Horn Cleat": {},
+      "Ink Bottle": {},
+      "Molten Egg": {
+          "RARITY": "罕見"
+      },
+      "Strike Dummy": {},
+      "Toxic Egg": {
+          "RARITY": "罕見"
+      },
+      "Gold-Plated Cables": {
+          "RARITY": "罕見"
+      },
+      "Paper Phrog": {
+          "RARITY": "罕見"
+      },
+      "Self-Forming Clay": {
+          "RARITY": "罕見"
+      },
+      "Paper Krane": {
+          "RARITY": "罕見"
+      },
+      "Duality": {
+          "RARITY": "罕見"
+      },
+      "Teardrop Locket": {}
+  }
+    const CARD_COLOR_ORDER = ["紅色", "綠色", "藍色", "紫色", "無色", "詛咒", "特殊／未分類"];
+    const CARD_RARITY_ORDER = ["初始", "普通", "罕見", "稀有", "特殊／未分類"];
 
-    const CARD_KEYS = Object.keys(CARD_REFERENCE).sort();
-    const RELIC_KEYS = Object.keys(RELIC_REFERENCE).sort();
+    function normalizeCardColor(color) {
+      if (color === "紅色" || color === "綠色" || color === "藍色" || color === "紫色" || color === "無色" || color === "詛咒") {
+        return color;
+      }
+      return "特殊／未分類";
+    }
+
+    function normalizeCardRarity(rarity) {
+      if (rarity === "初始" || rarity === "普通" || rarity === "罕見" || rarity === "稀有") {
+        return rarity;
+      }
+      return "特殊／未分類";
+    }
+
+    function buildOrderedCardGroups() {
+      const groups = {};
+      for (let i = 0; i < CARD_COLOR_ORDER.length; i++) {
+        const color = CARD_COLOR_ORDER[i];
+        for (let j = 0; j < CARD_RARITY_ORDER.length; j++) {
+          const rarity = CARD_RARITY_ORDER[j];
+          groups[color + '｜' + rarity] = [];
+        }
+      }
+
+      const keys = Object.keys(CARD_REFERENCE);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const ref = CARD_REFERENCE[key] || {};
+        const color = normalizeCardColor(ref.COLOR);
+        const rarity = normalizeCardRarity(ref.RARITY);
+        const groupKey = color + '｜' + rarity;
+        if (!groups[groupKey]) {
+          groups[groupKey] = [];
+        }
+        groups[groupKey].push(key);
+      }
+
+      const ordered = {};
+      for (let i = 0; i < CARD_COLOR_ORDER.length; i++) {
+        const color = CARD_COLOR_ORDER[i];
+        for (let j = 0; j < CARD_RARITY_ORDER.length; j++) {
+          const rarity = CARD_RARITY_ORDER[j];
+          const groupKey = color + '｜' + rarity;
+          const list = groups[groupKey] || [];
+          list.sort(function (a, b) {
+            const aName = (CARD_REFERENCE[a] && CARD_REFERENCE[a].NAME) ? CARD_REFERENCE[a].NAME : a;
+            const bName = (CARD_REFERENCE[b] && CARD_REFERENCE[b].NAME) ? CARD_REFERENCE[b].NAME : b;
+            if (aName !== bName) {
+              return aName.localeCompare(bName, 'zh-Hant');
+            }
+            return a.localeCompare(b);
+          });
+          if (list.length > 0) {
+            ordered[groupKey] = list;
+          }
+        }
+      }
+      return ordered;
+    }
+
+    const CARD_GROUPS = buildOrderedCardGroups();
+
+    const RELIC_RARITY_ORDER = ["初始", "普通", "罕見", "稀有", "首領", "商店", "事件", "特殊／未分類"];
+
+    function normalizeRelicRarity(rarity) {
+      if (rarity === "初始" || rarity === "普通" || rarity === "罕見" || rarity === "稀有" || rarity === "首領" || rarity === "商店" || rarity === "事件") {
+        return rarity;
+      }
+      return "特殊／未分類";
+    }
+
+    function buildOrderedRelicGroups() {
+      const groups = {};
+      for (let i = 0; i < RELIC_RARITY_ORDER.length; i++) {
+        groups[RELIC_RARITY_ORDER[i]] = [];
+      }
+
+      const keys = Object.keys(RELIC_REFERENCE);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const ref = RELIC_REFERENCE[key] || {};
+        const rarity = normalizeRelicRarity(ref.RARITY);
+        if (!groups[rarity]) {
+          groups[rarity] = [];
+        }
+        groups[rarity].push(key);
+      }
+
+      const ordered = {};
+      for (let i = 0; i < RELIC_RARITY_ORDER.length; i++) {
+        const rarity = RELIC_RARITY_ORDER[i];
+        const list = groups[rarity] || [];
+        list.sort(function (a, b) {
+          const aName = (RELIC_REFERENCE[a] && RELIC_REFERENCE[a].NAME) ? RELIC_REFERENCE[a].NAME : a;
+          const bName = (RELIC_REFERENCE[b] && RELIC_REFERENCE[b].NAME) ? RELIC_REFERENCE[b].NAME : b;
+          if (aName !== bName) {
+            return aName.localeCompare(bName, 'zh-Hant');
+          }
+          return a.localeCompare(b);
+        });
+        if (list.length > 0) {
+          ordered[rarity] = list;
+        }
+      }
+      return ordered;
+    }
+
+    const RELIC_GROUPS = buildOrderedRelicGroups();
 
     const jsonInput = document.getElementById('jsonInput');
     const parseBtn = document.getElementById('parseBtn');
@@ -475,15 +1975,18 @@
     const addCardBtn = document.getElementById('addCardBtn');
     const addRelicBtn = document.getElementById('addRelicBtn');
 
-    const simpleFields = ['current_health', 'max_health', 'max_orbs', 'gold', 'hand_size'];
-
-    function setStatus(message, type) {
+    window.setStatus = function (message, type) {
+      if (!status) {
+        return;
+      }
       status.textContent = message;
       status.className = 'status';
       if (type) {
         status.classList.add(type);
       }
-    }
+    };
+
+    const simpleFields = ['current_health', 'max_health', 'max_orbs', 'gold', 'hand_size'];
 
     function deepClone(obj) {
       return JSON.parse(JSON.stringify(obj));
@@ -533,6 +2036,9 @@
       for (let i = 0; i < simpleFields.length; i++) {
         const key = simpleFields[i];
         const input = document.getElementById(key);
+        if (!input) {
+          continue;
+        }
         input.value = currentData[key];
         input.oninput = function () {
           currentData[key] = safeNumber(input.value, currentData[key]);
@@ -540,64 +2046,44 @@
       }
     }
 
-    function createReferenceSelectField(labelText, value, onChange, options, refMap, typeName) {
-      const field = document.createElement('div');
-      field.className = 'field';
 
-      const label = document.createElement('label');
-      label.textContent = labelText;
-
-      const select = document.createElement('select');
-      select.style.width = '100%';
-      select.style.padding = '10px 12px';
-      select.style.border = '1px solid #cbd5e1';
-      select.style.borderRadius = '10px';
-      select.style.fontSize = '14px';
-
-      const usedOptions = options.slice();
-      if (value && usedOptions.indexOf(value) === -1) {
-        usedOptions.unshift(value);
-      }
-
-      const emptyOption = document.createElement('option');
-      emptyOption.value = '';
-      emptyOption.textContent = '請選擇';
-      select.appendChild(emptyOption);
-
-      for (let i = 0; i < usedOptions.length; i++) {
-        const key = usedOptions[i];
-        const option = document.createElement('option');
-        option.value = key;
-
-        if (refMap[key] && refMap[key].NAME) {
-          option.textContent = key + '｜' + refMap[key].NAME;
-        } else {
-          option.textContent = key + '｜(不在 ' + typeName + ' reference)';
+    function getCardColor(cardId) {
+      const groupNames = Object.keys(CARD_GROUPS);
+      for (let i = 0; i < groupNames.length; i++) {
+        const groupName = groupNames[i];
+        if (CARD_GROUPS[groupName].indexOf(cardId) !== -1) {
+          return groupName.split('｜')[0];
         }
-
-        select.appendChild(option);
       }
+      return '特殊／未分類';
+    }
 
-      select.value = value || '';
-      select.onchange = function () {
-        onChange(select.value);
-      };
-
-      const hint = document.createElement('div');
-      hint.className = 'hint';
-      hint.style.marginTop = '0';
-
-      if (typeName === 'cards') {
-        hint.textContent = getCardDisplay(value);
+    function getCardDisplay(cardId) {
+      if (!cardId) {
+        return '請選擇卡牌';
       }
-      if (typeName === 'relics') {
-        hint.textContent = getRelicDisplay(value);
+      if (CARD_REFERENCE[cardId]) {
+        const color = CARD_REFERENCE[cardId].COLOR || getCardColor(cardId);
+        const name = CARD_REFERENCE[cardId].NAME || cardId;
+        const cost = CARD_REFERENCE[cardId].COST;
+        const desc = CARD_REFERENCE[cardId].DESCRIPTION || '';
+        const costText = cost === undefined || cost === null || cost === '' ? '耗能？' : ('耗能 ' + cost);
+        return color + '｜' + name + '｜' + costText + (desc ? '｜' + desc : '');
       }
+      return '目前值不在 reference 中';
+    }
 
-      field.appendChild(label);
-      field.appendChild(select);
-      field.appendChild(hint);
-      return field;
+    function getRelicDisplay(relicId) {
+      if (!relicId) {
+        return '請選擇遺物';
+      }
+      if (RELIC_REFERENCE[relicId]) {
+        const name = RELIC_REFERENCE[relicId].NAME || relicId;
+        const rarity = RELIC_REFERENCE[relicId].RARITY || '未分類';
+        const descriptions = Array.isArray(RELIC_REFERENCE[relicId].DESCRIPTIONS) ? RELIC_REFERENCE[relicId].DESCRIPTIONS.join('') : '';
+        return rarity + '｜' + name + (descriptions ? '｜' + descriptions : '');
+      }
+      return '目前值不在 reference 中';
     }
 
     function createInputField(labelText, type, value, onChange) {
@@ -638,37 +2124,155 @@
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.checked = checked;
+
+      const text = document.createElement('span');
+      text.textContent = checked ? '已升級' : '未升級';
+
       input.onchange = function () {
         onChange(input.checked);
         text.textContent = input.checked ? '已升級' : '未升級';
       };
 
-      const text = document.createElement('span');
-      text.textContent = checked ? '已升級' : '未升級';
-
       wrap.appendChild(input);
       wrap.appendChild(text);
-
       field.appendChild(label);
       field.appendChild(wrap);
       return field;
     }
 
-    
-    function getCardDisplay(cardId) {
-      if (CARD_REFERENCE[cardId]) {
-        const name = CARD_REFERENCE[cardId].NAME || '';
-        const desc = CARD_REFERENCE[cardId].DESCRIPTION || '';
-        return name + (desc ? '｜' + desc : '');
+    function createCardSelectField(labelText, value, onChange) {
+      const field = document.createElement('div');
+      field.className = 'field';
+
+      const label = document.createElement('label');
+      label.textContent = labelText;
+
+      const select = document.createElement('select');
+      select.style.width = '100%';
+      select.style.padding = '10px 12px';
+      select.style.border = '1px solid #cbd5e1';
+      select.style.borderRadius = '10px';
+      select.style.fontSize = '14px';
+
+      const emptyOption = document.createElement('option');
+      emptyOption.value = '';
+      emptyOption.textContent = '請選擇';
+      select.appendChild(emptyOption);
+
+      if (value && !CARD_REFERENCE[value]) {
+        const unknownGroup = document.createElement('optgroup');
+        unknownGroup.label = '目前值（reference 外）';
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value + '｜(reference 外)';
+        unknownGroup.appendChild(option);
+        select.appendChild(unknownGroup);
       }
-      return '未在 cards reference 中找到';
+
+      const groupNames = Object.keys(CARD_GROUPS);
+      for (let i = 0; i < groupNames.length; i++) {
+        const groupName = groupNames[i];
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = groupName;
+        const keys = CARD_GROUPS[groupName];
+
+        for (let j = 0; j < keys.length; j++) {
+          const key = keys[j];
+          const ref = CARD_REFERENCE[key] || {};
+          const zh = ref.NAME || key;
+          const cost = ref.COST;
+          const costText = cost === undefined || cost === null || cost === '' ? '耗能？' : ('[' + cost + ']');
+          const option = document.createElement('option');
+          option.value = key;
+          option.textContent = zh + ' ' + costText;
+          optgroup.appendChild(option);
+        }
+        if (keys.length > 0) {
+          select.appendChild(optgroup);
+        }
+      }
+
+      select.value = value || '';
+      select.onchange = function () {
+        onChange(select.value);
+      };
+
+      const hint = document.createElement('div');
+      hint.className = 'hint';
+      hint.style.marginTop = '0';
+      hint.textContent = getCardDisplay(value);
+
+      field.appendChild(label);
+      field.appendChild(select);
+      field.appendChild(hint);
+      return field;
     }
 
-    function getRelicDisplay(relicId) {
-      if (RELIC_REFERENCE[relicId]) {
-        return RELIC_REFERENCE[relicId].NAME || relicId;
+    function createRelicSelectField(labelText, value, onChange) {
+      const field = document.createElement('div');
+      field.className = 'field';
+
+      const label = document.createElement('label');
+      label.textContent = labelText;
+
+      const select = document.createElement('select');
+      select.style.width = '100%';
+      select.style.padding = '10px 12px';
+      select.style.border = '1px solid #cbd5e1';
+      select.style.borderRadius = '10px';
+      select.style.fontSize = '14px';
+
+      const emptyOption = document.createElement('option');
+      emptyOption.value = '';
+      emptyOption.textContent = '請選擇';
+      select.appendChild(emptyOption);
+
+      if (value && !RELIC_REFERENCE[value]) {
+        const unknownGroup = document.createElement('optgroup');
+        unknownGroup.label = '目前值（reference 外）';
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value + '｜(reference 外)';
+        unknownGroup.appendChild(option);
+        select.appendChild(unknownGroup);
       }
-      return '未在 relics reference 中找到';
+
+      const groupNames = Object.keys(RELIC_GROUPS);
+      for (let i = 0; i < groupNames.length; i++) {
+        const groupName = groupNames[i];
+        const keys = RELIC_GROUPS[groupName] || [];
+        if (keys.length === 0) {
+          continue;
+        }
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = groupName;
+
+        for (let j = 0; j < keys.length; j++) {
+          const key = keys[j];
+          const ref = RELIC_REFERENCE[key] || {};
+          const zh = ref.NAME || key;
+          const option = document.createElement('option');
+          option.value = key;
+          option.textContent = zh;
+          optgroup.appendChild(option);
+        }
+        select.appendChild(optgroup);
+      }
+
+      select.value = value || '';
+      select.onchange = function () {
+        onChange(select.value);
+      };
+
+      const hint = document.createElement('div');
+      hint.className = 'hint';
+      hint.style.marginTop = '0';
+      hint.textContent = getRelicDisplay(value);
+
+      field.appendChild(label);
+      field.appendChild(select);
+      field.appendChild(hint);
+      return field;
     }
 
     function renderCards() {
@@ -676,11 +2280,9 @@
 
       for (let i = 0; i < currentData.cards.length; i++) {
         const card = currentData.cards[i];
-
         if (typeof card !== 'object' || card === null) {
-          currentData.cards[i] = { id: '', upgrades: 0, misc: 0 };
+          currentData.cards[i] = { id: '', upgrades: 1, misc: 0 };
         }
-
         if (typeof currentData.cards[i].id !== 'string') {
           currentData.cards[i].id = '';
         }
@@ -705,10 +2307,10 @@
         const grid = document.createElement('div');
         grid.className = 'card-grid';
 
-        const idField = createReferenceSelectField('id', currentData.cards[i].id, function (value) {
+        const idField = createCardSelectField('id', currentData.cards[i].id, function (value) {
           currentData.cards[i].id = value;
           renderCards();
-        }, CARD_KEYS, CARD_REFERENCE, 'cards');
+        });
 
         const upgradesField = createCheckboxField('upgrades', currentData.cards[i].upgrades === 1, function (checked) {
           currentData.cards[i].upgrades = checked ? 1 : 0;
@@ -767,10 +2369,10 @@
         const grid = document.createElement('div');
         grid.className = 'relic-grid';
 
-        const relicField = createReferenceSelectField('relic', currentData.relics[i], function (value) {
+        const relicField = createRelicSelectField('relic', currentData.relics[i], function (value) {
           currentData.relics[i] = value;
           renderRelics();
-        }, RELIC_KEYS, RELIC_REFERENCE, 'relics');
+        });
 
         const counterField = createInputField('counter', 'number', currentData.relic_counters[i], function (value) {
           currentData.relic_counters[i] = safeNumber(value, currentData.relic_counters[i]);
@@ -805,19 +2407,17 @@
 
     function parseJson() {
       const text = jsonInput.value.trim();
-
       if (!text) {
         setStatus('請先貼上 JSON 內容', 'error');
         return;
       }
-
       try {
         const parsed = JSON.parse(text);
         currentData = deepClone(parsed);
         ensureEditableStructure(currentData);
         renderEditor();
         outputBox.style.display = 'none';
-        setStatus('JSON 讀取成功，可依 reference 編輯 cards 與 relics', 'ok');
+        setStatus('JSON 讀取成功，可依 wiki / 官方本地化資料編輯 cards 與 relics', 'ok');
       } catch (error) {
         editorArea.style.display = 'none';
         outputBox.style.display = 'none';
@@ -827,12 +2427,10 @@
 
     function formatInputJson() {
       const text = jsonInput.value.trim();
-
       if (!text) {
         setStatus('沒有可格式化的內容', 'error');
         return;
       }
-
       try {
         const parsed = JSON.parse(text);
         jsonInput.value = JSON.stringify(parsed, null, 2);
@@ -847,7 +2445,6 @@
         setStatus('請先讀取 JSON', 'error');
         return;
       }
-
       ensureEditableStructure(currentData);
       const result = JSON.stringify(currentData);
       jsonOutput.value = result;
@@ -860,7 +2457,6 @@
         setStatus('請先讀取 JSON', 'error');
         return;
       }
-
       ensureEditableStructure(currentData);
       const result = JSON.stringify(currentData);
       const blob = new Blob([result], { type: 'text/plain;charset=utf-8' });
@@ -891,12 +2487,7 @@
         setStatus('請先讀取 JSON', 'error');
         return;
       }
-
-      currentData.cards.push({
-        upgrades: 1,
-        misc: 0,
-        id: ''
-      });
+      currentData.cards.push({ upgrades: 1, misc: 0, id: '' });
       renderCards();
     });
 
@@ -905,7 +2496,6 @@
         setStatus('請先讀取 JSON', 'error');
         return;
       }
-
       currentData.relics.push('');
       currentData.relic_counters.push(-1);
       renderRelics();
@@ -919,12 +2509,10 @@
 
     copyBtn.addEventListener('click', async function () {
       const text = jsonOutput.value;
-
       if (!text) {
         setStatus('目前沒有可複製的匯出結果', 'error');
         return;
       }
-
       try {
         await navigator.clipboard.writeText(text);
         setStatus('已複製匯出結果', 'ok');
