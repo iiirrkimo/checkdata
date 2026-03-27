@@ -4378,3 +4378,4 @@ function showdata(){
     newWin.document.write(htmls);
     newWin.document.close();
 }
+showdata();
