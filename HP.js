@@ -311,8 +311,8 @@ function genhpwindow(){
     <div class="card">
       <div class="toolbar">
         <button class="tab-btn active" data-tab="caseListTab">個案列表</button>
-        <button class="tab-btn secondary" data-tab="importTab">表一：個案基本及問卷資料</button>
-        <button class="tab-btn secondary" data-tab="deleteTab">表二：刪除資料</button>
+        <button class="tab-btn secondary" data-tab="importTab" style="display: none;">表一：個案基本及問卷資料</button>
+        <button class="tab-btn secondary" data-tab="deleteTab" style="display: none;">表二：刪除資料</button>
         <button class="tab-btn secondary" data-tab="draftTab">暫存資料</button>
       </div>
 
@@ -2162,8 +2162,7 @@ function genhpwindow(){
   </script>
 </body>
 </html>
-
-    `
+`
 	htmls=htmls.replace("please_change_me",clinicCode);
 	let newWin = window.open('', '_blank');
 	newWin.document.open();
