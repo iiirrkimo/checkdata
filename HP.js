@@ -405,9 +405,10 @@ function genhpwindow(){
       <div style="margin-top:16px;" id="modalImportForm"></div>
       <div class="toolbar" style="margin-top:16px;">
         <button id="validateModalImportBtn">檢查資料</button>
-        <button id="previewModalImportBtn" class="secondary">預覽 CSV</button>
+        <button id="previewModalImportBtn" class="secondary" style="display: none;">預覽 CSV</button>
         <button id="saveModalDraftBtn" class="success-btn">儲存</button>
         <button id="clearModalImportBtn" class="danger">清空</button>
+        <button id="closeModalBtn2" class="secondary">關閉</button>
       </div>
       <div id="modalImportMessage"></div>
       <pre id="modalImportPreview"></pre>
@@ -2088,6 +2089,9 @@ function genhpwindow(){
     document.getElementById('closeModalBtn').addEventListener('click', function () {
       closeModal();
     });
+    document.getElementById('closeModalBtn2').addEventListener('click', function () {
+      closeModal();
+    });
 
     document.getElementById('validateModalImportBtn').addEventListener('click', function () {
       validate('mod_', importFields, 'modalImportMessage');
@@ -2120,7 +2124,10 @@ function genhpwindow(){
         document.getElementById('draftMessage').innerHTML = '<div class="error">目前沒有可匯出的問卷資料。</div>';
         return;
       }
-      downloadCsv(buildAllQuestionnaireCsv(), 'all_questionnaires.csv');
+      const now = new Date();
+      const year = now.getFullYear() - 1911;
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      downloadCsv(buildAllQuestionnaireCsv(), 'HpSA'+siteid+'_'+year+month+'.csv');
       document.getElementById('draftMessage').innerHTML = '<div class="success">已匯出全部問卷 CSV。</div>';
     });
 
