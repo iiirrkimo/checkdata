@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150402';
+chestversion='1150413';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -2885,7 +2885,7 @@ function createchest(){
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
         <script>
             window.onload=function(){
-                aaa=please_change_me
+                aaa=please_change_me;
                 window.chartPopup = null;
                 let clist={
                     "AC":["21012","22012","25012","27012","09005C001","09140C","21+L1001C005","3D012"],
@@ -3203,7 +3203,7 @@ function createchest(){
                     
                 }
             }
-            function todetail(examdate,examarray,gend){
+            function todetail(examdate,inputexamarray,gend){
                 let examlist={
                     "66": {
                         "code": "66",
@@ -3211,7 +3211,8 @@ function createchest(){
                         "name_eng": "Group B Streptococcus；Streptococcus agalatiae(GBS)",
                         "unit": "-/+",
                         "ref": "No growth",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900021
                     },
                     "21001": {
                         "code": "21001",
@@ -3219,7 +3220,8 @@ function createchest(){
                         "name_eng": "height",
                         "unit": "cm",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990001
                     },
                     "21002": {
                         "code": "21002",
@@ -3227,7 +3229,8 @@ function createchest(){
                         "name_eng": "body weight",
                         "unit": "kg",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990002
                     },
                     "21003": {
                         "code": "21003",
@@ -3235,9 +3238,10 @@ function createchest(){
                         "name_eng": "pulse",
                         "unit": "次/分鐘",
                         "ref": "60-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 60,
+                        "index": 99990003
                     },
                     "21004": {
                         "code": "21004",
@@ -3245,9 +3249,10 @@ function createchest(){
                         "name_eng": "Systolic pressure",
                         "unit": "mmHg",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 99990004
                     },
                     "21005": {
                         "code": "21005",
@@ -3255,9 +3260,10 @@ function createchest(){
                         "name_eng": "Diastolic pressure",
                         "unit": "mmHg",
                         "ref": "<80",
-                        "refmode":"mid",
-                        "upper":80,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 80,
+                        "lower": null,
+                        "index": 99990005
                     },
                     "21006": {
                         "code": "21006",
@@ -3265,9 +3271,10 @@ function createchest(){
                         "name_eng": "Waistline",
                         "unit": "cm",
                         "ref": "男<90；女<80",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper":gend=="男"?90:80,
-                        "lower":null
+                        "lower": null,
+                        "index": 99990006
                     },
                     "21007": {
                         "code": "21007",
@@ -3275,37 +3282,42 @@ function createchest(){
                         "name_eng": "Body Mass Index",
                         "unit": "kg/m2",
                         "ref": "18.5-24",
-                        "refmode":"mid",
-                        "upper":24,
-                        "lower":18.5
+                        "refmode": "mid",
+                        "upper": 24,
+                        "lower": 18.5,
+                        "index": 99990007
                     },
                     "21008": {
                         "code": "21008",
                         "name_cht": "裸視[右眼]",
                         "name_eng": "bare eyesight(right)",
                         "unit": "",
-                        "ref": ""
+                        "ref": "",
+                        "index": 99990008
                     },
                     "21009": {
                         "code": "21009",
                         "name_cht": "裸視[左眼]",
                         "name_eng": "bare eyesight(left)",
                         "unit": "",
-                        "ref": ""
+                        "ref": "",
+                        "index": 99990009
                     },
                     "21010": {
                         "code": "21010",
                         "name_cht": "矯正[右眼]",
                         "name_eng": "corrected vision(right)",
                         "unit": "",
-                        "ref": ""
+                        "ref": "",
+                        "index": 999900010
                     },
                     "21011": {
                         "code": "21011",
                         "name_cht": "矯正[左眼]",
                         "name_eng": "corrected vision(left)",
                         "unit": "",
-                        "ref": ""
+                        "ref": "",
+                        "index": 999900011
                     },
                     "21012": {
                         "code": "21012",
@@ -3313,9 +3325,10 @@ function createchest(){
                         "name_eng": "Glucose",
                         "unit": "mg/dL",
                         "ref": "<100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": null,
+                        "index": 10001
                     },
                     "21013": {
                         "code": "21013",
@@ -3323,9 +3336,10 @@ function createchest(){
                         "name_eng": "Creatinine (B) CRTN",
                         "unit": "mg/dL",
                         "ref": "0.5-1.3",
-                        "refmode":"mid",
-                        "upper":1.3,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.3,
+                        "lower": 0.5,
+                        "index": 30002
                     },
                     "21014": {
                         "code": "21014",
@@ -3333,9 +3347,10 @@ function createchest(){
                         "name_eng": "S-GOT/AST",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50001
                     },
                     "21015": {
                         "code": "21015",
@@ -3343,9 +3358,10 @@ function createchest(){
                         "name_eng": "S-GPT/ALT",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50002
                     },
                     "21016": {
                         "code": "21016",
@@ -3353,9 +3369,10 @@ function createchest(){
                         "name_eng": "Cholestero1,total",
                         "unit": "mg/dL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 20001
                     },
                     "21017": {
                         "code": "21017",
@@ -3363,9 +3380,10 @@ function createchest(){
                         "name_eng": "Triglyceride (TG)",
                         "unit": "mg/dL",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 20002
                     },
                     "21018": {
                         "code": "21018",
@@ -3373,9 +3391,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "一般:<130；糖尿病<100",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20004
                     },
                     "21019": {
                         "code": "21019",
@@ -3383,9 +3402,10 @@ function createchest(){
                         "name_eng": "HDL-C(highdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "男:≥40；女:≥50",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper": null,
-                        "lower": gend=="男"?40:50
+                        "lower": gend=="男"?40:50,
+                        "index": 20003
                     },
                     "21020": {
                         "code": "21020",
@@ -3393,7 +3413,8 @@ function createchest(){
                         "name_eng": "Cholestero1,total/HDL-C ratio",
                         "unit": "*",
                         "ref": "<5",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20006
                     },
                     "21021": {
                         "code": "21021",
@@ -3401,7 +3422,8 @@ function createchest(){
                         "name_eng": "LDL-C/HDL-C ratio",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20007
                     },
                     "21022": {
                         "code": "21022",
@@ -3409,7 +3431,8 @@ function createchest(){
                         "name_eng": "color",
                         "unit": "Yellow",
                         "ref": "Yellow",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 40009
                     },
                     "21023": {
                         "code": "21023",
@@ -3417,7 +3440,8 @@ function createchest(){
                         "name_eng": "turbidity",
                         "unit": "Clear",
                         "ref": "Clear",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400011
                     },
                     "21024": {
                         "code": "21024",
@@ -3425,8 +3449,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "21025": {
                         "code": "21025",
@@ -3434,8 +3459,9 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400021
                     },
                     "21026": {
                         "code": "21026",
@@ -3443,9 +3469,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "-",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "21027": {
                         "code": "21027",
@@ -3453,8 +3480,9 @@ function createchest(){
                         "name_eng": "Urine occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400023
                     },
                     "21028": {
                         "code": "21028",
@@ -3462,8 +3490,9 @@ function createchest(){
                         "name_eng": "Urine R.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400024
                     },
                     "21029": {
                         "code": "21029",
@@ -3471,8 +3500,9 @@ function createchest(){
                         "name_eng": "Urine W.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400025
                     },
                     "21030": {
                         "code": "21030",
@@ -3480,8 +3510,9 @@ function createchest(){
                         "name_eng": "Urine Epithelium",
                         "unit": "cells/HPF",
                         "ref": "< 8 /HPF",
-                        "refmode":"label",
-                        "label":"0-8"
+                        "refmode": "label",
+                        "label": "0-8",
+                        "index": 400026
                     },
                     "21031": {
                         "code": "21031",
@@ -3489,8 +3520,9 @@ function createchest(){
                         "name_eng": "Urine Cast",
                         "unit": "(-)/LPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400027
                     },
                     "21032": {
                         "code": "21032",
@@ -3498,8 +3530,9 @@ function createchest(){
                         "name_eng": "Urine Bacteria",
                         "unit": "HPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400028
                     },
                     "21033": {
                         "code": "21033",
@@ -3507,9 +3540,10 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "21034": {
                         "code": "21034",
@@ -3517,9 +3551,10 @@ function createchest(){
                         "name_eng": "eGFR",
                         "unit": "ml/min/1.73m^2",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30004
                     },
                     "21035": {
                         "code": "21035",
@@ -3527,9 +3562,10 @@ function createchest(){
                         "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40007
                     },
                     "21036": {
                         "code": "21036",
@@ -3537,8 +3573,9 @@ function createchest(){
                         "name_eng": "CKD Stage",
                         "unit": "",
                         "ref": "第一~三期：輕度到中度腎功能衰竭；第四期：重度腎功能衰竭；第五期：末期腎臟病變",
-                        "refmode":"label",
-                        "label":"0"
+                        "refmode": "label",
+                        "label": "0",
+                        "index": 30006
                     },
                     "21037": {
                         "code": "21037",
@@ -3546,7 +3583,8 @@ function createchest(){
                         "name_eng": "BMD",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900031
                     },
                     "21038": {
                         "code": "21038",
@@ -3554,9 +3592,10 @@ function createchest(){
                         "name_eng": "Uric acid",
                         "unit": "mg/dL",
                         "ref": "<7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 30008
                     },
                     "22001": {
                         "code": "22001",
@@ -3564,7 +3603,8 @@ function createchest(){
                         "name_eng": "height",
                         "unit": "cm",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990001
                     },
                     "22002": {
                         "code": "22002",
@@ -3572,7 +3612,8 @@ function createchest(){
                         "name_eng": "body weight",
                         "unit": "kg",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990002
                     },
                     "22003": {
                         "code": "22003",
@@ -3580,9 +3621,10 @@ function createchest(){
                         "name_eng": "pulse",
                         "unit": "次/分鐘",
                         "ref": "",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 60,
+                        "index": 99990003
                     },
                     "22004": {
                         "code": "22004",
@@ -3590,9 +3632,10 @@ function createchest(){
                         "name_eng": "Systolic pressure",
                         "unit": "mmHg",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 99990004
                     },
                     "22005": {
                         "code": "22005",
@@ -3600,9 +3643,10 @@ function createchest(){
                         "name_eng": "Diastolic pressure",
                         "unit": "mmHg",
                         "ref": "<80",
-                        "refmode":"mid",
-                        "upper":80,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 80,
+                        "lower": null,
+                        "index": 99990005
                     },
                     "22006": {
                         "code": "22006",
@@ -3610,9 +3654,10 @@ function createchest(){
                         "name_eng": "Waistline",
                         "unit": "cm",
                         "ref": "男<90；女<80",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper":gend=="男"?90:80,
-                        "lower":null
+                        "lower": null,
+                        "index": 99990006
                     },
                     "22007": {
                         "code": "22007",
@@ -3620,9 +3665,10 @@ function createchest(){
                         "name_eng": "Body Mass Index",
                         "unit": "kg/m2",
                         "ref": "18.5-24",
-                        "refmode":"mid",
-                        "upper":24,
-                        "lower":18.5
+                        "refmode": "mid",
+                        "upper": 24,
+                        "lower": 18.5,
+                        "index": 99990007
                     },
                     "22008": {
                         "code": "22008",
@@ -3630,7 +3676,8 @@ function createchest(){
                         "name_eng": "bare eyesight(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990008
                     },
                     "22009": {
                         "code": "22009",
@@ -3638,7 +3685,8 @@ function createchest(){
                         "name_eng": "bare eyesight(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990009
                     },
                     "22010": {
                         "code": "22010",
@@ -3646,7 +3694,8 @@ function createchest(){
                         "name_eng": "corrected vision(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900010
                     },
                     "22011": {
                         "code": "22011",
@@ -3654,7 +3703,8 @@ function createchest(){
                         "name_eng": "corrected vision(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900011
                     },
                     "22012": {
                         "code": "22012",
@@ -3662,9 +3712,10 @@ function createchest(){
                         "name_eng": "Glucose",
                         "unit": "mg/dL",
                         "ref": "<100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": null,
+                        "index": 10001
                     },
                     "22013": {
                         "code": "22013",
@@ -3672,9 +3723,10 @@ function createchest(){
                         "name_eng": "Creatinine (B) CRTN",
                         "unit": "mg/dL",
                         "ref": "0.5-1.3",
-                        "refmode":"mid",
-                        "upper":1.3,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.3,
+                        "lower": 0.5,
+                        "index": 30002
                     },
                     "22014": {
                         "code": "22014",
@@ -3682,9 +3734,10 @@ function createchest(){
                         "name_eng": "S-GOT/AST",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50001
                     },
                     "22015": {
                         "code": "22015",
@@ -3692,9 +3745,10 @@ function createchest(){
                         "name_eng": "S-GPT/ALT",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50002
                     },
                     "22016": {
                         "code": "22016",
@@ -3702,9 +3756,10 @@ function createchest(){
                         "name_eng": "Cholestero1,total",
                         "unit": "mg/dL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 20001
                     },
                     "22017": {
                         "code": "22017",
@@ -3712,9 +3767,10 @@ function createchest(){
                         "name_eng": "Triglyceride (TG)",
                         "unit": "mg/dL",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 20002
                     },
                     "22018": {
                         "code": "22018",
@@ -3722,9 +3778,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20004
                     },
                     "22019": {
                         "code": "22019",
@@ -3732,9 +3789,10 @@ function createchest(){
                         "name_eng": "HDL-C(highdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "男:≥40；女:≥50",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper": null,
-                        "lower": gend=="男"?40:50
+                        "lower": gend=="男"?40:50,
+                        "index": 20003
                     },
                     "22020": {
                         "code": "22020",
@@ -3742,7 +3800,8 @@ function createchest(){
                         "name_eng": "Cholestero1,total/HDL-C ratio",
                         "unit": "*",
                         "ref": "<5",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20006
                     },
                     "22021": {
                         "code": "22021",
@@ -3750,7 +3809,8 @@ function createchest(){
                         "name_eng": "LDL-C/HDL-C ratio",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20007
                     },
                     "22022": {
                         "code": "22022",
@@ -3758,7 +3818,8 @@ function createchest(){
                         "name_eng": "color",
                         "unit": "Yellow",
                         "ref": "Yellow",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 40009
                     },
                     "22023": {
                         "code": "22023",
@@ -3766,7 +3827,8 @@ function createchest(){
                         "name_eng": "turbidity",
                         "unit": "Clear",
                         "ref": "Clear",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400011
                     },
                     "22024": {
                         "code": "22024",
@@ -3774,8 +3836,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "22025": {
                         "code": "22025",
@@ -3783,8 +3846,9 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400021
                     },
                     "22026": {
                         "code": "22026",
@@ -3792,9 +3856,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "-",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "22027": {
                         "code": "22027",
@@ -3802,8 +3867,9 @@ function createchest(){
                         "name_eng": "Urine occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400023
                     },
                     "22028": {
                         "code": "22028",
@@ -3811,8 +3877,9 @@ function createchest(){
                         "name_eng": "Urine R.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400024
                     },
                     "22029": {
                         "code": "22029",
@@ -3820,8 +3887,9 @@ function createchest(){
                         "name_eng": "Urine W.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400025
                     },
                     "22030": {
                         "code": "22030",
@@ -3829,8 +3897,9 @@ function createchest(){
                         "name_eng": "Urine Epithelium",
                         "unit": "cells/HPF",
                         "ref": "< 8 /HPF",
-                        "refmode":"label",
-                        "label":"0-8"
+                        "refmode": "label",
+                        "label": "0-8",
+                        "index": 400026
                     },
                     "22031": {
                         "code": "22031",
@@ -3838,8 +3907,9 @@ function createchest(){
                         "name_eng": "Urine Cast",
                         "unit": "(-)/LPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400027
                     },
                     "22032": {
                         "code": "22032",
@@ -3847,8 +3917,9 @@ function createchest(){
                         "name_eng": "Urine Bacteria",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400028
                     },
                     "22033": {
                         "code": "22033",
@@ -3856,9 +3927,10 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "22034": {
                         "code": "22034",
@@ -3866,9 +3938,10 @@ function createchest(){
                         "name_eng": "eGFR",
                         "unit": "ml/min/1.73m^2",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30004
                     },
                     "22035": {
                         "code": "22035",
@@ -3876,9 +3949,10 @@ function createchest(){
                         "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40007
                     },
                     "22036": {
                         "code": "22036",
@@ -3886,8 +3960,9 @@ function createchest(){
                         "name_eng": "CKD Stage",
                         "unit": "",
                         "ref": "第0期：正常",
-                        "refmode":"label",
-                        "label":"0"
+                        "refmode": "label",
+                        "label": "0",
+                        "index": 30006
                     },
                     "22037": {
                         "code": "22037",
@@ -3895,7 +3970,8 @@ function createchest(){
                         "name_eng": "BMD",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900031
                     },
                     "22038": {
                         "code": "22038",
@@ -3903,9 +3979,10 @@ function createchest(){
                         "name_eng": "Uric acid",
                         "unit": "mg/dL",
                         "ref": "<7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 30008
                     },
                     "25001": {
                         "code": "25001",
@@ -3913,7 +3990,8 @@ function createchest(){
                         "name_eng": "height",
                         "unit": "cm",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990001
                     },
                     "25002": {
                         "code": "25002",
@@ -3921,7 +3999,8 @@ function createchest(){
                         "name_eng": "body weight",
                         "unit": "kg",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990002
                     },
                     "25003": {
                         "code": "25003",
@@ -3929,9 +4008,10 @@ function createchest(){
                         "name_eng": "pulse",
                         "unit": "次/分鐘",
                         "ref": "60-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 60,
+                        "index": 99990003
                     },
                     "25004": {
                         "code": "25004",
@@ -3939,9 +4019,10 @@ function createchest(){
                         "name_eng": "Systolic pressure",
                         "unit": "mmHg",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 99990004
                     },
                     "25005": {
                         "code": "25005",
@@ -3949,9 +4030,10 @@ function createchest(){
                         "name_eng": "Diastolic pressure",
                         "unit": "mmHg",
                         "ref": "<80",
-                        "refmode":"mid",
-                        "upper":80,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 80,
+                        "lower": null,
+                        "index": 99990005
                     },
                     "25006": {
                         "code": "25006",
@@ -3959,9 +4041,10 @@ function createchest(){
                         "name_eng": "Waistline",
                         "unit": "cm",
                         "ref": "男<90；女<80",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper":gend=="男"?90:80,
-                        "lower":null
+                        "lower": null,
+                        "index": 99990006
                     },
                     "25007": {
                         "code": "25007",
@@ -3969,9 +4052,10 @@ function createchest(){
                         "name_eng": "Body Mass Index",
                         "unit": "kg/m2",
                         "ref": "18.5-24",
-                        "refmode":"mid",
-                        "upper":24,
-                        "lower":18.5
+                        "refmode": "mid",
+                        "upper": 24,
+                        "lower": 18.5,
+                        "index": 99990007
                     },
                     "25008": {
                         "code": "25008",
@@ -3979,7 +4063,8 @@ function createchest(){
                         "name_eng": "bare eyesight(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990008
                     },
                     "25009": {
                         "code": "25009",
@@ -3987,7 +4072,8 @@ function createchest(){
                         "name_eng": "bare eyesight(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990009
                     },
                     "25010": {
                         "code": "25010",
@@ -3995,7 +4081,8 @@ function createchest(){
                         "name_eng": "corrected vision(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900010
                     },
                     "25011": {
                         "code": "25011",
@@ -4003,7 +4090,8 @@ function createchest(){
                         "name_eng": "corrected vision(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900011
                     },
                     "25012": {
                         "code": "25012",
@@ -4011,9 +4099,10 @@ function createchest(){
                         "name_eng": "Glucose",
                         "unit": "mg/dL",
                         "ref": "<100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": null,
+                        "index": 10001
                     },
                     "25013": {
                         "code": "25013",
@@ -4021,9 +4110,10 @@ function createchest(){
                         "name_eng": "Creatinine (B) CRTN",
                         "unit": "mg/dL",
                         "ref": "0.5-1.3",
-                        "refmode":"mid",
-                        "upper":1.3,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.3,
+                        "lower": 0.5,
+                        "index": 30002
                     },
                     "25014": {
                         "code": "25014",
@@ -4031,9 +4121,10 @@ function createchest(){
                         "name_eng": "S-GOT/AST",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50001
                     },
                     "25015": {
                         "code": "25015",
@@ -4041,9 +4132,10 @@ function createchest(){
                         "name_eng": "S-GPT/ALT",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50002
                     },
                     "25016": {
                         "code": "25016",
@@ -4051,9 +4143,10 @@ function createchest(){
                         "name_eng": "Cholestero1,total",
                         "unit": "mg/dL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 20001
                     },
                     "25017": {
                         "code": "25017",
@@ -4061,9 +4154,10 @@ function createchest(){
                         "name_eng": "Triglyceride (TG)",
                         "unit": "mg/dL",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 20002
                     },
                     "25018": {
                         "code": "25018",
@@ -4071,9 +4165,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20004
                     },
                     "25019": {
                         "code": "25019",
@@ -4081,9 +4176,10 @@ function createchest(){
                         "name_eng": "HDL-C(highdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "男:≥40；女:≥50",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper": null,
-                        "lower": gend=="男"?40:50
+                        "lower": 50,
+                        "index": 20003
                     },
                     "25020": {
                         "code": "25020",
@@ -4091,7 +4187,8 @@ function createchest(){
                         "name_eng": "Cholestero1,total/HDL-C ratio",
                         "unit": "*",
                         "ref": "<5",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20006
                     },
                     "25021": {
                         "code": "25021",
@@ -4099,7 +4196,8 @@ function createchest(){
                         "name_eng": "LDL-C/HDL-C ratio",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20007
                     },
                     "25022": {
                         "code": "25022",
@@ -4107,7 +4205,8 @@ function createchest(){
                         "name_eng": "color",
                         "unit": "Yellow",
                         "ref": "Yellow",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 40009
                     },
                     "25023": {
                         "code": "25023",
@@ -4115,7 +4214,8 @@ function createchest(){
                         "name_eng": "turbidity",
                         "unit": "Clear",
                         "ref": "Clear",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400011
                     },
                     "25024": {
                         "code": "25024",
@@ -4123,8 +4223,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "25025": {
                         "code": "25025",
@@ -4132,8 +4233,9 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400021
                     },
                     "25026": {
                         "code": "25026",
@@ -4141,9 +4243,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "-",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "25027": {
                         "code": "25027",
@@ -4151,8 +4254,9 @@ function createchest(){
                         "name_eng": "Urine occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400023
                     },
                     "25028": {
                         "code": "25028",
@@ -4160,8 +4264,9 @@ function createchest(){
                         "name_eng": "Urine R.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400024
                     },
                     "25029": {
                         "code": "25029",
@@ -4169,8 +4274,9 @@ function createchest(){
                         "name_eng": "Urine W.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400025
                     },
                     "25030": {
                         "code": "25030",
@@ -4178,8 +4284,9 @@ function createchest(){
                         "name_eng": "Urine Epithelium",
                         "unit": "cells/HPF",
                         "ref": "< 8 /HPF",
-                        "refmode":"label",
-                        "label":"0-8"
+                        "refmode": "label",
+                        "label": "0-8",
+                        "index": 400026
                     },
                     "25031": {
                         "code": "25031",
@@ -4187,8 +4294,9 @@ function createchest(){
                         "name_eng": "Urine Cast",
                         "unit": "(-)/LPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400027
                     },
                     "25032": {
                         "code": "25032",
@@ -4196,8 +4304,9 @@ function createchest(){
                         "name_eng": "Urine Bacteria",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400028
                     },
                     "25033": {
                         "code": "25033",
@@ -4205,9 +4314,10 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "25034": {
                         "code": "25034",
@@ -4215,9 +4325,10 @@ function createchest(){
                         "name_eng": "eGFR",
                         "unit": "ml/min/1.73m^2",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30004
                     },
                     "25035": {
                         "code": "25035",
@@ -4225,9 +4336,10 @@ function createchest(){
                         "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40007
                     },
                     "25036": {
                         "code": "25036",
@@ -4235,8 +4347,9 @@ function createchest(){
                         "name_eng": "CKD Stage",
                         "unit": "",
                         "ref": "第0期：正常",
-                        "refmode":"label",
-                        "label":"0"
+                        "refmode": "label",
+                        "label": "0",
+                        "index": 30006
                     },
                     "25037": {
                         "code": "25037",
@@ -4244,7 +4357,8 @@ function createchest(){
                         "name_eng": "BMD",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900031
                     },
                     "25038": {
                         "code": "25038",
@@ -4252,9 +4366,10 @@ function createchest(){
                         "name_eng": "Uric acid",
                         "unit": "mg/dL",
                         "ref": "<7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 30008
                     },
                     "27001": {
                         "code": "27001",
@@ -4262,7 +4377,8 @@ function createchest(){
                         "name_eng": "height",
                         "unit": "cm",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990001
                     },
                     "27002": {
                         "code": "27002",
@@ -4270,7 +4386,8 @@ function createchest(){
                         "name_eng": "body weight",
                         "unit": "kg",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990002
                     },
                     "27003": {
                         "code": "27003",
@@ -4278,9 +4395,10 @@ function createchest(){
                         "name_eng": "pulse",
                         "unit": "次/分鐘",
                         "ref": "60-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 60,
+                        "index": 99990003
                     },
                     "27004": {
                         "code": "27004",
@@ -4288,9 +4406,10 @@ function createchest(){
                         "name_eng": "Systolic pressure",
                         "unit": "mmHg",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 99990004
                     },
                     "27005": {
                         "code": "27005",
@@ -4298,9 +4417,10 @@ function createchest(){
                         "name_eng": "Diastolic pressure",
                         "unit": "mmHg",
                         "ref": "<80",
-                        "refmode":"mid",
-                        "upper":80,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 80,
+                        "lower": null,
+                        "index": 99990005
                     },
                     "27006": {
                         "code": "27006",
@@ -4308,9 +4428,10 @@ function createchest(){
                         "name_eng": "Waistline",
                         "unit": "cm",
                         "ref": "男<90；女<80",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper":gend=="男"?90:80,
-                        "lower":null
+                        "lower": null,
+                        "index": 99990006
                     },
                     "27007": {
                         "code": "27007",
@@ -4318,9 +4439,10 @@ function createchest(){
                         "name_eng": "Body Mass Index",
                         "unit": "kg/m2",
                         "ref": "18.5-24",
-                        "refmode":"mid",
-                        "upper":24,
-                        "lower":18.5
+                        "refmode": "mid",
+                        "upper": 24,
+                        "lower": 18.5,
+                        "index": 99990007
                     },
                     "27008": {
                         "code": "27008",
@@ -4328,7 +4450,8 @@ function createchest(){
                         "name_eng": "bare eyesight(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990008
                     },
                     "27009": {
                         "code": "27009",
@@ -4336,7 +4459,8 @@ function createchest(){
                         "name_eng": "bare eyesight(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990009
                     },
                     "27010": {
                         "code": "27010",
@@ -4344,7 +4468,8 @@ function createchest(){
                         "name_eng": "corrected vision(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900010
                     },
                     "27011": {
                         "code": "27011",
@@ -4352,7 +4477,8 @@ function createchest(){
                         "name_eng": "corrected vision(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900011
                     },
                     "27012": {
                         "code": "27012",
@@ -4360,9 +4486,10 @@ function createchest(){
                         "name_eng": "Glucose",
                         "unit": "mg/dL",
                         "ref": "<100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": null,
+                        "index": 10001
                     },
                     "27013": {
                         "code": "27013",
@@ -4370,9 +4497,10 @@ function createchest(){
                         "name_eng": "Creatinine (B) CRTN",
                         "unit": "mg/dL",
                         "ref": "0.5-1.3",
-                        "refmode":"mid",
-                        "upper":1.3,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.3,
+                        "lower": 0.5,
+                        "index": 30002
                     },
                     "27014": {
                         "code": "27014",
@@ -4380,9 +4508,10 @@ function createchest(){
                         "name_eng": "S-GOT/AST",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50001
                     },
                     "27015": {
                         "code": "27015",
@@ -4390,9 +4519,10 @@ function createchest(){
                         "name_eng": "S-GPT/ALT",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50002
                     },
                     "27016": {
                         "code": "27016",
@@ -4400,9 +4530,10 @@ function createchest(){
                         "name_eng": "Cholestero1,total",
                         "unit": "mg/dL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 20001
                     },
                     "27017": {
                         "code": "27017",
@@ -4410,9 +4541,10 @@ function createchest(){
                         "name_eng": "Triglyceride (TG)",
                         "unit": "mg/dL",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 20002
                     },
                     "27018": {
                         "code": "27018",
@@ -4420,9 +4552,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20004
                     },
                     "27019": {
                         "code": "27019",
@@ -4430,9 +4563,10 @@ function createchest(){
                         "name_eng": "HDL-C(highdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "男:≥40；女:≥50",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper": null,
-                        "lower": gend=="男"?40:50
+                        "lower": gend=="男"?40:50,
+                        "index": 20003
                     },
                     "27020": {
                         "code": "27020",
@@ -4440,7 +4574,8 @@ function createchest(){
                         "name_eng": "Cholestero1,total/HDL-C ratio",
                         "unit": "*",
                         "ref": "<5",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20006
                     },
                     "27021": {
                         "code": "27021",
@@ -4448,7 +4583,8 @@ function createchest(){
                         "name_eng": "LDL-C/HDL-C ratio",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20007
                     },
                     "27022": {
                         "code": "27022",
@@ -4456,7 +4592,8 @@ function createchest(){
                         "name_eng": "color",
                         "unit": "Yellow",
                         "ref": "Yellow",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 40009
                     },
                     "27023": {
                         "code": "27023",
@@ -4464,7 +4601,8 @@ function createchest(){
                         "name_eng": "turbidity",
                         "unit": "Clear",
                         "ref": "Clear",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400011
                     },
                     "27024": {
                         "code": "27024",
@@ -4472,8 +4610,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "27025": {
                         "code": "27025",
@@ -4481,8 +4620,9 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400021
                     },
                     "27026": {
                         "code": "27026",
@@ -4490,9 +4630,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "*",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "27027": {
                         "code": "27027",
@@ -4500,8 +4641,9 @@ function createchest(){
                         "name_eng": "Urine occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400023
                     },
                     "27028": {
                         "code": "27028",
@@ -4509,8 +4651,9 @@ function createchest(){
                         "name_eng": "Urine R.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400024
                     },
                     "27029": {
                         "code": "27029",
@@ -4518,8 +4661,9 @@ function createchest(){
                         "name_eng": "Urine W.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400025
                     },
                     "27030": {
                         "code": "27030",
@@ -4527,8 +4671,9 @@ function createchest(){
                         "name_eng": "Urine Epithelium",
                         "unit": "cells/HPF",
                         "ref": "< 8 /HPF",
-                        "refmode":"label",
-                        "label":"0-8"
+                        "refmode": "label",
+                        "label": "0-8",
+                        "index": 400026
                     },
                     "27031": {
                         "code": "27031",
@@ -4536,8 +4681,9 @@ function createchest(){
                         "name_eng": "Urine Cast",
                         "unit": "(-)/LPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400027
                     },
                     "27032": {
                         "code": "27032",
@@ -4545,8 +4691,9 @@ function createchest(){
                         "name_eng": "Urine Bacteria",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400028
                     },
                     "27033": {
                         "code": "27033",
@@ -4554,9 +4701,10 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "27034": {
                         "code": "27034",
@@ -4564,9 +4712,10 @@ function createchest(){
                         "name_eng": "eGFR",
                         "unit": "ml/min/1.73m^2",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30004
                     },
                     "27035": {
                         "code": "27035",
@@ -4574,9 +4723,10 @@ function createchest(){
                         "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40007
                     },
                     "27036": {
                         "code": "27036",
@@ -4584,8 +4734,9 @@ function createchest(){
                         "name_eng": "CKD Stage",
                         "unit": "",
                         "ref": "第0期：正常",
-                        "refmode":"label",
-                        "label":"0"
+                        "refmode": "label",
+                        "label": "0",
+                        "index": 30006
                     },
                     "27037": {
                         "code": "27037",
@@ -4593,7 +4744,8 @@ function createchest(){
                         "name_eng": "BMD",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900031
                     },
                     "27038": {
                         "code": "27038",
@@ -4601,9 +4753,10 @@ function createchest(){
                         "name_eng": "Uric acid",
                         "unit": "mg/dL",
                         "ref": "<7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 30008
                     },
                     "06001C": {
                         "code": "06001C",
@@ -4611,9 +4764,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "*",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "06002C": {
                         "code": "06002C",
@@ -4621,9 +4775,10 @@ function createchest(){
                         "name_eng": "Sp.gr (specific gravity)",
                         "unit": "-",
                         "ref": "1.010 ~ 1.025",
-                        "refmode":"mid",
-                        "upper":1.025,
-                        "lower":1.010
+                        "refmode": "mid",
+                        "upper": 1.025,
+                        "lower": 1.01,
+                        "index": 400013
                     },
                     "06003C": {
                         "code": "06003C",
@@ -4631,8 +4786,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "09040C001": {
                         "code": "09040C001",
@@ -4640,9 +4796,10 @@ function createchest(){
                         "name_eng": "Urine Total protein",
                         "unit": "mg/dL",
                         "ref": "<15",
-                        "refmode":"mid",
-                        "upper":15,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 15,
+                        "lower": null,
+                        "index": 40004
                     },
                     "06004C": {
                         "code": "06004C",
@@ -4650,8 +4807,9 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400021
                     },
                     "06005C": {
                         "code": "06005C",
@@ -4659,9 +4817,10 @@ function createchest(){
                         "name_eng": "Urine urobilinogen",
                         "unit": "EU/dL",
                         "ref": "<1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 400014
                     },
                     "06006C": {
                         "code": "06006C",
@@ -4669,8 +4828,9 @@ function createchest(){
                         "name_eng": "Urine bilirubin",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "0.2",
+                        "index": 400015
                     },
                     "06007C": {
                         "code": "06007C",
@@ -4678,8 +4838,9 @@ function createchest(){
                         "name_eng": "Ketone body",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400016
                     },
                     "06008C": {
                         "code": "06008C",
@@ -4687,8 +4848,9 @@ function createchest(){
                         "name_eng": "Benedict reaction",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400017
                     },
                     "06009C001": {
                         "code": "06009C001",
@@ -4696,8 +4858,9 @@ function createchest(){
                         "name_eng": "Urine R.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400024
                     },
                     "06009C002": {
                         "code": "06009C002",
@@ -4705,8 +4868,9 @@ function createchest(){
                         "name_eng": "Urine W.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400025
                     },
                     "06009C003": {
                         "code": "06009C003",
@@ -4714,8 +4878,9 @@ function createchest(){
                         "name_eng": "Urine Epithelium",
                         "unit": "cells/HPF",
                         "ref": "< 8 /HPF",
-                        "refmode":"label",
-                        "label":"0-8"
+                        "refmode": "label",
+                        "label": "0-8",
+                        "index": 400026
                     },
                     "06009C004": {
                         "code": "06009C004",
@@ -4723,8 +4888,9 @@ function createchest(){
                         "name_eng": "Urine Cast",
                         "unit": "(-)/LPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400027
                     },
                     "06009C005": {
                         "code": "06009C005",
@@ -4732,8 +4898,9 @@ function createchest(){
                         "name_eng": "Urine Crystal",
                         "unit": "HPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400029
                     },
                     "06009C006": {
                         "code": "06009C006",
@@ -4741,8 +4908,9 @@ function createchest(){
                         "name_eng": "Urine Bacteria",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400028
                     },
                     "06009C007": {
                         "code": "06009C007",
@@ -4750,8 +4918,9 @@ function createchest(){
                         "name_eng": "Urine Parasite",
                         "unit": "HPF",
                         "ref": "N.F",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400030
                     },
                     "06009C008": {
                         "code": "06009C008",
@@ -4759,8 +4928,9 @@ function createchest(){
                         "name_eng": "Urine Mucous",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400031
                     },
                     "06009C009": {
                         "code": "06009C009",
@@ -4768,7 +4938,8 @@ function createchest(){
                         "name_eng": "Others",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400034
                     },
                     "06009C010": {
                         "code": "06009C010",
@@ -4776,7 +4947,8 @@ function createchest(){
                         "name_eng": "Salts",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400035
                     },
                     "06012C001": {
                         "code": "06012C001",
@@ -4784,7 +4956,8 @@ function createchest(){
                         "name_eng": "color",
                         "unit": "Yellow",
                         "ref": "Yellow",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400010
                     },
                     "06012C002": {
                         "code": "06012C002",
@@ -4792,7 +4965,8 @@ function createchest(){
                         "name_eng": "turbidity",
                         "unit": "Clear",
                         "ref": "Clear",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400012
                     },
                     "06012C003": {
                         "code": "06012C003",
@@ -4800,9 +4974,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "*",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "06012C004": {
                         "code": "06012C004",
@@ -4810,8 +4985,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "06012C005": {
                         "code": "06012C005",
@@ -4819,9 +4995,10 @@ function createchest(){
                         "name_eng": "Microalbumin (Nephelometry)",
                         "unit": "mg/dL",
                         "ref": "< 2",
-                        "refmode":"mid",
-                        "upper":2,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 2,
+                        "lower": null,
+                        "index": 40001
                     },
                     "06012C006": {
                         "code": "06012C006",
@@ -4829,29 +5006,32 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "06012C007": {
                         "code": "06012C007",
                         "name_cht": "尿液微量白蛋白/肌酐、尿比值",
-                        "name_eng": "UACR",
+                        "name_eng": "U ACR",
                         "unit": "mg/gm",
                         "ref": "<30",
-                        "refmode":"mid",
-                        "upper":30,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 30,
+                        "lower": null,
+                        "index": 40006
                     },
                     "06012C008": {
                         "code": "06012C008",
                         "name_cht": "尿蛋白(數值)／肌酐、尿比值",
-                        "name_eng": "UPCR",
+                        "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40008
                     },
                     "06012C009": {
                         "code": "06012C009",
@@ -4859,8 +5039,9 @@ function createchest(){
                         "name_eng": "Leukocyte rsterase",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400018
                     },
                     "06012C010": {
                         "code": "06012C010",
@@ -4868,8 +5049,9 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400021
                     },
                     "06012C011": {
                         "code": "06012C011",
@@ -4877,8 +5059,9 @@ function createchest(){
                         "name_eng": "Urine occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400023
                     },
                     "06012C012": {
                         "code": "06012C012",
@@ -4886,9 +5069,10 @@ function createchest(){
                         "name_eng": "Specific gravity",
                         "unit": "-",
                         "ref": "1.010 ~ 1.025",
-                        "refmode":"mid",
-                        "upper":1.025,
-                        "lower":1.010
+                        "refmode": "mid",
+                        "upper": 1.025,
+                        "lower": 1.01,
+                        "index": 400013
                     },
                     "06012C013": {
                         "code": "06012C013",
@@ -4896,9 +5080,10 @@ function createchest(){
                         "name_eng": "Urine urobilinogen",
                         "unit": "EU/dL",
                         "ref": "<1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 400014
                     },
                     "06012C014": {
                         "code": "06012C014",
@@ -4906,8 +5091,9 @@ function createchest(){
                         "name_eng": "Urine bilirubin",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "0.2",
+                        "index": 400015
                     },
                     "06012C015": {
                         "code": "06012C015",
@@ -4915,8 +5101,9 @@ function createchest(){
                         "name_eng": "Ketone body",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400016
                     },
                     "06012C016": {
                         "code": "06012C016",
@@ -4924,8 +5111,9 @@ function createchest(){
                         "name_eng": "Nitrite",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400019
                     },
                     "06012C017": {
                         "code": "06012C017",
@@ -4933,8 +5121,9 @@ function createchest(){
                         "name_eng": "Urine R.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400024
                     },
                     "06012C018": {
                         "code": "06012C018",
@@ -4942,8 +5131,9 @@ function createchest(){
                         "name_eng": "Urine W.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400025
                     },
                     "06012C019": {
                         "code": "06012C019",
@@ -4951,8 +5141,9 @@ function createchest(){
                         "name_eng": "Urine Epithelium",
                         "unit": "cells/HPF",
                         "ref": "< 8 /HPF",
-                        "refmode":"label",
-                        "label":"0-8"
+                        "refmode": "label",
+                        "label": "0-8",
+                        "index": 400026
                     },
                     "06012C020": {
                         "code": "06012C020",
@@ -4960,8 +5151,9 @@ function createchest(){
                         "name_eng": "Urine Cast",
                         "unit": "(-)/LPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400027
                     },
                     "06012C021": {
                         "code": "06012C021",
@@ -4969,8 +5161,9 @@ function createchest(){
                         "name_eng": "Urine Crystal",
                         "unit": "HPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400029
                     },
                     "06012C022": {
                         "code": "06012C022",
@@ -4978,8 +5171,9 @@ function createchest(){
                         "name_eng": "Urine Bacteria",
                         "unit": "HPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400028
                     },
                     "06012C023": {
                         "code": "06012C023",
@@ -4987,7 +5181,8 @@ function createchest(){
                         "name_eng": "Urine Parasite",
                         "unit": "HPF",
                         "ref": "N.F",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400030
                     },
                     "06012C024": {
                         "code": "06012C024",
@@ -4995,8 +5190,9 @@ function createchest(){
                         "name_eng": "Urine Mucous",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400032
                     },
                     "06012C025": {
                         "code": "06012C025",
@@ -5004,7 +5200,8 @@ function createchest(){
                         "name_eng": "Urine Yeast",
                         "unit": "",
                         "ref": "Negative",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400033
                     },
                     "06013C001": {
                         "code": "06013C001",
@@ -5012,9 +5209,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "*",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "06013C002": {
                         "code": "06013C002",
@@ -5022,8 +5220,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "06013C003": {
                         "code": "06013C003",
@@ -5031,9 +5230,10 @@ function createchest(){
                         "name_eng": "Microalbumin (Nephelometry)",
                         "unit": "mg/dL",
                         "ref": "< 2",
-                        "refmode":"mid",
-                        "upper":2,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 2,
+                        "lower": null,
+                        "index": 40001
                     },
                     "06013C004": {
                         "code": "06013C004",
@@ -5041,29 +5241,32 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "06013C005": {
                         "code": "06013C005",
                         "name_cht": "尿液微量白蛋白/肌酐、尿比值",
-                        "name_eng": "UACR",
+                        "name_eng": "U ACR",
                         "unit": "mg/gm",
                         "ref": "<30",
-                        "refmode":"mid",
-                        "upper":30,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 30,
+                        "lower": null,
+                        "index": 40006
                     },
                     "06013C006": {
                         "code": "06013C006",
                         "name_cht": "尿液總蛋白／肌酐、尿比值",
-                        "name_eng": "UPCR",
+                        "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40007
                     },
                     "06013C007": {
                         "code": "06013C007",
@@ -5071,8 +5274,9 @@ function createchest(){
                         "name_eng": "Leukocyte rsterase",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400018
                     },
                     "06013C008": {
                         "code": "06013C008",
@@ -5080,8 +5284,9 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400021
                     },
                     "06013C009": {
                         "code": "06013C009",
@@ -5089,8 +5294,9 @@ function createchest(){
                         "name_eng": "Urine occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400023
                     },
                     "06013C010": {
                         "code": "06013C010",
@@ -5098,9 +5304,10 @@ function createchest(){
                         "name_eng": "Specific gravity",
                         "unit": "-",
                         "ref": "1.010 ~ 1.025",
-                        "refmode":"mid",
-                        "upper":1.025,
-                        "lower":1.010
+                        "refmode": "mid",
+                        "upper": 1.025,
+                        "lower": 1.01,
+                        "index": 400013
                     },
                     "06013C011": {
                         "code": "06013C011",
@@ -5108,9 +5315,10 @@ function createchest(){
                         "name_eng": "Urine urobilinogen",
                         "unit": "EU/dL",
                         "ref": "<1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 400014
                     },
                     "06013C012": {
                         "code": "06013C012",
@@ -5118,8 +5326,9 @@ function createchest(){
                         "name_eng": "Urine bilirubin",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "0.2",
+                        "index": 400015
                     },
                     "06013C013": {
                         "code": "06013C013",
@@ -5127,8 +5336,9 @@ function createchest(){
                         "name_eng": "Ketone body",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400016
                     },
                     "06013C014": {
                         "code": "06013C014",
@@ -5136,7 +5346,8 @@ function createchest(){
                         "name_eng": "color",
                         "unit": "Yellow",
                         "ref": "Yellow",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400010
                     },
                     "06013C015": {
                         "code": "06013C015",
@@ -5144,7 +5355,8 @@ function createchest(){
                         "name_eng": "turbidity",
                         "unit": "Clear",
                         "ref": "Clear",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400012
                     },
                     "06015C": {
                         "code": "06015C",
@@ -5152,8 +5364,9 @@ function createchest(){
                         "name_eng": "Nitrite",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400019
                     },
                     "06017B": {
                         "code": "06017B",
@@ -5161,8 +5374,9 @@ function createchest(){
                         "name_eng": "Leukocyte rsterase",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400018
                     },
                     "06505C": {
                         "code": "06505C",
@@ -5170,8 +5384,9 @@ function createchest(){
                         "name_eng": "Pregnancy test-EIA",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400036
                     },
                     "07001C": {
                         "code": "07001C",
@@ -5179,8 +5394,9 @@ function createchest(){
                         "name_eng": "Occult blood (chemical method)",
                         "unit": "-/+＋＋＋",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 190002
                     },
                     "07009C001": {
                         "code": "07009C001",
@@ -5188,7 +5404,8 @@ function createchest(){
                         "name_eng": "Color",
                         "unit": "*",
                         "ref": "Yellow-Brown",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1900011
                     },
                     "07009C002": {
                         "code": "07009C002",
@@ -5196,7 +5413,8 @@ function createchest(){
                         "name_eng": "Appearance",
                         "unit": "*",
                         "ref": "Formed",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1900012
                     },
                     "07009C003": {
                         "code": "07009C003",
@@ -5204,7 +5422,8 @@ function createchest(){
                         "name_eng": "consistency",
                         "unit": "*",
                         "ref": "Soft",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1900013
                     },
                     "07009C004": {
                         "code": "07009C004",
@@ -5212,7 +5431,8 @@ function createchest(){
                         "name_eng": "Digestion",
                         "unit": "*",
                         "ref": "Moderate",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1900014
                     },
                     "07009C005": {
                         "code": "07009C005",
@@ -5220,8 +5440,9 @@ function createchest(){
                         "name_eng": "Stool R.B.C",
                         "unit": "HPF",
                         "ref": "0 ~ 1",
-                        "refmode":"label",
-                        "label":"0-1"
+                        "refmode": "label",
+                        "label": "0-1",
+                        "index": 1900015
                     },
                     "07009C006": {
                         "code": "07009C006",
@@ -5229,8 +5450,9 @@ function createchest(){
                         "name_eng": "Stool W.B.C",
                         "unit": "HPF",
                         "ref": "0 ~ 3",
-                        "refmode":"label",
-                        "label":"0-3"
+                        "refmode": "label",
+                        "label": "0-3",
+                        "index": 1900016
                     },
                     "07009C007": {
                         "code": "07009C007",
@@ -5238,8 +5460,9 @@ function createchest(){
                         "name_eng": "Stool Parasite",
                         "unit": "-/+",
                         "ref": "not found",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900017
                     },
                     "07009C008": {
                         "code": "07009C008",
@@ -5247,8 +5470,9 @@ function createchest(){
                         "name_eng": "OVA",
                         "unit": "-/+",
                         "ref": "not found",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900018
                     },
                     "07009C009": {
                         "code": "07009C009",
@@ -5256,8 +5480,9 @@ function createchest(){
                         "name_eng": "Stool Neutral fat",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900019
                     },
                     "07009C010": {
                         "code": "07009C010",
@@ -5265,8 +5490,9 @@ function createchest(){
                         "name_eng": "Stool Fatty acid",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900020
                     },
                     "07009C011": {
                         "code": "07009C011",
@@ -5274,8 +5500,9 @@ function createchest(){
                         "name_eng": "Stool Starch",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900021
                     },
                     "07009C012": {
                         "code": "07009C012",
@@ -5283,8 +5510,9 @@ function createchest(){
                         "name_eng": "Stool Mucus",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900022
                     },
                     "07009C013": {
                         "code": "07009C013",
@@ -5292,8 +5520,9 @@ function createchest(){
                         "name_eng": "Stool pus",
                         "unit": "-/+",
                         "ref": "<0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900023
                     },
                     "07009C014": {
                         "code": "07009C014",
@@ -5301,8 +5530,9 @@ function createchest(){
                         "name_eng": "Stool occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900024
                     },
                     "07011C": {
                         "code": "07011C",
@@ -5310,8 +5540,9 @@ function createchest(){
                         "name_eng": "Parasite ova-direct smear",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900025
                     },
                     "07012C": {
                         "code": "07012C",
@@ -5319,8 +5550,9 @@ function createchest(){
                         "name_eng": "Parasite ova-conc.method of ova",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900026
                     },
                     "08001C": {
                         "code": "08001C",
@@ -5328,9 +5560,10 @@ function createchest(){
                         "name_eng": "R.B.C",
                         "unit": "10^6/uL",
                         "ref": "3.8 ~ 6.0",
-                        "refmode":"mid",
-                        "upper":6,
-                        "lower":3.8
+                        "refmode": "mid",
+                        "upper": 6,
+                        "lower": 3.8,
+                        "index": 60001
                     },
                     "08002C": {
                         "code": "08002C",
@@ -5338,9 +5571,10 @@ function createchest(){
                         "name_eng": "W.B.C",
                         "unit": "10^3/uL",
                         "ref": "3.5-10.0",
-                        "refmode":"mid",
-                        "upper":10,
-                        "lower":3.5
+                        "refmode": "mid",
+                        "upper": 10,
+                        "lower": 3.5,
+                        "index": 60002
                     },
                     "08003C": {
                         "code": "08003C",
@@ -5348,9 +5582,10 @@ function createchest(){
                         "name_eng": "Hemoglobin (Hb)",
                         "unit": "g/dL",
                         "ref": "12 ~ 16",
-                        "refmode":"mid",
-                        "upper":16,
-                        "lower":12
+                        "refmode": "mid",
+                        "upper": 16,
+                        "lower": 12,
+                        "index": 60003
                     },
                     "08004C": {
                         "code": "08004C",
@@ -5358,9 +5593,10 @@ function createchest(){
                         "name_eng": "Hematocrite (Hct)",
                         "unit": "%",
                         "ref": "33-47",
-                        "refmode":"mid",
-                        "upper":47,
-                        "lower":33
+                        "refmode": "mid",
+                        "upper": 47,
+                        "lower": 33,
+                        "index": 60004
                     },
                     "08005C": {
                         "code": "08005C",
@@ -5368,9 +5604,10 @@ function createchest(){
                         "name_eng": "E.S.R. (Erythrocyte sedimentation rate)",
                         "unit": "mm/hr",
                         "ref": "0-30",
-                        "refmode":"mid",
-                        "upper":30,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 30,
+                        "lower": null,
+                        "index": 60005
                     },
                     "08006C": {
                         "code": "08006C",
@@ -5378,9 +5615,10 @@ function createchest(){
                         "name_eng": "Platelet count",
                         "unit": "10^3/uL",
                         "ref": "150-400",
-                        "refmode":"mid",
-                        "upper":400,
-                        "lower":150
+                        "refmode": "mid",
+                        "upper": 400,
+                        "lower": 150,
+                        "index": 60006
                     },
                     "08008C": {
                         "code": "08008C",
@@ -5388,9 +5626,10 @@ function createchest(){
                         "name_eng": "Reticulocyte count",
                         "unit": "%",
                         "ref": "0.5-1.5",
-                        "refmode":"mid",
-                        "upper":1.5,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.5,
+                        "lower": 0.5,
+                        "index": 60007
                     },
                     "08010C": {
                         "code": "08010C",
@@ -5398,9 +5637,10 @@ function createchest(){
                         "name_eng": "Eosinophil count",
                         "unit": "%",
                         "ref": "<7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 60008
                     },
                     "08011C001": {
                         "code": "08011C001",
@@ -5408,9 +5648,10 @@ function createchest(){
                         "name_eng": "W.B.C",
                         "unit": "10^3/uL",
                         "ref": "3.5-10.0",
-                        "refmode":"mid",
-                        "upper":10,
-                        "lower":3.5
+                        "refmode": "mid",
+                        "upper": 10,
+                        "lower": 3.5,
+                        "index": 60002
                     },
                     "08011C002": {
                         "code": "08011C002",
@@ -5418,9 +5659,10 @@ function createchest(){
                         "name_eng": "R.B.C",
                         "unit": "10^6/uL",
                         "ref": "3.8-6.0",
-                        "refmode":"mid",
-                        "upper":6,
-                        "lower":3.8
+                        "refmode": "mid",
+                        "upper": 6,
+                        "lower": 3.8,
+                        "index": 60001
                     },
                     "08011C003": {
                         "code": "08011C003",
@@ -5428,9 +5670,10 @@ function createchest(){
                         "name_eng": "Hemoglobin (Hb)",
                         "unit": "g/dL",
                         "ref": "12 ~ 16",
-                        "refmode":"mid",
-                        "upper":16,
-                        "lower":12
+                        "refmode": "mid",
+                        "upper": 16,
+                        "lower": 12,
+                        "index": 60003
                     },
                     "08011C004": {
                         "code": "08011C004",
@@ -5438,9 +5681,10 @@ function createchest(){
                         "name_eng": "Hematocrite (Hct)",
                         "unit": "%",
                         "ref": "33-47",
-                        "refmode":"mid",
-                        "upper":47,
-                        "lower":33
+                        "refmode": "mid",
+                        "upper": 47,
+                        "lower": 33,
+                        "index": 60004
                     },
                     "08011C005": {
                         "code": "08011C005",
@@ -5448,9 +5692,10 @@ function createchest(){
                         "name_eng": "MCV",
                         "unit": "fL",
                         "ref": "80-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":80
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 80,
+                        "index": 60009
                     },
                     "08011C006": {
                         "code": "08011C006",
@@ -5458,9 +5703,10 @@ function createchest(){
                         "name_eng": "MCH",
                         "unit": "pg",
                         "ref": "26-34",
-                        "refmode":"mid",
-                        "upper":34,
-                        "lower":26
+                        "refmode": "mid",
+                        "upper": 34,
+                        "lower": 26,
+                        "index": 600010
                     },
                     "08011C007": {
                         "code": "08011C007",
@@ -5468,9 +5714,10 @@ function createchest(){
                         "name_eng": "MCHC",
                         "unit": "g/dL",
                         "ref": "30-36",
-                        "refmode":"mid",
-                        "upper":36,
-                        "lower":30
+                        "refmode": "mid",
+                        "upper": 36,
+                        "lower": 30,
+                        "index": 600011
                     },
                     "08011C008": {
                         "code": "08011C008",
@@ -5478,9 +5725,10 @@ function createchest(){
                         "name_eng": "Platelet count",
                         "unit": "10^3/uL",
                         "ref": "150-400",
-                        "refmode":"mid",
-                        "upper":400,
-                        "lower":150
+                        "refmode": "mid",
+                        "upper": 400,
+                        "lower": 150,
+                        "index": 60006
                     },
                     "08012C001": {
                         "code": "08012C001",
@@ -5488,9 +5736,10 @@ function createchest(){
                         "name_eng": "W.B.C",
                         "unit": "10^3/uL",
                         "ref": "3.5-10.0",
-                        "refmode":"mid",
-                        "upper":10,
-                        "lower":3.5
+                        "refmode": "mid",
+                        "upper": 10,
+                        "lower": 3.5,
+                        "index": 60002
                     },
                     "08012C002": {
                         "code": "08012C002",
@@ -5498,9 +5747,10 @@ function createchest(){
                         "name_eng": "R.B.C",
                         "unit": "106/uL",
                         "ref": "3.8-6.0",
-                        "refmode":"mid",
-                        "upper":6,
-                        "lower":3.8
+                        "refmode": "mid",
+                        "upper": 6,
+                        "lower": 3.8,
+                        "index": 60001
                     },
                     "08012C003": {
                         "code": "08012C003",
@@ -5508,9 +5758,10 @@ function createchest(){
                         "name_eng": "Hemoglobin (Hb)",
                         "unit": "g/dL",
                         "ref": "12 ~ 16",
-                        "refmode":"mid",
-                        "upper":16,
-                        "lower":20
+                        "refmode": "mid",
+                        "upper": 16,
+                        "lower": 20,
+                        "index": 60003
                     },
                     "08012C004": {
                         "code": "08012C004",
@@ -5518,9 +5769,10 @@ function createchest(){
                         "name_eng": "Hematocrite (Hct)",
                         "unit": "%",
                         "ref": "33-47",
-                        "refmode":"mid",
-                        "upper":47,
-                        "lower":33
+                        "refmode": "mid",
+                        "upper": 47,
+                        "lower": 33,
+                        "index": 60004
                     },
                     "08012C005": {
                         "code": "08012C005",
@@ -5528,9 +5780,10 @@ function createchest(){
                         "name_eng": "MCV",
                         "unit": "fL",
                         "ref": "80-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":80
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 80,
+                        "index": 60009
                     },
                     "08012C006": {
                         "code": "08012C006",
@@ -5538,9 +5791,10 @@ function createchest(){
                         "name_eng": "MCH",
                         "unit": "pg",
                         "ref": "26-34",
-                        "refmode":"mid",
-                        "upper":34,
-                        "lower":26
+                        "refmode": "mid",
+                        "upper": 34,
+                        "lower": 26,
+                        "index": 600010
                     },
                     "08012C007": {
                         "code": "08012C007",
@@ -5548,9 +5802,10 @@ function createchest(){
                         "name_eng": "MCHC",
                         "unit": "g/dL",
                         "ref": "30-36",
-                        "refmode":"mid",
-                        "upper":36,
-                        "lower":30
+                        "refmode": "mid",
+                        "upper": 36,
+                        "lower": 30,
+                        "index": 600011
                     },
                     "08013C001": {
                         "code": "08013C001",
@@ -5558,9 +5813,10 @@ function createchest(){
                         "name_eng": "NEUT",
                         "unit": "%",
                         "ref": "50-70",
-                        "refmode":"mid",
-                        "upper":70,
-                        "lower":50
+                        "refmode": "mid",
+                        "upper": 70,
+                        "lower": 50,
+                        "index": 600012
                     },
                     "08013C002": {
                         "code": "08013C002",
@@ -5568,9 +5824,10 @@ function createchest(){
                         "name_eng": "LYMPH",
                         "unit": "%",
                         "ref": "19-48",
-                        "refmode":"mid",
-                        "upper":48,
-                        "lower":19
+                        "refmode": "mid",
+                        "upper": 48,
+                        "lower": 19,
+                        "index": 600013
                     },
                     "08013C003": {
                         "code": "08013C003",
@@ -5578,9 +5835,10 @@ function createchest(){
                         "name_eng": "MONO",
                         "unit": "%",
                         "ref": "2.0-10.0",
-                        "refmode":"mid",
-                        "upper":10,
-                        "lower":2
+                        "refmode": "mid",
+                        "upper": 10,
+                        "lower": 2,
+                        "index": 600014
                     },
                     "08013C004": {
                         "code": "08013C004",
@@ -5588,9 +5846,10 @@ function createchest(){
                         "name_eng": "Eosinophil count",
                         "unit": "%",
                         "ref": "<7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 60008
                     },
                     "08013C005": {
                         "code": "08013C005",
@@ -5598,9 +5857,10 @@ function createchest(){
                         "name_eng": "BASO",
                         "unit": "%",
                         "ref": "0.0-1.5",
-                        "refmode":"mid",
-                        "upper":1.5,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1.5,
+                        "lower": null,
+                        "index": 600015
                     },
                     "08013C006": {
                         "code": "08013C006",
@@ -5608,9 +5868,10 @@ function createchest(){
                         "name_eng": "Band",
                         "unit": "%",
                         "ref": "0.0-5",
-                        "refmode":"mid",
-                        "upper":5,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 5,
+                        "lower": null,
+                        "index": 600016
                     },
                     "08014C001": {
                         "code": "08014C001",
@@ -5618,9 +5879,10 @@ function createchest(){
                         "name_eng": "R.B.C",
                         "unit": "10^6/uL",
                         "ref": "3.8-6.0",
-                        "refmode":"mid",
-                        "upper":6,
-                        "lower":3.8
+                        "refmode": "mid",
+                        "upper": 6,
+                        "lower": 3.8,
+                        "index": 60001
                     },
                     "08014C002": {
                         "code": "08014C002",
@@ -5628,9 +5890,10 @@ function createchest(){
                         "name_eng": "W.B.C",
                         "unit": "10^3/uL",
                         "ref": "3.5-10.0",
-                        "refmode":"mid",
-                        "upper":10,
-                        "lower":3.5
+                        "refmode": "mid",
+                        "upper": 10,
+                        "lower": 3.5,
+                        "index": 60002
                     },
                     "08014C003": {
                         "code": "08014C003",
@@ -5638,9 +5901,10 @@ function createchest(){
                         "name_eng": "Hemoglobin (Hb)",
                         "unit": "g/dL",
                         "ref": "12 ~ 16",
-                        "refmode":"mid",
-                        "upper":16,
-                        "lower":12
+                        "refmode": "mid",
+                        "upper": 16,
+                        "lower": 12,
+                        "index": 60003
                     },
                     "08026C": {
                         "code": "08026C",
@@ -5648,9 +5912,10 @@ function createchest(){
                         "name_eng": "Prothrombin time",
                         "unit": "秒",
                         "ref": "9.5-11.7",
-                        "refmode":"mid",
-                        "upper":11.7,
-                        "lower":9.5
+                        "refmode": "mid",
+                        "upper": 11.7,
+                        "lower": 9.5,
+                        "index": 600017
                     },
                     "08030C": {
                         "code": "08030C",
@@ -5658,7 +5923,8 @@ function createchest(){
                         "name_eng": "Hb electrophoresis",
                         "unit": "%",
                         "ref": "Hb A1：>95；Hb A2：1.5~3.5；Hb F：<2",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 600022
                     },
                     "08036B": {
                         "code": "08036B",
@@ -5666,9 +5932,10 @@ function createchest(){
                         "name_eng": "APTT (activated partial thromboplastin time)",
                         "unit": "秒",
                         "ref": "23.9-34.9",
-                        "refmode":"mid",
-                        "upper":34.9,
-                        "lower":23.9
+                        "refmode": "mid",
+                        "upper": 34.9,
+                        "lower": 23.9,
+                        "index": 600020
                     },
                     "08077B": {
                         "code": "08077B",
@@ -5676,9 +5943,10 @@ function createchest(){
                         "name_eng": "Protein C",
                         "unit": "%",
                         "ref": "80 ~ 132",
-                        "refmode":"mid",
-                        "upper":132,
-                        "lower":80
+                        "refmode": "mid",
+                        "upper": 132,
+                        "lower": 80,
+                        "index": 800027
                     },
                     "08082C001": {
                         "code": "08082C001",
@@ -5686,9 +5954,10 @@ function createchest(){
                         "name_eng": "W.B.C",
                         "unit": "10^3/uL",
                         "ref": "3.5-10.0",
-                        "refmode":"mid",
-                        "upper":10,
-                        "lower":3.5
+                        "refmode": "mid",
+                        "upper": 10,
+                        "lower": 3.5,
+                        "index": 60002
                     },
                     "08082C002": {
                         "code": "08082C002",
@@ -5696,9 +5965,10 @@ function createchest(){
                         "name_eng": "R.B.C",
                         "unit": "106/uL",
                         "ref": "3.8-6.0",
-                        "refmode":"mid",
-                        "upper":6,
-                        "lower":3.8
+                        "refmode": "mid",
+                        "upper": 6,
+                        "lower": 3.8,
+                        "index": 60001
                     },
                     "08082C003": {
                         "code": "08082C003",
@@ -5706,9 +5976,10 @@ function createchest(){
                         "name_eng": "Hemoglobin (Hb)",
                         "unit": "g/dL",
                         "ref": "12 ~ 16",
-                        "refmode":"mid",
-                        "upper":16,
-                        "lower":12
+                        "refmode": "mid",
+                        "upper": 16,
+                        "lower": 12,
+                        "index": 60003
                     },
                     "08082C004": {
                         "code": "08082C004",
@@ -5716,9 +5987,10 @@ function createchest(){
                         "name_eng": "Hematocrite (Hct)",
                         "unit": "%",
                         "ref": "33-47",
-                        "refmode":"mid",
-                        "upper":47,
-                        "lower":33
+                        "refmode": "mid",
+                        "upper": 47,
+                        "lower": 33,
+                        "index": 60004
                     },
                     "08082C005": {
                         "code": "08082C005",
@@ -5726,9 +5998,10 @@ function createchest(){
                         "name_eng": "MCV",
                         "unit": "fL",
                         "ref": "80-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":80
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 80,
+                        "index": 60009
                     },
                     "08083C": {
                         "code": "08083C",
@@ -5736,9 +6009,10 @@ function createchest(){
                         "name_eng": "MCH",
                         "unit": "pg",
                         "ref": "26-34",
-                        "refmode":"mid",
-                        "upper":34,
-                        "lower":26
+                        "refmode": "mid",
+                        "upper": 34,
+                        "lower": 26,
+                        "index": 600010
                     },
                     "08084C": {
                         "code": "08084C",
@@ -5746,9 +6020,10 @@ function createchest(){
                         "name_eng": "MCHC",
                         "unit": "g/dL",
                         "ref": "30-36",
-                        "refmode":"mid",
-                        "upper":36,
-                        "lower":30
+                        "refmode": "mid",
+                        "upper": 36,
+                        "lower": 30,
+                        "index": 600011
                     },
                     "08127C": {
                         "code": "08127C",
@@ -5756,9 +6031,10 @@ function createchest(){
                         "name_eng": "MCV",
                         "unit": "fL",
                         "ref": "80-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":80
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 80,
+                        "index": 60009
                     },
                     "08129C": {
                         "code": "08129C",
@@ -5766,9 +6042,10 @@ function createchest(){
                         "name_eng": "Ins",
                         "unit": "μU/mL",
                         "ref": "<28.8",
-                        "refmode":"mid",
-                        "upper":28.8,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 28.8,
+                        "lower": null,
+                        "index": 10008
                     },
                     "09001C": {
                         "code": "09001C",
@@ -5776,9 +6053,10 @@ function createchest(){
                         "name_eng": "Cholestero1, total",
                         "unit": "mg/dL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 20001
                     },
                     "09002C": {
                         "code": "09002C",
@@ -5786,9 +6064,10 @@ function createchest(){
                         "name_eng": "BUN, blood urea nitrogen",
                         "unit": "mg/dL",
                         "ref": "7 ~ 20",
-                        "refmode":"mid",
-                        "upper":20,
-                        "lower":7
+                        "refmode": "mid",
+                        "upper": 20,
+                        "lower": 7,
+                        "index": 30001
                     },
                     "09004C": {
                         "code": "09004C",
@@ -5796,9 +6075,10 @@ function createchest(){
                         "name_eng": "Triglyceride (TG)",
                         "unit": "mg/dL",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 20002
                     },
                     "09005C001": {
                         "code": "09005C001",
@@ -5806,9 +6086,10 @@ function createchest(){
                         "name_eng": "Glucose-AC",
                         "unit": "mg/dL",
                         "ref": "<100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": null,
+                        "index": 10003
                     },
                     "09140C": {
                         "code": "09140C",
@@ -5816,9 +6097,10 @@ function createchest(){
                         "name_eng": "Glucose-PC",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 10004
                     },
                     "09006C": {
                         "code": "09006C",
@@ -5826,9 +6108,10 @@ function createchest(){
                         "name_eng": "HbA1c (Hemoglobin A1c)",
                         "unit": "%",
                         "ref": "<5.7",
-                        "refmode":"mid",
-                        "upper":5.7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 5.7,
+                        "lower": null,
+                        "index": 10005
                     },
                     "09009C": {
                         "code": "09009C",
@@ -5836,9 +6119,10 @@ function createchest(){
                         "name_eng": "T3 Uptake Ratio",
                         "unit": "%",
                         "ref": "23.2-32.6",
-                        "refmode":"mid",
-                        "upper":32.6,
-                        "lower":23.2
+                        "refmode": "mid",
+                        "upper": 32.6,
+                        "lower": 23.2,
+                        "index": 70008
                     },
                     "09010C": {
                         "code": "09010C",
@@ -5846,9 +6130,10 @@ function createchest(){
                         "name_eng": "T4",
                         "unit": "ug/dL",
                         "ref": "4 ~ 12",
-                        "refmode":"mid",
-                        "upper":12,
-                        "lower":4
+                        "refmode": "mid",
+                        "upper": 12,
+                        "lower": 4,
+                        "index": 70007
                     },
                     "09011C": {
                         "code": "09011C",
@@ -5856,9 +6141,10 @@ function createchest(){
                         "name_eng": "Ca (Calcium)",
                         "unit": "mg/dL",
                         "ref": "8.8 ~ 10.3",
-                        "refmode":"mid",
-                        "upper":10.3,
-                        "lower":8.8
+                        "refmode": "mid",
+                        "upper": 10.3,
+                        "lower": 8.8,
+                        "index": 300012
                     },
                     "09012C": {
                         "code": "09012C",
@@ -5866,9 +6152,10 @@ function createchest(){
                         "name_eng": "P (Phosphoras)",
                         "unit": "mg/dL",
                         "ref": "2.6 ~ 4.4",
-                        "refmode":"mid",
-                        "upper":4.4,
-                        "lower":2.6
+                        "refmode": "mid",
+                        "upper": 4.4,
+                        "lower": 2.6,
+                        "index": 300013
                     },
                     "09013C": {
                         "code": "09013C",
@@ -5876,9 +6163,10 @@ function createchest(){
                         "name_eng": "Uric acid",
                         "unit": "mg/dL",
                         "ref": "<7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 30009
                     },
                     "09015C": {
                         "code": "09015C",
@@ -5886,9 +6174,10 @@ function createchest(){
                         "name_eng": "Creatinine (B) CRTN",
                         "unit": "mg/dL",
                         "ref": "0.5-1.3",
-                        "refmode":"mid",
-                        "upper":1.3,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.3,
+                        "lower": 0.5,
+                        "index": 30002
                     },
                     "09016C": {
                         "code": "09016C",
@@ -5896,9 +6185,10 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "09017C": {
                         "code": "09017C",
@@ -5906,9 +6196,10 @@ function createchest(){
                         "name_eng": "Amylase (B)",
                         "unit": "U/L",
                         "ref": "33 ~ 96",
-                        "refmode":"mid",
-                        "upper":96,
-                        "lower":33
+                        "refmode": "mid",
+                        "upper": 96,
+                        "lower": 33,
+                        "index": 50006
                     },
                     "09021C": {
                         "code": "09021C",
@@ -5916,9 +6207,10 @@ function createchest(){
                         "name_eng": "Na (Sodium)",
                         "unit": "mmol/L",
                         "ref": "137 ~ 149",
-                        "refmode":"mid",
-                        "upper":149,
-                        "lower":137
+                        "refmode": "mid",
+                        "upper": 149,
+                        "lower": 137,
+                        "index": 300010
                     },
                     "09022C": {
                         "code": "09022C",
@@ -5926,9 +6218,10 @@ function createchest(){
                         "name_eng": "K (Potassium)",
                         "unit": "mmol/L",
                         "ref": "3.5 ~ 5.0",
-                        "refmode":"mid",
-                        "upper":5,
-                        "lower":3.5
+                        "refmode": "mid",
+                        "upper": 5,
+                        "lower": 3.5,
+                        "index": 300011
                     },
                     "09023C": {
                         "code": "09023C",
@@ -5936,9 +6229,10 @@ function createchest(){
                         "name_eng": "Cl (Chloride)",
                         "unit": "mmol/L",
                         "ref": "98 ~ 108",
-                        "refmode":"mid",
-                        "upper":109,
-                        "lower":98
+                        "refmode": "mid",
+                        "upper": 109,
+                        "lower": 98,
+                        "index": 300014
                     },
                     "09025C": {
                         "code": "09025C",
@@ -5946,9 +6240,10 @@ function createchest(){
                         "name_eng": "S-GOT/AST",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50001
                     },
                     "09026C": {
                         "code": "09026C",
@@ -5956,9 +6251,10 @@ function createchest(){
                         "name_eng": "S-GPT/ALT",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50002
                     },
                     "09027C": {
                         "code": "09027C",
@@ -5966,9 +6262,10 @@ function createchest(){
                         "name_eng": "Alkaline phosphatase",
                         "unit": "U/L",
                         "ref": "30 ~ 95",
-                        "refmode":"mid",
-                        "upper":95,
-                        "lower":30
+                        "refmode": "mid",
+                        "upper": 95,
+                        "lower": 30,
+                        "index": 50008
                     },
                     "09029C": {
                         "code": "09029C",
@@ -5976,9 +6273,10 @@ function createchest(){
                         "name_eng": "Bilirubin total",
                         "unit": "mg/dL",
                         "ref": "0.3 ~ 1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":0.3
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": 0.3,
+                        "index": 50003
                     },
                     "09030C": {
                         "code": "09030C",
@@ -5986,9 +6284,10 @@ function createchest(){
                         "name_eng": "Bilirubin direct",
                         "unit": "mg/dL",
                         "ref": "0.0 ~ 0.4",
-                        "refmode":"mid",
-                        "upper":0.4,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 0.4,
+                        "lower": null,
+                        "index": 50004
                     },
                     "09031C": {
                         "code": "09031C",
@@ -5996,9 +6295,10 @@ function createchest(){
                         "name_eng": "r-GT(r-glutamyl transferase)",
                         "unit": "IU/L",
                         "ref": "4 ~ 50",
-                        "refmode":"mid",
-                        "upper":50,
-                        "lower":4
+                        "refmode": "mid",
+                        "upper": 50,
+                        "lower": 4,
+                        "index": 50009
                     },
                     "09032C": {
                         "code": "09032C",
@@ -6006,9 +6306,10 @@ function createchest(){
                         "name_eng": "CPK (Creatine-phospho-kinase)",
                         "unit": "IU/mL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 800012
                     },
                     "09033C": {
                         "code": "09033C",
@@ -6016,9 +6317,10 @@ function createchest(){
                         "name_eng": "LDH (Lactic dehydrogenase)",
                         "unit": "IU/mL",
                         "ref": "140 ~ 271",
-                        "refmode":"mid",
-                        "upper":271,
-                        "lower":140
+                        "refmode": "mid",
+                        "upper": 271,
+                        "lower": 140,
+                        "index": 800028
                     },
                     "09035C": {
                         "code": "09035C",
@@ -6026,9 +6328,10 @@ function createchest(){
                         "name_eng": "TIBC (TotalIron Binding Capacity)",
                         "unit": "μg/dL",
                         "ref": "48.3 ~ 68.0",
-                        "refmode":"mid",
-                        "upper":68,
-                        "lower":48.3
+                        "refmode": "mid",
+                        "upper": 68,
+                        "lower": 48.3,
+                        "index": 80003
                     },
                     "09038C": {
                         "code": "09038C",
@@ -6036,9 +6339,10 @@ function createchest(){
                         "name_eng": "Albumin",
                         "unit": "g/dL",
                         "ref": "3.7 ~ 5.3",
-                        "refmode":"mid",
-                        "upper":5.3,
-                        "lower":3.7
+                        "refmode": "mid",
+                        "upper": 5.3,
+                        "lower": 3.7,
+                        "index": 800021
                     },
                     "09039C": {
                         "code": "09039C",
@@ -6046,9 +6350,10 @@ function createchest(){
                         "name_eng": "Globubin",
                         "unit": "g/dL",
                         "ref": "3.1 ~ 3.7",
-                        "refmode":"mid",
-                        "upper":3.7,
-                        "lower":3.1
+                        "refmode": "mid",
+                        "upper": 3.7,
+                        "lower": 3.1,
+                        "index": 800022
                     },
                     "09chs003": {
                         "code": "09chs003",
@@ -6056,7 +6361,8 @@ function createchest(){
                         "name_eng": "A/G",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 800023
                     },
                     "09040C002": {
                         "code": "09040C002",
@@ -6064,9 +6370,10 @@ function createchest(){
                         "name_eng": "Total protein",
                         "unit": "mg/dL",
                         "ref": "6.0-8.3",
-                        "refmode":"mid",
-                        "upper":8.3,
-                        "lower":6
+                        "refmode": "mid",
+                        "upper": 8.3,
+                        "lower": 6,
+                        "index": 40003
                     },
                     "09043C": {
                         "code": "09043C",
@@ -6074,9 +6381,10 @@ function createchest(){
                         "name_eng": "HDL-C(highdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "男:≥40；女:≥50",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper": null,
-                        "lower": gend=="男"?40:50
+                        "lower": gend=="男"?40:50,
+                        "index": 20003
                     },
                     "09044C": {
                         "code": "09044C",
@@ -6084,9 +6392,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20004
                     },
                     "09064C": {
                         "code": "09064C",
@@ -6094,9 +6403,10 @@ function createchest(){
                         "name_eng": "Lipase",
                         "unit": "U/L",
                         "ref": "13 ~ 60",
-                        "refmode":"mid",
-                        "upper":60,
-                        "lower":13
+                        "refmode": "mid",
+                        "upper": 60,
+                        "lower": 13,
+                        "index": 50007
                     },
                     "09071C": {
                         "code": "09071C",
@@ -6104,9 +6414,10 @@ function createchest(){
                         "name_eng": "CK-MB(Creatine phosphokinase-MB)",
                         "unit": "ng/mL",
                         "ref": "<5.0",
-                        "refmode":"mid",
-                        "upper":5,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 5,
+                        "lower": null,
+                        "index": 800013
                     },
                     "09106C": {
                         "code": "09106C",
@@ -6114,9 +6425,10 @@ function createchest(){
                         "name_eng": "FreeT4 (EIA/LIA)",
                         "unit": "ng/dL",
                         "ref": "12 ~ 22",
-                        "refmode":"mid",
-                        "upper":22,
-                        "lower":12
+                        "refmode": "mid",
+                        "upper": 22,
+                        "lower": 12,
+                        "index": 70004
                     },
                     "09111B": {
                         "code": "09111B",
@@ -6124,9 +6436,10 @@ function createchest(){
                         "name_eng": "Thyroglobulin (EIA/LIA)",
                         "unit": "ng/mL",
                         "ref": "<55",
-                        "refmode":"mid",
-                        "upper":55,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 55,
+                        "lower": null,
+                        "index": 70005
                     },
                     "09112C": {
                         "code": "09112C",
@@ -6134,9 +6447,10 @@ function createchest(){
                         "name_eng": "TSH (EIA/LIA)",
                         "unit": "μU/mL",
                         "ref": "0.35 ~ 4.94",
-                        "refmode":"mid",
-                        "upper":4.94,
-                        "lower":0.35
+                        "refmode": "mid",
+                        "upper": 4.94,
+                        "lower": 0.35,
+                        "index": 70001
                     },
                     "09117C": {
                         "code": "09117C",
@@ -6144,9 +6458,10 @@ function createchest(){
                         "name_eng": "T3 (EIA/LIA)",
                         "unit": "ng/mL",
                         "ref": "78 ~ 182",
-                        "refmode":"mid",
-                        "upper":182,
-                        "lower":78
+                        "refmode": "mid",
+                        "upper": 182,
+                        "lower": 78,
+                        "index": 70006
                     },
                     "09120C": {
                         "code": "09120C",
@@ -6154,7 +6469,8 @@ function createchest(){
                         "name_eng": "Prolactin (PRL),EIA/LIA",
                         "unit": "ng/mL",
                         "ref": "M：2.64~13.13，F：Premenopausal：3.34 ~ 26.72，Postmenopausal：2.74 ~ 19.64",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1200011
                     },
                     "09125C": {
                         "code": "09125C",
@@ -6162,7 +6478,8 @@ function createchest(){
                         "name_eng": "FSH (EIA/LIA)",
                         "unit": "mIU/mL",
                         "ref": "Ms: 1.27-19.26 mIU/mL，FeMs: Postmenopausal: 16.74-113.59 mIU/mL，FeMs: Mid-Follicular Phase: 3.85-8.78 mIU/mL，FeMs: Mid-Cycle Peak: 4.54-22.51 mIU/mL，FeMs: Mid-Luteal Phase: 1.79-5.12 mIU/mL",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1200012
                     },
                     "09126C": {
                         "code": "09126C",
@@ -6170,7 +6487,8 @@ function createchest(){
                         "name_eng": "LH (EIA/LIA)",
                         "unit": "mIU/mL",
                         "ref": "M：1.24-8.62，F：Postmenopausal：10.87-58.64 ，F:Mid-Follicular Phase：2.12-10.89 ，F：Mid-Cycle Peak：19.18-103.03，F：Mid-Luteal Phase：1.20-12.86",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1200013
                     },
                     "09127C": {
                         "code": "09127C",
@@ -6178,7 +6496,8 @@ function createchest(){
                         "name_eng": "Estradiol (E2),EIA/LIA",
                         "unit": "pg/ml",
                         "ref": "Ms ：< 20-47，Post-menopausal FeMs： < 20-40，Non-Pregnant FeMs-Mid folliculat phase：27-122，Mid luteal phase：49-291，Peri-ovulatory phase：95-433",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1200014
                     },
                     "IC85": {
                         "code": "IC85",
@@ -6186,9 +6505,10 @@ function createchest(){
                         "name_eng": "Stool occult blood (iFOB)",
                         "unit": "ng/mL",
                         "ref": "<30",
-                        "refmode":"mid",
-                        "upper":30,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 30,
+                        "lower": null,
+                        "index": 190001
                     },
                     "IC94": {
                         "code": "IC94",
@@ -6196,9 +6516,10 @@ function createchest(){
                         "name_eng": "Stool occult blood (iFOB)",
                         "unit": "ng/mL",
                         "ref": "<30",
-                        "refmode":"mid",
-                        "upper":30,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 30,
+                        "lower": null,
+                        "index": 190001
                     },
                     "09134C": {
                         "code": "09134C",
@@ -6206,9 +6527,10 @@ function createchest(){
                         "name_eng": "Stool occult blood (iFOB)",
                         "unit": "ng/mL",
                         "ref": "<30",
-                        "refmode":"mid",
-                        "upper":30,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 30,
+                        "lower": null,
+                        "index": 190001
                     },
                     "09chs001": {
                         "code": "09chs001",
@@ -6216,7 +6538,8 @@ function createchest(){
                         "name_eng": "T-Cho/HDL-C",
                         "unit": "*",
                         "ref": "<5",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20006
                     },
                     "09chs002": {
                         "code": "09chs002",
@@ -6224,7 +6547,8 @@ function createchest(){
                         "name_eng": "LDL-C/HDL-C",
                         "unit": "*",
                         "ref": "0-4.8",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20007
                     },
                     "10810B": {
                         "code": "10810B",
@@ -6232,9 +6556,10 @@ function createchest(){
                         "name_eng": "Amphetamine (EIA)",
                         "unit": "ng/mL",
                         "ref": "＜500",
-                        "refmode":"mid",
-                        "upper":500,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 500,
+                        "lower": null,
+                        "index": 800051
                     },
                     "10811B": {
                         "code": "10811B",
@@ -6242,9 +6567,10 @@ function createchest(){
                         "name_eng": "Morphine (EIA)",
                         "unit": "ng/mL",
                         "ref": "＜300",
-                        "refmode":"mid",
-                        "upper":300,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 300,
+                        "lower": null,
+                        "index": 800052
                     },
                     "11001C": {
                         "code": "11001C",
@@ -6252,7 +6578,8 @@ function createchest(){
                         "name_eng": "A.B.AB.O blood grouping",
                         "unit": "A.B.AB.O",
                         "ref": "Type A,B,O,AB",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 600023
                     },
                     "11003C": {
                         "code": "11003C",
@@ -6260,7 +6587,8 @@ function createchest(){
                         "name_eng": "Rh type",
                         "unit": "N/P",
                         "ref": "RH(+)、RH(-)",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 600024
                     },
                     "12001C": {
                         "code": "12001C",
@@ -6268,8 +6596,9 @@ function createchest(){
                         "name_eng": "RPR/VDRL test",
                         "unit": "-/+",
                         "ref": "Non-reactive",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100021
                     },
                     "12002B": {
                         "code": "12002B",
@@ -6277,8 +6606,9 @@ function createchest(){
                         "name_eng": "Widal & Weil-Felix test",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110001
                     },
                     "12002B001": {
                         "code": "12002B001",
@@ -6286,8 +6616,9 @@ function createchest(){
                         "name_eng": "Widal Typhoid O",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110002
                     },
                     "12002B002": {
                         "code": "12002B002",
@@ -6295,8 +6626,9 @@ function createchest(){
                         "name_eng": "Widal Typhoid H",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110003
                     },
                     "12002B003": {
                         "code": "12002B003",
@@ -6304,8 +6636,9 @@ function createchest(){
                         "name_eng": "Weil-Felix OX-19",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110004
                     },
                     "12002B004": {
                         "code": "12002B004",
@@ -6313,8 +6646,9 @@ function createchest(){
                         "name_eng": "Weil-Felix OX-2",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110005
                     },
                     "12002B005": {
                         "code": "12002B005",
@@ -6322,8 +6656,9 @@ function createchest(){
                         "name_eng": "Weil-Felix OX-K",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110006
                     },
                     "12002B006": {
                         "code": "12002B006",
@@ -6331,8 +6666,9 @@ function createchest(){
                         "name_eng": "Paratyphi A",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110007
                     },
                     "12002B007": {
                         "code": "12002B007",
@@ -6340,8 +6676,9 @@ function createchest(){
                         "name_eng": "Paratyphi B",
                         "unit": "-/+",
                         "ref": "80x",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110008
                     },
                     "12007C": {
                         "code": "12007C",
@@ -6349,9 +6686,10 @@ function createchest(){
                         "name_eng": "AFP α-fetoprotein（EIA/LIA）",
                         "unit": "ng/mL",
                         "ref": "0 ~ 7",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 500010
                     },
                     "12009C": {
                         "code": "12009C",
@@ -6359,8 +6697,9 @@ function createchest(){
                         "name_eng": "Rheumatoid factor test- Latex agglutination",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 90005
                     },
                     "12011C": {
                         "code": "12011C",
@@ -6368,9 +6707,10 @@ function createchest(){
                         "name_eng": "Rheumatoid factor test- Nephelometry",
                         "unit": "IU/mL",
                         "ref": "<17.0",
-                        "refmode":"mid",
-                        "upper":17,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 17,
+                        "lower": null,
+                        "index": 90006
                     },
                     "12013C": {
                         "code": "12013C",
@@ -6378,9 +6718,10 @@ function createchest(){
                         "name_eng": "C.R.P (C-reactive protein)- Latex agglutination",
                         "unit": "mg/dL",
                         "ref": "<0.5",
-                        "refmode":"mid",
-                        "upper":0.5,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 0.5,
+                        "lower": null,
+                        "index": 800024
                     },
                     "12015C001": {
                         "code": "12015C001",
@@ -6388,9 +6729,10 @@ function createchest(){
                         "name_eng": "C.R.P(C-reactive protein)- Nephelometry",
                         "unit": "mg/dL",
                         "ref": "<0.748",
-                        "refmode":"mid",
-                        "upper":0.748,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 0.748,
+                        "lower": null,
+                        "index": 800025
                     },
                     "12015C002": {
                         "code": "12015C002",
@@ -6398,9 +6740,10 @@ function createchest(){
                         "name_eng": "hs-CRP",
                         "unit": "mg/dL",
                         "ref": "<0.5",
-                        "refmode":"mid",
-                        "upper":0.5,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 0.5,
+                        "lower": null,
+                        "index": 800026
                     },
                     "12021C": {
                         "code": "12021C",
@@ -6408,9 +6751,10 @@ function createchest(){
                         "name_eng": "CEA（EIA/LIA）",
                         "unit": "ng/ml",
                         "ref": "≦5.0",
-                        "refmode":"mid",
-                        "upper":5,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 5,
+                        "lower": null,
+                        "index": 100001
                     },
                     "12031C": {
                         "code": "12031C",
@@ -6418,9 +6762,10 @@ function createchest(){
                         "name_eng": "IgE",
                         "unit": "IU/mL",
                         "ref": "1.31 ~ 165.3",
-                        "refmode":"mid",
-                        "upper":165.3,
-                        "lower":1.31
+                        "refmode": "mid",
+                        "upper": 165.3,
+                        "lower": 1.31,
+                        "index": 90001
                     },
                     "12077B": {
                         "code": "12077B",
@@ -6428,9 +6773,10 @@ function createchest(){
                         "name_eng": "CA-125 (EIA/LIA)",
                         "unit": "U/mL",
                         "ref": "<35",
-                        "refmode":"mid",
-                        "upper":35,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 35,
+                        "lower": null,
+                        "index": 100002
                     },
                     "12079B": {
                         "code": "12079B",
@@ -6438,9 +6784,10 @@ function createchest(){
                         "name_eng": "CA-199 (EIA/LIA)",
                         "unit": "U/mL",
                         "ref": "<37",
-                        "refmode":"mid",
-                        "upper":37,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 37,
+                        "lower": null,
+                        "index": 100003
                     },
                     "12080B": {
                         "code": "12080B",
@@ -6448,9 +6795,10 @@ function createchest(){
                         "name_eng": "SCC (EIA/LIA)",
                         "unit": "ng/mL",
                         "ref": "< 2.5",
-                        "refmode":"mid",
-                        "upper":2.5,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 2.5,
+                        "lower": null,
+                        "index": 100005
                     },
                     "12081C": {
                         "code": "12081C",
@@ -6458,9 +6806,10 @@ function createchest(){
                         "name_eng": "PSA (prostate specific antigen) (EIA/LIA)",
                         "unit": "ng/mL",
                         "ref": "0 ~ 4.0",
-                        "refmode":"mid",
-                        "upper":4,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 4,
+                        "lower": null,
+                        "index": 100006
                     },
                     "12106C": {
                         "code": "12106C",
@@ -6468,7 +6817,8 @@ function createchest(){
                         "name_eng": "Tuberculin test",
                         "unit": "mm",
                         "ref": "(1)國小一年級學童：無接種卡介苗疫苗者反應>=10者為陽性，<10者為陰性 ，(2)指標個案之接觸者：>=10者為陽性，<10者為陰性， (3)接觸者如為人類免疫不全病毒感染，或惡性疾病(惡性腫瘤)，或器官移植，或其他免疫功能不全病患：>=5者為陽性，<5者為陰性",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1100031
                     },
                     "12111C": {
                         "code": "12111C",
@@ -6476,9 +6826,10 @@ function createchest(){
                         "name_eng": "Microalbumin (Nephelometry)",
                         "unit": "mg/dL",
                         "ref": "< 2",
-                        "refmode":"mid",
-                        "upper":2,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 2,
+                        "lower": null,
+                        "index": 40001
                     },
                     "12116C": {
                         "code": "12116C",
@@ -6486,9 +6837,10 @@ function createchest(){
                         "name_eng": "Ferritin (EIA/LIA)",
                         "unit": "ng/mL",
                         "ref": "10-300",
-                        "refmode":"mid",
-                        "upper":300,
-                        "lower":10
+                        "refmode": "mid",
+                        "upper": 300,
+                        "lower": 10,
+                        "index": 80002
                     },
                     "13005B": {
                         "code": "13005B",
@@ -6496,8 +6848,9 @@ function createchest(){
                         "name_eng": "DNA test for chlamydia (qualitative)",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100023
                     },
                     "13006C": {
                         "code": "13006C",
@@ -6505,8 +6858,9 @@ function createchest(){
                         "name_eng": "Microscopic examination",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100011
                     },
                     "13007C": {
                         "code": "13007C",
@@ -6514,8 +6868,9 @@ function createchest(){
                         "name_eng": "Bacterial culture and identify",
                         "unit": "-/+",
                         "ref": "No growth in 48 hours",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100012
                     },
                     "13007C001": {
                         "code": "13007C001",
@@ -6523,8 +6878,9 @@ function createchest(){
                         "name_eng": "Samonella Culture",
                         "unit": "-/+",
                         "ref": "No growth in 48 hours",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 110009
                     },
                     "13007C002": {
                         "code": "13007C002",
@@ -6532,8 +6888,9 @@ function createchest(){
                         "name_eng": "Shigella Culture",
                         "unit": "-/+",
                         "ref": "No growth in 48 hours",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100010
                     },
                     "13012C": {
                         "code": "13012C",
@@ -6541,8 +6898,9 @@ function createchest(){
                         "name_eng": "Acid-fast culture",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100032
                     },
                     "13013C": {
                         "code": "13013C",
@@ -6550,8 +6908,9 @@ function createchest(){
                         "name_eng": "Acid-Fast  Exam",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100033
                     },
                     "13015C": {
                         "code": "13015C",
@@ -6559,8 +6918,9 @@ function createchest(){
                         "name_eng": "Sensitivity test of acid-fast",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100034
                     },
                     "13025C": {
                         "code": "13025C",
@@ -6568,8 +6928,9 @@ function createchest(){
                         "name_eng": "Acid-fast stain",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100035
                     },
                     "13026C": {
                         "code": "13026C",
@@ -6577,8 +6938,9 @@ function createchest(){
                         "name_eng": "Mycobacteria culture",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100036
                     },
                     "14032C001": {
                         "code": "14032C001",
@@ -6586,8 +6948,9 @@ function createchest(){
                         "name_eng": "HBsAg (EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜1.0 Reactive：≧1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500021
                     },
                     "14032C002": {
                         "code": "14032C002",
@@ -6595,9 +6958,10 @@ function createchest(){
                         "name_eng": "HBsAg (EIA/LIA)",
                         "unit": "S/CO",
                         "ref": "<1",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 500022
                     },
                     "14033C": {
                         "code": "14033C",
@@ -6605,8 +6969,9 @@ function createchest(){
                         "name_eng": "Anti HBs",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜10 ，Reactive：≧10",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500030
                     },
                     "14035C": {
                         "code": "14035C",
@@ -6614,8 +6979,9 @@ function createchest(){
                         "name_eng": "HBeAg (EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜1.0 Reactive：≧1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500024
                     },
                     "14036C": {
                         "code": "14036C",
@@ -6623,8 +6989,9 @@ function createchest(){
                         "name_eng": "Anti-HBe（EIA/LIA）",
                         "unit": "-/+",
                         "ref": "Non-reactive：＞1.0 ，Reactive：≦1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500025
                     },
                     "14037C": {
                         "code": "14037C",
@@ -6632,8 +6999,9 @@ function createchest(){
                         "name_eng": "Anti-HBc（EIA/LIA）",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜1.0 ，Reactive：>=1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500026
                     },
                     "14038C": {
                         "code": "14038C",
@@ -6641,8 +7009,9 @@ function createchest(){
                         "name_eng": "Anti-HBc IgM (EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Negative：＜0.5，Grayzone：0.5-0.99 ，Positive：≧1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500027
                     },
                     "14039C": {
                         "code": "14039C",
@@ -6650,8 +7019,9 @@ function createchest(){
                         "name_eng": "Anti-HAV IgM（EIA/LIA）",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜0.80 ，Grayzone：0.80～1.20 ，Reactive： ＞1.20",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500036
                     },
                     "14040C": {
                         "code": "14040C",
@@ -6659,8 +7029,9 @@ function createchest(){
                         "name_eng": "Anti HAV",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜1.0，Reactive    ：＞=1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500037
                     },
                     "E3046C": {
                         "code": "E3046C",
@@ -6668,8 +7039,9 @@ function createchest(){
                         "name_eng": "HIV Ag/Ab Combo test",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜1.0，Reactive    ：＞=1.1",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100024
                     },
                     "14051C001": {
                         "code": "14051C001",
@@ -6677,8 +7049,9 @@ function createchest(){
                         "name_eng": "HCV Ab (EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500031
                     },
                     "14051C002": {
                         "code": "14051C002",
@@ -6686,9 +7059,10 @@ function createchest(){
                         "name_eng": "HCV Ab (EIA/LIA)",
                         "unit": "S/Co",
                         "ref": "Non-reactive：＜1.0，Reactive    ：＞=1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 500032
                     },
                     "17019C": {
                         "code": "17019C",
@@ -6696,7 +7070,8 @@ function createchest(){
                         "name_eng": "Bronchial provocation test",
                         "unit": "-/+",
                         "ref": "第一秒吐氣量或用力吐氣肺活量絕對值增加大於200ml，且前後第一秒吐氣量或用力吐氣肺活量增加比率大於12%時，則認為支氣管擴張測驗為陽性。",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900041
                     },
                     "18001C": {
                         "code": "18001C",
@@ -6704,7 +7079,8 @@ function createchest(){
                         "name_eng": "E.K.G. (Electrocardiography)",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900051
                     },
                     "27004C": {
                         "code": "27004C",
@@ -6712,9 +7088,10 @@ function createchest(){
                         "name_eng": "TSH(thyroid stimulating hormone)",
                         "unit": "uIU/mL",
                         "ref": "0.27 ~ 4.2",
-                        "refmode":"mid",
-                        "upper":4.2,
-                        "lower":0.27
+                        "refmode": "mid",
+                        "upper": 4.2,
+                        "lower": 0.27,
+                        "index": 70002
                     },
                     "27065B": {
                         "code": "27065B",
@@ -6722,9 +7099,10 @@ function createchest(){
                         "name_eng": "Microalbumin",
                         "unit": "mg/dL",
                         "ref": "< 2",
-                        "refmode":"mid",
-                        "upper":2,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 2,
+                        "lower": null,
+                        "index": 40002
                     },
                     "30022C": {
                         "code": "30022C",
@@ -6732,9 +7110,10 @@ function createchest(){
                         "name_eng": "Specific Allergen Test",
                         "unit": "-/+",
                         "ref": "<0.35",
-                        "refmode":"mid",
-                        "upper":0.35,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 0.35,
+                        "lower": null,
+                        "index": 90003
                     },
                     "L1001C001": {
                         "code": "L1001C001",
@@ -6742,8 +7121,9 @@ function createchest(){
                         "name_eng": "HBsAg (EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜1.0 Reactive：≧1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500021
                     },
                     "L1001C002": {
                         "code": "L1001C002",
@@ -6751,8 +7131,9 @@ function createchest(){
                         "name_eng": "HCV Ab(EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500031
                     },
                     "L1001C003": {
                         "code": "L1001C003",
@@ -6760,9 +7141,10 @@ function createchest(){
                         "name_eng": "HBsAg (EIA/LIA)",
                         "unit": "S/Co",
                         "ref": "Non-reactive：＜1.0，Reactive：＞=1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 500021
                     },
                     "L1001C004": {
                         "code": "L1001C004",
@@ -6770,9 +7152,10 @@ function createchest(){
                         "name_eng": "HCV Ab(EIA/LIA)",
                         "unit": "S/Co",
                         "ref": "Non-reactive：＜1.0，Reactive：＞=1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 500031
                     },
                     "Y00001": {
                         "code": "Y00001",
@@ -6780,47 +7163,52 @@ function createchest(){
                         "name_eng": "eGFR",
                         "unit": "ml/min/1.73m^2",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":60,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30004
                     },
-					"Y00001002": {
-						"code": "Y00001002",
-						"name_cht": "腎絲球過濾率計算(EPI)",
-						"name_eng": "eGFR",
-						"unit": "ml/min/1.73m^2",
-						"ref": ">60",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
-					},
+                    "Y00001002": {
+                        "code": "Y00001002",
+                        "name_cht": "腎絲球過濾率計算(EPI)",
+                        "name_eng": "eGFR",
+                        "unit": "ml/min/1.73m^2",
+                        "ref": ">60",
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30003
+                    },
                     "Y00008": {
                         "code": "Y00008",
                         "name_cht": "慢性腎臟病期數",
                         "name_eng": "CKD Stage",
                         "unit": "",
                         "ref": "第0期：正常",
-                        "refmode":"label",
-                        "label":"0"
+                        "refmode": "label",
+                        "label": "0",
+                        "index": 30006
                     },
-					"Y00008002": {
-						"code": "Y00008002",
-						"name_cht": "慢性腎臟病期數(EPI)",
-						"name_eng": "CKD Stage",
-						"unit": "",
-						"ref": "第0期：正常",
-                        "refmode":"label",
-                        "label":"0"
-					},
+                    "Y00008002": {
+                        "code": "Y00008002",
+                        "name_cht": "慢性腎臟病期數(EPI)",
+                        "name_eng": "CKD Stage",
+                        "unit": "",
+                        "ref": "第0期：正常",
+                        "refmode": "label",
+                        "label": "0",
+                        "index": 30005
+                    },
                     "Y00002001": {
                         "code": "Y00002001",
                         "name_cht": "尿蛋白(數值)／肌酐、尿比值",
                         "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40008
                     },
                     "Y00002002": {
                         "code": "Y00002002",
@@ -6828,9 +7216,10 @@ function createchest(){
                         "name_eng": "U ACR",
                         "unit": "mg/gm",
                         "ref": "<30",
-                        "refmode":"mid",
-                        "upper":30,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 30,
+                        "lower": null,
+                        "index": 40006
                     },
                     "Y00006001": {
                         "code": "Y00006001",
@@ -6838,9 +7227,10 @@ function createchest(){
                         "name_eng": "Systolic pressure",
                         "unit": "mmHg",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 99990004
                     },
                     "Y00006002": {
                         "code": "Y00006002",
@@ -6848,9 +7238,10 @@ function createchest(){
                         "name_eng": "Diastolic pressure",
                         "unit": "mmHg",
                         "ref": "<80",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 99990005
                     },
                     "Y00004": {
                         "code": "Y00004",
@@ -6858,7 +7249,8 @@ function createchest(){
                         "name_eng": "height",
                         "unit": "cm",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990001
                     },
                     "Y00005": {
                         "code": "Y00005",
@@ -6866,7 +7258,8 @@ function createchest(){
                         "name_eng": "body weight",
                         "unit": "kg",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990002
                     },
                     "Y00007": {
                         "code": "Y00007",
@@ -6874,7 +7267,8 @@ function createchest(){
                         "name_eng": "Smoking habit",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900012
                     },
                     "14044B": {
                         "code": "14044B",
@@ -6882,9 +7276,10 @@ function createchest(){
                         "name_eng": "Anti-rubella IgG(EIA法)",
                         "unit": "IU/mL",
                         "ref": "Non-reactive：<10 Reactive：≧15",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":10
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 10,
+                        "index": 1100026
                     },
                     "14045B": {
                         "code": "14045B",
@@ -6892,9 +7287,10 @@ function createchest(){
                         "name_eng": "Anti-rubella IgM(EIA法)",
                         "unit": "IU/mL",
                         "ref": "Negative：<1.20 Positive：≧1.6",
-                        "refmode":"mid",
-                        "upper":1.6,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1.6,
+                        "lower": null,
+                        "index": 1100027
                     },
                     "07016C": {
                         "code": "07016C",
@@ -6902,8 +7298,9 @@ function createchest(){
                         "name_eng": "Perianal swab",
                         "unit": "-/+",
                         "ref": "not found",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 999900061
                     },
                     "09131C": {
                         "code": "09131C",
@@ -6911,9 +7308,10 @@ function createchest(){
                         "name_eng": "Estriol (E3), EIA/LIA",
                         "unit": "ng/ml",
                         "ref": "0.50-2.00 MoM",
-                        "refmode":"mid",
-                        "upper":2,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 2,
+                        "lower": 0.5,
+                        "index": 1200015
                     },
                     "13018C": {
                         "code": "13018C",
@@ -6921,8 +7319,9 @@ function createchest(){
                         "name_eng": "Helicobacter pylori test (Clo test)",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 190004
                     },
                     "10511C": {
                         "code": "10511C",
@@ -6930,9 +7329,10 @@ function createchest(){
                         "name_eng": "Digoxin",
                         "unit": "ng/ml",
                         "ref": "0.8-2.0",
-                        "refmode":"mid",
-                        "upper":2,
-                        "lower":0.8
+                        "refmode": "mid",
+                        "upper": 2,
+                        "lower": 0.8,
+                        "index": 800053
                     },
                     "09020C": {
                         "code": "09020C",
@@ -6940,9 +7340,10 @@ function createchest(){
                         "name_eng": "Fe (Iron-bound)",
                         "unit": "ug/dL",
                         "ref": "30-170",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 80001
                     },
                     "12078B": {
                         "code": "12078B",
@@ -6950,9 +7351,10 @@ function createchest(){
                         "name_eng": "CA-153 (EIA/LIA)",
                         "unit": "U/mL",
                         "ref": "<31.3",
-                        "refmode":"mid",
-                        "upper":31.3,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 31.3,
+                        "lower": null,
+                        "index": 100004
                     },
                     "12053C": {
                         "code": "12053C",
@@ -6960,8 +7362,9 @@ function createchest(){
                         "name_eng": "ANA(Antinuclear Antibodies)",
                         "unit": "-/+",
                         "ref": "Negative：40X",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 90008
                     },
                     "12053C001": {
                         "code": "12053C001",
@@ -6969,8 +7372,9 @@ function createchest(){
                         "name_eng": "ANA titer",
                         "unit": "-/+",
                         "ref": "Negative：40X",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 90008
                     },
                     "12053C002": {
                         "code": "12053C002",
@@ -6978,8 +7382,9 @@ function createchest(){
                         "name_eng": "ANA result",
                         "unit": "",
                         "ref": "",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 90008
                     },
                     "09113B": {
                         "code": "09113B",
@@ -6987,9 +7392,10 @@ function createchest(){
                         "name_eng": "Cortisol",
                         "unit": "ug/dL",
                         "ref": "6.7-22.6",
-                        "refmode":"mid",
-                        "upper":22.6,
-                        "lower":6.7
+                        "refmode": "mid",
+                        "upper": 22.6,
+                        "lower": 6.7,
+                        "index": 120001
                     },
                     "09105C": {
                         "code": "09105C",
@@ -6997,9 +7403,10 @@ function createchest(){
                         "name_eng": "Progesteron (EIA/LIA)",
                         "unit": "ng/ml",
                         "ref": "0.1-0.84",
-                        "refmode":"mid",
-                        "upper":0.84,
-                        "lower":0.1
+                        "refmode": "mid",
+                        "upper": 0.84,
+                        "lower": 0.1,
+                        "index": 1200016
                     },
                     "12018C": {
                         "code": "12018C",
@@ -7007,8 +7414,9 @@ function createchest(){
                         "name_eng": "TPPA/TPHA test",
                         "unit": "-/+",
                         "ref": "Non-reactive",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100022
                     },
                     "07003C": {
                         "code": "07003C",
@@ -7016,8 +7424,9 @@ function createchest(){
                         "name_eng": "Amoeba (direct smear)",
                         "unit": "-/+",
                         "ref": "not found",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1900027
                     },
                     "08009C": {
                         "code": "08009C",
@@ -7025,7 +7434,8 @@ function createchest(){
                         "name_eng": "RBC morphology",
                         "unit": "",
                         "ref": "Normocytic",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 6000
                     },
                     "09107C": {
                         "code": "09107C",
@@ -7033,9 +7443,10 @@ function createchest(){
                         "name_eng": "Free T3 (EIA/LIA)",
                         "unit": "pg/mL",
                         "ref": "2.5-3.9",
-                        "refmode":"mid",
-                        "upper":3.9,
-                        "lower":2.5
+                        "refmode": "mid",
+                        "upper": 3.9,
+                        "lower": 2.5,
+                        "index": 70003
                     },
                     "12198C": {
                         "code": "12198C",
@@ -7043,9 +7454,10 @@ function createchest(){
                         "name_eng": "Free PSA (EIA/LIA)",
                         "unit": "ng/ml",
                         "ref": "0.2-4.9",
-                        "refmode":"mid",
-                        "upper":4.9,
-                        "lower":0.2
+                        "refmode": "mid",
+                        "upper": 4.9,
+                        "lower": 0.2,
+                        "index": 100007
                     },
                     "06chs001": {
                         "code": "06chs001",
@@ -7053,9 +7465,10 @@ function createchest(){
                         "name_eng": "Creatinine clearance rate (CCR)",
                         "unit": "mL/min",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30007
                     },
                     "12027B": {
                         "code": "12027B",
@@ -7063,9 +7476,10 @@ function createchest(){
                         "name_eng": "IgA(Nephelometry)",
                         "unit": "mg/dL",
                         "ref": "40-230",
-                        "refmode":"mid",
-                        "upper":230,
-                        "lower":40
+                        "refmode": "mid",
+                        "upper": 230,
+                        "lower": 40,
+                        "index": 90002
                     },
                     "15017C": {
                         "code": "15017C",
@@ -7073,7 +7487,8 @@ function createchest(){
                         "name_eng": "Cervical Cytology(Pap's smear；cytology)",
                         "unit": "-/+",
                         "ref": "Normal",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900022
                     },
                     "30021C": {
                         "code": "30021C",
@@ -7081,9 +7496,10 @@ function createchest(){
                         "name_eng": "Allergen test(qualitative)",
                         "unit": "PAU/L",
                         "ref": "<0.35",
-                        "refmode":"mid",
-                        "upper":0.35,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 0.35,
+                        "lower": null,
+                        "index": 90004
                     },
                     "12022C": {
                         "code": "12022C",
@@ -7091,7 +7507,8 @@ function createchest(){
                         "name_eng": "β-HCG (EIA)",
                         "unit": "mIU/mL",
                         "ref": "停經前菲懷孕婦女 ≦1 ；停經後婦女≦7；男性≦2",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1200017
                     },
                     "09138C": {
                         "code": "09138C",
@@ -7099,9 +7516,10 @@ function createchest(){
                         "name_eng": "Direct Bilirubin/Total Bilirubin Ratio",
                         "unit": "mg/dL",
                         "ref": "0.2-1.2",
-                        "refmode":"mid",
-                        "upper":1.2,
-                        "lower":0.2
+                        "refmode": "mid",
+                        "upper": 1.2,
+                        "lower": 0.2,
+                        "index": 50005
                     },
                     "09121C": {
                         "code": "09121C",
@@ -7109,7 +7527,8 @@ function createchest(){
                         "name_eng": "Testosterone (EIA/LIA)",
                         "unit": "ng/mL",
                         "ref": "男性：1.75-7.81；女性：0-0.75",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1200018
                     },
                     "09108C": {
                         "code": "09108C",
@@ -7117,7 +7536,8 @@ function createchest(){
                         "name_eng": "GH (Growth hormon), EIA/LIA",
                         "unit": "ng/mL",
                         "ref": "男性：0.003-0.971；女性：0.010-3.607",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 1200019
                     },
                     "09103C": {
                         "code": "09103C",
@@ -7125,9 +7545,10 @@ function createchest(){
                         "name_eng": "Insulin(EIA/LIA)",
                         "unit": "mU/L",
                         "ref": "1.5-17",
-                        "refmode":"mid",
-                        "upper":1.5,
-                        "lower":17
+                        "refmode": "mid",
+                        "upper": 1.5,
+                        "lower": 17,
+                        "index": 10007
                     },
                     "16008C": {
                         "code": "16008C",
@@ -7135,7 +7556,8 @@ function createchest(){
                         "name_eng": "Synovial fluid analysis-Routine",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900071
                     },
                     "14068B": {
                         "code": "14068B",
@@ -7143,9 +7565,10 @@ function createchest(){
                         "name_eng": "Varicella/zoster-1gG",
                         "unit": "mIU/mL",
                         "ref": "Negative：<150；Positive：≧150",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":150
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 150,
+                        "index": 1100029
                     },
                     "14013B": {
                         "code": "14013B",
@@ -7153,9 +7576,10 @@ function createchest(){
                         "name_eng": "Varicella/zoster-1gM",
                         "unit": "mIU/mL",
                         "ref": "Negative：0.9-1.09 Index；Positive：≧1.1 Index",
-                        "refmode":"mid",
-                        "upper":1.1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1.1,
+                        "lower": null,
+                        "index": 1100030
                     },
                     "14070B": {
                         "code": "14070B",
@@ -7163,9 +7587,10 @@ function createchest(){
                         "name_eng": "Measlease IgG",
                         "unit": "AU/mL",
                         "ref": "Negative：<1.35；Equivocal：1.35-16.4；Positive：≧16.5",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":16.5
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 16.5,
+                        "index": 1100025
                     },
                     "12182C": {
                         "code": "12182C",
@@ -7173,8 +7598,9 @@ function createchest(){
                         "name_eng": "(HBV)DNA qualitative amplification test)",
                         "unit": "-/+",
                         "ref": "undetectable",
-                        "refmode":"label",
-                        "label":"undetectable"
+                        "refmode": "label",
+                        "label": "undetectable",
+                        "index": 500028
                     },
                     "12183C": {
                         "code": "12183C",
@@ -7182,22 +7608,25 @@ function createchest(){
                         "name_eng": "(HCV)RNA qualitative amplification test)",
                         "unit": "-/+",
                         "ref": "undetectable",
-                        "refmode":"label",
-                        "label":"undetectable"
+                        "refmode": "label",
+                        "label": "undetectable",
+                        "index": 500033
                     },
                     "12184C": {
                         "code": "12184C",
                         "name_cht": "(B型肝炎病毒)去氧核醣核酸類定量",
                         "name_eng": "(HBV)-DNA(定量)PCR",
                         "unit": "-/+",
-                        "ref": "undetectable"
+                        "ref": "undetectable",
+                        "index": 500029
                     },
                     "12185C": {
                         "code": "12185C",
                         "name_cht": "(C型肝炎病毒)核醣核酸類定量擴增試驗",
                         "name_eng": "(HCV)RNA qualitative amplification test)",
                         "unit": "-/+",
-                        "ref": "undetectable"
+                        "ref": "undetectable",
+                        "index": 500034
                     },
                     "09028C": {
                         "code": "09028C",
@@ -7205,9 +7634,10 @@ function createchest(){
                         "name_eng": "Acid phosphatase",
                         "unit": "U/L",
                         "ref": "0.00-0.80",
-                        "refmode":"mid",
-                        "upper":0.8,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 0.8,
+                        "lower": null,
+                        "index": 800051
                     },
                     "10501C": {
                         "code": "10501C",
@@ -7215,9 +7645,10 @@ function createchest(){
                         "name_eng": "Carbamazepine",
                         "unit": "ug/mL",
                         "ref": "4.0-12.0",
-                        "refmode":"mid",
-                        "upper":12,
-                        "lower":4
+                        "refmode": "mid",
+                        "upper": 12,
+                        "lower": 4,
+                        "index": 800055
                     },
                     "10510C": {
                         "code": "10510C",
@@ -7225,9 +7656,10 @@ function createchest(){
                         "name_eng": "Valproic acid",
                         "unit": "ug/mL",
                         "ref": "50-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":50
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 50,
+                        "index": 800056
                     },
                     "09chs004": {
                         "code": "09chs004",
@@ -7235,9 +7667,10 @@ function createchest(){
                         "name_eng": "INR(International Normalize Ratio)",
                         "unit": "sec",
                         "ref": "10.6-12.4",
-                        "refmode":"mid",
-                        "upper":12.4,
-                        "lower":10.6
+                        "refmode": "mid",
+                        "upper": 12.4,
+                        "lower": 10.6,
+                        "index": 600018
                     },
                     "09chs005": {
                         "code": "09chs005",
@@ -7245,7 +7678,8 @@ function createchest(){
                         "name_eng": "MNPT(Mean Normal Prothrombin Time)",
                         "unit": "sec",
                         "ref": "11.27",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 600019
                     },
                     "09chs006": {
                         "code": "09chs006",
@@ -7253,9 +7687,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20005
                     },
                     "09128C": {
                         "code": "09128C",
@@ -7263,9 +7698,10 @@ function createchest(){
                         "name_eng": "C-peptide",
                         "unit": "ng/mL",
                         "ref": "0.81-3.85",
-                        "refmode":"mid",
-                        "upper":3.85,
-                        "lower":0.81
+                        "refmode": "mid",
+                        "upper": 3.85,
+                        "lower": 0.81,
+                        "index": 10009
                     },
                     "09122C": {
                         "code": "09122C",
@@ -7273,9 +7709,10 @@ function createchest(){
                         "name_eng": "PTH-i(Parathyroid Hormone Intact)",
                         "unit": "pg/mL",
                         "ref": "15-65",
-                        "refmode":"mid",
-                        "upper":65,
-                        "lower":15
+                        "refmode": "mid",
+                        "upper": 65,
+                        "lower": 15,
+                        "index": 70009
                     },
                     "12151C": {
                         "code": "12151C",
@@ -7283,9 +7720,10 @@ function createchest(){
                         "name_eng": "Hcy(Homocysteine)",
                         "unit": "umol/L",
                         "ref": "5.0-20.0",
-                        "refmode":"mid",
-                        "upper":20,
-                        "lower":5
+                        "refmode": "mid",
+                        "upper": 20,
+                        "lower": 5,
+                        "index": 800029
                     },
                     "27031B": {
                         "code": "27031B",
@@ -7293,7 +7731,8 @@ function createchest(){
                         "name_eng": "Aldosterone",
                         "unit": "Serum:pg/mL Urine:ug/day",
                         "ref": "Serum:立姿:48.3-270.0 臥姿:68.0-173.0；Urine:2.84-33.99",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 120002
                     },
                     "09130B": {
                         "code": "09130B",
@@ -7301,9 +7740,10 @@ function createchest(){
                         "name_eng": "Folic acid/Folate",
                         "unit": "ng/mL",
                         "ref": "Normal:>5.38  Indeterminate:3.38-5.38  Deficient:≦3.37",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":5.38
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 5.38,
+                        "index": 80005
                     },
                     "25003C": {
                         "code": "25003C",
@@ -7311,7 +7751,8 @@ function createchest(){
                         "name_eng": "Biopsy (Surgical pathology Level Ⅲ)",
                         "unit": "",
                         "ref": "Normal",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900072
                     },
                     "25004C": {
                         "code": "25004C",
@@ -7319,7 +7760,8 @@ function createchest(){
                         "name_eng": "Biopsy (Surgical pathology Level Ⅳ)",
                         "unit": "",
                         "ref": "Normal",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900073
                     },
                     "12193B": {
                         "code": "12193B",
@@ -7327,9 +7769,10 @@ function createchest(){
                         "name_eng": "Pro-BNP/(BNP)",
                         "unit": "pg/mL",
                         "ref": "<125",
-                        "refmode":"mid",
-                        "upper":125,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 125,
+                        "lower": null,
+                        "index": 800011
                     },
                     "09037C": {
                         "code": "09037C",
@@ -7337,9 +7780,10 @@ function createchest(){
                         "name_eng": "Blood ammonia",
                         "unit": "ug/dL",
                         "ref": "19-55",
-                        "refmode":"mid",
-                        "upper":55,
-                        "lower":19
+                        "refmode": "mid",
+                        "upper": 55,
+                        "lower": 19,
+                        "index": 500011
                     },
                     "10520C": {
                         "code": "10520C",
@@ -7347,9 +7791,10 @@ function createchest(){
                         "name_eng": "Li(Lithium)",
                         "unit": "mEq/L",
                         "ref": "0.6-1.2",
-                        "refmode":"mid",
-                        "upper":1.2,
-                        "lower":0.6
+                        "refmode": "mid",
+                        "upper": 1.2,
+                        "lower": 0.6,
+                        "index": 800057
                     },
                     "12010C": {
                         "code": "12010C",
@@ -7357,9 +7802,10 @@ function createchest(){
                         "name_eng": "Rheumatoid factor test-PHA(Passive hemagglutination)",
                         "unit": "mEq/L",
                         "ref": "0.6-1.2",
-                        "refmode":"mid",
-                        "upper":1.2,
-                        "lower":0.6
+                        "refmode": "mid",
+                        "upper": 1.2,
+                        "lower": 0.6,
+                        "index": 90007
                     },
                     "09139C": {
                         "code": "09139C",
@@ -7367,9 +7813,10 @@ function createchest(){
                         "name_eng": "Glycated Albumin (GA)",
                         "unit": "%",
                         "ref": "11.0-16.0",
-                        "refmode":"mid",
-                        "upper":16,
-                        "lower":11
+                        "refmode": "mid",
+                        "upper": 16,
+                        "lower": 11,
+                        "index": 10006
                     },
                     "12202C": {
                         "code": "12202C",
@@ -7377,8 +7824,9 @@ function createchest(){
                         "name_eng": "HCV Genotyping Test（RealTime PCR）",
                         "unit": "-/+",
                         "ref": "Undetectable",
-                        "refmode":"label",
-                        "label":"Undetectable"
+                        "refmode": "label",
+                        "label": "Undetectable",
+                        "index": 500035
                     },
                     "09chs007": {
                         "code": "09chs007",
@@ -7386,9 +7834,10 @@ function createchest(){
                         "name_eng": "25-OH Vitamin D Total",
                         "unit": "ng/mL",
                         "ref": "30.0-100.0",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":30
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 30,
+                        "index": 800030
                     },
                     "21+L1001C001": {
                         "code": "21+L1001C001",
@@ -7396,8 +7845,9 @@ function createchest(){
                         "name_eng": "HBsAg (EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Non-reactive：＜1.0 Reactive：≧1.0",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500023
                     },
                     "21+L1001C002": {
                         "code": "21+L1001C002",
@@ -7405,9 +7855,10 @@ function createchest(){
                         "name_eng": "HBsAg (EIA/LIA)",
                         "unit": "S/Co",
                         "ref": "Non-reactive：＜1.0，Reactive：＞=1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 500022
                     },
                     "21+L1001C003": {
                         "code": "21+L1001C003",
@@ -7415,8 +7866,9 @@ function createchest(){
                         "name_eng": "HCV Ab (EIA/LIA)",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 500031
                     },
                     "21+L1001C004": {
                         "code": "21+L1001C004",
@@ -7424,9 +7876,10 @@ function createchest(){
                         "name_eng": "HCV Ab (EIA/LIA)",
                         "unit": "S/Co",
                         "ref": "Non-reactive：＜1.0，Reactive：＞=1.0",
-                        "refmode":"mid",
-                        "upper":1,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 1,
+                        "lower": null,
+                        "index": 500032
                     },
                     "21+L1001C005": {
                         "code": "21+L1001C005",
@@ -7434,9 +7887,10 @@ function createchest(){
                         "name_eng": "Glucose-AC",
                         "unit": "mg/dL",
                         "ref": "<100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": null,
+                        "index": 10002
                     },
                     "21+L1001C006": {
                         "code": "21+L1001C006",
@@ -7444,9 +7898,10 @@ function createchest(){
                         "name_eng": "Cholestero1, total",
                         "unit": "mg/dL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 20001
                     },
                     "21+L1001C007": {
                         "code": "21+L1001C007",
@@ -7454,9 +7909,10 @@ function createchest(){
                         "name_eng": "Triglyceride (TG)",
                         "unit": "mg/dL",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 20002
                     },
                     "21+L1001C008": {
                         "code": "21+L1001C008",
@@ -7464,9 +7920,10 @@ function createchest(){
                         "name_eng": "HDL-C(highdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "男:≥40；女:≥50",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper": null,
-                        "lower": gend=="男"?40:50
+                        "lower": gend=="男"?40:50,
+                        "index": 20003
                     },
                     "21+L1001C009": {
                         "code": "21+L1001C009",
@@ -7474,9 +7931,10 @@ function createchest(){
                         "name_eng": "S-GOT/AST",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50001
                     },
                     "21+L1001C010": {
                         "code": "21+L1001C010",
@@ -7484,9 +7942,10 @@ function createchest(){
                         "name_eng": "S-GPT/ALT",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50002
                     },
                     "21+L1001C011": {
                         "code": "21+L1001C011",
@@ -7494,9 +7953,10 @@ function createchest(){
                         "name_eng": "Creatinine (B) CRTN",
                         "unit": "mg/dL",
                         "ref": "0.5-1.3",
-                        "refmode":"mid",
-                        "upper":1.3,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.3,
+                        "lower": 0.5,
+                        "index": 30002
                     },
                     "21+L1001C012": {
                         "code": "21+L1001C012",
@@ -7504,8 +7964,9 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "",
                         "ref": "-/+",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400020
                     },
                     "21+L1001C013": {
                         "code": "21+L1001C013",
@@ -7513,9 +7974,10 @@ function createchest(){
                         "name_eng": "eGFR",
                         "unit": "ml/min/1.73m^2",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":60,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30004
                     },
                     "21+L1001C014": {
                         "code": "21+L1001C014",
@@ -7523,9 +7985,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20005
                     },
                     "09129C": {
                         "code": "09129C",
@@ -7533,9 +7996,10 @@ function createchest(){
                         "name_eng": "VIT-B12 (EIA/LIA)",
                         "unit": "pg/mL",
                         "ref": "247-911 pg/mL",
-                        "refmode":"mid",
-                        "upper":911,
-                        "lower":247
+                        "refmode": "mid",
+                        "upper": 911,
+                        "lower": 247,
+                        "index": 80004
                     },
                     "14009C": {
                         "code": "14009C",
@@ -7543,9 +8007,10 @@ function createchest(){
                         "name_eng": "Mumps CF virus Ab",
                         "unit": "RU/ml",
                         "ref": "Negative: <16；Borderline:>=16 -< 22；Positive: >=22 RU/ml",
-                        "refmode":"mid",
-                        "upper":22,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 22,
+                        "lower": null,
+                        "index": 1100028
                     },
                     "12121C": {
                         "code": "12121C",
@@ -7553,9 +8018,10 @@ function createchest(){
                         "name_eng": "TSH receptor Ab",
                         "unit": "IU/L",
                         "ref": "<0.10",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":0.1
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 0.1,
+                        "index": 700010
                     },
                     "07chs001": {
                         "code": "07chs001",
@@ -7563,8 +8029,9 @@ function createchest(){
                         "name_eng": "Stool H.Pylori Ag",
                         "unit": "-/+",
                         "ref": "(-)",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 190003
                     },
                     "09049B001": {
                         "code": "09049B001",
@@ -7572,9 +8039,10 @@ function createchest(){
                         "name_eng": "Lead(Pb)(Blood",
                         "unit": "μg/dL",
                         "ref": "<= 10",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":10
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 10,
+                        "index": 800031
                     },
                     "09049B002": {
                         "code": "09049B002",
@@ -7582,9 +8050,10 @@ function createchest(){
                         "name_eng": "Lead(Pb)(Urine)",
                         "unit": "μg/dL",
                         "ref": "< 23",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":23
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 23,
+                        "index": 400037
                     },
                     "08079B": {
                         "code": "08079B",
@@ -7592,9 +8061,10 @@ function createchest(){
                         "name_eng": "D-Dimer",
                         "unit": "mg/L(FEU)",
                         "ref": "<0.55",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":0.55
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 0.55,
+                        "index": 600021
                     },
                     "3D001": {
                         "code": "3D001",
@@ -7602,7 +8072,8 @@ function createchest(){
                         "name_eng": "height",
                         "unit": "cm",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990001
                     },
                     "3D002": {
                         "code": "3D002",
@@ -7610,7 +8081,8 @@ function createchest(){
                         "name_eng": "body weight",
                         "unit": "kg",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990002
                     },
                     "3D003": {
                         "code": "3D003",
@@ -7618,9 +8090,10 @@ function createchest(){
                         "name_eng": "pulse",
                         "unit": "次/分鐘",
                         "ref": "60-100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": 60,
+                        "index": 99990003
                     },
                     "3D004": {
                         "code": "3D004",
@@ -7628,9 +8101,10 @@ function createchest(){
                         "name_eng": "Systolic pressure",
                         "unit": "mmHg",
                         "ref": "<130mmHg",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 99990004
                     },
                     "3D005": {
                         "code": "3D005",
@@ -7638,9 +8112,10 @@ function createchest(){
                         "name_eng": "Diastolic pressure",
                         "unit": "mmHg",
                         "ref": "<80mmHg",
-                        "refmode":"mid",
-                        "upper":80,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 80,
+                        "lower": null,
+                        "index": 99990005
                     },
                     "3D006": {
                         "code": "3D006",
@@ -7648,9 +8123,10 @@ function createchest(){
                         "name_eng": "Waistline",
                         "unit": "cm",
                         "ref": "男<90；女<80",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper":gend=="男"?90:80,
-                        "lower":null
+                        "lower": null,
+                        "index": 99990006
                     },
                     "3D007": {
                         "code": "3D007",
@@ -7658,9 +8134,10 @@ function createchest(){
                         "name_eng": "Body Mass Index",
                         "unit": "kg/m2",
                         "ref": "18.5-24",
-                        "refmode":"mid",
-                        "upper":24,
-                        "lower":18.5
+                        "refmode": "mid",
+                        "upper": 24,
+                        "lower": 18.5,
+                        "index": 99990007
                     },
                     "3D008": {
                         "code": "3D008",
@@ -7668,7 +8145,8 @@ function createchest(){
                         "name_eng": "bare eyesight(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990008
                     },
                     "3D009": {
                         "code": "3D009",
@@ -7676,7 +8154,8 @@ function createchest(){
                         "name_eng": "bare eyesight(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 99990009
                     },
                     "3D010": {
                         "code": "3D010",
@@ -7684,7 +8163,8 @@ function createchest(){
                         "name_eng": "corrected vision(right)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900010
                     },
                     "3D011": {
                         "code": "3D011",
@@ -7692,7 +8172,8 @@ function createchest(){
                         "name_eng": "corrected vision(left)",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900011
                     },
                     "3D012": {
                         "code": "3D012",
@@ -7700,9 +8181,10 @@ function createchest(){
                         "name_eng": "Glucose",
                         "unit": "mg/dL",
                         "ref": "<100",
-                        "refmode":"mid",
-                        "upper":100,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 100,
+                        "lower": null,
+                        "index": 10001
                     },
                     "3D013": {
                         "code": "3D013",
@@ -7710,9 +8192,10 @@ function createchest(){
                         "name_eng": "Creatinine (B) CRTN",
                         "unit": "mg/dL",
                         "ref": "0.5-1.3",
-                        "refmode":"mid",
-                        "upper":1.3,
-                        "lower":0.5
+                        "refmode": "mid",
+                        "upper": 1.3,
+                        "lower": 0.5,
+                        "index": 30002
                     },
                     "3D014": {
                         "code": "3D014",
@@ -7720,9 +8203,10 @@ function createchest(){
                         "name_eng": "S-GOT/AST",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50001
                     },
                     "3D015": {
                         "code": "3D015",
@@ -7730,9 +8214,10 @@ function createchest(){
                         "name_eng": "S-GPT/ALT",
                         "unit": "IU/L",
                         "ref": "<40",
-                        "refmode":"mid",
-                        "upper":40,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 40,
+                        "lower": null,
+                        "index": 50002
                     },
                     "3D016": {
                         "code": "3D016",
@@ -7740,9 +8225,10 @@ function createchest(){
                         "name_eng": "Cholestero1,total",
                         "unit": "mg/dL",
                         "ref": "<200",
-                        "refmode":"mid",
-                        "upper":200,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 200,
+                        "lower": null,
+                        "index": 20001
                     },
                     "3D017": {
                         "code": "3D017",
@@ -7750,9 +8236,10 @@ function createchest(){
                         "name_eng": "Triglyceride (TG)",
                         "unit": "mg/dL",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 20002
                     },
                     "3D018": {
                         "code": "3D018",
@@ -7760,9 +8247,10 @@ function createchest(){
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
-                        "refmode":"mid",
-                        "upper":130,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 130,
+                        "lower": null,
+                        "index": 20004
                     },
                     "3D019": {
                         "code": "3D019",
@@ -7770,9 +8258,10 @@ function createchest(){
                         "name_eng": "HDL-C(highdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "男:≥40；女:≥50",
-                        "refmode":"mid",
+                        "refmode": "mid",
                         "upper": null,
-                        "lower": gend=="男"?40:50
+                        "lower": gend=="男"?40:50,
+                        "index": 20003
                     },
                     "3D020": {
                         "code": "3D020",
@@ -7780,7 +8269,8 @@ function createchest(){
                         "name_eng": "Cholestero1,total/HDL-C ratio",
                         "unit": "*",
                         "ref": "<5",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20006
                     },
                     "3D021": {
                         "code": "3D021",
@@ -7788,7 +8278,8 @@ function createchest(){
                         "name_eng": "LDL-C/HDL-C ratio",
                         "unit": "*",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 20007
                     },
                     "3D022": {
                         "code": "3D022",
@@ -7796,7 +8287,8 @@ function createchest(){
                         "name_eng": "color",
                         "unit": "Yellow",
                         "ref": "Yellow",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 40009
                     },
                     "3D023": {
                         "code": "3D023",
@@ -7804,7 +8296,8 @@ function createchest(){
                         "name_eng": "turbidity",
                         "unit": "Clear",
                         "ref": "Clear",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400011
                     },
                     "3D024": {
                         "code": "3D024",
@@ -7812,7 +8305,8 @@ function createchest(){
                         "name_eng": "Urine protein",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400020
                     },
                     "3D025": {
                         "code": "3D025",
@@ -7820,7 +8314,8 @@ function createchest(){
                         "name_eng": "Urine sugar",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400021
                     },
                     "3D026": {
                         "code": "3D026",
@@ -7828,9 +8323,10 @@ function createchest(){
                         "name_eng": "pH",
                         "unit": "-",
                         "ref": "5.5 ~ 7.5",
-                        "refmode":"mid",
-                        "upper":7.5,
-                        "lower":5.5
+                        "refmode": "mid",
+                        "upper": 7.5,
+                        "lower": 5.5,
+                        "index": 400022
                     },
                     "3D027": {
                         "code": "3D027",
@@ -7838,7 +8334,8 @@ function createchest(){
                         "name_eng": "Urine occult blood",
                         "unit": "-/+",
                         "ref": "Negative",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 400023
                     },
                     "3D028": {
                         "code": "3D028",
@@ -7846,8 +8343,9 @@ function createchest(){
                         "name_eng": "Urine R.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400024
                     },
                     "3D029": {
                         "code": "3D029",
@@ -7855,8 +8353,9 @@ function createchest(){
                         "name_eng": "Urine W.B.C",
                         "unit": "cells/HPF",
                         "ref": "< 5 /HPF",
-                        "refmode":"label",
-                        "label":"0-5"
+                        "refmode": "label",
+                        "label": "0-5",
+                        "index": 400025
                     },
                     "3D030": {
                         "code": "3D030",
@@ -7864,8 +8363,9 @@ function createchest(){
                         "name_eng": "Urine Epithelium",
                         "unit": "cells/HPF",
                         "ref": "< 8 /HPF",
-                        "refmode":"label",
-                        "label":"0-8"
+                        "refmode": "label",
+                        "label": "0-8",
+                        "index": 400026
                     },
                     "3D031": {
                         "code": "3D031",
@@ -7873,8 +8373,9 @@ function createchest(){
                         "name_eng": "Urine Cast",
                         "unit": "(-)/LPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400027
                     },
                     "3D032": {
                         "code": "3D032",
@@ -7882,8 +8383,9 @@ function createchest(){
                         "name_eng": "Urine Bacteria",
                         "unit": "HPF",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 400028
                     },
                     "3D033": {
                         "code": "3D033",
@@ -7891,9 +8393,10 @@ function createchest(){
                         "name_eng": "Creatinine (U) CRTN",
                         "unit": "mg/dL",
                         "ref": "60-250",
-                        "refmode":"mid",
-                        "upper":250,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": 250,
+                        "lower": 60,
+                        "index": 40005
                     },
                     "3D034": {
                         "code": "3D034",
@@ -7901,9 +8404,10 @@ function createchest(){
                         "name_eng": "eGFR",
                         "unit": "ml/min/1.73m^2",
                         "ref": ">60",
-                        "refmode":"mid",
-                        "upper":null,
-                        "lower":60
+                        "refmode": "mid",
+                        "upper": null,
+                        "lower": 60,
+                        "index": 30004
                     },
                     "3D035": {
                         "code": "3D035",
@@ -7911,9 +8415,10 @@ function createchest(){
                         "name_eng": "U PCR",
                         "unit": "mg/gm",
                         "ref": "<150",
-                        "refmode":"mid",
-                        "upper":150,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 150,
+                        "lower": null,
+                        "index": 40007
                     },
                     "3D036": {
                         "code": "3D036",
@@ -7921,8 +8426,9 @@ function createchest(){
                         "name_eng": "CKD Stage",
                         "unit": "",
                         "ref": "第0期：正常",
-                        "refmode":"label",
-                        "label":"0"
+                        "refmode": "label",
+                        "label": "0",
+                        "index": 30006
                     },
                     "3D037": {
                         "code": "3D037",
@@ -7930,7 +8436,8 @@ function createchest(){
                         "name_eng": "BMD",
                         "unit": "",
                         "ref": "",
-                        "refmode":false
+                        "refmode": false,
+                        "index": 999900031
                     },
                     "3D038": {
                         "code": "3D038",
@@ -7938,9 +8445,10 @@ function createchest(){
                         "name_eng": "Uric acid",
                         "unit": "mg/dL",
                         "ref": "<7.0",
-                        "refmode":"mid",
-                        "upper":7,
-                        "lower":null
+                        "refmode": "mid",
+                        "upper": 7,
+                        "lower": null,
+                        "index": 30008
                     },
                     "14065C": {
                         "code": "14065C",
@@ -7948,8 +8456,9 @@ function createchest(){
                         "name_eng": "Influenza A Viruses Antigen Rapid Test kit",
                         "unit": "",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100031
                     },
                     "14066C": {
                         "code": "14066C",
@@ -7957,10 +8466,26 @@ function createchest(){
                         "name_eng": "Influenza B Viruses Antigen Rapid Test kit",
                         "unit": "",
                         "ref": "Negative",
-                        "refmode":"label",
-                        "label":"-"
+                        "refmode": "label",
+                        "label": "-",
+                        "index": 1100032
                     }
                 }
+                let examarray=[];
+                for (let i=0;i<inputexamarray.length;i++){
+                    let ipa=inputexamarray[i];
+                    for (let j=0;j<ipa.length;j++){
+                        let examitem=ipa[j];
+                        if (examitem.testCode in examlist){
+                            console.log(examlist[examitem.testCode])
+                            examitem.index=examlist[examitem.testCode].index;
+                        }
+                        examarray.push(examitem);
+                    }
+                }
+                examarray.sort(function (a, b) {
+                    return a.index - b.index;
+                });
                 document.getElementById('detailarea').style.display="block";
                 document.getElementById('detailname').textContent=document.getElementById('basicname').textContent;
                 document.getElementById('detailbirth').textContent=document.getElementById('basicbirth').textContent;
@@ -7970,62 +8495,61 @@ function createchest(){
                 detailtable.innerHTML="<tr><td>中文</td><td>英文</td><td>結果</td><td>單位</td><td>參考值</td></tr>";
                 for (let i=0;i<examarray.length;i++){
                     let examitem=examarray[i];
-                    for (let j=0;j<examitem.length;j++){
-                        let testCode=examitem[j].testCode;
-                        let td1=examitem[j].testName;
-                        let td2="N/A";
-                        let td3=examitem[j].testResult;
-                        let td3ex="";
-                        let td4="N/A";
-                        let td5="N/A";
-                        if (testCode in examlist){
-                            let e=examlist[testCode]
-                            td1=e.name_cht;
-                            td2=e.name_eng;
-                            td4=e.unit;
-                            td5=e.ref;
-                            if (e.refmode){
-                                if (e.refmode=="label"){
-                                    if (td3!=e.label){
-                                        td3ex="　(＊)"
+                    let testCode=examitem.testCode;
+                    let td1=examitem.testName;
+                    let td2="N/A";
+                    let td3=examitem.testResult;
+                    let td3ex="";
+                    let td4="N/A";
+                    let td5="N/A";
+                    if (testCode in examlist){
+                        let e=examlist[testCode]
+                        td1=e.name_cht;
+                        td2=e.name_eng;
+                        td4=e.unit;
+                        td5=e.ref;
+                        if (e.refmode){
+                            if (e.refmode=="label"){
+                                if (td3!=e.label){
+                                    td3ex="　(＊)"
+                                }
+                            } else if (e.refmode=="mid"){
+                                if (transnum(td3) && e.upper){
+                                    if (transnum(td3)>=e.upper){
+                                        td3ex="　(↑)"
                                     }
-                                } else if (e.refmode=="mid"){
-                                    if (transnum(td3) && e.upper){
-                                        if (transnum(td3)>=e.upper){
-                                            td3ex="　(↑)"
-                                        }
-                                    } else if (transnum(td3) && e.lower){
-                                        if (transnum(td3)<=e.lower){
-                                            td3ex="　(↓)"
-                                        }
+                                } else if (transnum(td3) && e.lower){
+                                    if (transnum(td3)<=e.lower){
+                                        td3ex="　(↓)"
                                     }
                                 }
                             }
                         }
-                        let newrow=document.createElement('tr');
-                        detailtable.appendChild(newrow);
-                        let td=document.createElement('td');
-                        td.textContent=td1;
-                        newrow.appendChild(td);
-                        td=document.createElement('td');
-                        td.textContent=td2;
-                        newrow.appendChild(td);
-                        td=document.createElement('td');
-                        td.textContent=td3+td3ex;
-                        if (td3ex=="　(↑)" || td3ex=="　(＊)"){
-                            td.style.color="red"
-                        } else if (td3ex=="(↓)"){
-                            td.style.color="blue"
-                        }
-                        newrow.appendChild(td);
-                        td=document.createElement('td');
-                        td.textContent=td4;
-                        newrow.appendChild(td);
-                        td=document.createElement('td');
-                        td.textContent=td5;
-                        newrow.appendChild(td);
-
                     }
+                    let newrow=document.createElement('tr');
+                    detailtable.appendChild(newrow);
+                    let td=document.createElement('td');
+                    td.textContent=td1;
+                    newrow.appendChild(td);
+                    td=document.createElement('td');
+                    td.textContent=td2;
+                    newrow.appendChild(td);
+                    td=document.createElement('td');
+                    td.textContent=td3+td3ex;
+                    if (td3ex=="　(↑)" || td3ex=="　(＊)"){
+                        td.style.color="red"
+                    } else if (td3ex=="　(↓)"){
+                        td.style.color="blue"
+                    }
+                    newrow.appendChild(td);
+                    td=document.createElement('td');
+                    td.textContent=td4;
+                    newrow.appendChild(td);
+                    td=document.createElement('td');
+                    td.textContent=td5;
+                    newrow.appendChild(td);
+
+                    
                 }
 				removeDuplicatesByColumn(0);
             }
@@ -8518,7 +9042,7 @@ function createchest(){
                         <td id="detailname"></td>
                         <td>生日:</td>
                         <td id="detailbirth"></td>
-                        <td>身分證:</td>
+                        <td>證號:</td>
                         <td id="detailid"></td>
                     </tr>
                 </table>
