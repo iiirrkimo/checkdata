@@ -1260,6 +1260,29 @@ function genhpwindow(){
             document.getElementById("mod_gender_1").click();
           }
         }
+        mod_personal_history_0.checked=true;
+        mod_personal_history_1.checked=false;
+        mod_personal_history_2.checked=false;
+        mod_personal_history_3.checked=false;
+        mod_personal_history_4.checked=false;
+        mod_personal_history_5.checked=false;
+        mod_personal_history_6.checked=false;
+        mod_personal_history_7.checked=false;
+        mod_personal_history_8.checked=false;
+        mod_h_pylori_treatment_0.checked=true;
+        mod_endoscopy_done_0.checked=true;
+        mod_recent_ulcer_reflux_drug_0.checked=true;
+        mod_drug_allergy_0.checked=true;
+        mod_family_h_pylori_0.checked=true;
+        mod_family_ulcer_0.checked=true;
+        mod_family_cancer_0.checked=true;
+        mod_recent_drug_flag_0.checked=true;
+        mod_smoking_0.checked=true;
+        mod_drinking_0.checked=true;
+        mod_betel_0.checked=true;
+        mod_pickled_food_0.checked=true;
+        mod_bbq_spicy_food_0.checked=true;
+        mod_raw_food_0.checked=true;
       }
       refreshVisibility(prefix, importFields);
     }
@@ -2166,6 +2189,47 @@ function genhpwindow(){
       renderDraftTable();
       document.getElementById('draftMessage').innerHTML = '<div class="warning">暫存資料已清空。</div>';
     });
+    mod_personal_history_0.addEventListener('change', function () {
+      if (mod_personal_history_0.checked){
+        mod_personal_history_1.checked?mod_personal_history_1.click():null;
+        mod_personal_history_2.checked?mod_personal_history_2.click():null;
+        mod_personal_history_3.checked?mod_personal_history_3.click():null;
+        mod_personal_history_4.checked?mod_personal_history_4.click():null;
+        mod_personal_history_5.checked?mod_personal_history_5.click():null;
+        mod_personal_history_6.checked?mod_personal_history_6.click():null;
+        mod_personal_history_7.checked?mod_personal_history_7.click():null;
+        mod_personal_history_8.checked?mod_personal_history_8.click():null;
+      }
+    })
+    function historychange(){
+      if (mod_personal_history_1.checked || mod_personal_history_2.checked || mod_personal_history_3.checked || mod_personal_history_4.checked || mod_personal_history_5.checked || mod_personal_history_6.checked || mod_personal_history_7.checked || mod_personal_history_8.checked){
+        mod_personal_history_0.checked?mod_personal_history_0.click():null;
+      }
+    }
+    mod_personal_history_1.addEventListener('change', function () {
+      historychange();
+    })
+    mod_personal_history_2.addEventListener('change', function () {
+      historychange();
+    })
+    mod_personal_history_3.addEventListener('change', function () {
+      historychange();
+    })
+    mod_personal_history_4.addEventListener('change', function () {
+      historychange();
+    })
+    mod_personal_history_5.addEventListener('change', function () {
+      historychange();
+    })
+    mod_personal_history_6.addEventListener('change', function () {
+      historychange();
+    })
+    mod_personal_history_7.addEventListener('change', function () {
+      historychange();
+    })
+    mod_personal_history_8.addEventListener('change', function () {
+      historychange();
+    })
   </script>
 </body>
 </html>
