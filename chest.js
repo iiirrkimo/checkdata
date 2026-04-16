@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150413';
+chestversion='1150416';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -221,7 +221,63 @@ function createchest(){
 		create_newHEupload();
 	} else if (ccc==d10){
 		create_add6Z();
-	}
+	} else if (ccc=="https://phpcis.chshb.gov.tw/"){
+        create_main();
+    }
+    function create_main(){
+        create_myDraggable();
+        let xx=5;
+        let yy=5;
+        let ww=150;
+        let hh=40;
+        let ii=5;
+        let HPque=document.createElement("button");
+        myDraggable.appendChild(HPque);
+        HPque.style.padding ='0px';
+        HPque.style.left = xx+'px';
+        HPque.style.top = yy+'px';
+        HPque.style.width = ww+'px';
+        HPque.style.height = hh+'px';
+        HPque.style.position = 'absolute';
+        HPque.textContent="HP問卷登打";
+        HPque.addEventListener("click",()=>{
+            if (document.getElementById("hpjs")){
+                genhpwindow();
+            } else {
+                let hpscript=document.createElement("script");
+                hpscript.id="hpjs";
+                hpscript.src="https://iiirrkimo.github.io/checkdata/HP.js";
+                document.head.append(hpscript);
+            }
+        })
+        xx+=ww+ii
+        let metaque=document.createElement("button");
+        myDraggable.appendChild(metaque);
+        metaque.style.padding ='0px';
+        metaque.style.left = xx+'px';
+        metaque.style.top = yy+'px';
+        metaque.style.width = ww+'px';
+        metaque.style.height = hh+'px';
+        metaque.style.position = 'absolute';
+        metaque.textContent="代謝症候群問卷登打";
+        metaque.addEventListener("click",()=>{
+            if (document.getElementById("metajs")){
+                genmetawindow();
+            } else {
+                let metascript=document.createElement("script");
+                metascript.id="meta";
+                metascript.src="https://iiirrkimo.github.io/checkdata/meta.js";
+                document.head.append(metascript);
+            }
+        })
+    
+        xx+=ww+ii
+        yy+=hh+ii;
+        myDraggable.style.width=xx+'px';
+        myDraggable.style.height=yy+'px';
+        myDraggable.style.left=750 +'px';
+        myDraggable.style.top=0+'px';
+    }
 	function create_OPD_one(){
 		create_myDraggable();
 		button_5line = document.createElement('button');
