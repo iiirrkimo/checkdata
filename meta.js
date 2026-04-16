@@ -393,6 +393,16 @@ function genmetawindow(){
       text-align: center;
       background: #fff;
     }
+    .import_table button {
+      width: 90%;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      color: #fff;
+      background: #217e47;
+      font-size: 14px;
+    }
     
     .import_table tbody tr:nth-child(even) td {
       background: #f8fafc;
@@ -2071,7 +2081,6 @@ function genmetawindow(){
   </script>
 </body>
 </html>
-
 `
 	let newWin = window.open('', '_blank');
 	newWin.document.open();
