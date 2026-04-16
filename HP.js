@@ -12,7 +12,7 @@ function genhpwindow(){
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PHPCIIS+HP</title>
+  <title>PHPCIIS+HP問卷</title>
   <style>
     * {
       box-sizing: border-box;
@@ -305,7 +305,7 @@ function genhpwindow(){
 <body>
   <div class="container">
     <div class="card">
-      <h1>PHPCIIS+HP</h1>
+      <h1>PHPCIIS+HP問卷</h1>
     </div>
 
     <div class="card">
@@ -1260,29 +1260,25 @@ function genhpwindow(){
             document.getElementById("mod_gender_1").click();
           }
         }
-        mod_personal_history_0.checked=true;
-        mod_personal_history_1.checked=false;
-        mod_personal_history_2.checked=false;
-        mod_personal_history_3.checked=false;
-        mod_personal_history_4.checked=false;
-        mod_personal_history_5.checked=false;
-        mod_personal_history_6.checked=false;
-        mod_personal_history_7.checked=false;
-        mod_personal_history_8.checked=false;
-        mod_h_pylori_treatment_0.checked=true;
-        mod_endoscopy_done_0.checked=true;
-        mod_recent_ulcer_reflux_drug_0.checked=true;
-        mod_drug_allergy_0.checked=true;
-        mod_family_h_pylori_0.checked=true;
-        mod_family_ulcer_0.checked=true;
-        mod_family_cancer_0.checked=true;
-        mod_recent_drug_flag_0.checked=true;
-        mod_smoking_0.checked=true;
-        mod_drinking_0.checked=true;
-        mod_betel_0.checked=true;
-        mod_pickled_food_0.checked=true;
-        mod_bbq_spicy_food_0.checked=true;
-        mod_raw_food_0.checked=true;
+        mod_religion_0.click();
+        mod_education_0.click();
+        mod_job_flag_0.click();
+        mod_marital_0.click();
+        mod_personal_history_0.click();
+        mod_h_pylori_treatment_0.click();
+        mod_endoscopy_done_0.click();
+        mod_recent_ulcer_reflux_drug_0.click();
+        mod_drug_allergy_0.click();
+        mod_family_h_pylori_0.click();
+        mod_family_ulcer_0.click();
+        mod_family_cancer_0.click();
+        mod_recent_drug_flag_0.click();
+        mod_smoking_0.click();
+        mod_drinking_0.click();
+        mod_betel_0.click();
+        mod_pickled_food_0.click();
+        mod_bbq_spicy_food_0.click();
+        mod_raw_food_0.click();
       }
       refreshVisibility(prefix, importFields);
     }
