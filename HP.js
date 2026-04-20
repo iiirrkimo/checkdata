@@ -286,6 +286,62 @@ function genhpwindow(){
       flex-wrap: wrap;
     }
 
+    
+    .queryarea {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+    
+    .queryarea span {
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+    }
+    
+    .queryarea input {
+      height: 38px;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+    }
+    
+    .queryarea input[type="date"] {
+      width: 160px;
+    }
+    
+    .queryarea input[type="text"] {
+      width: 180px;
+    }
+    
+    .queryarea button {
+      height: 38px;
+      border: none;
+      border-radius: 8px;
+      padding: 0 16px;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .queryarea button:hover {
+      background: #1d4ed8;
+    }
+    
+    .queryarea span[id$="_result"] {
+      font-weight: 400;
+      color: #475569;
+    }
+
     @media (max-width: 1024px) {
       .grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -342,6 +398,15 @@ function genhpwindow(){
       </div>
 
       <div id="caseListTab" class="tab-panel active">
+        <div class="queryarea">
+          <span>開始時間:</span><input type="date" id="start_date">
+          <span>結束時間:</span><input type="date" id="end_date">
+          <button id="querybydate">依時間查詢</button>
+          <span id="querybydate_result"></span>
+          <span>身分證字號:</span><input type="text" id="queryid">
+          <button id="querybyid">依身分證字號查詢</button>
+          <span id="querybyid_result"></span>
+        </div>
         <div class="field full">
           <label for="caseListPaste">貼上個案列表</label>
           <span class="meta">支援以 tab 分隔的格式，例如：姓名[tab]身份證號。第一列可有標題，也可沒有。</span>
@@ -2256,6 +2321,91 @@ function genhpwindow(){
     })
 
 
+
+    document.getElementById("querybyid").addEventListener("click", ()=>{
+      let queryid=document.getElementById("queryid").value;
+      if (queryid.length==10){
+        querybyid(queryid);
+      } else {
+        document.getElementById("querybyid_result").innerHTML=("請輸入10碼身分證字號")
+      }
+      
+    });
+    document.getElementById("querybydate").addEventListener("click", async ()=>{
+      document.getElementById("caseListPaste").value="";
+      let start_date=document.getElementById("start_date").value;
+      let end_date=document.getElementById("end_date").value;
+      let excelres= await fetchexcel(start_date, end_date);
+      let inp="";
+      for (let i=0;i<excelres.length;i++){
+        let r=excelres[i];
+        if (r.__EMPTY_2=="3F"){
+          inp+=r.__EMPTY_5+"\t"+r.__EMPTY_3+"\n"
+        }
+      }
+      document.getElementById("caseListPaste").value=inp;
+      importCaseListBtn.click();
+    })
+
+    
+    async function fetchexcel(startDate, endDate) {
+      let apiurl = "https://phpcis.chshb.gov.tw/api/v1/reports/tests/list?treatmentDateStart=" + startDate + "&treatmentDateEnd=" + endDate + "&personalId=&bureauRecordNo=&orderBy=1&hasTestResult=true&isExcelFile=false&applicationId=3F";
+      try {
+          const response = await fetch(apiurl);
+          
+          if (!response.ok) {
+              throw new Error("API 請求失敗，狀態碼：" + response.status);
+          }
+          const arrayBuffer = await response.arrayBuffer();
+          const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { 
+              raw: false, 
+              defval: "" 
+          });          
+          return jsonData;
+      } catch (error) {
+          console.error("發生錯誤:", error);
+      }
+  }
+
+  function querybyid(queryid){
+    document.getElementById("caseListPaste").value="";
+    let xhr = new XMLHttpRequest();
+    let apiurl="https://phpcis.chshb.gov.tw/api/v1/registrations/list?personalId="+queryid;
+    xhr.open("GET", apiurl, false);
+    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhr.send();
+    let apires=JSON.parse(xhr.responseText).result;
+    if (apires.length==0){
+      alert("無掛號紀錄")
+      return
+    }
+    let preresult=[];
+    let healthRecordIdarray=[];
+    for (let i=0;i<apires.length;i++){
+      let r=apires[i];
+      if (r.visitType.includes("糞便抗原檢測胃幽門螺旋桿菌")){
+        let tempitem=r.name+"\t"+r.personalId;
+        document.getElementById("caseListPaste").value=tempitem;
+        importCaseListBtn.click();
+        break;
+      }
+    }
+    
+  }
+
+  function getDateDaysAgo(d,i) {
+    d.setDate(d.getDate() - i);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return yyyy+"-"+mm+"-"+dd;
+  }
+  document.getElementById("start_date").value=getDateDaysAgo(new Date(),30);
+  document.getElementById("end_date").value=getDateDaysAgo(new Date(),0);
   </script>
 </body>
 </html>
