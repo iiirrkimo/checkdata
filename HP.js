@@ -13,7 +13,7 @@ function genhpwindow(){
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <title>PHPCIIS+HP</title>
+  <title>HPSA打問卷</title>
   <style>
     * {
       box-sizing: border-box;
@@ -362,10 +362,6 @@ function genhpwindow(){
 <body>
   <div class="container">
     <div class="card">
-      <h1>PHPCIIS+HP</h1>
-    </div>
-
-    <div class="card">
       <div class="toolbar">
         <button class="tab-btn active" data-tab="caseListTab">個案列表</button>
         <button class="tab-btn secondary" data-tab="importTab" style="display: none;">表一：個案基本及問卷資料</button>
@@ -402,7 +398,6 @@ function genhpwindow(){
           <span>開始時間:</span><input type="date" id="start_date">
           <span>結束時間:</span><input type="date" id="end_date">
           <button id="querybydate">依時間查詢</button>
-          <span id="querybydate_result"></span>
           <span>身分證字號:</span><input type="text" id="queryid">
           <button id="querybyid">依身分證字號查詢</button>
           <span id="querybyid_result"></span>
@@ -416,6 +411,7 @@ function genhpwindow(){
         <div class="toolbar" style="margin-top:16px;">
           <button id="importCaseListBtn">匯入個案列表</button>
           <button id="clearCaseListBtn" class="danger">清空個案列表</button>
+          <button id="importhelistBtn">匯入整篩名冊</button>
         </div>
         <div id="caseListMessage"></div>
         <div class="table-wrap" style="margin-top:16px;">
@@ -482,6 +478,7 @@ function genhpwindow(){
   </div>
 
   <script>
+    let helist={};
     const importFields = [
       { no: 1, key: 'payment_type', label: '支付方式', type: 'singlecheck', required: true, options: [['1', '1：預防保健'], ['2', '2：健保醫療給付'], ['3', '3：其他公務預算補助'], ['4', '4：自費健康檢查'], ['9', '9：其他']], note: '長度 1' },
       { no: 2, key: 'sample_org_code', label: '採檢單位代碼', type: 'text', required: true, maxLength: 10, note: '特約醫事機構代碼' },
@@ -568,6 +565,28 @@ function genhpwindow(){
     let currentEditingCaseId = '';
     let caseList = [];
     let draftRecords = [];
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/') {
+          e.preventDefault(); // 避免輸入 /
+          fastinputhelist();
+      }
+    });
+    
+    function fastinputhelist() {
+      let keys=Object.keys(helist);
+      if (keys.length>0){
+        let heid=prompt("請輸入整篩ID末4碼")
+        if (keys.includes(heid)){
+          document.getElementById("btn_"+helist[heid]).click();
+        } else {
+          alert("請輸入正確的整篩ID末4碼")
+        }
+      } else {
+        alert("請先匯入整篩名冊")
+      }
+    }
+
 
     function renderFields(containerId, fields, prefix) {
       const root = document.getElementById(containerId);
@@ -1245,7 +1264,7 @@ function genhpwindow(){
           '<td>' + (i + 1) + '</td>' +
           '<td>' + escapeHtml(item.name) + '</td>' +
           '<td>' + escapeHtml(item.idno) + '</td>' +
-          '<td><button data-case-id="' + item.caseId + '" class="fill-questionnaire-btn">填寫問卷</button></td>' +
+          '<td><button data-case-id="' + item.caseId + '" class="fill-questionnaire-btn" id="btn_' + item.idno +'">填寫問卷</button></td>' +
           '<td class="' + (item.status === '完成' ? 'status-done' : 'status-pending') + '">' + item.status + '</td>';
         tbody.appendChild(tr);
       }
@@ -2192,6 +2211,63 @@ function genhpwindow(){
       document.getElementById('caseListMessage').innerHTML = '<div class="success">已匯入 ' + parsed.length + ' 筆個案。</div>';
     });
 
+    document.getElementById('importhelistBtn').addEventListener('click', function () {
+      let input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.xlsx,.xls';
+  
+      input.addEventListener('change', function (e) {
+          let file = e.target.files[0];
+  
+          if (!file) {
+              return;
+          }
+  
+          let reader = new FileReader();
+  
+          reader.onload = function (event) {
+              let data = new Uint8Array(event.target.result);
+              let workbook = XLSX.read(data, { type: 'array' });
+  
+              // 讀取第一個工作表
+              let firstSheetName = workbook.SheetNames[0];
+              let worksheet = workbook.Sheets[firstSheetName];
+  
+              // 轉成 JSON
+              let jsonData = XLSX.utils.sheet_to_json(worksheet, {
+                  defval: ''
+              });
+              handlehelistexcel(jsonData);
+          };
+          reader.readAsArrayBuffer(file);
+        });
+      input.click();
+    });
+
+    function handlehelistexcel(jsonData){
+      let newhelist={};
+      let newitem="";
+      try {
+        for (let i=0;i<jsonData.length;i++){
+          let row=jsonData[i];
+          let personalid=row.idno;
+          let name=row.name;
+          let heid=row.id93;
+          newhelist[heid.substring(heid.length-4,heid.length)]=personalid;
+          newitem+=name+"\t"+personalid+"\t"+heid+"\n";
+          heid.substring(heid.length-4,heid.length)
+        }
+        helist=newhelist;
+        document.getElementById("caseListPaste").value=newitem;
+        importCaseListBtn.click();
+        alert("匯入成功!\n可按下'/'後輸入整篩編號末4碼快速查詢個案")
+      } catch (e) {
+        alert("非整篩掛號檔")
+      }
+    }
+
+
+
     document.getElementById('clearCaseListBtn').addEventListener('click', function () {
       caseList = [];
       renderCaseList();
@@ -2337,17 +2413,73 @@ function genhpwindow(){
       let end_date=document.getElementById("end_date").value;
       let excelres= await fetchexcel(start_date, end_date);
       let inp="";
+      let datearray=[];
       for (let i=0;i<excelres.length;i++){
         let r=excelres[i];
+        //console.log(r)
         if (r.__EMPTY_2=="3F"){
-          inp+=r.__EMPTY_5+"\t"+r.__EMPTY_3+"\n"
+          inp+=r.__EMPTY_5+"\t"+r.__EMPTY_3+"\t"+r.__EMPTY+"\n"
+          if (!(r.__EMPTY in datearray)){
+            datearray.push(r.__EMPTY)
+          }
         }
       }
+      //console.log(datearray)
       document.getElementById("caseListPaste").value=inp;
+      //querycaselist(datearray)
       importCaseListBtn.click();
     })
-
+    function querycaselist(datearray){
+      let preresult=[];
+      let healthRecordIdarray=[];
+      let xhr = new XMLHttpRequest();
+      let apiurl="https://phpcis.chshb.gov.tw/api/v1/health_records/prescriptions/list?personalId=&period=&roomId=&prescriptionType=1&visitTypeId=&date="
+      for (let i=0;i<datearray.length;i++){
+        let url=apiurl+datearray[i];
+        xhr.open("GET", url, false);
+        xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        xhr.send();
+        let preres=JSON.parse(xhr.responseText).result;
+        for (let j=0;j<preres.length;j++){
+          let pr=preres[j];
+          if (pr.visitTypeName.includes("代謝_")){
+            preresult.push(pr);
+            healthRecordIdarray.push(pr.healthRecordId);
+          }
+        }
+      }
+      let hrres=gethealthrecord(healthRecordIdarray);
+      console.log(hrres)
+      //rendertable(preresult,hrres);
+    }
     
+
+
+    function gethealthrecord(healthRecordIdarray){
+      const baseUrl = "https://phpcis.chshb.gov.tw/api/v1/prescriptions/list_by_type";
+      const printType = "1";
+      const params = new URLSearchParams();
+      params.append("healthRecordIds", healthRecordIdarray.join(","));
+      params.append("printType", printType);
+      const url = baseUrl + "?" + params.toString();
+  
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, false);
+      xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+      xhr.send();
+      let hrres=JSON.parse(xhr.responseText).result;
+      let returnarray={};
+      for (let i=0;i<hrres.length;i++){
+        let hr=hrres[i];
+        returnarray[hr.personalId]={};
+        returnarray[hr.personalId].PE=hr.PE;
+        returnarray[hr.personalId].clinicCode=hr.clinicCode;
+        returnarray[hr.personalId].clinicName=hr.clinicName;
+      }
+      return returnarray
+    }
+
+
     async function fetchexcel(startDate, endDate) {
       let apiurl = "https://phpcis.chshb.gov.tw/api/v1/reports/tests/list?treatmentDateStart=" + startDate + "&treatmentDateEnd=" + endDate + "&personalId=&bureauRecordNo=&orderBy=1&hasTestResult=true&isExcelFile=false&applicationId=3F";
       try {
