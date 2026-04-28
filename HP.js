@@ -2335,13 +2335,14 @@ function genhpwindow(){
       const reader = new FileReader();
       reader.onload = function () {
         try {
+          console.log(reader.result)
           importDraftStorageCsv(String(reader.result || ''));
           document.getElementById('draftMessage').innerHTML = '<div class="success">已匯入暫存 CSV，資料已帶回暫存區。</div>';
         } catch (err) {
           document.getElementById('draftMessage').innerHTML = '<div class="error">匯入失敗：' + escapeHtml(err.message) + '</div>';
         }
       };
-      reader.readAsText(file, 'utf-8');
+      reader.readAsText(file, 'big5');
       event.target.value = '';
     });
 
