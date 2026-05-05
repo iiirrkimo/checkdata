@@ -419,6 +419,87 @@ function genmetawindow(){
     @media (max-width: 700px) {
       .grid-fields, .grid-basic { grid-template-columns: 1fr; }
     }
+
+    .float-table-modal {
+      position: fixed;
+      z-index: 99999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.45);
+  }
+  
+  .float-table-box {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 90%;
+      max-height: 85vh;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+  }
+  
+  .float-table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #2f5597;
+      color: white;
+      padding: 10px 14px;
+      font-size: 18px;
+      font-weight: bold;
+  }
+  
+  .float-table-header button {
+      border: none;
+      background-color: #ffffff;
+      color: #2f5597;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  
+  .float-table-content {
+      padding: 12px;
+      overflow: auto;
+      max-height: calc(85vh - 50px);
+  }
+  
+  .float-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1200px;
+      font-size: 15px;
+  }
+  
+  .float-table th,
+  .float-table td {
+      border: 1px solid #cccccc;
+      padding: 6px 8px;
+      text-align: center;
+      white-space: nowrap;
+  }
+  
+  .float-table th {
+      background-color: #e8eef8;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+  }
+  
+  .float-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+  }
+  
+  .float-table tr:hover {
+      background-color: #fff3cd;
+  }
+
+
   </style>
 </head>
 <body>
@@ -433,6 +514,7 @@ function genmetawindow(){
       <span id="querybyid_result"></span>
 
       <button id="exportXML">匯出XML</button>
+      <button id="possiblelist">成健可能名單</button>
     </div>
     <div class="resultarea">
       <table class="querytable" id="querytable">
@@ -701,7 +783,243 @@ function genmetawindow(){
         exportXML();
       });
 
+      document.getElementById("possiblelist").addEventListener("click", async function () {
+        await possiblelist();
+      });
+      
+
     };
+    async function possiblelist(){
+      let content = await selectTxtFile();
+      let A_content=content.split('\n');
+      let posslist=[];
+      for (let i=0;i<A_content.length;i++){
+        let c=A_content[i];
+        let age=new Date().getFullYear()-1911-(c.substring(11,14)*1);
+        let gender=c.substring(10,11);
+        let personid=c.substring(0,10);
+        let name=c.substring(165,c.length-51).trim();
+        let vd=c.substring(52,52+7).trim();
+        let s=86;
+        let ht=c.substring(s,s+=3)*1;
+        let wt=c.substring(s,s+=3)*1;
+        let sbp=c.substring(s,s+=3)*1;
+        let dbp=c.substring(s,s+=3)*1;
+        let wl=c.substring(s,s+=4)*1;
+        let bmi=c.substring(s,s+=5)*1;
+        let up=c.substring(s,s+=4)*1;
+        let ac=c.substring(s,s+=3)*1;
+        let tc=c.substring(s,s+=3)*1;
+        let tg=c.substring(s,s+=4)*1;
+        let ldl=c.substring(s,s+=4)*1;
+        let hdl=c.substring(s,s+=4)*1;
+        if (age>=20 && age<=70){
+          let metac=0;
+          if (gender=="1"){
+            if (wl>=90){
+              metac+=1;
+            }
+            if (hdl<40){
+              metac+=1;
+            }
+          } else {
+            if (wl>=80){
+              metac+=1;
+            }
+            if (hdl<50){
+              metac+=1;
+            }
+          }
+          if (sbp>=130 || dbp>=85){
+            metac+=1;
+          }
+          if (tg>=150){
+            metac+=1;
+          }
+          if (ac>=100){
+            metac+=1;
+          }
+          if (metac>=3){
+            posslist.push({personid,name,age,gender:gender=="1"?"男":"女",vd,bp:sbp+"/"+dbp,wl,ac,tg,hdl})
+          }
+        }
+      }
+      console.log(posslist);
+      showFloatTable(posslist)
+    }
+
+    function showFloatTable(arr) {
+      if (!Array.isArray(arr)) {
+          console.error("傳入資料不是陣列");
+          return;
+      }
+  
+      if (arr.length === 0) {
+          console.error("陣列沒有資料");
+          return;
+      }
+  
+      // 如果已經存在舊的浮動表格，先移除
+      let oldModal = document.getElementById("floatTableModal");
+      if (oldModal) {
+          oldModal.remove();
+      }
+  
+      // 建立 modal 外層
+      let modal = document.createElement("div");
+      modal.id = "floatTableModal";
+      modal.className = "float-table-modal";
+  
+      // 建立浮動視窗
+      let box = document.createElement("div");
+      box.className = "float-table-box";
+  
+      // 建立標題列
+      let header = document.createElement("div");
+      header.className = "float-table-header";
+  
+      let title = document.createElement("span");
+      title.textContent = "資料列表";
+  
+      let closeBtn = document.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.textContent = "關閉";
+      closeBtn.onclick = function () {
+          modal.remove();
+      };
+  
+      header.appendChild(title);
+      header.appendChild(closeBtn);
+  
+      // 建立內容區
+      let content = document.createElement("div");
+      content.className = "float-table-content";
+  
+      // 建立表格
+      let table = document.createElement("table");
+      table.className = "float-table";
+  
+      let thead = document.createElement("thead");
+      let tbody = document.createElement("tbody");
+  
+      let keys = Object.keys(arr[0]);
+  
+      // 建立表頭
+      let headerTr = document.createElement("tr");
+      let titlelist={
+        personid:"身份證字號",
+        name	:"姓名",
+        age	:"年齡",
+        gender	:"性別",
+        vd	:"檢查日",
+        bp	:"血壓",
+        wl	:"腰圍",
+        ac	:"空腹血糖",
+        tg	:"三酸甘油脂",
+        hdl:"高密度膽固醇",
+      }
+
+      for (let i = 0; i < keys.length; i++) {
+          let th = document.createElement("th");
+          th.textContent = titlelist[keys[i]];
+          headerTr.appendChild(th);
+      }
+  
+      thead.appendChild(headerTr);
+  
+      // 建立資料列
+      for (let i = 0; i < arr.length; i++) {
+          let tr = document.createElement("tr");
+          let gender=arr[i]["gender"];
+          for (let j = 0; j < keys.length; j++) {
+              let key = keys[j];
+              let td = document.createElement("td");
+              let value = arr[i][key];
+  
+              if (value === null || value === undefined) {
+                  td.textContent = "";
+              } else {
+                  td.textContent = value;
+              }
+              let abnormal=false;
+              if (key=="ac" && value>=100){
+                  abnormal=true;
+              } else if (key=="tg" && value>=150){
+                abnormal=true;
+              } else if (key=="bp"){
+                let sbp=value.split("/")[0]*1;
+                let dbp=value.split("/")[1]*1;
+                
+                if (sbp>=130 || dbp>=85){
+                  abnormal=true;
+                }
+              } else if (key=="wl" && value>=90 && gender=="男"){
+                abnormal=true;
+              } else if (key=="wl" && value>=80 && gender=="女"){
+                abnormal=true;
+              } else if (key=="hdl" && value<40 && gender=="男"){
+                abnormal=true;
+              } else if (key=="hdl" && value<50 && gender=="女"){
+                abnormal=true;
+              }
+              if (abnormal){
+                td.style.color="red";
+              }  
+              tr.appendChild(td);
+          }
+  
+          tbody.appendChild(tr);
+      }
+  
+      table.appendChild(thead);
+      table.appendChild(tbody);
+  
+      content.appendChild(table);
+  
+      box.appendChild(header);
+      box.appendChild(content);
+  
+      modal.appendChild(box);
+  
+      document.body.appendChild(modal);
+  }
+
+
+
+    
+    function selectTxtFile() {
+      return new Promise(function (resolve, reject) {
+          let input = document.createElement("input");
+          input.type = "file";
+          input.accept = ".txt,.csv,.json,.xml";
+
+          input.onchange = async function () {
+              let file = input.files[0];
+
+              if (!file) {
+                  resolve(null);
+                  return;
+              }
+
+              try {
+                 
+                  let reader = new FileReader();
+
+                  reader.onload = function (e) {
+                    resolve(e.target.result);
+                  };
+          
+                  reader.readAsText(file, "big5");
+              } catch (err) {
+                  reject(err);
+              }
+          };
+
+          input.click();
+      });
+    }
+
+
     function exportXML(){
       if (confirm("依照查詢日期範圍產出XML，是否確定")){
         let start_date=document.getElementById("start_date").value;
@@ -756,7 +1074,7 @@ function genmetawindow(){
         console.log(xml)
         let upy=start_date.split("-")[0]-1911;
         let upm=start_date.split("-")[1];
-        let num=prompt("流水號")
+        let num=prompt("流水號，3碼數字")
         let filename="HU"+prexmlarray[0].clinicCode+upy+upm+num+".XML";
         let xmlString = transfertoxml(xml);
         downloadHuXmlBig5(xmlString, filename)
