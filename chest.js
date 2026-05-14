@@ -2047,16 +2047,16 @@ function createchest(){
 					let m_L_CN=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(17) > input[type=checkbox]:nth-child(2)");
 					let m_L_CP=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(17) > input[type=checkbox]:nth-child(3)");
 					let m_L_NC=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(17) > input[type=checkbox]:nth-child(4)");
-					let m_S_smoke=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(1)");
-					let m_S_dring=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(2)");
-					let m_S_betel=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(3)");
-					let m_S_exer=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(4)");
-					let m_S_ckd=document.querySelector("#healthRenalLiteracyEducation");
-					let m_S_bw=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3) > input[type=checkbox]:nth-child(2)");
-					let m_S_diet=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3) > input[type=checkbox]:nth-child(3)");
-					let m_S_tra=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3) > input[type=checkbox]:nth-child(4)");
-					let m_S_oral=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(4) > input[type=checkbox]:nth-child(1)");
-					let m_S_risk=document.querySelector("#healthRiskAssessment");
+					let m_S_smoke=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[0];
+					let m_S_dring=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[1];
+					let m_S_betel=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[2];
+					let m_S_exer=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[3];
+					let m_S_ckd=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[0];
+					let m_S_bw=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[1];
+					let m_S_diet=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[2];
+					let m_S_tra=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[3];
+					let m_S_oral=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(4)").querySelectorAll("input")[0];
+					let m_S_risk=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(4)").querySelectorAll("input")[1];
 					let m_S_BN=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(15) > input[type=checkbox]:nth-child(1)");
 					let m_S_BP=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(15) > input[type=checkbox]:nth-child(2)");
 					let m_S_NB=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(15) > input[type=checkbox]:nth-child(3)");
@@ -2219,16 +2219,16 @@ function createchest(){
 					L_CN=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(17) > input[type=checkbox]:nth-child(2)").checked;
 					L_CP=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(17) > input[type=checkbox]:nth-child(3)").checked;
 					L_NC=document.querySelector("#uncontrolled-tab-example-tabpane-tab3 > div:nth-child(17) > input[type=checkbox]:nth-child(4)").checked;
-					S_smoke=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(1)").checked;
-					S_dring=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(2)").checked;
-					S_betel=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(3)").checked;
-					S_exer=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2) > input[type=checkbox]:nth-child(4)").checked;
-					S_ckd=document.querySelector("#healthRenalLiteracyEducation").checked;
-					S_bw=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3) > input[type=checkbox]:nth-child(1)").checked;
-					S_diet=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3) > input[type=checkbox]:nth-child(2)").checked;
-					S_tra=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3) > input[type=checkbox]:nth-child(3)").checked;
-					S_oral=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3) > input[type=checkbox]:nth-child(4)").checked;
-					S_risk=document.querySelector("#healthRiskAssessment").checked;
+					S_smoke=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[0].checked;
+					S_dring=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[1].checked;
+					S_betel=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[2].checked;
+					S_exer=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(2)").querySelectorAll("input")[3].checked;
+					S_ckd=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[0].checked;
+					S_bw=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[1].checked;
+					S_diet=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[2].checked;
+					S_tra=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(3)").querySelectorAll("input")[3].checked;
+					S_oral=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(4)").querySelectorAll("input")[0].checked;
+					S_risk=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(4)").querySelectorAll("input")[1].checked;
 					S_BN=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(15) > input[type=checkbox]:nth-child(1)").checked;
 					S_BP=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(15) > input[type=checkbox]:nth-child(2)").checked;
 					S_NB=document.querySelector("#uncontrolled-tab-example-tabpane-tab4 > div:nth-child(15) > input[type=checkbox]:nth-child(3)").checked;
@@ -12640,6 +12640,7 @@ function heprintbutton_handle(){
 	if (cont){
 		let bbb=JSON.stringify(aaa);
 		showbbb(bbb);
+        document.querySelector("body > div.fade.modal.show > div > div > div.modal-body > div > div:nth-child(1) > div > button.btn.btn-primary").click();
 	}
 }
 function showbbb(str){
