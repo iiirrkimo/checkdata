@@ -2949,7 +2949,8 @@ function createchest(){
                     "TC":["21016","22016","25016","27016","09001C","21+L1001C006","3D016"],
                     "TG":["21017","22017","25017","27017","09004C","21+L1001C007","3D017"],
                     "HDL":["21019","22019","25019","27019","09043C","21+L1001C008","3D019"],
-                    "LDL":["21018","22018","25018","27018","09044C","3D018"],
+                    "LDLC":["21018","22018","25018","27018","3D018"],
+                    "LDL":["09044C"],
                     "Cre":["21013","22013","25013","27013","09015C","21+L1001C011","3D013","06chs001"],
                     "eGFR":["21034","22034","25034","27034","Y00001","21+L1001C013","3D034","Y00001002"],
                     "UP":["21024","22024","25024","27024","06003C","06012C004","06013C002","09040C002","21+L1001C012","3D024"],
@@ -2973,8 +2974,8 @@ function createchest(){
                 document.getElementById('basicbirth').textContent=inputobj.basic.birthday+"("+age+"歲)";;
                 document.getElementById('basicid').textContent=inputobj.basic.personalId;
                 let allist=[];
-                for (let i=0;i<Object.keys(allist).length;i++){
-                    let item=allist[Object.keys(allist)[i]];
+                for (let i=0;i<Object.keys(clist).length;i++){
+                    let item=clist[Object.keys(clist)[i]];
                     for (j=0;j<item.length;j++){
                         allist.push(item[j]);
                     }
@@ -3046,7 +3047,7 @@ function createchest(){
                         const allRows = document.querySelectorAll("tr");
                         allRows.forEach(row => row.classList.remove("highlight"));
                         this.classList.add("highlight");
-                        todetail(examdate,examarray,gend)
+                        todetail(examdate,examarray,gend,inputobj.basic.birthday)
                     });
                     newrow.addEventListener("dblclick", function () {
                         let row=i+1;
@@ -3100,8 +3101,11 @@ function createchest(){
                             if (clist.LDL.includes(testcode)){
                                 showrow.LDL=Math.round(testResult);
                             }
+                            if (clist.LDLC.includes(testcode)){
+                                showrow.LDLC=Math.round(testResult);
+                            }
                             if (clist.Cre.includes(testcode)){
-                                showrow.Cre=Math.round(testResult*10)/10;
+                                showrow.Cre=Math.round(testResult*100)/100;
                             }
                             if (clist.eGFR.includes(testcode)){
                                 showrow.eGFR=Math.round(testResult*100)/100;
@@ -3166,10 +3170,16 @@ function createchest(){
                     temp.textContent=showrow.HDL;
                     newrow.appendChild(temp);
                     temp=document.createElement('td');
-                    if (Number.isNaN(showrow.LDL)){
-                        showrow.LDL="";
+                    let fLDL="";
+                    if (showrow.LDL){
+                        fLDL=showrow.LDL;
+                    } else if (showrow.LDLC){
+                        fLDL=showrow.LDLC;                        
                     }
-                    temp.textContent=showrow.LDL;
+
+
+                    temp.textContent=fLDL;
+                    console.log(fLDL);
                     newrow.appendChild(temp);
                     temp=document.createElement('td');
                     if (Number.isNaN(showrow.Cre)){
@@ -3259,7 +3269,7 @@ function createchest(){
                     
                 }
             }
-            function todetail(examdate,inputexamarray,gend){
+            function todetail(examdate,inputexamarray,gend,birthday){
                 let examlist={
                     "66": {
                         "code": "66",
@@ -6444,7 +6454,7 @@ function createchest(){
                     },
                     "09044C": {
                         "code": "09044C",
-                        "name_cht": "低密度脂蛋白－膽固醇",
+                        "name_cht": "低密度脂蛋白－膽固醇(檢驗)",
                         "name_eng": "LDL-C(Lowdensity lipoprotein cholesterol)",
                         "unit": "mg/dL",
                         "ref": "<130",
@@ -8533,7 +8543,6 @@ function createchest(){
                     for (let j=0;j<ipa.length;j++){
                         let examitem=ipa[j];
                         if (examitem.testCode in examlist){
-                            console.log(examlist[examitem.testCode])
                             examitem.index=examlist[examitem.testCode].index;
                         }
                         examarray.push(examitem);
@@ -8542,6 +8551,7 @@ function createchest(){
                 examarray.sort(function (a, b) {
                     return a.index - b.index;
                 });
+                console.log(examarray);
                 document.getElementById('detailarea').style.display="block";
                 document.getElementById('detailname').textContent=document.getElementById('basicname').textContent;
                 document.getElementById('detailbirth').textContent=document.getElementById('basicbirth').textContent;
@@ -8549,9 +8559,28 @@ function createchest(){
                 document.getElementById('detailtitle').textContent="衛生所檢驗報告("+examdate+")";
                 let detailtable=document.getElementById("detailtable");
                 detailtable.innerHTML="<tr><td>中文</td><td>英文</td><td>結果</td><td>單位</td><td>參考值</td></tr>";
+                let incarray={
+                    "GOT":["21014","22014","25014","27014","09025C","21+L1001C009","3D014"],
+                    "GPT":["21015","22015","25015","27015","09026C","21+L1001C010","3D015"],
+                    "PLT":["08006C","08011C008"]
+                }
+                let age=examdate.split("-")[0]-birthday.split("-")[0];
+                let hasgot=false;
+                let hasgpt=false;
+                let hasplt=false;
+
                 for (let i=0;i<examarray.length;i++){
                     let examitem=examarray[i];
                     let testCode=examitem.testCode;
+                    if (incarray["GOT"].includes(testCode)){
+                        hasgot=examitem.testResult;
+                    }
+                    if (incarray["GPT"].includes(testCode)){
+                        hasgpt=examitem.testResult;
+                    }
+                    if (incarray["PLT"].includes(testCode)){
+                        hasplt=examitem.testResult;
+                    }
                     let td1=examitem.testName;
                     let td2="N/A";
                     let td3=examitem.testResult;
@@ -8604,7 +8633,68 @@ function createchest(){
                     td=document.createElement('td');
                     td.textContent=td5;
                     newrow.appendChild(td);
+                    if (testCode=="09139C"){
+                        let cnr=document.createElement('tr');
+                        detailtable.appendChild(cnr);
+                        let ctd1="醣化血紅素(計算值)";
+                        let ctd2="eHbA1c(calculated)";
+                        let ctd3=Math.round((0.216*examitem.testResult+2.978)*10)/10;
+                        let ctd3ex="";
+                        if (ctd3>5.6){
+                            ctd3ex="　(↑)"
+                        }
+                        let ctd4="%";
+                        let ctd5="<5.7";
+                        let car=[ctd1,ctd2,ctd3,ctd4,ctd5]
+                        for (let k=0;k<car.length;k++){
+                            let ct=car[k];
+                            let ctd=document.createElement('td');
+                            ctd.textContent=ct;
+                            if (k==2){
+                                ctd.textContent=ct+ctd3ex;
+                                if (ctd3ex=="　(↑)" || ctd3ex=="　(＊)"){
+                                    ctd.style.color="red"
+                                } else if (td3ex=="　(↓)"){
+                                    ctd.style.color="blue"
+                                }
+                            }
 
+                            cnr.appendChild(ctd);
+
+                        }
+                    }
+                    if (hasgot && hasgpt && hasplt){
+                        let cnr=document.createElement('tr');
+                        detailtable.appendChild(cnr);
+                        let ctd1="肝纖維化指數(計算值)";
+                        let ctd2="Fibrosis-4 Index ";
+                        let ctd3=Math.round(((age*hasgot)/(hasplt*(hasgpt**0.5)))*100)/100;
+                        let ctd3ex="";
+                        if (ctd3>2.67){
+                            ctd3ex="　(↑↑)"
+                        } else if (ctd3>1.3){
+                            ctd3ex="　(↑)"
+                        }
+                        let ctd4="N/A";
+                        let ctd5="<1.3:低風險；1.3-2.67:中風險；>2.67:高風險";
+                        let car=[ctd1,ctd2,ctd3,ctd4,ctd5]
+                        for (let k=0;k<car.length;k++){
+                            let ct=car[k];
+                            let ctd=document.createElement('td');
+                            ctd.textContent=ct;
+                            if (k==2){
+                                ctd.textContent=ct+ctd3ex;
+                                if (ctd3ex=="　(↑)" || td3ex=="　(↑↑)"){
+                                    ctd.style.color="red"
+                                } else if (td3ex=="　(↓)"){
+                                    ctd.style.color="blue"
+                                }
+                            }
+
+                            cnr.appendChild(ctd);
+
+                        }
+                    }
                     
                 }
 				removeDuplicatesByColumn(0);
