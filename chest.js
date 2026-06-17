@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150416';
+chestversion='1150617';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -52,6 +52,7 @@ if (confirm('是否隱藏預防接種作業?')){
 */
 document.querySelector('a[href="/niisVaccination"]').hidden=true;;
 // 監控 body 內 iframe 的新增
+/*
 const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
@@ -87,6 +88,42 @@ const observer = new MutationObserver((mutations) => {
 
 // 啟動監控，監控 body 的直接子節點變化
 observer.observe(document.body, { childList: true, subtree: true });
+*/
+
+thefind=false;
+const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            const ht=document.querySelector("#root > div.wrapper > main > div > div:nth-child(11) > div > div > div:nth-child(2) > div > table");
+            if (ht) {
+                let btnarea = document.querySelector("#root > div.wrapper > main > div > div.modal-dialog.modal-xl.historyPrescription.react-draggable.react-draggable-dragged > div > div > form > div:nth-child(3) > div.col-md-5")
+
+                if (btnarea && !document.querySelector("#used-drug-btn")) {
+                    let btn = document.createElement("button");
+
+                    btn.id = "used-drug-btn";
+                    btn.type = "button";   // 很重要，避免 form submit
+                    btn.className = "commonBtn btn btn-success";
+                    btn.textContent = "用藥紀錄彙總";
+
+                    btn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        gendrugwin();
+                    });
+
+                    btnarea.appendChild(btn);
+                }
+            } else {
+                thefind=false;
+            } 
+        }
+    }
+});
+const config = { childList: true, subtree: true };
+observer.observe(document.body, config);
+
 
 
 //WSS
@@ -147,7 +184,1015 @@ socket.onmessage = (event) => {
 };
 
 
+function gendrugwin(){
+    function getdrughistory(personalid){
+        let newbas=idtoinfoid(personalid);
+        if (!newbas){
+            alert("查無病歷資料，請確認身分證字號是否正確。");
+            return
+        }
+        let personalInfoId=newbas.personalInfoId;
+        let name=newbas.name;
+        let url="https://phpcis.chshb.gov.tw/api/v1/health_records/list?clinicId=4&personalInfoId=" + personalInfoId + "&startAt=&endAt=";
+        let res = httpGet(url);
+        let historyjson = JSON.parse(res);
+        showuseddrug(historyjson,name)
+    }
+    function httpGet(Url) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", Url, false );
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    function idtoinfoid(personalId){
+        let url = 'https://phpcis.chshb.gov.tw/api/v1/personal_infos/list_with_registration?search=true&personalId='+personalId;
+        let res = httpGet(url);
+        let jres = JSON.parse(res);
+        if (jres.result.length>0){
+            return jres.result[0]
+        } else {
+            return false
+        }
+    }
+    function addDays(dateString, days) {
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + days);
 
+    return date.toISOString().split("T")[0];
+    }
+    function showuseddrug(historyjson, name){
+        let drugidarray=[];
+        let drugdetailobj={};
+        let recs=historyjson.result;
+        for (let i=0;i<recs.length;i++){
+            let rec=recs[i];
+            let pres=rec.prescriptions;
+            for (let j=0;j<pres.length;j++){
+                let pre=pres[j];
+                if (pre.prescriptionModel=="Drug"){
+                    let drugid=pre.prescriptionId;
+                    let drugstartdate=rec.treatmentDate;
+                    let drugname=pre.prescriptionName;
+                    let mainIngredient=pre.mainIngredient;
+                    let qty=pre.qty;
+                    let dosageUnit=pre.dosageUnit;
+                    let drugUsageCode=pre.drugUsageCode;
+                    let drugRouteCode=pre.drugRouteCode;
+                    let day=pre.day;
+                    let isChronicPrescription=pre.isChronicPrescription;
+                    let chronicPrescriptionDays=rec.chronicPrescriptionDays;
+                    let drugenddate=addDays(drugstartdate,day);
+                    let atcCode=pre.atcCode;
+                    if (chronicPrescriptionDays && isChronicPrescription){
+                        drugenddate=addDays(drugstartdate,chronicPrescriptionDays);
+                    }
+
+                    if (!drugidarray.includes(drugid)){
+                        drugidarray.push(drugid);
+                    }
+                    let tempobj={};
+                    if (!drugdetailobj[drugid]) {
+                        drugdetailobj[drugid] = [];
+                    }
+                    tempobj["drugstartdate"]=drugstartdate;
+                    tempobj["drugenddate"]=drugenddate;
+                    tempobj["drugname"]=drugname;
+                    tempobj["mainIngredient"]=mainIngredient;
+                    tempobj["drugUsageCode"]=drugUsageCode;
+                    tempobj["drugRouteCode"]=drugRouteCode;
+                    tempobj["qty"]=qty;
+                    tempobj["dosageUnit"]=dosageUnit;
+                    tempobj["day"]=day;
+                    tempobj["isChronicPrescription"]=isChronicPrescription;
+                    tempobj["chronicPrescriptionDays"]=chronicPrescriptionDays;
+                    tempobj["atcCode"]=atcCode;
+
+                    drugdetailobj[drugid].push(tempobj);
+                }
+            }
+        }
+        console.log(drugidarray)
+        console.log(drugdetailobj)
+        gendrugtable(drugidarray, drugdetailobj,name)
+        return;
+    }
+    function gendrugtable(drugidarray, drugdetailobj, name) {
+    function escapeScriptJson(obj) {
+        return JSON.stringify(obj)
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026")
+            .replace(/\u2028/g, "\\u2028")
+            .replace(/\u2029/g, "\\u2029");
+    }
+
+    const html = `
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>${name}用藥紀錄彙總</title>
+<style>
+    body {
+        font-family: Arial, "Microsoft JhengHei", sans-serif;
+        margin: 0;
+        padding: 16px;
+        background: #f5f5f5;
+        color: #111;
+    }
+
+    h2 {
+        margin: 0 0 12px 0;
+    }
+
+    .layout {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .filter-panel {
+        width: 320px;
+        max-height: 84vh;
+        overflow: auto;
+        background: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-sizing: border-box;
+        flex: 0 0 auto;
+    }
+
+    .filter-panel-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 15px;
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+    }
+
+    .filter-actions button {
+        border: 1px solid #aaa;
+        background: white;
+        border-radius: 4px;
+        padding: 4px 8px;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .filter-actions button:hover {
+        background: #f0f0f0;
+    }
+
+    .filter-count {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .atc-group {
+        border: 1px solid #ddd;
+        margin-bottom: 8px;
+        background: #fafafa;
+    }
+
+    .atc-group-head {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px;
+        background: #eeeeee;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+        user-select: none;
+    }
+
+    .atc-group-head input {
+        flex: 0 0 auto;
+    }
+
+    .atc-group-title {
+        flex: 1 1 auto;
+        word-break: break-word;
+    }
+
+    .atc-group-count {
+        color: #666;
+        font-size: 12px;
+        font-weight: normal;
+        flex: 0 0 auto;
+    }
+
+    .atc-drug-list {
+        padding: 4px 6px 6px 6px;
+    }
+
+    .drug-check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        font-size: 13px;
+        line-height: 1.35;
+        padding: 4px 0;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+        user-select: none;
+    }
+
+    .drug-check-item:last-child {
+        border-bottom: none;
+    }
+
+    .drug-check-item input {
+        margin-top: 2px;
+        flex: 0 0 auto;
+    }
+
+    .drug-name-line {
+        display: block;
+        word-break: break-word;
+    }
+
+    .drug-atc-line {
+        display: block;
+        color: #777;
+        font-size: 11px;
+        margin-top: 1px;
+    }
+
+    .main-panel {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .legend {
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+
+    .legend span {
+        display: inline-block;
+        margin-right: 14px;
+    }
+
+    .legend i {
+        display: inline-block;
+        width: 16px;
+        height: 10px;
+        border-radius: 3px;
+        margin-right: 4px;
+        vertical-align: middle;
+    }
+
+    .normal-color { background: #4f8cff; }
+    .chronic-color { background: #2f9e44; }
+    .stat-color { background: #f08c00; }
+
+    .table-wrap {
+        border: 1px solid #ccc;
+        background: white;
+        overflow: auto;
+        max-height: 84vh;
+    }
+
+    table {
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    th {
+        background: #eeeeee;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        height: 36px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    th.drug-name-head {
+        left: 0;
+        z-index: 20;
+    }
+
+    th.month-cell {
+        width: 110px;
+        min-width: 110px;
+        max-width: 110px;
+    }
+
+    td.drug-name {
+        position: sticky;
+        left: 0;
+        z-index: 10;
+        background: white;
+        padding: 6px 8px;
+        font-size: 13px;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+
+    .table-drug-label {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .table-drug-label input {
+        margin-top: 2px;
+        flex: 0 0 auto;
+        cursor: pointer;
+    }
+
+    .table-drug-info {
+        flex: 1 1 auto;
+    }
+
+    .table-drug-name {
+        display: block;
+    }
+
+    .table-atc-code {
+        display: block;
+        margin-top: 2px;
+        color: #777;
+        font-size: 11px;
+    }
+
+    tr.drug-row {
+        height: 46px;
+    }
+
+    td.timeline-td {
+        padding: 0;
+        height: 46px;
+    }
+
+    .timeline {
+        position: relative;
+        height: 46px;
+        overflow: visible;
+        background-image:
+            linear-gradient(to right, rgba(0,0,0,0.14) 1px, transparent 1px),
+            linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px);
+        background-size:
+            110px 100%,
+            11px 100%;
+    }
+
+    .bar {
+        position: absolute;
+        top: 10px;
+        height: 24px;
+        line-height: 24px;
+        color: white;
+        border-radius: 5px;
+        font-size: 12px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        box-sizing: border-box;
+        padding: 0 6px;
+        cursor: pointer;
+        opacity: 0.95;
+        transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease,
+            filter 0.15s ease,
+            opacity 0.15s ease;
+    }
+
+    .bar-normal {
+        background: #4f8cff;
+    }
+
+    .bar-chronic {
+        background: #2f9e44;
+    }
+
+    .bar-stat {
+        background: #f08c00;
+    }
+
+    .bar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.28);
+        filter: brightness(1.08);
+        opacity: 1;
+        z-index: 50;
+        outline: 2px solid rgba(255,255,255,0.95);
+    }
+
+    .bar.short {
+        min-width: 14px;
+    }
+
+    .empty-message {
+        padding: 24px;
+        color: #666;
+        background: white;
+        border: 1px solid #ccc;
+    }
+
+    .tooltip {
+        position: fixed;
+        display: none;
+        z-index: 99999;
+        max-width: 380px;
+        background: #fff;
+        border: 1px solid #333;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        padding: 8px 10px;
+        font-size: 13px;
+        line-height: 1.45;
+        white-space: pre-line;
+        pointer-events: none;
+    }
+</style>
+</head>
+<body>
+<h2>${name}用藥紀錄彙總</h2>
+
+<div class="layout">
+    <div class="filter-panel">
+        <div class="filter-panel-title">藥品篩選</div>
+
+        <div class="filter-actions">
+            <button type="button" id="check-all">全部顯示</button>
+            <button type="button" id="uncheck-all">全部隱藏</button>
+        </div>
+
+        <div class="filter-count" id="filter-count"></div>
+        <div id="filter-list"></div>
+    </div>
+
+    <div class="main-panel">
+        <div class="legend">
+            <span><i class="normal-color"></i>一般用藥</span>
+            <span><i class="chronic-color"></i>慢箋 / 長期用藥</span>
+            <span><i class="stat-color"></i>STAT / 疫苗 / 單次用藥</span>
+        </div>
+
+        <div id="table-area"></div>
+    </div>
+</div>
+
+<div id="drug-tooltip" class="tooltip"></div>
+
+<script>
+const drugidarray = ${escapeScriptJson(drugidarray)};
+const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
+
+(function () {
+    const DAY_MS = 24 * 60 * 60 * 1000;
+
+    const monthWidth = 110;
+    const drugNameWidth = 280;
+    const ATC_GROUP_LEVEL = 3;
+
+    const filterList = document.getElementById("filter-list");
+    const filterCount = document.getElementById("filter-count");
+    const tableArea = document.getElementById("table-area");
+    const checkAllBtn = document.getElementById("check-all");
+    const uncheckAllBtn = document.getElementById("uncheck-all");
+    const tooltip = document.getElementById("drug-tooltip");
+
+    function parseDate(dateStr) {
+        const parts = String(dateStr).split("-").map(Number);
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function formatMonth(date) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        return y + "-" + m;
+    }
+
+    function escapeHtml(str) {
+        return String(str ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function daysBetween(start, end) {
+        return Math.round((end - start) / DAY_MS);
+    }
+
+    function getMonthStart(date) {
+        return new Date(date.getFullYear(), date.getMonth(), 1);
+    }
+
+    function getNextMonthStart(date) {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    }
+
+    function addMonths(date, months) {
+        return new Date(date.getFullYear(), date.getMonth() + months, 1);
+    }
+
+    function getRecordsByDrugId(drugid) {
+        return drugdetailobj[String(drugid)] || drugdetailobj[drugid] || [];
+    }
+
+    const selectableDrugIds = drugidarray
+        .map(String)
+        .filter(function (drugid) {
+            return getRecordsByDrugId(drugid).length > 0;
+        });
+
+    const selectedDrugIds = new Set(selectableDrugIds);
+
+    function getDrugName(drugid) {
+        const records = getRecordsByDrugId(drugid);
+
+        if (!records.length) {
+            return "ID: " + drugid;
+        }
+
+        return records[0].drugname || "ID: " + drugid;
+    }
+
+    function getDrugAtcCode(drugid) {
+        const records = getRecordsByDrugId(drugid);
+
+        for (const rec of records) {
+            const code = String(rec.atcCode ?? "").trim();
+
+            if (code) {
+                return code;
+            }
+        }
+
+        return "";
+    }
+
+    function getAtcGroupKey(atcCode, level) {
+        const code = String(atcCode ?? "").trim();
+
+        if (!code) {
+            return "未分類";
+        }
+
+        return code.slice(0, Math.min(level, code.length));
+    }
+
+    function buildAtcGroups(level) {
+        const groups = new Map();
+
+        for (const drugid of selectableDrugIds) {
+            const atcCode = getDrugAtcCode(drugid);
+            const groupKey = getAtcGroupKey(atcCode, level);
+
+            if (!groups.has(groupKey)) {
+                groups.set(groupKey, []);
+            }
+
+            groups.get(groupKey).push({
+                drugid: drugid,
+                drugname: getDrugName(drugid),
+                atcCode: atcCode
+            });
+        }
+
+        return Array.from(groups.entries())
+            .map(function ([groupKey, drugs]) {
+                drugs.sort(function (a, b) {
+                    return a.drugname.localeCompare(b.drugname);
+                });
+
+                return {
+                    groupKey: groupKey,
+                    drugs: drugs
+                };
+            })
+            .sort(function (a, b) {
+                if (a.groupKey === "未分類") return 1;
+                if (b.groupKey === "未分類") return -1;
+                return a.groupKey.localeCompare(b.groupKey);
+            });
+    }
+
+    function getVisibleDrugIds() {
+        return drugidarray
+            .map(String)
+            .filter(function (drugid) {
+                return selectedDrugIds.has(drugid) && getRecordsByDrugId(drugid).length > 0;
+            });
+    }
+
+    function getVisibleRecords() {
+        const result = [];
+
+        for (const drugid of getVisibleDrugIds()) {
+            const records = getRecordsByDrugId(drugid);
+
+            for (let i = 0; i < records.length; i++) {
+                const rec = records[i];
+
+                if (!rec.drugstartdate || !rec.drugenddate) {
+                    continue;
+                }
+
+                const start = parseDate(rec.drugstartdate);
+                const end = parseDate(rec.drugenddate);
+
+                if (isNaN(start) || isNaN(end)) {
+                    continue;
+                }
+
+                result.push({
+                    drugid: drugid,
+                    recIndex: i,
+                    rec: rec,
+                    start: start,
+                    end: end
+                });
+            }
+        }
+
+        return result;
+    }
+
+    function updateFilterCount() {
+        const total = selectableDrugIds.length;
+        const visible = getVisibleDrugIds().length;
+
+        filterCount.textContent = "目前顯示 " + visible + " / " + total + " 項藥品";
+    }
+
+    function renderFilterList() {
+        const groups = buildAtcGroups(ATC_GROUP_LEVEL);
+        let html = "";
+
+        for (const group of groups) {
+            const groupKey = group.groupKey;
+            const drugs = group.drugs;
+
+            const total = drugs.length;
+            const checkedCount = drugs.filter(function (d) {
+                return selectedDrugIds.has(String(d.drugid));
+            }).length;
+
+            const groupChecked = checkedCount === total ? "checked" : "";
+            const indeterminateFlag = checkedCount > 0 && checkedCount < total ? "1" : "0";
+
+            html += ""
+                + "<div class=\\"atc-group\\">"
+                + "    <label class=\\"atc-group-head\\">"
+                + "        <input"
+                + "            type=\\"checkbox\\""
+                + "            class=\\"atc-group-check\\""
+                + "            data-atc-group=\\"" + escapeHtml(groupKey) + "\\""
+                + "            data-indeterminate=\\"" + indeterminateFlag + "\\""
+                + "            " + groupChecked
+                + "        >"
+                + "        <span class=\\"atc-group-title\\">" + escapeHtml(groupKey) + "</span>"
+                + "        <span class=\\"atc-group-count\\">" + checkedCount + " / " + total + "</span>"
+                + "    </label>"
+                + "    <div class=\\"atc-drug-list\\">";
+
+            for (const drug of drugs) {
+                const checked = selectedDrugIds.has(String(drug.drugid)) ? "checked" : "";
+                const atcText = drug.atcCode ? drug.atcCode : "無 ATC";
+
+                html += ""
+                    + "<label class=\\"drug-check-item\\">"
+                    + "    <input"
+                    + "        type=\\"checkbox\\""
+                    + "        class=\\"drug-check\\""
+                    + "        value=\\"" + escapeHtml(drug.drugid) + "\\""
+                    + "        data-atc-group=\\"" + escapeHtml(groupKey) + "\\""
+                    + "        " + checked
+                    + "    >"
+                    + "    <span>"
+                    + "        <span class=\\"drug-name-line\\">" + escapeHtml(drug.drugname) + "</span>"
+                    + "        <span class=\\"drug-atc-line\\">" + escapeHtml(atcText) + "</span>"
+                    + "    </span>"
+                    + "</label>";
+            }
+
+            html += ""
+                + "    </div>"
+                + "</div>";
+        }
+
+        filterList.innerHTML = html;
+
+        document.querySelectorAll(".atc-group-check").forEach(function (input) {
+            if (input.dataset.indeterminate === "1") {
+                input.indeterminate = true;
+            }
+
+            input.addEventListener("change", function () {
+                const groupKey = this.dataset.atcGroup;
+                const checked = this.checked;
+
+                for (const drugid of selectableDrugIds) {
+                    const atcCode = getDrugAtcCode(drugid);
+                    const thisGroupKey = getAtcGroupKey(atcCode, ATC_GROUP_LEVEL);
+
+                    if (thisGroupKey !== groupKey) {
+                        continue;
+                    }
+
+                    if (checked) {
+                        selectedDrugIds.add(String(drugid));
+                    } else {
+                        selectedDrugIds.delete(String(drugid));
+                    }
+                }
+
+                renderFilterList();
+                renderTable();
+            });
+        });
+
+        document.querySelectorAll(".drug-check").forEach(function (input) {
+            input.addEventListener("change", function () {
+                const drugid = String(this.value);
+
+                if (this.checked) {
+                    selectedDrugIds.add(drugid);
+                } else {
+                    selectedDrugIds.delete(drugid);
+                }
+
+                renderFilterList();
+                renderTable();
+            });
+        });
+
+        updateFilterCount();
+    }
+
+    function renderTable() {
+        const visibleRecords = getVisibleRecords();
+
+        updateFilterCount();
+
+        if (visibleRecords.length === 0) {
+            tableArea.innerHTML = '<div class="empty-message">目前沒有選取任何藥品。</div>';
+            tooltip.style.display = "none";
+            return;
+        }
+
+        let minDate = visibleRecords[0].start;
+        let maxDate = visibleRecords[0].end;
+
+        for (const item of visibleRecords) {
+            if (item.start < minDate) {
+                minDate = item.start;
+            }
+
+            if (item.end > maxDate) {
+                maxDate = item.end;
+            }
+        }
+
+        const minMonth = getMonthStart(minDate);
+        const maxMonth = getMonthStart(maxDate);
+
+        const months = [];
+        let cursor = new Date(maxMonth);
+
+        while (cursor >= minMonth) {
+            months.push(new Date(cursor));
+            cursor = addMonths(cursor, -1);
+        }
+
+        const timelineWidth = months.length * monthWidth;
+        const tableWidth = drugNameWidth + timelineWidth;
+
+        const timelineStart = getMonthStart(minMonth);
+        const timelineEnd = getNextMonthStart(maxMonth);
+        const totalDays = daysBetween(timelineStart, timelineEnd);
+
+        function getXByDateReverse(date) {
+            const daysFromDateToEnd = daysBetween(date, timelineEnd);
+            return (daysFromDateToEnd / totalDays) * timelineWidth;
+        }
+
+        let html = ""
+            + "<div class=\\"table-wrap\\">"
+            + "<table style=\\"min-width:" + tableWidth + "px; width:" + tableWidth + "px;\\">"
+            + "<thead>"
+            + "<tr>"
+            + "    <th class=\\"drug-name-head\\" style=\\"width:" + drugNameWidth + "px; min-width:" + drugNameWidth + "px; max-width:" + drugNameWidth + "px;\\">藥品名稱</th>";
+
+        for (const monthDate of months) {
+            html += "<th class=\\"month-cell\\">" + formatMonth(monthDate) + "</th>";
+        }
+
+        html += ""
+            + "</tr>"
+            + "</thead>"
+            + "<tbody>";
+
+        for (const drugid of getVisibleDrugIds()) {
+            const records = getRecordsByDrugId(drugid);
+
+            if (!records.length) {
+                continue;
+            }
+
+            const drugName = getDrugName(drugid);
+            const atcCode = getDrugAtcCode(drugid);
+            const atcText = atcCode ? atcCode : "無 ATC";
+
+            html += ""
+                + "<tr class=\\"drug-row\\">"
+                + "    <td class=\\"drug-name\\" style=\\"width:" + drugNameWidth + "px; min-width:" + drugNameWidth + "px; max-width:" + drugNameWidth + "px;\\">"
+                + "        <label class=\\"table-drug-label\\">"
+                + "            <input"
+                + "                type=\\"checkbox\\""
+                + "                class=\\"table-drug-check\\""
+                + "                value=\\"" + escapeHtml(drugid) + "\\""
+                + "                checked"
+                + "            >"
+                + "            <span class=\\"table-drug-info\\">"
+                + "                <span class=\\"table-drug-name\\">" + escapeHtml(drugName) + "</span>"
+                + "                <span class=\\"table-atc-code\\">" + escapeHtml(atcText) + "</span>"
+                + "            </span>"
+                + "        </label>"
+                + "    </td>"
+                + "    <td class=\\"timeline-td\\" colspan=\\"" + months.length + "\\">"
+                + "        <div class=\\"timeline\\" style=\\"width:" + timelineWidth + "px;\\">";
+
+            for (let recIndex = 0; recIndex < records.length; recIndex++) {
+                const rec = records[recIndex];
+
+                if (!rec.drugstartdate || !rec.drugenddate) {
+                    continue;
+                }
+
+                const start = parseDate(rec.drugstartdate);
+                const end = parseDate(rec.drugenddate);
+
+                if (isNaN(start) || isNaN(end)) {
+                    continue;
+                }
+
+                let leftPx = getXByDateReverse(end);
+                let rightPx = getXByDateReverse(start);
+                let widthPx = rightPx - leftPx;
+
+                if (widthPx < 3) {
+                    widthPx = 14;
+                }
+
+                const label = String(rec.qty ?? "") + " "
+                    + String(rec.dosageUnit ?? "") + " "
+                    + String(rec.drugUsageCode ?? "");
+
+                const recAtcCode = String(rec.atcCode ?? "").trim();
+
+                const tip =
+                    "藥品:" + String(rec.drugname ?? "") + "\\n" +
+                    "成分:" + String(rec.mainIngredient ?? "") + "\\n" +
+                    "ATC:" + (recAtcCode || "無 ATC") + "\\n" +
+                    String(rec.qty ?? "") + " " +
+                    String(rec.dosageUnit ?? "") + " " +
+                    String(rec.drugUsageCode ?? "") + " " +
+                    String(rec.drugRouteCode ?? "") + "\\n" +
+                    "開始於:" + String(rec.drugstartdate ?? "") + "\\n" +
+                    "結束於:" + String(rec.drugenddate ?? "");
+
+                let colorClass = "bar-normal";
+
+                if (rec.isChronicPrescription) {
+                    colorClass = "bar-chronic";
+                }
+
+                if (rec.drugUsageCode === "STAT" || daysBetween(start, end) <= 1) {
+                    colorClass = "bar-stat";
+                }
+
+                const shortClass = widthPx < 28 ? "short" : "";
+
+                html += ""
+                    + "<div"
+                    + "    class=\\"bar " + colorClass + " " + shortClass + "\\""
+                    + "    data-tooltip=\\"" + escapeHtml(tip) + "\\""
+                    + "    style=\\"left:" + leftPx + "px; width:" + widthPx + "px;\\""
+                    + ">"
+                    + "    " + escapeHtml(label)
+                    + "</div>";
+            }
+
+            html += ""
+                + "        </div>"
+                + "    </td>"
+                + "</tr>";
+        }
+
+        html += ""
+            + "</tbody>"
+            + "</table>"
+            + "</div>";
+
+        tableArea.innerHTML = html;
+        bindTooltip();
+        bindTableDrugChecks();
+    }
+
+    function bindTooltip() {
+        document.querySelectorAll(".bar").forEach(function (bar) {
+            bar.addEventListener("mouseenter", function () {
+                tooltip.textContent = this.dataset.tooltip || "";
+                tooltip.style.display = "block";
+            });
+
+            bar.addEventListener("mousemove", function (e) {
+                tooltip.style.left = (e.clientX + 14) + "px";
+                tooltip.style.top = (e.clientY + 14) + "px";
+            });
+
+            bar.addEventListener("mouseleave", function () {
+                tooltip.style.display = "none";
+            });
+        });
+    }
+
+    function bindTableDrugChecks() {
+        document.querySelectorAll(".table-drug-check").forEach(function (input) {
+            input.addEventListener("change", function () {
+                const drugid = String(this.value);
+
+                if (this.checked) {
+                    selectedDrugIds.add(drugid);
+                } else {
+                    selectedDrugIds.delete(drugid);
+                }
+
+                tooltip.style.display = "none";
+                renderFilterList();
+                renderTable();
+            });
+        });
+    }
+
+    checkAllBtn.addEventListener("click", function () {
+        selectableDrugIds.forEach(function (id) {
+            selectedDrugIds.add(String(id));
+        });
+
+        renderFilterList();
+        renderTable();
+    });
+
+    uncheckAllBtn.addEventListener("click", function () {
+        selectedDrugIds.clear();
+
+        tooltip.style.display = "none";
+        renderFilterList();
+        renderTable();
+    });
+
+    renderFilterList();
+    renderTable();
+})();
+</script>
+
+</body>
+</html>
+`;
+
+    const win = window.open("", "_blank", "width=1600,height=900,scrollbars=yes,resizable=yes");
+
+    if (!win) {
+        alert("瀏覽器阻擋了彈出視窗，請允許彈出視窗後再試一次。");
+        return;
+    }
+
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+}
+    let curl=document.URL;
+    if (curl.includes("https://phpcis.chshb.gov.tw/consultationMainPage/")){
+        let personalid=document.querySelector("#root > div.wrapper > main > div > form > div:nth-child(1) > div:nth-child(2) > div").textContent;
+        getdrughistory(personalid);
+    } else {
+        alert("請在看診頁面使用");
+    }
+}
 
 function base64decode(base64Str){
 	const binaryStr = atob(base64Str);
