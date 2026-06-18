@@ -286,12 +286,23 @@ function gendrugwin(){
             .replace(/\u2029/g, "\\u2029");
     }
 
+    function escapeOuterHtml(str) {
+        return String(str ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    const safeName = escapeOuterHtml(name ?? "");
+
     const html = `
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>${name}用藥紀錄彙總</title>
+<title>${safeName}用藥紀錄檢閱</title>
 <style>
     body {
         font-family: Arial, "Microsoft JhengHei", sans-serif;
@@ -346,6 +357,31 @@ function gendrugwin(){
 
     .filter-actions button:hover {
         background: #f0f0f0;
+    }
+
+    .drug-name-filter-box {
+        margin-bottom: 8px;
+    }
+
+    .drug-name-filter-box input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px 7px;
+        font-size: 13px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+    }
+
+    .drug-name-filter-box input:focus {
+        outline: none;
+        border-color: #4f8cff;
+        box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.15);
+    }
+
+    .filter-keyword-note {
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 6px;
     }
 
     .filter-count {
@@ -625,7 +661,7 @@ function gendrugwin(){
 </style>
 </head>
 <body>
-<h2>${name}用藥紀錄彙總</h2>
+<h2>${safeName}用藥紀錄檢閱</h2>
 
 <div class="layout">
     <div class="filter-panel">
@@ -634,6 +670,15 @@ function gendrugwin(){
         <div class="filter-actions">
             <button type="button" id="check-all">全部顯示</button>
             <button type="button" id="uncheck-all">全部隱藏</button>
+        </div>
+
+        <div class="drug-name-filter-box">
+            <input
+                type="text"
+                id="drug-name-filter"
+                placeholder="篩選左側藥品名稱"
+                autocomplete="off"
+            >
         </div>
 
         <div class="filter-count" id="filter-count"></div>
@@ -666,6 +711,7 @@ const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
 
     const filterList = document.getElementById("filter-list");
     const filterCount = document.getElementById("filter-count");
+    const drugNameFilterInput = document.getElementById("drug-name-filter");
     const tableArea = document.getElementById("table-area");
     const checkAllBtn = document.getElementById("check-all");
     const uncheckAllBtn = document.getElementById("uncheck-all");
@@ -753,6 +799,21 @@ const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
         return code.slice(0, Math.min(level, code.length));
     }
 
+    function getDrugNameFilterKeyword() {
+        return String(drugNameFilterInput?.value ?? "").trim().toLowerCase();
+    }
+
+    function isDrugMatchedByLeftFilter(drugid, keyword) {
+        if (!keyword) {
+            return true;
+        }
+
+        const drugname = String(getDrugName(drugid) ?? "").toLowerCase();
+        const atcCode = String(getDrugAtcCode(drugid) ?? "").toLowerCase();
+
+        return drugname.includes(keyword) || atcCode.includes(keyword);
+    }
+
     function buildAtcGroups(level) {
         const groups = new Map();
 
@@ -833,17 +894,44 @@ const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
     function updateFilterCount() {
         const total = selectableDrugIds.length;
         const visible = getVisibleDrugIds().length;
+        const keyword = getDrugNameFilterKeyword();
 
-        filterCount.textContent = "目前顯示 " + visible + " / " + total + " 項藥品";
+        if (!keyword) {
+            filterCount.textContent = "目前顯示 " + visible + " / " + total + " 項藥品";
+            return;
+        }
+
+        const matched = selectableDrugIds.filter(function (drugid) {
+            return isDrugMatchedByLeftFilter(drugid, keyword);
+        }).length;
+
+        filterCount.textContent =
+            "目前顯示 " + visible + " / " + total + " 項藥品；左側符合篩選 " + matched + " 項";
     }
 
     function renderFilterList() {
         const groups = buildAtcGroups(ATC_GROUP_LEVEL);
+        const keyword = getDrugNameFilterKeyword();
+
         let html = "";
+        let matchedDrugCount = 0;
+
+        if (keyword) {
+            html += "<div class=\\"filter-keyword-note\\">左側清單篩選中：「" + escapeHtml(keyword) + "」</div>";
+        }
 
         for (const group of groups) {
             const groupKey = group.groupKey;
-            const drugs = group.drugs;
+
+            const drugs = group.drugs.filter(function (drug) {
+                return isDrugMatchedByLeftFilter(drug.drugid, keyword);
+            });
+
+            if (!drugs.length) {
+                continue;
+            }
+
+            matchedDrugCount += drugs.length;
 
             const total = drugs.length;
             const checkedCount = drugs.filter(function (d) {
@@ -893,6 +981,10 @@ const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
                 + "</div>";
         }
 
+        if (!matchedDrugCount) {
+            html += "<div class=\\"empty-message\\">左側沒有符合關鍵字的藥品。</div>";
+        }
+
         filterList.innerHTML = html;
 
         document.querySelectorAll(".atc-group-check").forEach(function (input) {
@@ -903,12 +995,17 @@ const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
             input.addEventListener("change", function () {
                 const groupKey = this.dataset.atcGroup;
                 const checked = this.checked;
+                const keyword = getDrugNameFilterKeyword();
 
                 for (const drugid of selectableDrugIds) {
                     const atcCode = getDrugAtcCode(drugid);
                     const thisGroupKey = getAtcGroupKey(atcCode, ATC_GROUP_LEVEL);
 
                     if (thisGroupKey !== groupKey) {
+                        continue;
+                    }
+
+                    if (!isDrugMatchedByLeftFilter(drugid, keyword)) {
                         continue;
                     }
 
@@ -1148,6 +1245,10 @@ const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
         });
     }
 
+    drugNameFilterInput.addEventListener("input", function () {
+        renderFilterList();
+    });
+
     checkAllBtn.addEventListener("click", function () {
         selectableDrugIds.forEach(function (id) {
             selectedDrugIds.add(String(id));
@@ -1193,6 +1294,7 @@ const drugdetailobj = ${escapeScriptJson(drugdetailobj)};
         alert("請在看診頁面使用");
     }
 }
+
 
 function base64decode(base64Str){
 	const binaryStr = atob(base64Str);
