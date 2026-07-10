@@ -576,7 +576,7 @@
                     class="submit-button"
                     id="submitButton"
                 >
-                    預填 Google 表單
+                    送出至Google表單
                 </button>
             </div>
         </section>
@@ -855,7 +855,83 @@
             const finalUrl =
                 `${googleFormUrl}?${formParameters.toString()}`;
 
-            window.open(finalUrl, "_blank", "noopener");
+
+            const confirmMessage =
+                `確定送出以下資料？\n\n` +
+                `整篩編號：${finalNumber}\n` +
+                `轉診科別：${specialistData.value}\n` +
+                `轉診院所：${selectedHospital || "未選擇"}\n` +
+                `轉診原因：${transferReason || "無"}`;
+
+            if (!window.confirm(confirmMessage)) {
+                return;
+            }
+
+            //window.open(finalUrl, "_blank", "noopener");
+            submitGoogleForm({
+                "entry.1088351636": finalNumber,
+                "entry.451312378": transferReason,
+                "entry.364357672": specialistData.value,
+                "entry.1075180856": selectedHospital
+            });
+        }
+
+
+        function submitGoogleForm(formData) {
+            const formResponseUrl =
+                "https://docs.google.com/forms/d/e/" +
+                "1FAIpQLScraV4hy7QCqewrjtR1GTGQ8ftyWKuvU8tfowQudiKzRcNr7w/" +
+                "formResponse";
+
+            // 建立隱藏 iframe，避免目前頁面跳轉
+            const iframeName = "googleFormSubmitFrame";
+
+            let iframe = document.getElementById(iframeName);
+
+            if (!iframe) {
+                iframe = document.createElement("iframe");
+                iframe.id = iframeName;
+                iframe.name = iframeName;
+                iframe.style.display = "none";
+                document.body.appendChild(iframe);
+            }
+
+            // 建立隱藏表單
+            const form = document.createElement("form");
+
+            form.method = "POST";
+            form.action = formResponseUrl;
+            form.target = iframeName;
+            form.style.display = "none";
+
+            for (const [name, value] of Object.entries(formData)) {
+                const input = document.createElement("input");
+
+                input.type = "hidden";
+                input.name = name;
+                input.value = value ?? "";
+
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+
+            form.submit();
+            form.remove();
+
+            showSubmitSuccess();
+        }
+
+        function showSubmitSuccess() {
+            const summaryElement =
+                document.getElementById("selectedSummary");
+
+            summaryElement.innerHTML =
+                "<strong>資料已送出</strong><br>" +
+                "可繼續輸入下一筆資料";
+
+            summaryElement.style.background = "#e8f5e9";
+            summaryElement.style.color = "#1b5e20";
         }
 
         function showError(message) {
