@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    >
+
+    <script src="translist.js"></script>
+
+    <title>轉診資料輸入</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            font-family:
+                "Microsoft JhengHei",
+                "Noto Sans TC",
+                Arial,
+                sans-serif;
+            background: #eef2f5;
+            color: #263238;
+        }
+
+        body {
+            padding: 12px;
+        }
+
+        button,
+        input,
+        label {
+            font: inherit;
+            touch-action: manipulation;
+        }
+
+        .page-title {
+            margin: 0 0 12px;
+            text-align: center;
+            font-size: 28px;
+            color: #1f4e5f;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns:
+                minmax(260px, 0.85fr)
+                minmax(260px, 0.9fr)
+                minmax(340px, 1.25fr);
+            gap: 12px;
+            min-height: calc(100vh - 76px);
+        }
+
+        .panel {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .panel-title {
+            margin: 0 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d9e4e8;
+            font-size: 24px;
+            color: #156579;
+        }
+
+        /* 左側：整篩編號 */
+
+        .number-display {
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+            margin-bottom: 14px;
+        }
+
+        .prefix-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            padding: 0 12px;
+            border: 2px solid #78909c;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+            background: #e7eef1;
+            font-size: 25px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        #number {
+            width: 100%;
+            min-width: 0;
+            height: 62px;
+            padding: 6px 10px;
+            border: 2px solid #78909c;
+            border-radius: 0 10px 10px 0;
+            outline: none;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            background: #fff;
+        }
+
+        #number:focus {
+            border-color: #0087a3;
+            box-shadow: 0 0 0 3px rgba(0, 135, 163, 0.15);
+        }
+
+        .number-hint {
+            margin: -4px 0 12px;
+            text-align: center;
+            color: #607d8b;
+            font-size: 16px;
+        }
+
+        .number-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+            flex: 1;
+        }
+
+        .number-key {
+            min-height: 62px;
+            border: 0;
+            border-radius: 12px;
+            background: #dce9ed;
+            color: #173e49;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b4c8cf;
+        }
+
+        .number-key:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #b4c8cf;
+        }
+
+        .number-key.function-key {
+            background: #f1d7d7;
+            color: #8c2f2f;
+            font-size: 20px;
+        }
+
+        .number-key.zero-key {
+            background: #cde3e9;
+        }
+
+        /* 中間與右側選項 */
+
+        .option-list {
+            display: grid;
+            gap: 10px;
+            align-content: start;
+        }
+
+        .specialist-list {
+            grid-template-columns: 1fr;
+        }
+
+        .hospital-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            overflow-y: auto;
+            padding-right: 4px;
+            margin-bottom: 14px;
+        }
+
+        .option {
+            position: relative;
+            display: block;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .option-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 61px;
+            padding: 9px 12px;
+            border: 2px solid #b0bec5;
+            border-radius: 11px;
+            background: #fafcfc;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1.25;
+            transition:
+                background 0.12s,
+                border-color 0.12s,
+                transform 0.12s;
+        }
+
+        .option:active .option-text {
+            transform: scale(0.98);
+        }
+
+        .option input:checked + .option-text {
+            border-color: #00829b;
+            background: #00829b;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(0, 130, 155, 0.25);
+        }
+
+        .option input:focus-visible + .option-text {
+            outline: 3px solid rgba(0, 130, 155, 0.3);
+        }
+
+        /* 送出區 */
+
+        .submit-area {
+            margin-top: auto;
+        }
+
+        .selected-summary {
+            min-height: 50px;
+            margin-bottom: 10px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            background: #edf3f5;
+            color: #455a64;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .submit-button {
+            width: 100%;
+            min-height: 68px;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: #e06c24;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #ad4d16;
+        }
+
+        .submit-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #ad4d16;
+        }
+
+        /* 錯誤訊息 */
+
+        .error-message {
+            display: none;
+            margin-bottom: 10px;
+            padding: 10px 12px;
+            border: 1px solid #ef9a9a;
+            border-radius: 9px;
+            background: #ffebee;
+            color: #b71c1c;
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        /* 平板直向或較小畫面 */
+
+        @media (max-width: 950px) {
+            .main-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .number-panel {
+                grid-column: 1 / -1;
+            }
+
+            .number-panel .number-pad {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .number-key {
+                min-height: 58px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 8px;
+            }
+
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .number-panel {
+                grid-column: auto;
+            }
+
+            .number-panel .number-pad {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hospital-list {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 23px;
+            }
+
+            .panel-title {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="page-title">轉診資料輸入</h1>
+
+    <main class="main-layout">
+
+        <!-- 左側：整篩編號 -->
+        <section class="panel number-panel">
+            <h2 class="panel-title">1. 整篩編號</h2>
+
+
+			<div class="number-display">
+				<span id="prenumber" class="prefix-number"></span>
+
+				<input
+					id="number"
+					type="text"
+					inputmode="numeric"
+					maxlength="4"
+					autocomplete="off"
+					placeholder="0001"
+					aria-label="整篩編號後四碼"
+				>
+			</div>
+
+			<div class="number-hint">
+				請輸入最後四碼
+			</div>
+
+
+
+            <div class="number-pad">
+                <button type="button" class="number-key" data-number="1">1</button>
+                <button type="button" class="number-key" data-number="2">2</button>
+                <button type="button" class="number-key" data-number="3">3</button>
+
+                <button type="button" class="number-key" data-number="4">4</button>
+                <button type="button" class="number-key" data-number="5">5</button>
+                <button type="button" class="number-key" data-number="6">6</button>
+
+                <button type="button" class="number-key" data-number="7">7</button>
+                <button type="button" class="number-key" data-number="8">8</button>
+                <button type="button" class="number-key" data-number="9">9</button>
+
+                <button
+                    type="button"
+                    class="number-key function-key"
+                    id="clearNumber"
+                >
+                    清除
+                </button>
+
+                <button
+                    type="button"
+                    class="number-key zero-key"
+                    data-number="0"
+                >
+                    0
+                </button>
+
+                <button
+                    type="button"
+                    class="number-key function-key"
+                    id="backspaceNumber"
+                >
+                    ← 刪除
+                </button>
+            </div>
+        </section>
+
+        <!-- 中間：轉診科別 -->
+        <section class="panel">
+            <h2 class="panel-title">2. 轉診科別</h2>
+
+            <div class="option-list specialist-list">
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="specialist"
+                        value="胸腔內科"
+                    >
+                    <span class="option-text">胸腔內科</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="specialist"
+                        value="肝膽腸胃科"
+                    >
+                    <span class="option-text">肝膽腸胃科</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="specialist"
+                        value="腎臟內科"
+                    >
+                    <span class="option-text">腎臟內科</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="specialist"
+                        value="婦產科"
+                    >
+                    <span class="option-text">婦產科</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="specialist"
+                        value="心臟內科"
+                    >
+                    <span class="option-text">心臟內科</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="specialist"
+                        value="骨科"
+                    >
+                    <span class="option-text">骨科</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- 右側：轉診院所與送出 -->
+        <section class="panel">
+            <h2 class="panel-title">3. 轉診院所</h2>
+
+            <div class="option-list hospital-list">
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="彰化_基督教醫院"
+                    >
+                    <span class="option-text">彰化<br>基督教醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="鹿港_基督教醫院"
+                    >
+                    <span class="option-text">鹿港<br>基督教醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="漢銘_基督教醫院"
+                    >
+                    <span class="option-text">漢銘<br>基督教醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="彰化_秀傳醫院"
+                    >
+                    <span class="option-text">彰化<br>秀傳醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="彰濱_秀傳醫院"
+                    >
+                    <span class="option-text">彰濱<br>秀傳醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="部立彰化醫院"
+                    >
+                    <span class="option-text">部立彰化醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="道周醫院"
+                    >
+                    <span class="option-text">道周醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="台中_榮民總醫院"
+                    >
+                    <span class="option-text">台中<br>榮民總醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="中國_附設醫院"
+                    >
+                    <span class="option-text">中國<br>附設醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="中山_附設醫院"
+                    >
+                    <span class="option-text">中山<br>附設醫院</span>
+                </label>
+
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="hospital"
+                        value="童綜合醫院"
+                    >
+                    <span class="option-text">童綜合醫院</span>
+                </label>
+            </div>
+
+            <div class="submit-area">
+                <div id="errorMessage" class="error-message"></div>
+
+                <div id="selectedSummary" class="selected-summary">
+                    尚未選擇轉診資料
+                </div>
+
+                <button
+                    type="button"
+                    class="submit-button"
+                    id="submitButton"
+                >
+                    預填 Google 表單
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        "use strict";
+
+        const T_SPECIALIST = [
+            "transCM",
+            "transGI",
+            "transNEP",
+            "transGYN",
+            "transCV",
+            "transORT"
+        ];
+
+        let preNumber = "";
+
+        window.addEventListener("DOMContentLoaded", initializePage);
+
+        function initializePage() {
+            initializePreNumber();
+            initializeNumberPad();
+            initializeOptionEvents();
+            loadUrlParameters();
+            updateSummary();
+        }
+
+        function initializePreNumber() {
+            if (
+                typeof alltransferarray !== "object" ||
+                alltransferarray === null
+            ) {
+                showError("找不到 translist.js 內的轉診資料。");
+                return;
+            }
+
+            const transferKeys = Object.keys(alltransferarray);
+
+            if (transferKeys.length === 0) {
+                showError("轉診資料為空白。");
+                return;
+            }
+
+            const firstNumber = transferKeys[0];
+
+            preNumber = firstNumber.substring(0, firstNumber.length - 4);
+
+            document.getElementById("prenumber").textContent = preNumber;
+        }
+
+        function initializeNumberPad() {
+            const numberInput = document.getElementById("number");
+
+            document.querySelectorAll("[data-number]").forEach((button) => {
+                button.addEventListener("click", () => {
+                    appendNumber(button.dataset.number);
+                });
+            });
+
+            document
+                .getElementById("clearNumber")
+                .addEventListener("click", () => {
+                    numberInput.value = "";
+                    clearError();
+                    updateSummary();
+                });
+
+            document
+                .getElementById("backspaceNumber")
+                .addEventListener("click", () => {
+                    numberInput.value = numberInput.value.slice(0, -1);
+                    clearError();
+                    updateSummary();
+                });
+
+            numberInput.addEventListener("input", () => {
+                numberInput.value = numberInput.value
+                    .replace(/\D/g, "")
+    				.slice(0, 4);
+
+                clearError();
+                updateSummary();
+            });
+
+            document
+                .getElementById("submitButton")
+                .addEventListener("click", transferToGoogle);
+        }
+
+        function appendNumber(number) {
+            const numberInput = document.getElementById("number");
+
+            if (numberInput.value.length >= 4) {
+				return;
+			}
+
+            numberInput.value += number;
+
+            clearError();
+            updateSummary();
+        }
+
+        function initializeOptionEvents() {
+            document
+                .querySelectorAll(
+                    'input[name="specialist"], input[name="hospital"]'
+                )
+                .forEach((input) => {
+                    input.addEventListener("change", () => {
+                        clearError();
+                        updateSummary();
+                    });
+                });
+        }
+
+        function loadUrlParameters() {
+            const params = new URLSearchParams(window.location.search);
+
+            const inputNumber = params.get("num");
+            const specialistIndex = params.get("spe");
+
+            if (inputNumber !== null && inputNumber !== "") {
+                document.getElementById("number").value = inputNumber
+                    .replace(/\D/g, "")
+    				.slice(-4);
+            }
+
+            if (specialistIndex !== null && specialistIndex !== "") {
+                const index = Number.parseInt(specialistIndex, 10);
+                const specialistList =
+                    document.getElementsByName("specialist");
+
+                if (
+                    Number.isInteger(index) &&
+                    index >= 0 &&
+                    index < specialistList.length
+                ) {
+                    specialistList[index].checked = true;
+                }
+            }
+
+            updateSummary();
+
+            if (
+                inputNumber !== null &&
+                inputNumber !== "" &&
+                specialistIndex !== null &&
+                specialistIndex !== ""
+            ) {
+                transferToGoogle();
+            }
+        }
+
+        function getCheckedValue(name) {
+            const selected = document.querySelector(
+                `input[name="${name}"]:checked`
+            );
+
+            return selected ? selected.value : "";
+        }
+
+        function getFinalNumber() {
+            const rawNumber = document
+                .getElementById("number")
+                .value
+                .replace(/\D/g, "");
+
+            if (rawNumber === "") {
+                return "";
+            }
+
+            const fourDigitNumber = rawNumber.padStart(4, "0").slice(-4);
+
+			return preNumber + fourDigitNumber;
+        }
+
+        function getSelectedSpecialistData() {
+            const specialistList =
+                document.getElementsByName("specialist");
+
+            for (let index = 0; index < specialistList.length; index++) {
+                if (specialistList[index].checked) {
+                    return {
+                        value: specialistList[index].value,
+                        transferField: T_SPECIALIST[index]
+                    };
+                }
+            }
+
+            return {
+                value: "",
+                transferField: ""
+            };
+        }
+
+        function updateSummary() {
+            const finalNumber = getFinalNumber();
+            const specialist = getCheckedValue("specialist");
+            const hospital = getCheckedValue("hospital");
+
+            const summary = [];
+
+            if (finalNumber) {
+                summary.push(`編號：${finalNumber}`);
+            }
+
+            if (specialist) {
+                summary.push(`科別：${specialist}`);
+            }
+
+            if (hospital) {
+                summary.push(`院所：${hospital.replaceAll("_", " ")}`);
+            }
+
+            document.getElementById("selectedSummary").innerHTML =
+                summary.length > 0
+                    ? summary.map(escapeHtml).join("<br>")
+                    : "尚未選擇轉診資料";
+        }
+
+        function transferToGoogle() {
+            clearError();
+
+            const errors = [];
+            const finalNumber = getFinalNumber();
+            const specialistData = getSelectedSpecialistData();
+            const selectedHospital = getCheckedValue("hospital");
+
+            if (!finalNumber) {
+                errors.push("請輸入整篩編號。");
+            }
+
+            if (!specialistData.value) {
+                errors.push("請選擇轉診科別。");
+            }
+
+            /*
+             * 若轉診院所也要強制選擇，
+             * 取消下面三行的註解即可。
+             */
+            // if (!selectedHospital) {
+            //     errors.push("請選擇轉診院所。");
+            // }
+
+            if (errors.length > 0) {
+                showError(errors.join("<br>"));
+                return;
+            }
+
+            let transferReason = "";
+
+            try {
+                transferReason =
+                    alltransferarray?.[finalNumber]?.[
+                        specialistData.transferField
+                    ] ?? "";
+            } catch (error) {
+                console.error("讀取轉診原因失敗：", error);
+            }
+
+            const googleFormUrl =
+                "https://docs.google.com/forms/d/e/" +
+                "1FAIpQLScraV4hy7QCqewrjtR1GTGQ8ftyWKuvU8tfowQudiKzRcNr7w/" +
+                "viewform";
+
+            const formParameters = new URLSearchParams({
+                usp: "pp_url",
+                "entry.1088351636": finalNumber,
+                "entry.451312378": transferReason,
+                "entry.364357672": specialistData.value,
+                "entry.1075180856": selectedHospital
+            });
+
+            const finalUrl =
+                `${googleFormUrl}?${formParameters.toString()}`;
+
+            window.open(finalUrl, "_blank", "noopener");
+        }
+
+        function showError(message) {
+            const errorElement =
+                document.getElementById("errorMessage");
+
+            errorElement.innerHTML = message;
+            errorElement.style.display = "block";
+        }
+
+        function clearError() {
+            const errorElement =
+                document.getElementById("errorMessage");
+
+            errorElement.innerHTML = "";
+            errorElement.style.display = "none";
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+    </script>
+</body>
+</html>
