@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150617';
+chestversion='1150804';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -1312,6 +1312,218 @@ function base64decode(base64Str){
 
 createchest();
 })();
+function httpGet(Url) {
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open( "GET", Url, false );
+	xmlHttp.send( null );
+	return xmlHttp.responseText;
+}
+function showplan(personalInfoId,strd){
+    let planurl=`https://phpcis.chshb.gov.tw/api/v1/health_records/list?clinicId=4&personalInfoId=${personalInfoId}&startAt=&endAt=`;
+    let planres=httpGet(planurl);
+    let jsonplan=JSON.parse(planres).result;
+    let planobj={
+        DM:[],
+        CKD:[],
+        DKD:[],
+    };
+    let DMorderlist=['P1407C','P1408C','P1409C','P1410C','P1411C','Q1407C','Q1408C'];
+    let CKDorderlist=['P4301C','P4302C','Q4301C','Q4302C'];
+    let DKDorderlist=['P7001C','P7002C','Q7001C','Q7002C'];
+    for (let i=0;i<jsonplan.length;i++){
+        let r=jsonplan[i];
+        let date=r.treatmentDate;
+        let rstr=JSON.stringify(r.prescriptions);
+        for (let j=0;j<DMorderlist.length;j++){
+            let target=DMorderlist[j];
+            if (rstr.includes(target)){
+                planobj.DM.push({date:date,code:target});
+            }
+        }
+        for (let j=0;j<CKDorderlist.length;j++){
+            let target=CKDorderlist[j];
+            if (rstr.includes(target)){
+                planobj.CKD.push({date:date,code:target});
+            }
+        }
+        for (let j=0;j<DKDorderlist.length;j++){
+            let target=DKDorderlist[j];
+            if (rstr.includes(target)){
+                planobj.DKD.push({date:date,code:target});
+            }
+        }
+    }
+    let comment={
+        DM:{
+            ly:null,
+            lyc:null,
+            nexto:null,
+            nextd:null,
+            comment:"DM: 無",
+            lyct:""
+        },
+        CKD:{
+            ly:null,
+            lyc:null,
+            nexto:null,
+            nextd:null,
+            comment:"CKD: 無",
+            lyct:""
+        },
+        DKD:{
+            ly:null,
+            lyc:null,
+            nexto:null,
+            nextd:null,
+            comment:"DKD: 無",
+            lyct:""
+        }
+    }
+    let comp=['DM','CKD','DKD'];
+    let DMC=0;
+    for (let i=0;i<comp.length;i++){
+        let type=comp[i];
+        let obj=planobj[type];
+        let orc=0;
+        let ly=0;
+        let lyc=[];
+        let lyo="";
+        for (let j=0;j<obj.length;j++){
+            let r=obj[obj.length-1-j];
+            let ry=r.date.split('-')[0];
+            if (ry>ly){
+                ly=ry;
+                lyc=[];
+            }
+            lyc.push(r);
+            if (type=="DM" || type=="DKD"){
+                if (['P1407C','Q1407C','P1409C','P1411C','P7002C'].includes(r.code)){
+                    DMC=0;
+                } else {
+                    DMC+=1;
+                }
+            }
+        }
+        comment[type].ly=ly;
+        comment[type].lyc=lyc;
+        let lyct="";
+        let tc=6;
+        if (tc>obj.length){
+            tc=obj.length;
+        }
+        for (let j=0;j<tc;j++){
+            lyct+=obj[j].date+"("+obj[j].code+")\n";
+        }
+        comment[type].lyct=lyct;
+    }
+    now=new Date(strd);
+    nowy=strd.split('-')[0];
+    if (comment.DM.lyc.length>0){
+        let lo=comment.DM.lyc[comment.DM.lyc.length-1];
+        let ld=lo.date;
+        let ld_d0=new Date(ld);
+        let ld_d1=new Date(ld_d0.getTime()+70*1000*3600*24);
+        let ld_de=new Date((ld.split('-')[0]*1+1)+"-"+ld.split('-')[1]+"-"+ld.split('-')[2]);
+        let nextd=ld_d1.getFullYear()+"-"+(ld_d1.getMonth()+1).toString().padStart(2,'0')+"-"+ld_d1.getDate().toString().padStart(2,'0');
+        let expd=ld_de.getFullYear()+"-"+(ld_de.getMonth()+1).toString().padStart(2,'0')+"-"+ld_de.getDate().toString().padStart(2,'0');
+        comment.DM.nextd=nextd;
+        if (now>=ld_de){
+            comment.DM.nexto="銷案";
+            comment.DM.comment=`DM: X，超過一年(${expd}過期)`;
+        } else if (now>ld_d1){
+            if (comment.DM.lyc.length>=4){
+                comment.DM.nexto="年度>4次";
+                comment.DM.comment=`DM: X，${comment.DM.ly}年度申報次數已申報4次`;
+            } else {
+                if (lo.code.includes("P")){
+                    if (DMC>=3){
+                        comment.DM.nexto="年度P碼";
+                        comment.DM.comment=`DM: O，可申報年度P碼(${nextd}後)`;
+                    } else {
+                        comment.DM.nexto="追蹤P碼";
+                        comment.DM.comment=`DM: O，可申報追蹤P碼(${nextd}後)`;
+                    }
+                } else {
+                    comment.DM.nexto="追蹤Q碼";
+                    comment.DM.comment=`DM: O，可申報追蹤Q碼(${nextd}後)`;
+                }
+            }
+            
+        } else {
+            comment.DM.nexto="追蹤間隔不符";
+            comment.DM.comment=`DM: X，間隔不符(${nextd}後)`;
+        }
+    }
+
+    if (comment.DKD.lyc.length>0){
+        let lo=comment.DKD.lyc[comment.DKD.lyc.length-1];
+        let ld=lo.date;
+        let ld_d0=new Date(ld);
+        let ld_d1=new Date(ld_d0.getTime()+70*1000*3600*24);
+        let ld_de=new Date((ld.split('-')[0]*1+1)+"-"+ld.split('-')[1]+"-"+ld.split('-')[2]);
+        let nextd=ld_d1.getFullYear()+"-"+(ld_d1.getMonth()+1).toString().padStart(2,'0')+"-"+ld_d1.getDate().toString().padStart(2,'0');
+        let expd=ld_de.getFullYear()+"-"+(ld_de.getMonth()+1).toString().padStart(2,'0')+"-"+ld_de.getDate().toString().padStart(2,'0');
+        comment.DKD.nextd=nextd;
+        if (now>=ld_de){
+            comment.DKD.nexto="銷案";
+            comment.DKD.comment=`DKD: X，超過一年(${expd}過期)`;
+        } else if (now>ld_d1){
+            if (comment.DKD.lyc.length>=4){
+                comment.DKD.nexto="年度>4次";
+                comment.DKD.comment=`DKD: X，${comment.DKD.ly}年度申報次數已申報4次`;
+            } else {
+                if (lo.code.includes("P")){
+                    if (DMC>=3){
+                        comment.DKD.nexto="年度P碼";
+                        comment.DKD.comment=`DKD: O，可申報年度P碼(${nextd}後)`;
+                    } else {
+                        comment.DKD.nexto="追蹤P碼";
+                        comment.DKD.comment=`DKD: O，可申報年度Q碼(${nextd}後)`;
+                    }
+                } else {
+                    comment.DKD.nexto="追蹤Q碼";
+                    comment.DKD.comment=`DKD: O，可申報追蹤Q碼(${nextd}後)`;
+                }
+            }
+        } else {
+            comment.DKD.nexto="追蹤間隔不符";
+            comment.DKD.comment=`DKD: X，間隔不符(${nextd}後)`;
+        }
+    }
+
+    if (comment.CKD.lyc.length>0){
+        let lo=comment.CKD.lyc[comment.CKD.lyc.length-1];
+        let ld=lo.date;
+        let ld_d0=new Date(ld);
+        let ld_d1=new Date(ld_d0.getTime()+161*1000*3600*24);
+        let ld_de=new Date((ld.split('-')[0]*1+1)+"-"+ld.split('-')[1]+"-"+ld.split('-')[2]);
+        let nextd=ld_d1.getFullYear()+"-"+(ld_d1.getMonth()+1).toString().padStart(2,'0')+"-"+ld_d1.getDate().toString().padStart(2,'0');
+        let expd=ld_de.getFullYear()+"-"+(ld_de.getMonth()+1).toString().padStart(2,'0')+"-"+ld_de.getDate().toString().padStart(2,'0');
+        comment.CKD.nextd=nextd;
+        if (now>=ld_de){
+            comment.CKD.nexto="銷案";
+            comment.CKD.comment=`CKD: X，超過一年(${expd}過期)`;
+        } else if (now>ld_d1){
+            if (comment.CKD.lyc.length>=2){
+                comment.CKD.nexto="年度>2次";
+                comment.CKD.comment=`CKD: X，${comment.CKD.ly}年度申報次數已申報2次`;
+            } else {
+                if (lo.code.includes("P")){
+                    comment.CKD.nexto="追蹤P碼";
+                    comment.CKD.comment=`CKD: O，可申報年度P碼(${nextd}後)`;
+                } else {
+                    comment.CKD.nexto="追蹤Q碼";
+                    comment.CKD.comment=`CKD: O，可申報年度Q碼(${nextd}後)`;
+                }
+            }
+        } else {
+            comment.CKD.nexto="追蹤間隔不符";
+            comment.CKD.comment=`CKD: X，間隔不符(${nextd}後)`;
+        }
+    }
+    return comment;
+}
+
 function createchest(){
 	ccc=document.URL;
 	d0='https://phpcis.chshb.gov.tw/consultationMainPage/';
@@ -1872,10 +2084,11 @@ function createchest(){
 	}
 	function button_add6z_handle(){
 		let sel=document.querySelector("#root > div.wrapper > main > div > div.line > form > div:nth-child(2) > div > div > div > div > select");
-		if (!sel.innerHTML.includes("6Z 中老年預注")){
+		if (!sel.innerHTML.includes("6S 戒菸治療")){
+            
 			let opt=document.createElement("option");
-			opt.value="21";
-			opt.textContent="6Z 中老年預注";
+			opt.value="18";
+			opt.textContent="6S 戒菸治療";
 			sel.appendChild(opt);
 			opt.selected=true;
 			let changeevent=new Event('change', {bubbles: true});
@@ -2860,6 +3073,7 @@ function createchest(){
 					prevention_L4.textContent='乳攝: '+MAC;	
 					prevention_L5=document.getElementById('prevention_L5');
 					prevention_L5.textContent='口篩: '+ORC;
+                    /*
 					furl3='https://phpcis.chshb.gov.tw/api/v1/personal_infos/chronic_cares_histories/list?personalInfoId='+personalInfoId;
 					fetch(furl3, {
 					  'headers': {
@@ -3122,6 +3336,21 @@ function createchest(){
 						}
 						
 					}).catch(err => console.log(err));
+                    */
+
+                    strd=document.querySelector("#root > div.wrapper > main > div > form > div:nth-child(2) > div:nth-child(8) > div > div > input").value.split(' ')[1];
+                    let cares=showplan(personalInfoId,strd);
+
+
+                    plan_L1=document.getElementById('plan_L1');
+                    plan_L1.textContent=cares.DKD.comment;
+                    plan_L1.title=cares.DKD.lyct;
+                    plan_L2=document.getElementById('plan_L2');
+                    plan_L2.textContent=cares.DM.comment;
+                    plan_L2.title=cares.DM.lyct;
+                    plan_L3=document.getElementById('plan_L3');
+                    plan_L3.textContent=cares.CKD.comment;
+                    plan_L3.title=cares.CKD.lyct;
 				}).catch(err => console.log(err));
 			}).catch(err => console.log(err));
 		} else {
@@ -10426,7 +10655,7 @@ function createchest(){
 		for (i=1;i<ttt.rows.length;i++){
 			thecode=ttt.rows[i].cells[codecolumn].textContent;
 			themain=ttt.rows[i].cells[maincolumn].textContent;
-			if (thecode=='P1407C'){
+			if (thecode=='P1407C' || thecode=='Q1407C'){
 				if (!DMICD.includes(mainICD.substring(0,3))){
 					errmsg=adderrmsg(errmsg,'DM收案診斷不符');
 				}
@@ -10434,7 +10663,7 @@ function createchest(){
 					errmsg=adderrmsg(errmsg,'DM收案身分別應為6a');
 				}
 			}
-			if (thecode=='P1408C' || thecode=='P1410C'){
+			if (thecode=='P1408C' || thecode=='P1410C' || thecode=='Q1408C'){
 				if (visitTypeId!='23'){
 					errmsg=adderrmsg(errmsg,'DM追蹤身分別應為6b');
 				}
@@ -10444,7 +10673,7 @@ function createchest(){
 					errmsg=adderrmsg(errmsg,'DM年度身分別應為6c');
 				}
 			} 
-			if (thecode=='P4301C'){
+			if (thecode=='P4301C' || thecode=='Q4301C'){
 				if (!CKDICD.includes(mainICD)){
 					errmsg=adderrmsg(errmsg,'CKD收案診斷不符');
 				}
@@ -10452,12 +10681,12 @@ function createchest(){
 					errmsg=adderrmsg(errmsg,'CKD收案身分別應為6s');
 				}
 			}
-			if (thecode=='P4302C'){
+			if (thecode=='P4302C' || thecode=='Q4302C'){
 				if (visitTypeId!='27'){
 					errmsg=adderrmsg(errmsg,'CKD追蹤身分別應為6t');
 				}
 			}
-			if (thecode=='P7001C'){
+			if (thecode=='P7001C' || thecode=='Q7001C'){
 				if (visitTypeId!='23'){
 					errmsg=adderrmsg(errmsg,'DKD追蹤身分別應為6b');
 				}
@@ -10512,13 +10741,13 @@ function createchest(){
 				}
 			}
 			if (visitTypeId=='22'){
-				if (thecode=='P1407C'){
+				if (thecode=='P1407C' || thecode=='Q1407C'){
 					P1found=true;
 				}
 			}
 			
 			if (visitTypeId=='23'){
-				if (thecode=='P1408C'||thecode=='P1410C'||thecode=='P7001C'){
+				if (thecode=='P1408C'||thecode=='P1410C'||thecode=='P7001C' || thecode=='Q1408C' || thecode=='Q7001C'){
 					P2found=true;
 				}
 			}
@@ -10529,12 +10758,12 @@ function createchest(){
 				}
 			}
 			if (visitTypeId=='26'){
-				if (thecode=='P4301C'){
+				if (thecode=='P4301C' || thecode=='Q4301C'){
 					P4found=true;
 				}
 			}
 			if (visitTypeId=='27'){
-				if (thecode=='P4302C'){
+				if (thecode=='P4302C' || thecode=='Q4302C'){
 					P5found=true;
 				}
 			}
