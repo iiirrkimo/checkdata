@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150804';
+chestversion='1150805';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -1330,6 +1330,7 @@ function showplan(personalInfoId,strd){
     let DMorderlist=['P1407C','P1408C','P1409C','P1410C','P1411C','Q1407C','Q1408C'];
     let CKDorderlist=['P4301C','P4302C','Q4301C','Q4302C'];
     let DKDorderlist=['P7001C','P7002C','Q7001C','Q7002C'];
+    let lo="";
     for (let i=0;i<jsonplan.length;i++){
         let r=jsonplan[i];
         let date=r.treatmentDate;
@@ -1338,20 +1339,34 @@ function showplan(personalInfoId,strd){
             let target=DMorderlist[j];
             if (rstr.includes(target)){
                 planobj.DM.push({date:date,code:target});
+                if (lo==""){
+                    lo=rstr;
+                }
             }
         }
         for (let j=0;j<CKDorderlist.length;j++){
             let target=CKDorderlist[j];
             if (rstr.includes(target)){
                 planobj.CKD.push({date:date,code:target});
+                if (lo==""){
+                    lo=rstr;
+                }
             }
         }
         for (let j=0;j<DKDorderlist.length;j++){
             let target=DKDorderlist[j];
             if (rstr.includes(target)){
                 planobj.DKD.push({date:date,code:target});
+                if (lo==""){
+                    lo=rstr;
+                }
             }
         }
+    }
+  
+    let isDKD=false;
+    if (JSON.stringify(lo).includes('P7') || JSON.stringify(lo).includes('Q7')){
+        isDKD=true;
     }
     let comment={
         DM:{
@@ -1454,7 +1469,36 @@ function showplan(personalInfoId,strd){
             comment.DM.comment=`DM: X，間隔不符(${nextd}後)`;
         }
     }
-
+    if (comment.CKD.lyc.length>0){
+        let lo=comment.CKD.lyc[comment.CKD.lyc.length-1];
+        let ld=lo.date;
+        let ld_d0=new Date(ld);
+        let ld_d1=new Date(ld_d0.getTime()+161*1000*3600*24);
+        let ld_de=new Date((ld.split('-')[0]*1+1)+"-"+ld.split('-')[1]+"-"+ld.split('-')[2]);
+        let nextd=ld_d1.getFullYear()+"-"+(ld_d1.getMonth()+1).toString().padStart(2,'0')+"-"+ld_d1.getDate().toString().padStart(2,'0');
+        let expd=ld_de.getFullYear()+"-"+(ld_de.getMonth()+1).toString().padStart(2,'0')+"-"+ld_de.getDate().toString().padStart(2,'0');
+        comment.CKD.nextd=nextd;
+        if (now>=ld_de){
+            comment.CKD.nexto="銷案";
+            comment.CKD.comment=`CKD: X，超過一年(${expd}過期)`;
+        } else if (now>ld_d1){
+            if (comment.CKD.lyc.length>=2){
+                comment.CKD.nexto="年度>2次";
+                comment.CKD.comment=`CKD: X，${comment.CKD.ly}年度申報次數已申報2次`;
+            } else {
+                if (lo.code.includes("P")){
+                    comment.CKD.nexto="追蹤P碼";
+                    comment.CKD.comment=`CKD: O，可申報追縱P碼(${nextd}後)`;
+                } else {
+                    comment.CKD.nexto="追蹤Q碼";
+                    comment.CKD.comment=`CKD: O，可申報追縱Q碼(${nextd}後)`;
+                }
+            }
+        } else {
+            comment.CKD.nexto="追蹤間隔不符";
+            comment.CKD.comment=`CKD: X，間隔不符(${nextd}後)`;
+        }
+    }
     if (comment.DKD.lyc.length>0){
         let lo=comment.DKD.lyc[comment.DKD.lyc.length-1];
         let ld=lo.date;
@@ -1478,7 +1522,7 @@ function showplan(personalInfoId,strd){
                         comment.DKD.comment=`DKD: O，可申報年度P碼(${nextd}後)`;
                     } else {
                         comment.DKD.nexto="追蹤P碼";
-                        comment.DKD.comment=`DKD: O，可申報年度Q碼(${nextd}後)`;
+                        comment.DKD.comment=`DKD: O，可申報追蹤P碼(${nextd}後)`;
                     }
                 } else {
                     comment.DKD.nexto="追蹤Q碼";
@@ -1490,40 +1534,16 @@ function showplan(personalInfoId,strd){
             comment.DKD.comment=`DKD: X，間隔不符(${nextd}後)`;
         }
     }
-
-    if (comment.CKD.lyc.length>0){
-        let lo=comment.CKD.lyc[comment.CKD.lyc.length-1];
-        let ld=lo.date;
-        let ld_d0=new Date(ld);
-        let ld_d1=new Date(ld_d0.getTime()+161*1000*3600*24);
-        let ld_de=new Date((ld.split('-')[0]*1+1)+"-"+ld.split('-')[1]+"-"+ld.split('-')[2]);
-        let nextd=ld_d1.getFullYear()+"-"+(ld_d1.getMonth()+1).toString().padStart(2,'0')+"-"+ld_d1.getDate().toString().padStart(2,'0');
-        let expd=ld_de.getFullYear()+"-"+(ld_de.getMonth()+1).toString().padStart(2,'0')+"-"+ld_de.getDate().toString().padStart(2,'0');
-        comment.CKD.nextd=nextd;
-        if (now>=ld_de){
-            comment.CKD.nexto="銷案";
-            comment.CKD.comment=`CKD: X，超過一年(${expd}過期)`;
-        } else if (now>ld_d1){
-            if (comment.CKD.lyc.length>=2){
-                comment.CKD.nexto="年度>2次";
-                comment.CKD.comment=`CKD: X，${comment.CKD.ly}年度申報次數已申報2次`;
-            } else {
-                if (lo.code.includes("P")){
-                    comment.CKD.nexto="追蹤P碼";
-                    comment.CKD.comment=`CKD: O，可申報年度P碼(${nextd}後)`;
-                } else {
-                    comment.CKD.nexto="追蹤Q碼";
-                    comment.CKD.comment=`CKD: O，可申報年度Q碼(${nextd}後)`;
-                }
-            }
-        } else {
-            comment.CKD.nexto="追蹤間隔不符";
-            comment.CKD.comment=`CKD: X，間隔不符(${nextd}後)`;
-        }
+    if (isDKD){
+        comment.DM.comment=`DM: X，轉DKD`;
+        comment.CKD.comment=`CKD: X，轉DKD`;
     }
+
+
+
+    
     return comment;
 }
-
 function createchest(){
 	ccc=document.URL;
 	d0='https://phpcis.chshb.gov.tw/consultationMainPage/';
