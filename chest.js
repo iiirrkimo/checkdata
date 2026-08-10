@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150805';
+chestversion='1150810';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -1557,6 +1557,7 @@ function createchest(){
 	d8='https://phpcis.chshb.gov.tw/disease';
 	d9='https://phpcis.chshb.gov.tw/preventionAdultDownload';
 	d10='https://phpcis.chshb.gov.tw/prescriptBatchComplete';
+    d11='https://phpcis.chshb.gov.tw/dailyUpload2';
 	if (document.getElementById('myDraggable')){
 		document.getElementById('myDraggable').remove();
 	} 
@@ -1602,6 +1603,8 @@ function createchest(){
 		create_add6Z();
 	} else if (ccc=="https://phpcis.chshb.gov.tw/"){
         create_main();
+    } else if (ccc==d11){
+        create_d11();
     }
     function create_main(){
         create_myDraggable();
@@ -2020,6 +2023,813 @@ function createchest(){
 		myDraggable.style.height = 40+'px';
 		myDraggable.style.left=window.innerWidth-204-borderx +'px';
 	}
+    function create_d11(){
+        create_myDraggable();
+		let button_uploadBP = document.createElement('button');
+		button_uploadBP.textContent='血壓上傳';
+		button_uploadBP.style.width = '160px';
+		button_uploadBP.style.height = '66px';
+		button_uploadBP.style.left = '2px';
+		button_uploadBP.style.top = '2px';
+		button_uploadBP.style.position = 'absolute';
+		button_uploadBP.addEventListener('click', genbpupload);
+		myDraggable.appendChild(button_uploadBP);
+		myDraggable.style.width='164px';
+		myDraggable.style.height = 70+'px';
+		myDraggable.style.left=window.innerWidth-1164-borderx +'px';
+    }
+    async function genbpupload() {
+        //==============================
+        function getDateRange(startdate, enddate) {
+            const result = [];
+            const start = new Date(startdate + "T00:00:00");
+            const end = new Date(enddate + "T00:00:00");
+
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, "0");
+                const day = String(d.getDate()).padStart(2, "0");
+
+                result.push(`${year}-${month}-${day}`);
+            }
+
+            return result;
+        }
+        // ==============================
+        // 動態載入 JS
+        // ==============================
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+
+                // 避免重複載入
+                const exists = [...document.scripts].some(s => s.src === src);
+
+                if (exists) {
+                    resolve();
+                    return;
+                }
+
+                const script = document.createElement("script");
+                script.src = src;
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error("載入失敗：" + src));
+
+                document.head.appendChild(script);
+            });
+        }
+
+
+        async function xmlToZipBase64(
+            xml,
+            xmlFilename = "TOTFA.xml"
+        ) {
+            if (
+                typeof cptable === "undefined" ||
+                !cptable.utils ||
+                !cptable.utils.encode
+            ) {
+                throw new Error("Big5 編碼模組未載入成功");
+            }
+
+            if (typeof JSZip === "undefined") {
+                throw new Error("JSZip 未載入成功");
+            }
+
+            // 1. XML 字串 → CP950 bytes
+            const bytes = cptable.utils.encode(
+                950,
+                xml,
+                "arr"
+            );
+
+            const xmlBytes = new Uint8Array(bytes);
+
+            // 2. 建立 ZIP
+            const zip = new JSZip();
+
+            // 3. 把 CP950 XML bytes 放進 ZIP
+            zip.file(
+                xmlFilename,
+                xmlBytes
+            );
+
+            // 4. ZIP → Base64
+            const zipBase64 = await zip.generateAsync({
+                type: "base64",
+                compression: "DEFLATE",
+                compressionOptions: {
+                    level: 6
+                }
+            });
+
+            return zipBase64;
+        }
+
+        async function sendNHI_SendBEx(message) {
+            return new Promise((resolve, reject) => {
+
+                const socket = new WebSocket(
+                    "wss://localhost:6690/PHPCIISservice"
+                );
+
+                const uploadID = message.content.UploadID;
+
+                let finished = false;
+
+                const timeout = setTimeout(() => {
+
+                    if (finished) return;
+
+                    finished = true;
+
+                    try {
+                        socket.close();
+                    } catch {}
+
+                    reject(
+                        new Error("NHI_SendBEx 等待回應逾時")
+                    );
+
+                }, 30000);
+
+
+                socket.onopen = function () {
+
+                    console.log(
+                        "WebSocket 已連線"
+                    );
+
+                    console.log(
+                        "送出 NHI_SendBEx:",
+                        message
+                    );
+
+                    socket.send(
+                        JSON.stringify(message)
+                    );
+                };
+
+
+                socket.onmessage = function (event) {
+
+                    console.log(
+                        "WebSocket 收到:",
+                        event.data
+                    );
+
+                    let data;
+
+                    try {
+                        data = JSON.parse(event.data);
+                    } catch (err) {
+
+                        console.warn(
+                            "收到非 JSON 訊息:",
+                            event.data
+                        );
+
+                        return;
+                    }
+
+
+                    // 不是 NHI_SendBEx 的回應就忽略
+                    if (
+                        data.command !== "NHI_SendBEx"
+                    ) {
+                        return;
+                    }
+
+
+                    // 有 UploadID 的話，確認是不是這次要求
+                    if (
+                        data.content?.UploadID &&
+                        data.content.UploadID !== uploadID
+                    ) {
+                        return;
+                    }
+
+
+                    if (finished) return;
+
+                    finished = true;
+
+                    clearTimeout(timeout);
+
+                    // 取得回傳值
+                    const sLocal_ID =
+                        data.content?.sLocal_ID || "";
+
+                    const sNHI_ID =
+                        data.content?.sNHI_ID || "";
+
+                    const ret =
+                        data.content?.ret;
+                    alert(
+                        `上傳完成\n` +
+                        `sLocal_ID：${sLocal_ID}\n` +
+                        `sNHI_ID：${sNHI_ID}\n` +
+                        `請於5-10分鐘後至VPN > 檢驗(查)結果每日上傳作業 > 檢驗(查)結果項目資料上傳及查詢檢查上傳狀態`
+                    );
+
+                    socket.close();
+                };
+
+
+                socket.onerror = function () {
+
+                    if (finished) return;
+
+                    finished = true;
+
+                    clearTimeout(timeout);
+
+                    try {
+                        socket.close();
+                    } catch {}
+
+                    reject(
+                        new Error(
+                            "WebSocket 連線發生錯誤"
+                        )
+                    );
+                };
+
+
+                socket.onclose = function (event) {
+
+                    console.log(
+                        "WebSocket 已關閉:",
+                        event.code,
+                        event.reason
+                    );
+
+                    if (!finished) {
+
+                        finished = true;
+
+                        clearTimeout(timeout);
+
+                        reject(
+                            new Error(
+                                "WebSocket 在收到結果前已關閉"
+                            )
+                        );
+                    }
+                };
+            });
+        }
+        // ==============================
+        // GET
+        // ==============================
+        function httpGet(url) {
+            const xmlHttp = new XMLHttpRequest();
+
+            xmlHttp.open("GET", url, false);
+            xmlHttp.send(null);
+
+            if (xmlHttp.status < 200 || xmlHttp.status >= 300) {
+                throw new Error(
+                    `HTTP ${xmlHttp.status}\n${url}`
+                );
+            }
+
+            return xmlHttp.responseText;
+        }
+
+
+        // ==============================
+        // Big5 XML 下載
+        // ==============================
+        function downloadString(xml, filename = "TOTFA.xml") {
+
+            if (
+                typeof cptable === "undefined" ||
+                !cptable.utils ||
+                !cptable.utils.encode
+            ) {
+                alert("Big5 編碼模組未載入成功");
+                return;
+            }
+
+            // 950 = CP950 / Big5
+            const bytes = cptable.utils.encode(
+                950,
+                xml,
+                "arr"
+            );
+
+            const blob = new Blob(
+                [new Uint8Array(bytes)],
+                {
+                    type: "application/xml"
+                }
+            );
+
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+
+            a.href = url;
+            a.download = filename;
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            a.remove();
+
+            // 稍微延後釋放，避免部分瀏覽器下載尚未開始
+            setTimeout(() => {
+                URL.revokeObjectURL(url);
+            }, 1000);
+        }
+
+
+        try {
+
+            // ==============================
+            // 載入 XLSX
+            // ==============================
+            if (typeof XLSX === "undefined") {
+
+                await loadScript(
+                    "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+                );
+            }
+
+
+            // ==============================
+            // 載入 Big5 codepage
+            // ==============================
+            if (
+                typeof cptable === "undefined" ||
+                !cptable.utils ||
+                !cptable.utils.encode
+            ) {
+
+                await loadScript(
+                    "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/cpexcel.js"
+                );
+            }
+
+            if (typeof JSZip === "undefined") {
+                await loadScript(
+                    "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"
+                );
+            }
+
+
+            // 再確認一次
+            if (
+                typeof cptable === "undefined" ||
+                !cptable.utils ||
+                !cptable.utils.encode
+            ) {
+                throw new Error("Big5 編碼模組 cptable 載入失敗");
+            }
+
+
+            // ==============================
+            // 取得日期
+            // ==============================
+            const dateInput = document.querySelectorAll(
+                'input[placeholder=" 年 - 月 - 日"]'
+            );
+
+            if (dateInput.length < 2) {
+                alert("找不到起始日期欄位");
+                return;
+            }
+
+            let startdate = dateInput[0].value.split(" ")[1];
+            let enddate = dateInput[1].value.split(" ")[1];
+
+            if (!confirm(`選擇日期範圍為 ${startdate}~${enddate}，是否正確?`)) {
+                return;
+            }
+            let sarray=getDateRange(startdate, enddate);
+
+            // ==============================
+            // 可上傳類別
+            // ==============================
+            const uploadtypearray = [
+                "60",
+                "61",
+                "63",
+                "64",
+                "6a",
+                "6b",
+                "6c",
+                "6d",
+                "6e",
+                "6f",
+                "6s",
+                "6t"
+                ];
+
+            
+            // ==============================
+            // healthRecordIds
+            // ==============================
+            let healthRecordIds = [];
+            
+            for (let i=0;i<sarray.length;i++){
+                let datestr=sarray[i]; 
+                // ==============================
+                // 取得當日病歷
+                // ==============================
+                const url =
+                    "https://phpcis.chshb.gov.tw/api/v1/health_records/prescriptions/list" +
+                    "?personalId=" +
+                    "&period=" +
+                    "&roomId=" +
+                    "&prescriptionType=1" +
+                    "&visitTypeId=" +
+                    "&date=" +
+                    encodeURIComponent(datestr);
+
+
+                const response1 = JSON.parse(
+                    httpGet(url)
+                );
+
+                const res = response1.result || [];
+
+                for (let i = 0; i < res.length; i++) {
+
+                    const c = res[i];
+
+                    if (
+                        uploadtypearray.includes(c.visitTypeCode)
+                    ) {
+                        healthRecordIds.push(
+                            c.healthRecordId
+                        );
+                    }
+                }
+            }
+            
+            
+
+            // ==============================
+            // 醫師身分證
+            // ==============================
+            let docid = prompt(
+                "請輸入醫師身分證字號"
+            );
+
+            if (docid === null) {
+                return;
+            }
+
+            docid = docid.trim();
+
+            if (!docid) {
+                alert("未輸入醫師身分證字號");
+                return;
+            }
+
+            
+
+            if (!confirm(`選擇日期範圍為 ${startdate}~${enddate}，共${healthRecordIds.length}筆掛號紀錄\n醫師身分證字號為${docid}是否正確?`)) {
+                return;
+            }
+
+            if (healthRecordIds.length === 0) {
+                alert(
+                    `所選日期 ${startdate} ~ ${enddate} 無符合條件之看診紀錄`
+                );
+                return;
+            }
+
+
+            // ==============================
+            // 查詢處方明細
+            // ==============================
+            const params = new URLSearchParams({
+                healthRecordIds: healthRecordIds.join(","),
+                printType: "1"
+            });
+
+
+            const url2 =
+                `https://phpcis.chshb.gov.tw/api/v1/prescriptions/list_by_type?${params.toString()}`;
+
+
+            const response2 = JSON.parse(
+                httpGet(url2)
+            );
+
+            const res2 = response2.result || [];
+
+
+            if (res2.length === 0) {
+                alert(
+                    `所選日期 ${startdate} ~ ${enddate} 無處方資料`
+                );
+                return;
+            }
+
+
+        
+
+            // ==============================
+            // 現在時間
+            // ==============================
+            const now = new Date();
+
+            const year =
+                String(now.getFullYear() - 1911)
+                    .padStart(3, "0");
+
+            const month =
+                String(now.getMonth() + 1)
+                    .padStart(2, "0");
+
+            const day =
+                String(now.getDate())
+                    .padStart(2, "0");
+
+            const hour =
+                String(now.getHours())
+                    .padStart(2, "0");
+
+            const minute =
+                String(now.getMinutes())
+                    .padStart(2, "0");
+
+            const second =
+                String(now.getSeconds())
+                    .padStart(2, "0");
+
+            const nowiso=now.toISOString();
+            const timestamp =
+                `${year}${month}${day}${hour}${minute}${second}`;
+
+            const timestamp2 =
+                `${year}${month}${day}${hour}${minute}`;
+
+            const timestamp3 =
+                `${year}${month}${day}`;
+            const hm=`${hour}${minute}`;
+            const numstamp=hm.substring(hm.length-3,hm.length);
+            let clinicid=res2[0].clinicCode;
+            // ==============================
+            // XML
+            // ==============================
+            let xml =
+                '<?xml version="1.0" encoding="big5"?>\r\n';
+
+            xml += "<patient>\r\n";
+
+
+            let ssnum = 0;
+            
+
+            // ==============================
+            // 處理血壓資料
+            // ==============================
+            for (let i = 0; i < res2.length; i++) {
+
+                const r = res2[i];
+
+                const sbp = r.sbp;
+                const dbp = r.dbp;
+                const sbpNum = Number(sbp);
+                const dbpNum = Number(dbp);
+
+                // 收縮壓、舒張壓都必須有值
+                if (
+                    Number.isFinite(sbpNum) &&
+                    Number.isFinite(dbpNum) &&
+                    sbpNum > 0 &&
+                    dbpNum > 0
+                ) {
+
+                    ssnum++;
+
+
+                    // --------------------------
+                    // 就醫日期
+                    // --------------------------
+                    const treatmentDate =
+                        r.treatmentDate.split("-");
+
+                    const ty =
+                        String(
+                            Number(treatmentDate[0]) - 1911
+                        ).padStart(3, "0");
+
+                    const tm =
+                        String(treatmentDate[1])
+                            .padStart(2, "0");
+
+                    const td =
+                        String(treatmentDate[2])
+                            .padStart(2, "0");
+
+                    const tdd =
+                        ty + tm + td;
+
+
+                    // --------------------------
+                    // 出生日期
+                    // --------------------------
+                    const birthday =
+                        r.birthday.split("-");
+
+                    const by =
+                        String(
+                            Number(birthday[0]) - 1911
+                        ).padStart(3, "0");
+
+                    const bm =
+                        String(birthday[1])
+                            .padStart(2, "0");
+
+                    const bd =
+                        String(birthday[2])
+                            .padStart(2, "0");
+
+
+                    // ==========================
+                    // hdata
+                    // ==========================
+                    xml += "\t<hdata>\r\n";
+
+                    xml += "\t\t<h1>1</h1>\r\n";
+
+                    xml +=
+                        `\t\t<h2>${r.clinicCode}</h2>\r\n`;
+
+                    xml +=
+                        "\t\t<h3>11</h3>\r\n";
+
+                    xml +=
+                        `\t\t<h4>${ty}${tm}</h4>\r\n`;
+
+                    xml +=
+                        `\t\t<h5>${tdd}000000</h5>\r\n`;
+
+                    xml +=
+                        "\t\t<h6>01</h6>\r\n";
+
+                    xml +=
+                        `\t\t<h7>${r.treatmentSeqNo}</h7>\r\n`;
+
+                    xml +=
+                        "\t\t<h8>1</h8>\r\n";
+
+                    xml +=
+                        `\t\t<h9>${r.personalId}</h9>\r\n`;
+
+                    xml +=
+                        `\t\t<h10>${by}${bm}${bd}</h10>\r\n`;
+
+                    xml +=
+                        `\t\t<h11>${tdd}</h11>\r\n`;
+
+                    xml +=
+                        "\t\t<h15>Y00006</h15>\r\n";
+
+                    xml +=
+                        `\t\t<h16>${timestamp}</h16>\r\n`;
+
+                    xml +=
+                        `\t\t<h17>${docid}</h17>\r\n`;
+
+                    xml +=
+                        `\t\t<h19>${tdd}0000</h19>\r\n`;
+
+                    xml +=
+                        `\t\t<h20>${tdd}0000</h20>\r\n`;
+
+                    xml +=
+                        `\t\t<h21>${timestamp2}</h21>\r\n`;
+
+                    xml +=
+                        "\t\t<h22>量測值</h22>\r\n";
+
+                    xml +=
+                        "\t\t<h26>0</h26>\r\n";
+
+
+                    // ==========================
+                    // 收縮壓
+                    // ==========================
+                    xml += "\t\t<rdata>\r\n";
+
+                    xml +=
+                        "\t\t\t<r1>1</r1>\r\n";
+
+                    xml +=
+                        "\t\t\t<r2>收縮壓</r2>\r\n";
+
+                    xml +=
+                        `\t\t\t<r4>${sbp}</r4>\r\n`;
+
+                    xml +=
+                        "\t\t\t<r5>mmHg</r5>\r\n";
+
+                    xml +=
+                        "\t\t\t<r6-2>130</r6-2>\r\n";
+
+                    xml +=
+                        `\t\t\t<r9>${r.clinicCode}</r9>\r\n`;
+
+                    xml +=
+                        `\t\t\t<r10>${tdd}0000</r10>\r\n`;
+
+                    xml += "\t\t</rdata>\r\n";
+
+
+                    // ==========================
+                    // 舒張壓
+                    // ==========================
+                    xml += "\t\t<rdata>\r\n";
+
+                    xml +=
+                        "\t\t\t<r1>2</r1>\r\n";
+
+                    xml +=
+                        "\t\t\t<r2>舒張壓</r2>\r\n";
+
+                    xml +=
+                        `\t\t\t<r4>${dbp}</r4>\r\n`;
+
+                    xml +=
+                        "\t\t\t<r5>mmHg</r5>\r\n";
+
+                    xml +=
+                        "\t\t\t<r6-2>80</r6-2>\r\n";
+
+                    xml +=
+                        `\t\t\t<r9>${r.clinicCode}</r9>\r\n`;
+
+                    xml +=
+                        `\t\t\t<r10>${tdd}0000</r10>\r\n`;
+
+                    xml += "\t\t</rdata>\r\n";
+
+
+                    xml += "\t</hdata>\r\n";
+                }
+            }
+
+
+            xml += "</patient>\r\n";
+
+
+            // ==============================
+            // 下載
+            // ==============================
+            if (ssnum > 0) {
+
+                let base64 = await xmlToZipBase64(
+                    xml,
+                    "TOTFA.xml"
+                );
+                let uuid=crypto.randomUUID();
+                const zipFilename =`${clinicid}${timestamp3}${numstamp}.zip`;
+                const uploadPath =
+                    `C:\\NHI\\searchParam\\${zipFilename}`;
+                let uploadjson={
+                    "command": "NHI_SendBEx",
+                    "content": {
+                        "UploadID": uuid.replaceAll("-",""),
+                        "UploadFileBase64": base64,
+                        "iRs232PortNo": 0,
+                        "sUploadFileName": uploadPath,
+                        "sTypeCode": "26"
+                    },
+                    "timestamp": nowiso,
+                    "trace_id": uuid,
+                    "trace_type": "UploadBP_NHI_SendBEx"
+                }
+                await sendNHI_SendBEx(uploadjson)
+
+
+            } else {
+
+                alert(
+                    `所選日期 ${startdate} ~ ${enddate} 無可上傳之血壓紀錄`
+                );
+            }
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "產生檔案失敗：\n" +
+                error.message
+            );
+        }
+    }
+
+
+
 	function create_Countmonth(){
 		create_myDraggable();
 		button_countmonth = document.createElement('button');
