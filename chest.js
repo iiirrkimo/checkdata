@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150810';
+chestversion='1150813';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -2019,9 +2019,20 @@ function createchest(){
 		button_FMdgen.style.position = 'absolute';
 		button_FMdgen.addEventListener('click', button_FMdgen_handle);
 		myDraggable.appendChild(button_FMdgen);
-		myDraggable.style.width='204px';
+
+        button_selectday = document.createElement('button');
+		button_selectday.textContent='勾選天';
+		button_selectday.style.width = '100px';
+		button_selectday.style.height = '36px';
+		button_selectday.style.left = '204px';
+		button_selectday.style.top = '2px';
+		button_selectday.style.position = 'absolute';
+		button_selectday.addEventListener('click',button_selectday_handle);
+		myDraggable.appendChild(button_selectday);
+
+		myDraggable.style.width='306px';
 		myDraggable.style.height = 40+'px';
-		myDraggable.style.left=window.innerWidth-204-borderx +'px';
+		myDraggable.style.left=window.innerWidth-306-borderx +'px';
 	}
     function create_d11(){
         create_myDraggable();
@@ -2125,7 +2136,7 @@ function createchest(){
             return zipBase64;
         }
 
-        async function sendNHI_SendBEx(message) {
+        async function sendNHI_SendBEx(message,ssnum) {
             return new Promise((resolve, reject) => {
 
                 const socket = new WebSocket(
@@ -2226,6 +2237,7 @@ function createchest(){
                         data.content?.ret;
                     alert(
                         `上傳完成\n` +
+                        `共${ssnum}筆\n` +
                         `sLocal_ID：${sLocal_ID}\n` +
                         `sNHI_ID：${sNHI_ID}\n` +
                         `請於5-10分鐘後至VPN > 檢驗(查)結果每日上傳作業 > 檢驗(查)結果項目資料上傳及查詢檢查上傳狀態`
@@ -2787,7 +2799,7 @@ function createchest(){
 
                 let base64 = await xmlToZipBase64(
                     xml,
-                    "TOTFA.xml"
+                    "TOTFA.xml",
                 );
                 let uuid=crypto.randomUUID();
                 const zipFilename =`${clinicid}${timestamp3}${numstamp}.zip`;
@@ -2806,7 +2818,7 @@ function createchest(){
                     "trace_id": uuid,
                     "trace_type": "UploadBP_NHI_SendBEx"
                 }
-                await sendNHI_SendBEx(uploadjson)
+                await sendNHI_SendBEx(uploadjson,ssnum)
 
 
             } else {
@@ -12738,6 +12750,24 @@ function createchest(){
 			} 
 		}
 	}
+    function button_selectday_handle(){
+        let selday=prompt('請輸入日期\nex.1150813');
+        let tb=document.querySelector("#uncontrolled-tab-example-tabpane-02 > div > div.line > div > table > tbody").rows;
+        for (let i=0;i<tb.length;i++){
+            let r=tb[i];
+            let ck=r.cells[0].children[0];
+            if (r.cells[7].textContent.includes(selday)){
+                if (!ck.checked){
+                    ck.click()
+                }
+            } else {
+                if (ck.checked){
+                    ck.click()
+                }
+            }
+        }
+        alert(`勾選包含${selday}完成`)
+    }
 	async function button_FMdgen_handle() {
 	let xmlHttp = new XMLHttpRequest();
 	let csvopt = {
