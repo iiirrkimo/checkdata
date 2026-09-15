@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading</title>
+</head>
+<body>
+	<style>
+    .thebutton {
+		border: none; 
+		padding: 5px; 
+		text-decoration: none; 
+		font-size: 24px;
+		font-family: '微軟正黑體', sans-serif; 
+		border-radius: 10px; 
+		background-color: #00EC00; 
+		transition: background-color 0.3s;
+	}
+	.thebutton:hover {
+		background-color: #53FF53
+	}
+	p {
+		font-size: 18px; 
+		font-family: '微軟正黑體', sans-serif; 
+		line-height: 0.5;
+		text-indent: 20px;
+    }
+	</style>
+	
+	<script>
+		window.onload = function() {
+			const Url='https://script.google.com/macros/s/AKfycbxk0oDfk1AeQArAezUWF5RXA-EaXuINPQ9ciQEDcXwKF1JjOIm9CL6A04dg76YU_Pzn/exec';
+			const xmlHttp = new XMLHttpRequest();
+			xmlHttp.open('GET', Url, false );
+			xmlHttp.send();
+			let res=xmlHttp.responseText;
+			let jres=JSON.parse(res);
+            console.log(jres);
+            document.querySelector('title').textContent = "名冊總表";
+            createListTable(jres)
+			
+		};
+        function createListTable(inputData, target = document.body) {
+            // target 可以是 DOM 元素或 CSS selector
+            if (typeof target === "string") {
+                target = document.querySelector(target);
+            }
+
+            if (!target) {
+                throw new Error("找不到要插入表格的目標元素");
+            }
+
+            // 如果傳入的是 JSON 字串，自動解析
+            if (typeof inputData === "string") {
+                inputData = JSON.parse(inputData);
+            }
+
+            if (!Array.isArray(inputData)) {
+                throw new TypeError("inputData 必須是 Array");
+            }
+
+            // 只保留有 URL 的資料
+            let sourceData = inputData.filter(item =>
+                typeof item.url === "string" &&
+                item.url.trim() !== ""
+            );
+
+            const instanceId =
+                "list-table-" +
+                Date.now() +
+                "-" +
+                Math.random().toString(36).slice(2, 8);
+
+            insertListTableStyle();
+
+            const wrapper = document.createElement("section");
+            wrapper.className = "list-table-app";
+            wrapper.id = instanceId;
+
+            wrapper.innerHTML = `
+                <div class="list-table-header">
+                    <div>
+                        <h2 class="list-table-title">名冊列表</h2>
+                        <div class="list-table-summary"></div>
+                    </div>
+
+                    <div class="list-table-filters">
+                        <label class="list-search-box">
+                            <span>⌕</span>
+                            <input
+                                type="search"
+                                class="list-search"
+                                placeholder="搜尋名稱或主機名稱"
+                                autocomplete="off"
+                            >
+                        </label>
+
+                        <select class="list-status-filter" aria-label="依狀態篩選">
+                            <option value="all">全部狀態</option>
+                            <option value="active">效期內</option>
+                            <option value="pending">未開始</option>
+                            <option value="expired">已過期</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="list-table-container">
+                    <table class="list-table">
+                        <thead>
+                            <tr>
+                                <th>名稱</th>
+                                <th>主機名稱</th>
+                                <th>開始日期</th>
+                                <th>結束日期</th>
+                                <th>狀態</th>
+                            </tr>
+                        </thead>
+
+                        <tbody></tbody>
+                    </table>
+
+                    <div class="list-empty" hidden>
+                        找不到符合條件的資料
+                    </div>
+                </div>
+            `;
+
+            target.appendChild(wrapper);
+
+            const searchInput = wrapper.querySelector(".list-search");
+            const statusSelect = wrapper.querySelector(".list-status-filter");
+            const tbody = wrapper.querySelector("tbody");
+            const emptyElement = wrapper.querySelector(".list-empty");
+            const summaryElement = wrapper.querySelector(".list-table-summary");
+
+            function parseDate(value) {
+                if (!value) {
+                    return null;
+                }
+
+                const date = new Date(value);
+
+                return Number.isNaN(date.getTime()) ? null : date;
+            }
+
+            function getStatus(item) {
+                const now = new Date();
+                const startDate = parseDate(item.startdate);
+                const endDate = parseDate(item.enddate);
+
+                if (startDate && now < startDate) {
+                    return {
+                        key: "pending",
+                        label: "未開始"
+                    };
+                }
+
+                if (endDate && now > endDate) {
+                    return {
+                        key: "expired",
+                        label: "已過期"
+                    };
+                }
+
+                return {
+                    key: "active",
+                    label: "效期內"
+                };
+            }
+
+            function formatDate(value, emptyText) {
+                const date = parseDate(value);
+
+                if (!date) {
+                    return emptyText;
+                }
+
+                return new Intl.DateTimeFormat("zh-TW", {
+                    timeZone: "Asia/Taipei",
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit"
+                }).format(date);
+            }
+
+            function createCell(text, className = "") {
+                const td = document.createElement("td");
+                td.textContent = text;
+
+                if (className) {
+                    td.className = className;
+                }
+
+                return td;
+            }
+
+            function render() {
+                const keyword = searchInput.value.trim().toLowerCase();
+                const selectedStatus = statusSelect.value;
+
+                const filteredData = sourceData.filter(item => {
+                    const status = getStatus(item);
+
+                    const searchableText = [
+                        item.listname ?? "",
+                        item.hostname ?? ""
+                    ].join(" ").toLowerCase();
+
+                    const matchesKeyword =
+                        keyword === "" ||
+                        searchableText.includes(keyword);
+
+                    const matchesStatus =
+                        selectedStatus === "all" ||
+                        status.key === selectedStatus;
+
+                    return matchesKeyword && matchesStatus;
+                });
+
+                tbody.replaceChildren();
+
+                for (const item of filteredData) {
+                    const status = getStatus(item);
+                    const tr = document.createElement("tr");
+
+                    tr.className = `list-row list-row-${status.key}`;
+
+                    const nameCell = document.createElement("td");
+                    const nameButton = document.createElement("button");
+
+                    nameButton.type = "button";
+                    nameButton.className = "list-name-button";
+                    nameButton.textContent = item.listname || "未命名";
+
+                    nameButton.addEventListener("click", function () {
+                        window.open(
+                            item.url.trim(),
+                            "_blank"
+                        );
+                    });
+
+                    nameCell.appendChild(nameButton);
+                    tr.appendChild(nameCell);
+
+                    tr.appendChild(
+                        createCell(item.hostname || "—")
+                    );
+
+                    tr.appendChild(
+                        createCell(
+                            formatDate(item.startdate, "-"),
+                            item.startdate ? "" : "list-muted"
+                        )
+                    );
+
+                    tr.appendChild(
+                        createCell(
+                            formatDate(item.enddate, "無到期時間"),
+                            item.enddate ? "" : "list-muted"
+                        )
+                    );
+
+                    const statusCell = document.createElement("td");
+                    const statusBadge = document.createElement("span");
+
+                    statusBadge.className = `list-status list-status-${status.key}`;
+                    statusBadge.textContent = status.label;
+
+                    statusCell.appendChild(statusBadge);
+                    tr.appendChild(statusCell);
+
+                    
+
+                    tbody.appendChild(tr);
+                }
+
+                emptyElement.hidden = filteredData.length !== 0;
+
+                summaryElement.textContent =
+                    `顯示 ${filteredData.length} 筆，共 ${sourceData.length} 筆`;
+            }
+
+            searchInput.addEventListener("input", render);
+            statusSelect.addEventListener("change", render);
+
+            render();
+
+            return {
+                element: wrapper,
+
+                refresh() {
+                    render();
+                },
+
+                setData(newData) {
+                    if (typeof newData === "string") {
+                        newData = JSON.parse(newData);
+                    }
+
+                    if (!Array.isArray(newData)) {
+                        throw new TypeError("newData 必須是 Array");
+                    }
+
+                    sourceData = newData.filter(item =>
+                        typeof item.url === "string" &&
+                        item.url.trim() !== ""
+                    );
+
+                    render();
+                },
+
+                remove() {
+                    wrapper.remove();
+                }
+            };
+        }
+
+
+        function insertListTableStyle() {
+            if (document.getElementById("list-table-style")) {
+                return;
+            }
+
+            const style = document.createElement("style");
+            style.id = "list-table-style";
+
+            style.textContent = `
+                .list-table-app {
+                    --active-color: #16803c;
+                    --active-background: #eaf8ef;
+                    --pending-color: #1769aa;
+                    --pending-background: #eaf4ff;
+                    --expired-color: #c62828;
+                    --expired-background: #fff0f0;
+
+                    box-sizing: border-box;
+                    width: 100%;
+                    padding: 20px;
+                    color: #273142;
+                    font-family:
+                        system-ui,
+                        -apple-system,
+                        BlinkMacSystemFont,
+                        "Segoe UI",
+                        "Microsoft JhengHei",
+                        sans-serif;
+                }
+
+                .list-table-app * {
+                    box-sizing: border-box;
+                }
+
+                .list-table-header {
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: space-between;
+                    gap: 16px;
+                    margin-bottom: 16px;
+                }
+
+                .list-table-title {
+                    margin: 0 0 4px;
+                    color: #172033;
+                    font-size: 24px;
+                }
+
+                .list-table-summary {
+                    color: #7a8495;
+                    font-size: 14px;
+                }
+
+                .list-table-filters {
+                    display: flex;
+                    gap: 10px;
+                }
+
+                .list-search-box {
+                    display: flex;
+                    align-items: center;
+                    min-width: 260px;
+                    padding: 0 12px;
+                    border: 1px solid #d8dee8;
+                    border-radius: 10px;
+                    background: #ffffff;
+                    transition: border-color 0.2s, box-shadow 0.2s;
+                }
+
+                .list-search-box:focus-within {
+                    border-color: #5085ed;
+                    box-shadow: 0 0 0 3px rgba(80, 133, 237, 0.14);
+                }
+
+                .list-search-box span {
+                    margin-right: 8px;
+                    color: #788395;
+                    font-size: 20px;
+                }
+
+                .list-search {
+                    width: 100%;
+                    height: 42px;
+                    border: 0;
+                    outline: 0;
+                    background: transparent;
+                    color: #273142;
+                    font-size: 14px;
+                }
+
+                .list-status-filter {
+                    height: 44px;
+                    padding: 0 36px 0 14px;
+                    border: 1px solid #d8dee8;
+                    border-radius: 10px;
+                    outline: none;
+                    background: #ffffff;
+                    color: #273142;
+                    cursor: pointer;
+                }
+
+                .list-status-filter:focus {
+                    border-color: #5085ed;
+                    box-shadow: 0 0 0 3px rgba(80, 133, 237, 0.14);
+                }
+
+                .list-table-container {
+                    overflow-x: auto;
+                    border: 1px solid #e2e7ef;
+                    border-radius: 14px;
+                    background: #ffffff;
+                    box-shadow: 0 8px 30px rgba(26, 39, 65, 0.08);
+                }
+
+                .list-table {
+                    width: 100%;
+                    min-width: 850px;
+                    border-collapse: collapse;
+                }
+
+                .list-table th {
+                    padding: 14px 16px;
+                    border-bottom: 1px solid #e2e7ef;
+                    background: #f7f9fc;
+                    color: #637083;
+                    font-size: 13px;
+                    font-weight: 600;
+                    text-align: left;
+                    white-space: nowrap;
+                }
+
+                .list-table td {
+                    padding: 15px 16px;
+                    border-bottom: 1px solid #edf0f5;
+                    font-size: 14px;
+                    vertical-align: middle;
+                }
+
+                .list-table tbody tr:last-child td {
+                    border-bottom: 0;
+                }
+
+                .list-table tbody tr {
+                    transition: background-color 0.15s;
+                }
+
+                .list-table tbody tr:hover {
+                    filter: brightness(0.985);
+                }
+
+                .list-row-active {
+                    background: var(--active-background);
+                }
+
+                .list-row-pending {
+                    background: var(--pending-background);
+                }
+
+                .list-row-expired {
+                    background: var(--expired-background);
+                }
+
+
+                .list-muted {
+                    color: #8993a3;
+                }
+
+                .list-status {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 68px;
+                    padding: 5px 10px;
+                    border-radius: 999px;
+                    font-size: 13px;
+                    font-weight: 650;
+                    white-space: nowrap;
+                }
+
+                .list-status-active {
+                    color: var(--active-color);
+                    background: rgba(22, 128, 60, 0.12);
+                }
+
+                .list-status-pending {
+                    color: var(--pending-color);
+                    background: rgba(23, 105, 170, 0.12);
+                }
+
+                .list-status-expired {
+                    color: var(--expired-color);
+                    background: rgba(198, 40, 40, 0.12);
+                }
+
+                .list-name-button {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 8px 14px;
+                    border: 1px solid #315fce;
+                    border-radius: 8px;
+                    background: #ffffff;
+                    color: #315fce;
+                    font-family: inherit;
+                    font-size: 14px;
+                    font-weight: 650;
+                    cursor: pointer;
+                    transition:
+                        color 0.2s,
+                        background-color 0.2s,
+                        box-shadow 0.2s,
+                        transform 0.1s;
+                }
+
+                .list-name-button:hover {
+                    background: #315fce;
+                    color: #ffffff;
+                    box-shadow: 0 4px 12px rgba(49, 95, 206, 0.25);
+                }
+
+                .list-name-button:active {
+                    transform: translateY(1px);
+                }
+
+                .list-name-button:focus-visible {
+                    outline: 3px solid rgba(49, 95, 206, 0.25);
+                    outline-offset: 2px;
+                }
+
+                .list-empty {
+                    padding: 50px 20px;
+                    color: #7a8495;
+                    text-align: center;
+                }
+
+                @media (max-width: 700px) {
+                    .list-table-app {
+                        padding: 12px;
+                    }
+
+                    .list-table-header {
+                        align-items: stretch;
+                        flex-direction: column;
+                    }
+
+                    .list-table-filters {
+                        flex-direction: column;
+                    }
+
+                    .list-search-box {
+                        min-width: 0;
+                    }
+                }
+            `;
+
+            document.head.appendChild(style);
+        }
+            
+    </script>
+		
+</body>
+</html>
