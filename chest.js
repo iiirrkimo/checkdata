@@ -14,12 +14,13 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1150813';
+chestversion='1151019';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
 }
 escape_populanceConsultation = confirm('百寶箱版本:'+chestversion+'\n看診前是否自動跳過民眾看診首頁');
+escape_receipt=false;
 /*
 if (confirm('是否縮減標題及移除頁尾?')){
 	head=document.querySelector("#root > header");
@@ -52,34 +53,28 @@ if (confirm('是否隱藏預防接種作業?')){
 */
 document.querySelector('a[href="/niisVaccination"]').hidden=true;;
 // 監控 body 內 iframe 的新增
-/*
-const observer = new MutationObserver((mutations) => {
+
+const observerprint = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
             if (node.tagName === 'IFRAME') {
-				console.log('偵測到新的 iframe:', node);
-				oriprint=node.contentWindow.print;
-				node.contentWindow.print = () => {
-					try {
-						const win = node.contentWindow;
-						const doc = node.contentDocument;
-						let alldivs=doc.body.children[0].children;
-						for (let i=0;i<alldivs.length;i++){
-							let div=alldivs[i];
-							if (div.style.display=='block'){
-								div.className="page";
-							}
-						}
-						let hrarea=node.contentDocument.querySelector("body > div > div.page > div:nth-child(2)");
-						if (hrarea.style.display=='flex'){
-							hrarea.className="page";
-						}
-						oriprint();
-					} catch (e){
-						console.log('不使用');
-						oriprint();
-					}
-				};
+				//console.log('偵測到新的 iframe:', node);
+                if (node.id=="printWindow" && escape_receipt){
+                    console.log('不印收據');
+				    let oriprint=node.contentWindow.print;
+                    node.contentWindow.print = () => {
+                        try {
+                            const win = node.contentWindow;
+                            const doc = node.contentDocument;
+                            let receipt=doc.body.querySelectorAll(".prescription-print-form")[0].parentElement.parentElement.parentElement;
+                            receipt.style.display="none";
+                            oriprint();
+                        } catch (e){
+                            console.log('不使用');
+                            oriprint();
+                        }
+                    };
+                }
 				
             }
         }
@@ -87,8 +82,8 @@ const observer = new MutationObserver((mutations) => {
 });
 
 // 啟動監控，監控 body 的直接子節點變化
-observer.observe(document.body, { childList: true, subtree: true });
-*/
+observerprint.observe(document.body, { childList: true, subtree: true });
+
 
 thefind=false;
 const observer = new MutationObserver((mutationsList, observer) => {
@@ -1311,6 +1306,15 @@ function base64decode(base64Str){
 
 
 createchest();
+
+
+document.querySelector("#root > footer").style.display='none';
+let ht=document.querySelector("#root").getClientRects()[0].height;
+let ht2=document.querySelector("#root > header").getClientRects()[0].height;
+let ht3=ht-ht2;
+document.querySelector("#root > div.wrapper").style.height=`${ht3}px`;
+document.querySelector("#root > div.wrapper > main").style.paddingBottom="0px";
+
 })();
 function httpGet(Url) {
 	var xmlHttp = new XMLHttpRequest();
@@ -1652,7 +1656,33 @@ function createchest(){
                 document.head.append(metascript);
             }
         })
-    
+        xx+=ww+ii
+        let escape_receipt_check=document.createElement("input");
+        escape_receipt_check.type = "checkbox";
+        escape_receipt_check.id="escape_receipt_check";
+        myDraggable.appendChild(escape_receipt_check);
+        escape_receipt_check.style.padding ='0px';
+        escape_receipt_check.style.left = xx+'px';
+        escape_receipt_check.style.top = yy+'px';
+        escape_receipt_check.style.width = 20+'px';
+        escape_receipt_check.style.height = hh+'px';
+        escape_receipt_check.style.position = 'absolute';
+        escape_receipt_check.checked=escape_receipt;
+        escape_receipt_check.addEventListener("click",()=>{
+            escape_receipt=escape_receipt_check.checked;
+        })
+        xx+=20+ii
+        let uzuz = document.createElement("label");
+        uzuz.htmlFor = "escape_receipt_check";
+        uzuz.appendChild(document.createTextNode("不印收據"));
+        uzuz.style.padding ='0px';
+        uzuz.style.left = xx+'px';
+        uzuz.style.top = (yy+8)+'px';
+        uzuz.style.width = ww+'px';
+        uzuz.style.height = hh+'px';
+        uzuz.style.position = 'absolute';
+        myDraggable.appendChild(uzuz);
+
         xx+=ww+ii
         yy+=hh+ii;
         myDraggable.style.width=xx+'px';
