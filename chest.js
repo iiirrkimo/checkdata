@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1151019';
+chestversion='1151102';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -2883,7 +2883,18 @@ function createchest(){
 		button_countmonth.style.position = 'absolute';
 		button_countmonth.addEventListener('click', button_countmonth_handle);
 		myDraggable.appendChild(button_countmonth);
-		myDraggable.style.width='164px';
+        
+        let button_unfinish = document.createElement('button');
+		button_unfinish.textContent='下載未完診清單';
+		button_unfinish.style.width = '160px';
+		button_unfinish.style.height = '66px';
+		button_unfinish.style.left = '164px';
+		button_unfinish.style.top = '2px';
+		button_unfinish.style.position = 'absolute';
+		button_unfinish.addEventListener('click', button_unfinish_handle);
+		myDraggable.appendChild(button_unfinish);
+
+		myDraggable.style.width='328px';
 		myDraggable.style.height = 70+'px';
 		myDraggable.style.left=window.innerWidth-1164-borderx +'px';
 	}
@@ -13421,7 +13432,97 @@ function createmyDraggable_3(){
 	}
 }
 }
+function button_unfinish_handle(){
+    function getDaysInMonth(year, month) {
+		return new Date(year, month, 0).getDate();
+	}
+	function httpGet(Url) {
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "GET", Url, false );
+		xmlHttp.send( null );
+		return xmlHttp.responseText;
+	}
+	async function downloadXlsx(data, filename = "資料.xlsx") {
+	  // 尚未載入 SheetJS 時，動態載入
+	  if (!window.XLSX) {
+		await new Promise((resolve, reject) => {
+		  const script = document.createElement("script");
+		  script.src =
+			"https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
+		  script.onload = resolve;
+		  script.onerror = () => reject(new Error("Excel 套件載入失敗"));
+		  document.head.appendChild(script);
+		});
+	  }
 
+	  // 二維陣列 → 工作表
+	  const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+	  // 建立活頁簿並加入工作表
+	  const workbook = XLSX.utils.book_new();
+	  XLSX.utils.book_append_sheet(workbook, worksheet, "資料");
+
+	  // 下載 XLSX
+	  XLSX.writeFile(workbook, filename);
+	}
+	let selecteddate=document.querySelector('input[required][placeholder=" 年 - 月 - 日"]').value.split(" ")[1];
+	let selectedyear=selecteddate.split("-")[0];
+	let selectedmonth=selecteddate.split("-")[1];
+	if (!confirm(`即將開始查詢${selectedyear}年${selectedmonth}月未看診名單\n約需要1-2分鐘\n是否繼續`)){
+		return
+	} 
+	let daysofselectedmonth=getDaysInMonth(selectedyear,selectedmonth);
+	let datearray=["01","08","15","22","29"];
+	if (daysofselectedmonth==28){
+		datearray=["01","08","15","22","28"];
+	} else {
+		datearray.push(daysofselectedmonth.toString())
+	}
+	let shiftIds=[];
+	for (let i=0;i<datearray.length;i++){
+		let startDate=`${selectedyear}-${selectedmonth}-${datearray[i]}`;
+		let url="https://phpcis.chshb.gov.tw/api/v1/shifts/list?startDate="+startDate;
+		let res=httpGet(url);
+		let jres=JSON.parse(res).result;
+		for (let j=0;j<jres.length;j++){
+			let qd=jres[j].date;
+			let qdy=qd.split("-")[0];
+			let qdm=qd.split("-")[1];
+			if (qdy==selectedyear && qdm==selectedmonth){
+				let shiftId=jres[j].shiftId;
+				if (!shiftIds.includes(shiftId)){
+					shiftIds.push(shiftId);
+				}
+			}
+		}
+	}
+	let notvisitarray=[["姓名","生日","身分證號","就醫日期","身份代碼","身份名稱"]];
+	for (let i=0;i<shiftIds.length;i++){
+		let shiftId=shiftIds[i];
+		let url="https://phpcis.chshb.gov.tw/api/v1/registrations/list?shiftId="+shiftId;
+		let res=httpGet(url);
+		let jres=JSON.parse(res).result;
+		for (let j=0;j<jres.length;j++){
+			let c=jres[j];
+			if (c.treatmentStatus=="0"){
+				let temp=[];
+				temp.push(c.name);
+				temp.push(c.birthday);
+				temp.push(c.personalId);
+				temp.push(c.treatmentDate);
+				temp.push(c.visitTypeCode);
+				temp.push(c.visitType);
+				notvisitarray.push(temp)
+			}
+		}
+	}
+	console.log(notvisitarray)
+	if (notvisitarray.length>1){
+		downloadXlsx(notvisitarray, `${selectedyear}年${selectedmonth}月未完診名單.xlsx`).catch(console.error);
+	} else {
+		alert(`${selectedyear}年${selectedmonth}月皆已完成看診`)
+	}
+}
 	function button_countmonth_handle(){
 		ccc=document.URL;
 		if (ccc=='https://phpcis.chshb.gov.tw/medicalRefee'){
