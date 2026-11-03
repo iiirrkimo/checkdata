@@ -14,7 +14,7 @@ javascript: (function(){
         return pushState.apply(history, arguments);
     };
 })(window.history);
-chestversion='1151102';
+chestversion='1151103';
 temptype='';
 if (document.getElementById('create_niisdrag')!=null){
 	document.getElementById('create_niisdrag').remove();
@@ -13479,6 +13479,7 @@ function button_unfinish_handle(){
 		datearray.push(daysofselectedmonth.toString())
 	}
 	let shiftIds=[];
+	let shiftdetail={};
 	for (let i=0;i<datearray.length;i++){
 		let startDate=`${selectedyear}-${selectedmonth}-${datearray[i]}`;
 		let url="https://phpcis.chshb.gov.tw/api/v1/shifts/list?startDate="+startDate;
@@ -13489,19 +13490,34 @@ function button_unfinish_handle(){
 			let qdy=qd.split("-")[0];
 			let qdm=qd.split("-")[1];
 			if (qdy==selectedyear && qdm==selectedmonth){
-				let shiftId=jres[j].shiftId;
+				let s=jres[j];
+				let shiftId=s.shiftId;
 				if (!shiftIds.includes(shiftId)){
 					shiftIds.push(shiftId);
+					shiftdetail[shiftId]={};
+					let period="未知";
+					if (s.period==1){
+						period="上午";
+					} else if (s.period==2){
+						period="下午";
+					} else if (s.period==3){
+						period="晚上";
+					}
+					shiftdetail[shiftId]["period"]=period;
+					shiftdetail[shiftId]["roomName"]=s.roomName;
+					shiftdetail[shiftId]["divisionName"]=s.divisionName;
+					shiftdetail[shiftId]["doctorName"]=s.doctorName;
 				}
 			}
 		}
 	}
-	let notvisitarray=[["姓名","生日","身分證號","就醫日期","身份代碼","身份名稱"]];
+	let notvisitarray=[["姓名","生日","身分證號","就醫日期","午別","診次","科別","醫師","身份代碼","身份名稱"]];
 	for (let i=0;i<shiftIds.length;i++){
 		let shiftId=shiftIds[i];
 		let url="https://phpcis.chshb.gov.tw/api/v1/registrations/list?shiftId="+shiftId;
 		let res=httpGet(url);
 		let jres=JSON.parse(res).result;
+		let sd=shiftdetail[shiftId];
 		for (let j=0;j<jres.length;j++){
 			let c=jres[j];
 			if (c.treatmentStatus=="0"){
@@ -13510,6 +13526,10 @@ function button_unfinish_handle(){
 				temp.push(c.birthday);
 				temp.push(c.personalId);
 				temp.push(c.treatmentDate);
+				temp.push(sd.period);
+				temp.push(sd.roomName);
+				temp.push(sd.divisionName);
+				temp.push(sd.doctorName);
 				temp.push(c.visitTypeCode);
 				temp.push(c.visitType);
 				notvisitarray.push(temp)
