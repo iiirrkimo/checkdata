@@ -81,7 +81,7 @@ $("recordForm").querySelector('button[type="submit"]').textContent =
 
   // 每次新增預設正常
   $("vaccineMonitor").value = "正常";
-  $("freezeMonitor").value = "正常";
+  $("freezeMonitor").value = "1/3A";
 
   $("recordDialog").showModal();
 }

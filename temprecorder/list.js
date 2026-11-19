@@ -469,7 +469,7 @@ function parseSource(source) {
             value !== null &&
             value !== undefined &&
             value !== "" &&
-            !["正常", "異常"].includes(value)
+            !["正常", "異常","-A","1/4A","1/3A","其他"].includes(value)
           ) {
             throw new Error(
               `${location}的 ${key} 必須是正常或異常。`
