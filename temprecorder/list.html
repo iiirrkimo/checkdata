@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>冰箱溫度記錄表格</title>
+  <link rel="stylesheet" href="list.css">
+  <script src="list.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <header>
+      <a class="page-link" href="./recorder.html">前往登錄溫度</a>
+      <h1>冰箱溫度記錄表格</h1>
+    </header>
+
+    <section class="controls">
+      <form id="queryForm">
+  <!-- 第一排 -->
+  <div class="control-row">
+    <label>
+      開始日期
+      <input id="startDate" type="date" required>
+    </label>
+
+    <label>
+      結束日期
+      <input id="endDate" type="date" required>
+    </label>
+
+    <button type="submit">查詢</button>
+  </div>
+
+  <!-- 第二排 -->
+  <div class="control-row">
+    <label>
+      選擇冰箱
+      <select id="fridge">
+        <option value="1">冰箱 1</option>
+        <option value="2">冰箱 2</option>
+        <option value="3">冰箱 3</option>
+      </select>
+    </label>
+
+    <button id="generateButton" type="button" disabled>
+      產製表格
+    </button>
+
+    <button id="printButton" type="button" class="secondary" disabled>
+      列印／另存 PDF
+    </button>
+  </div>
+</form>
+
+      <details>
+        <summary>資料來源：貼上 JSON</summary>
+
+        <p class="hint">
+          請貼上含有 time、json 的陣列。
+          修改後按「產製表格」，不會暫存於瀏覽器。
+        </p>
+
+        <label for="source">JSON 資料</label>
+        <textarea
+          id="source"
+          rows="8"
+          spellcheck="false"
+          placeholder='[{"time":"2026-10-02 13:43:15","json":"..."}]'
+        ></textarea>
+
+        <button id="demoButton" type="button" class="secondary">
+          載入示範資料
+        </button>
+      </details>
+    </section>
+
+    <p id="message" role="status" aria-live="polite"></p>
+
+    <section id="report" aria-label="冰箱溫度報表"></section>
+  </main>
+  <div
+  id="loadingOverlay"
+  class="loading-overlay"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+  hidden
+>
+  <div class="loading-box">
+    <div class="loading-spinner" aria-hidden="true"></div>
+    <p id="loadingText">資料讀取中…</p>
+    <span>請稍候</span>
+  </div>
+</div>
+</body>
+</html>

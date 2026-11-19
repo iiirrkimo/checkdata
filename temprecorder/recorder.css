@@ -1,0 +1,445 @@
+:root {
+  color-scheme: light;
+  font-family: "Microsoft JhengHei", system-ui, sans-serif;
+  color: #203142;
+  background: #f2f6fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(24px, 4vw, 30px);
+}
+
+h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+header p,
+.hint {
+  color: #637588;
+  line-height: 1.6;
+}
+
+.hint {
+  font-size: 14px;
+}
+
+.card {
+  margin-top: 20px;
+  padding: 24px;
+  background: white;
+  border: 1px solid #dde5ed;
+  border-radius: 14px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 600;
+}
+
+/* 至少 16px，避免手機聚焦輸入框時自動放大 */
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  font-size: 16px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px;
+  color: #203142;
+  background: white;
+  border: 1px solid #b9c8d5;
+  border-radius: 8px;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+#user {
+  max-width: 360px;
+  margin-top: 8px;
+}
+
+button {
+  min-height: 48px;
+  padding: 12px 18px;
+  color: white;
+  background: #146b80;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button.secondary {
+  color: #215267;
+  background: #edf5f8;
+  border-color: #cadfe8;
+}
+
+button.delete {
+  color: #a52d37;
+  background: #fff2f3;
+  border-color: #f0ced2;
+}
+
+@media (hover: hover) {
+  button:hover {
+    background: #10566a;
+  }
+
+  button.secondary:hover {
+    background: #dfedf3;
+  }
+
+  button.delete:hover {
+    background: #ffe3e6;
+  }
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 3px solid #70b9dc;
+  outline-offset: 3px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+#count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 4px 10px;
+  color: #146b80;
+  background: #eaf5f6;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5ebf0;
+}
+
+th {
+  white-space: nowrap;
+  color: #52697c;
+  background: #f6f9fb;
+}
+
+td {
+  min-width: 84px;
+  vertical-align: top;
+}
+
+.cell-value {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.notes-cell {
+  min-width: 200px;
+  max-width: 320px;
+}
+
+.notes-cell .cell-value {
+  white-space: pre-wrap;
+}
+
+.abnormal .cell-value {
+  color: #b32635;
+  font-weight: 700;
+}
+
+.empty {
+  padding: 30px 12px;
+  text-align: center;
+  color: #637588;
+}
+
+#message {
+  color: #146b80;
+  line-height: 1.6;
+}
+
+.error {
+  color: #b32635;
+  line-height: 1.6;
+}
+
+dialog {
+  width: min(680px, calc(100% - 32px));
+  max-height: 90vh;
+  max-height: 90dvh;
+  padding: 0;
+  overflow: auto;
+  color: #203142;
+  background: white;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 20px 70px #122d4540;
+}
+
+dialog::backdrop {
+  background: #152b4566;
+}
+
+.dialog-body {
+  padding: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.temperature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 22px 0 0;
+  padding: 16px;
+  border: 1px solid #dce6ed;
+  border-radius: 10px;
+}
+
+legend {
+  padding: 0 8px;
+  color: #52697c;
+}
+
+.notes-field {
+  margin-top: 22px;
+}
+
+.dialog-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  background: white;
+  border-top: 1px solid #e5ebf0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* 手機：紀錄表格改成卡片 */
+@media (max-width: 767px) {
+  .container {
+    padding: 20px 12px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  #user {
+    max-width: none;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    align-items: stretch;
+  }
+
+  .section-header h2 {
+    align-self: center;
+  }
+
+  .table-wrapper {
+    overflow: visible;
+  }
+
+  table,
+  tbody {
+    display: block;
+  }
+
+  /* 保留表頭給輔助閱讀工具 */
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  tbody {
+    display: grid;
+    gap: 16px;
+  }
+
+  tbody tr {
+    display: block;
+    padding: 4px 14px;
+    border: 1px solid #dce6ed;
+    border-radius: 12px;
+    background: #fbfdff;
+  }
+
+  tbody td {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: 12px;
+    min-width: 0;
+    max-width: none;
+    padding: 12px 0;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    color: #637588;
+    font-weight: 600;
+  }
+
+  tbody td:last-child {
+    border-bottom: none;
+  }
+
+  tbody td .cell-value {
+    text-align: right;
+  }
+
+  tbody td.notes-cell {
+    display: block;
+  }
+
+  tbody td.notes-cell .cell-value {
+    margin-top: 8px;
+    text-align: left;
+  }
+
+  tbody td.action-cell {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  tbody td.action-cell::before {
+    content: none;
+  }
+
+  dialog {
+    width: calc(100% - 20px);
+    max-height: 94vh;
+    max-height: 94dvh;
+  }
+
+  .dialog-body {
+    padding: 20px 16px;
+  }
+
+  .dialog-footer {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .dialog-footer button {
+    flex: 1;
+  }
+}
+
+/* 窄手機：溫度欄位改成單欄 */
+@media (max-width: 480px) {
+  .temperature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header > button {
+    width: 100%;
+  }
+}
+.page-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border: 1px solid #c4d9e2;
+  border-radius: 8px;
+  background: #edf5f8;
+  color: #215267;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.page-link:hover {
+  background: #dfedf3;
+  text-decoration: underline;
+}
+
+@media print {
+  .page-link {
+    display: none;
+  }
+}

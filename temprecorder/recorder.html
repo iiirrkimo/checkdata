@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>冰箱溫度記錄</title>
+
+  <link rel="stylesheet" href="recorder.css">
+  <script src="recorder.js" defer></script>
+</head>
+
+<body>
+  <main class="container">
+    <header>
+      <a class="page-link" href="./list.html">查詢溫度報表</a>
+      <h1>冰箱溫度記錄</h1>
+    </header>
+
+    <section class="card">
+      <label for="user">使用者</label>
+      <select id="user">
+        <option value="">請選擇使用者</option>
+      </select>
+
+      <div class="actions">
+        <button id="addTemperature" type="button">
+          ＋ 新增紀錄
+        </button>
+
+        <button id="addRecorder" type="button" class="secondary">
+          ＋ 新增持續記錄器最低溫
+        </button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <h2>
+          紀錄清單
+          <span id="count">0 筆</span>
+        </h2>
+
+        <button id="download" type="button">
+          上傳記錄
+        </button>
+      </div>
+
+      <p class="hint">
+        重新整理或關閉網頁後，紀錄會消失。請記得上傳記錄。
+        </p>
+
+      <p id="message" role="status" aria-live="polite"></p>
+
+      <div id="tableWrapper" class="table-wrapper" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">使用者</th>
+              <th scope="col">類型</th>
+              <th scope="col">冰箱</th>
+              <th scope="col">層數</th>
+              <th scope="col">最高溫</th>
+              <th scope="col">現在溫</th>
+              <th scope="col">最低溫</th>
+              <th scope="col">疫苗監視片</th>
+              <th scope="col">冷凍監視片</th>
+              <th scope="col">持續記錄器最低溫</th>
+              <th scope="col">備註</th>
+              <th scope="col">操作</th>
+            </tr>
+          </thead>
+          <tbody id="records"></tbody>
+        </table>
+      </div>
+
+      <p id="empty" class="empty">
+        尚無紀錄，請點選上方按鈕新增。
+      </p>
+    </section>
+  </main>
+
+  <dialog id="recordDialog" aria-labelledby="dialogTitle">
+    <form id="recordForm">
+      <div class="dialog-body">
+        <h2 id="dialogTitle">新增紀錄</h2>
+
+        <p>
+          使用者：<strong id="recordUser"></strong>
+        </p>
+
+        <p class="hint">
+          溫度可留白，也可以只填備註。
+        </p>
+
+        <div class="form-grid">
+          <label>
+            冰箱
+            <select id="fridge"></select>
+          </label>
+
+          <label id="layerField">
+            層數
+            <select id="layer"></select>
+          </label>
+        </div>
+
+        <fieldset id="temperatureFields">
+          <legend>溫度</legend>
+
+          <div class="temperature-grid">
+            <label>
+              最高溫（°C）
+              <input
+                id="maxTemperature"
+                type="number"
+                step="any"
+                placeholder="可留白"
+              >
+            </label>
+
+            <label>
+              現在溫（°C）
+              <input
+                id="currentTemperature"
+                type="number"
+                step="any"
+                placeholder="可留白"
+              >
+            </label>
+
+            <label>
+              最低溫（°C）
+              <input
+                id="minTemperature"
+                type="number"
+                step="any"
+                placeholder="可留白"
+              >
+            </label>
+          </div>
+
+          <p class="hint">可輸入負數，例如 -18.5。</p>
+
+          <div class="form-grid">
+            <label>
+              疫苗監視片
+              <select id="vaccineMonitor">
+                <option value="正常" selected>正常</option>
+                <option value="異常">異常</option>
+              </select>
+            </label>
+
+            <label>
+              冷凍監視片
+              <select id="freezeMonitor">
+                <option value="正常" selected>正常</option>
+                <option value="異常">異常</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset id="recorderFields" hidden disabled>
+          <legend>持續記錄器</legend>
+
+          <label>
+            持續記錄器最低溫（°C）
+            <input
+              id="recorderMinTemperature"
+              type="number"
+              step="any"
+              placeholder="可留白，例如 -18.5"
+            >
+          </label>
+        </fieldset>
+
+        <label class="notes-field">
+          備註
+          <textarea
+            id="notes"
+            rows="4"
+            placeholder="可只填備註，不填溫度"
+          ></textarea>
+        </label>
+
+        <p id="formError" class="error" role="alert"></p>
+      </div>
+
+      <div class="dialog-footer">
+        <button id="cancel" type="button" class="secondary">
+          取消
+        </button>
+
+        <button type="submit">加入紀錄</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
