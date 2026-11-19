@@ -80,8 +80,8 @@ $("recordForm").querySelector('button[type="submit"]').textContent =
   $("layer").disabled = !isTemperature;
 
   // 每次新增預設正常
-  $("vaccineMonitor").value = "正常";
-  $("freezeMonitor").value = "1/3A";
+  $("vaccineMonitor").value = "1/3A";
+  $("freezeMonitor").value =  "正常";
 
   $("recordDialog").showModal();
 }
