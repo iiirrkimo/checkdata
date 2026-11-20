@@ -37,9 +37,9 @@
 			for (i=0;i<jres.length;i++){
 				if (jres[i]['type']=='titleB'){
 					document.querySelector('title').textContent = jres[i]['name'];
-				} else if (jres[i]['type']=='buttonB'){
+				}  else if (jres[i]['type']=='buttonB'){
 					var newlink=document.createElement("a");
-					newlink.href=jres[i]['code'];
+					newlink.href='javascript: (function(){'+jres[i]['code']+'})();';
 					newlink.className='thebutton';
 					newlink.draggable=true;
 					newlink.textContent=jres[i]['name'];
@@ -50,7 +50,7 @@
 						newtext.textContent=commentline[j];
 						document.body.appendChild(newtext);
 					}	
-				}
+				} 
 			}
 		};
 	</script>
